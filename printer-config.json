@@ -1,0 +1,8 @@
+{
+  "printerIp": "100.82.211.21",
+  "printerPort": 9100,
+  "proxyPort": 9101,
+  "backendUrl": "https://api.vavoom.io",
+  "locationId": "a0a05430-0002-4000-8000-000000000002",
+  "_comment": "print-proxy → Pi interceptor over Tailscale (100.82.211.21:9100) → parses ESC/POS → InterceptorOrderEvent to backend. Pi reachable on the tailnet."
+}

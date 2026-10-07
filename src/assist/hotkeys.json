@@ -1,0 +1,528 @@
+{
+  "_doc": [
+    "Upsell hot keys: words and phrases that force the upsell to be re-evaluated the moment",
+    "they are heard. One list for every consumer: the demo POS's Vavoom Assist reads it",
+    "(hotkeys.js), and whisper can load the same file when hot keys go live, so the patterns",
+    "use only regex syntax that JavaScript and Python share (\\b, groups, alternation, ?).",
+    "Patterns are matched case-insensitively against one transcript line. `unless` patterns",
+    "veto a match in the same line. `effect` is what the upsell does (see hotkeys.js).",
+    "`evidence` is how often the family occurs in real Starbucks Downtown speech: share of",
+    "143 full conversations (2026-08-13..17) and of 1,730 short voice clips (2026-09-08..10-03).",
+    "Speaker labels in that data bleed between operator and customer, so no hot key depends",
+    "on who said it; the wording carries that (an operator says 'we're out of').",
+    "`timing_rules` holds rules that are not phrases (the 3-second patience rule), applied by useAssist.js.",
+    "On the demo POS these are the upsell engine's guidelines: a hot key's response outranks basket completion, the AI's pick and screen behaviour (upsellEngine.js)."
+  ],
+  "hotkeys": [
+    {
+      "key": "out_of_stock",
+      "label": "Item out of stock",
+      "family": "operator",
+      "patterns": [
+        "\\bwe(?:'re| are) (?:all )?out of\\b",
+        "\\b(?:just )?(?:ran|run) out\\b",
+        "\\bwe (?:don't|do not) have (?:any|the)\\b",
+        "\\b(?:don't|do not) have any\\b",
+        "\\b(?:is|are) not available\\b",
+        "\\bsold out\\b",
+        "\\bunfortunately,? we\\b"
+      ],
+      "meaning": "Something the customer asked for, or Vavoom was about to pitch, can't be sold right now",
+      "effect": "block_item",
+      "action": "Never offer that item again today; pop up the closest substitute at once, tagged Closest substitute",
+      "evidence": {
+        "aug": 0.049,
+        "sep_oct": 0.005
+      }
+    },
+    {
+      "key": "availability_question",
+      "label": "Asked if we have something",
+      "family": "customer",
+      "patterns": [
+        "\\bdo you (?:guys )?(?:have|still have|carry)\\b",
+        "\\bis there any\\b"
+      ],
+      "unless": [
+        "\\b(?:rewards?|app|points|stars|account)\\b",
+        "\\bhow many\\b",
+        "\\bwith us\\b",
+        "\\bwords? up\\b",
+        "\\bwood up\\b"
+      ],
+      "meaning": "Interest in a specific item, often one they can't see on the menu board",
+      "effect": "interest_item",
+      "action": "Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute",
+      "evidence": {
+        "aug": 0.14,
+        "sep_oct": 0.027
+      }
+    },
+    {
+      "key": "complaint",
+      "label": "Complaint (order problem)",
+      "family": "customer",
+      "patterns": [
+        "\\b(?:got|get|made|it's|that's) (?:it |my order |the order |this |that )?wrong\\b",
+        "\\bwrong (?:order|drink|item|size|milk|one)\\b",
+        "\\bmissing (?:my|the|a|an|from)\\b",
+        "\\b(?:didn't|did not) get (?:my|the|a|an)\\b",
+        "\\bforgot (?:my|the)\\b",
+        "\\btoo watery\\b",
+        "\\bremake\\b",
+        "\\bmessed up\\b",
+        "\\bnot happy\\b"
+      ],
+      "meaning": "Something about the order went wrong",
+      "effect": "pause",
+      "action": "Stop pitching for a minute; fix the order first",
+      "evidence": {
+        "aug": 0.007,
+        "sep_oct": 0.0
+      }
+    },
+    {
+      "key": "too_sweet",
+      "label": "Too sweet",
+      "family": "customer",
+      "patterns": [
+        "\\btoo sweet\\b",
+        "\\btoo sugary\\b",
+        "\\bsickly sweet\\b",
+        "\\bway too much sugar\\b"
+      ],
+      "meaning": "Finds it, or the last one, too sweet",
+      "effect": "counter_sweet",
+      "action": "Offer something to counter it: plain, unsweetened or savoury, tagged Counter: too sweet",
+      "evidence": {
+        "aug": 0.007,
+        "sep_oct": 0.0
+      }
+    },
+    {
+      "key": "too_bitter",
+      "label": "Too bitter",
+      "family": "customer",
+      "patterns": [
+        "\\btoo (?:bitter|strong)\\b",
+        "\\bso bitter\\b",
+        "\\btastes burnt\\b",
+        "\\bburnt\\b"
+      ],
+      "meaning": "Finds it, or the last one, too bitter",
+      "effect": "counter_bitter",
+      "action": "Offer something to counter it: something sweet, tagged Counter: too bitter",
+      "evidence": {
+        "aug": 0.0,
+        "sep_oct": 0.0
+      }
+    },
+    {
+      "key": "dislike",
+      "label": "Doesn't like it",
+      "family": "customer",
+      "patterns": [
+        "\\bi (?:don't|do not|didn't|did not) (?:like|love) (?:it|this|that|the)\\b",
+        "\\bnot a fan of\\b"
+      ],
+      "meaning": "Doesn't like an item (the one named, or the last one ordered)",
+      "effect": "alternative",
+      "action": "Offer an alternative from the same category, tagged Alternative",
+      "evidence": {
+        "aug": 0.028,
+        "sep_oct": 0.001
+      }
+    },
+    {
+      "key": "slow_service",
+      "label": "Took forever",
+      "family": "customer",
+      "patterns": [
+        "\\btook (?:so long|forever|ages|a while)\\b",
+        "\\btaking (?:so long|forever|ages)\\b",
+        "\\b(?:such a |a )?long wait\\b",
+        "\\bwaited (?:so long|forever|ages|\\d+ minutes)\\b",
+        "\\bbeen waiting\\b"
+      ],
+      "meaning": "The wait was too long",
+      "effect": "souvenir",
+      "action": "If the menu has a souvenir, offer it free, tagged Complimentary",
+      "evidence": {
+        "aug": 0.0,
+        "sep_oct": 0.0
+      }
+    },
+    {
+      "key": "dairy_free",
+      "label": "Dairy-free",
+      "family": "customer",
+      "patterns": [
+        "\\boat ?milk\\b",
+        "\\boat\\b",
+        "\\balmond\\b",
+        "\\bsoy\\b",
+        "\\bcoconut\\b",
+        "\\blactose\\b",
+        "\\bdairy[- ]free\\b",
+        "\\bnon[- ]dairy\\b",
+        "\\bvegan\\b"
+      ],
+      "meaning": "Avoids dairy (allergy, intolerance or diet)",
+      "effect": "constrain:dairy_free",
+      "action": "Drop milk, cream, cheese and shake pitches; dairy-free add-ons only",
+      "evidence": {
+        "aug": 0.217,
+        "sep_oct": 0.064
+      }
+    },
+    {
+      "key": "sugar_aware",
+      "label": "Watching sugar",
+      "family": "customer",
+      "patterns": [
+        "\\bsugar[- ]free\\b",
+        "\\bno sugar\\b",
+        "\\bhalf[- ]sweet\\b",
+        "\\bless sweet\\b",
+        "\\bnot (?:too|so) sweet\\b",
+        "\\bskinny\\b",
+        "\\bunsweet"
+      ],
+      "meaning": "Watching sugar",
+      "effect": "constrain:sugar_aware",
+      "action": "No sweet treats or syrup-heavy pitches; savoury or unsweetened add-ons",
+      "evidence": {
+        "aug": 0.112,
+        "sep_oct": 0.047
+      }
+    },
+    {
+      "key": "decaf",
+      "label": "No caffeine",
+      "family": "customer",
+      "patterns": [
+        "\\bdecaf\\b",
+        "\\bcaffeine[- ]free\\b",
+        "\\bhalf[- ]caf\\b"
+      ],
+      "meaning": "Avoids caffeine",
+      "effect": "constrain:decaf",
+      "action": "No extra shots, espresso or cold-brew pitches",
+      "evidence": {
+        "aug": 0.021,
+        "sep_oct": 0.013
+      }
+    },
+    {
+      "key": "health",
+      "label": "Health-minded",
+      "family": "customer",
+      "patterns": [
+        "\\bprotein\\b",
+        "\\bhealthy\\b",
+        "\\bnon[- ]?fat\\b",
+        "\\bskim\\b",
+        "\\blow[- ]cal"
+      ],
+      "meaning": "Choosing on health",
+      "effect": "constrain:health",
+      "action": "Prefer protein and lighter add-ons; no indulgent treats",
+      "evidence": {
+        "aug": 0.028,
+        "sep_oct": 0.014
+      }
+    },
+    {
+      "key": "going_large",
+      "label": "Going large",
+      "family": "customer",
+      "patterns": [
+        "\\bventi\\b",
+        "\\btrenta\\b",
+        "\\blarge\\b",
+        "\\bextra shot\\b",
+        "\\bdouble shot\\b",
+        "\\btriple\\b",
+        "\\bquad\\b"
+      ],
+      "meaning": "Not price-led; big appetite or a long day ahead",
+      "effect": "large",
+      "action": "Premium add-ons welcome",
+      "evidence": {
+        "aug": 0.301,
+        "sep_oct": 0.086
+      },
+      "unless": [
+        "\\bwould you like\\b",
+        "\\bupsize\\b",
+        "\\bdo you want\\b",
+        "\\bmake it a\\b"
+      ]
+    },
+    {
+      "key": "value",
+      "label": "Price-conscious",
+      "family": "customer",
+      "patterns": [
+        "\\bhow much\\b",
+        "\\bexpensive\\b",
+        "\\bprice\\b",
+        "\\bcheap",
+        "\\bcoupon\\b",
+        "\\bdiscount\\b"
+      ],
+      "meaning": "Price matters",
+      "effect": "value",
+      "action": "No upsizes; low-priced add-ons framed as value",
+      "evidence": {
+        "aug": 0.035,
+        "sep_oct": 0.013
+      }
+    },
+    {
+      "key": "rewards_redeem",
+      "label": "Paying with stars or a card",
+      "family": "customer",
+      "patterns": [
+        "\\b(?:use|redeem) (?:my |\\d+ (?:of my )?)?(?:stars|points)\\b",
+        "\\bmy stars\\b",
+        "\\bgift card\\b"
+      ],
+      "meaning": "Part of the order is already paid for, so the customer feels ahead",
+      "effect": "food",
+      "action": "Pitch a paid food add-on alongside the redeemed drink",
+      "evidence": {
+        "aug": 0.028,
+        "sep_oct": 0.009
+      }
+    },
+    {
+      "key": "group",
+      "label": "Ordering for others",
+      "family": "customer",
+      "patterns": [
+        "\\bboth\\b",
+        "\\banother\\b",
+        "\\btwo of (?:these|those|them)\\b",
+        "\\bfor (?:my|her|him|them)\\b",
+        "\\b(?:she|he) wants\\b",
+        "\\bsame (?:thing|again)\\b",
+        "\\bone for (?:me|her|him)\\b"
+      ],
+      "meaning": "More than one person is being served",
+      "effect": "group",
+      "action": "Basket completion: a second item for the other person, not a bigger cup",
+      "evidence": {
+        "aug": 0.126,
+        "sep_oct": 0.032
+      }
+    },
+    {
+      "key": "routine",
+      "label": "Regular order",
+      "family": "customer",
+      "patterns": [
+        "\\busual\\b",
+        "\\bsame as (?:always|usual|last time|yesterday)\\b",
+        "\\balways get\\b",
+        "\\bevery (?:day|morning)\\b"
+      ],
+      "meaning": "A habitual order; they know what they want",
+      "effect": "routine",
+      "action": "Don't swap the drink; add something to the usual",
+      "evidence": {
+        "aug": 0.014,
+        "sep_oct": 0.003
+      }
+    },
+    {
+      "key": "seasonal",
+      "label": "Seasonal interest",
+      "family": "customer",
+      "patterns": [
+        "\\bpumpkin\\b",
+        "\\bpecan\\b",
+        "\\bseasonal\\b",
+        "\\bbrand new\\b",
+        "\\bnew (?:one|drink|chai|latte|item)\\b",
+        "\\bfall\\b",
+        "\\bholiday\\b",
+        "\\bpeppermint\\b",
+        "\\bgingerbread\\b",
+        "\\bapple crisp\\b"
+      ],
+      "meaning": "Responding to the season's menu",
+      "effect": "seasonal",
+      "action": "Pair with a seasonal food or treat when the menu has one",
+      "evidence": {
+        "aug": 0.049,
+        "sep_oct": 0.129
+      }
+    },
+    {
+      "key": "food_intent",
+      "label": "Wants food",
+      "family": "customer",
+      "patterns": [
+        "\\bbreakfast\\b",
+        "\\blunch\\b",
+        "\\bhungry\\b",
+        "\\bstarving\\b",
+        "\\bsomething to eat\\b",
+        "\\bsandwich\\b",
+        "\\bpastr(?:y|ies)\\b",
+        "\\bsnack\\b"
+      ],
+      "meaning": "Open to food",
+      "effect": "food",
+      "action": "Pitch food before drink add-ons",
+      "evidence": {
+        "aug": 0.098,
+        "sep_oct": 0.025
+      }
+    },
+    {
+      "key": "no_food",
+      "label": "Drink only",
+      "family": "customer",
+      "patterns": [
+        "\\bno food\\b",
+        "\\bjust (?:the|a|my) (?:drink|coffee)\\b",
+        "\\bnot hungry\\b",
+        "\\balready ate\\b"
+      ],
+      "meaning": "Has said no to food",
+      "effect": "constrain:no_food",
+      "action": "No food pitches; a drink upsize or add-in only",
+      "evidence": {
+        "aug": 0.014,
+        "sep_oct": 0.002
+      }
+    },
+    {
+      "key": "time_pressure",
+      "label": "In a hurry",
+      "family": "customer",
+      "patterns": [
+        "\\bquick\\b",
+        "\\bin a (?:rush|hurry)\\b",
+        "\\brunning late\\b",
+        "\\bi'm late\\b",
+        "\\bno time\\b",
+        "\\bon my way to\\b"
+      ],
+      "meaning": "In a hurry",
+      "effect": "quick",
+      "action": "Shorten or skip the pitch; only something ready to hand",
+      "evidence": {
+        "aug": 0.007,
+        "sep_oct": 0.001
+      }
+    },
+    {
+      "key": "energy",
+      "label": "Needs a boost",
+      "family": "customer",
+      "patterns": [
+        "\\btired\\b",
+        "\\bexhausted\\b",
+        "\\bneed (?:my |some )?caffeine\\b",
+        "\\blong (?:day|night)\\b",
+        "\\bwake (?:me )?up\\b",
+        "\\brough morning\\b"
+      ],
+      "meaning": "Low on energy",
+      "effect": "energy",
+      "action": "Extra shot or a size up",
+      "evidence": {
+        "aug": 0.014,
+        "sep_oct": 0.002
+      }
+    },
+    {
+      "key": "weather_hot",
+      "label": "Hot weather",
+      "family": "customer",
+      "patterns": [
+        "\\b(?:hot|warm) (?:out|outside|today)\\b",
+        "\\bso hot\\b",
+        "\\bsunny\\b",
+        "\\bheat wave\\b"
+      ],
+      "meaning": "Feels hot",
+      "effect": "weather_hot",
+      "action": "Iced and cold items first",
+      "evidence": {
+        "aug": 0.014,
+        "sep_oct": 0.001
+      }
+    },
+    {
+      "key": "weather_cold",
+      "label": "Cold or wet weather",
+      "family": "customer",
+      "patterns": [
+        "\\bcold (?:out|outside|today)\\b",
+        "\\bfreezing\\b",
+        "\\bchilly\\b",
+        "\\brain(?:ing|y)?\\b",
+        "\\bsnow(?:ing)?\\b"
+      ],
+      "meaning": "Feels cold",
+      "effect": "weather_cold",
+      "action": "Hot drinks and warm food first",
+      "evidence": {
+        "aug": 0.014,
+        "sep_oct": 0.001
+      }
+    },
+    {
+      "key": "undecided",
+      "label": "Undecided",
+      "family": "customer",
+      "patterns": [
+        "\\bnot sure\\b",
+        "\\b(?:can't|cannot|not able to) decide\\b",
+        "\\bwhat do you recommend\\b",
+        "\\bwhat's good\\b",
+        "\\bwhat's popular\\b",
+        "\\btake your time\\b",
+        "\\bsurprise me\\b",
+        "\\bwhat (?:kind|flavou?rs?) (?:of|do)\\b"
+      ],
+      "meaning": "Wants a recommendation",
+      "effect": "undecided",
+      "action": "One clear recommendation: the bestseller",
+      "evidence": {
+        "aug": 0.035,
+        "sep_oct": 0.008
+      }
+    },
+    {
+      "key": "closing",
+      "label": "Order closing",
+      "family": "either",
+      "patterns": [
+        "\\bthat(?:'s| is| will be|'ll be) (?:it|all|everything)\\b",
+        "\\bnothing else\\b"
+      ],
+      "meaning": "The order is about to close",
+      "effect": "closing",
+      "action": "One last small add-on now, then stop",
+      "evidence": {
+        "aug": 0.329,
+        "sep_oct": 0.085
+      }
+    }
+  ],
+  "timing_rules": [
+    {
+      "key": "impatient",
+      "label": "Not patient",
+      "rule": "The customer's first order line comes within 3 s of the customer session opening (counter presence, a greeting, the cashier's first tap or Start). Not judged when the order itself opened the session.",
+      "effect": "quick",
+      "action": "Short pitch only: no upsizes, cheap ready items first",
+      "window_ms": 3000
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "gregory-pos",
+  "version": "1.0.0",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "print-proxy": "node print-proxy.js",
+    "electron:dev": "vite build && electron .",
+    "electron:build": "vite build && electron-builder --win"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.2",
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "io.vavoom.gregory-pos",
+    "productName": "Gregory POS",
+    "directories": {
+      "output": "installer"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "print-proxy.js"
+    ],
+    "extraResources": [
+      {
+        "from": "print-proxy.js",
+        "to": "print-proxy.js"
+      },
+      {
+        "from": "printer-config.json",
+        "to": "printer-config.json"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        },
+        {
+          "target": "dir",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "public/icon.png"
+    },
+    "portable": {
+      "artifactName": "Gregory-POS-${version}.${ext}"
+    }
+  }
+}
