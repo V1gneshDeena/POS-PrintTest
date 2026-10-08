@@ -76,6 +76,16 @@ And in the engine: "Bottled Water" matched the souvenir name list through "bottl
 
 Still possible and accepted: "breakfast" fires on the operator's own mention of breakfast sandwiches, and "another" on "try another one". Both only nudge food or a second item; neither blocks or pauses anything.
 
+## Hot keys by meaning (burger menu, tenant demopos)
+
+The patterns above catch the words they list. Since 2026-10-08 05:08 UTC the burger menu also reads what a line means: every finished line goes to the demopos gateway on the GPU box (`deploy/gpu-vllm/demopos/demopos_meaning.py` in the monorepo), which compares each clause with written examples of 21 of these hot keys (`meaning_bank.json`) using BGE sentence embeddings. A hot key it finds fires on the POS exactly as the words would, with the same response, and the full bar labels it "by meaning" with the clause it read. "It's like an oven out there" fires Feeling hot; "I'm dying of thirst", Wants something cold; "my fries came out cold", Complaint; "what would you get if you were me", Undecided; "I'm allergic to milk", Dairy-free.
+
+Rules carry the context an embedding blurs: "I'm not hungry" is never read as hungry; the employee's offers and most questions ("Hot or iced?", "And a drink?") fire nothing; menu names are masked, so "a hot dog with hot sauce" has no temperature; hot words cannot read as cold; "yesterday" or "last time" stops the keys about how the customer is now; two- and three-word speech scraps need a higher score; a clause the patterns already explain is left to them.
+
+Left to the patterns only, because they need the exact words or an item read from the line: out of stock, asked if we have something, going large, seasonal, paying with stars, no caffeine.
+
+Tested on existing transcripts with the Starbucks items swapped for the burger menu, before it went live (`deploy/gpu-vllm/demopos/eval/RESULTS-2026-10-08.md`). On held-out phrases, recall rose from 24% to 38% and precision from 88% to 90%. On 2,256 real Starbucks lines it added 12 hot keys, 7 of them right. Each line takes about 3 ms on the GPU and about 0.05 s through the speech bridge.
+
 ## Taking it live (Starbucks, through whisper)
 
 Nothing below is built. It needs whisper's code, a deploy to gpu-setup, and your OK.

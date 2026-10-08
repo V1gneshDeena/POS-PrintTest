@@ -45,6 +45,14 @@
 //     from that line. An out-of-stock item is never offered again THAT DAY in this demo
 //     room (kept in localStorage per demo and date; the full bar can clear it), and its
 //     menu tile on the POS says "Out today".
+//   • THE MEANING LAYER (burger menu = tenant demopos): every finished line also goes,
+//     through the speech bridge, to the demopos gateway on the GPU box (`meaning_request`),
+//     which reads what the line MEANS (demopos_meaning.py: BGE embeddings against written
+//     examples of each hot key, with rules for negation, offers, questions and fragments).
+//     Its `meaning` answer (~0.1 s) fires the same hot keys the exact words would, labelled
+//     "by meaning" with the clause it read, for lines the exact patterns missed ("it's like an
+//     oven out there"). A complaint, dislike or order problem read this way also takes back
+//     what speech rang up from that line, as the exact words would have kept it off.
 //   • ORDERING AN ITEM THAT IS OUT: a customer who orders it gets its closest substitute
 //     (tagged "Closest substitute") and the item is not rung up. A cashier who taps it
 //     still rings it up (the cashier has the last word), the substitute pops up all the
@@ -95,6 +103,9 @@ const COMPLAINT_PAUSE_MS = 60000
 const SOURCE_RANK = { hotkey: 4, brain: 3.5, basket: 3, upsize: 3, ai: 2, behaviour: 1 }
 // Which hot keys are the customer talking (hotkeys.json `family`), for marking whose line it was.
 const CUSTOMER_KEYS = new Set(HOTKEYS.filter((h) => h.family === "customer").map((h) => h.key))
+const HOTKEY_BY_KEY = new Map(HOTKEYS.map((h) => [h.key, h]))
+// A meaning answer older than this is for a line long gone and is dropped.
+const MEANING_STALE_MS = 10000
 const BRAIN_DEBOUNCE_MS = 150
 // How long a spoken signal keeps acting as a behaviour for the upsell engine.
 const SPOKEN_UNDECIDED_MS = 30000
@@ -157,6 +168,9 @@ export function createEngine(set, posRef) {
     brainSeq: 0,
     brainTimer: null,
     behavioursNow: [],
+    visit: 0,           // counts customers, so a meaning answer for an earlier one is dropped
+    meaningSeq: 0,
+    meaningReqs: new Map(), // req_id → { t, text, ids rung up from that line, visit, convo entry }
   }
   st.hot = newHot(st.outToday)
   const now = () => Date.now()
@@ -187,6 +201,8 @@ export function createEngine(set, posRef) {
     st.convo = []
     st.voice = null
     st.brain = null
+    st.visit += 1
+    st.meaningReqs.clear()
     clearTimeout(st.brainTimer)
     set.voice?.(null)
     set.brain?.(null)
@@ -487,9 +503,11 @@ export function createEngine(set, posRef) {
     // Items the line says are out, only asks about, doesn't like, or complains about ("the
     // shake was too sweet", "I was missing my fries") are not an order.
     const notOrdered = new Set(hits.filter((h) => NOT_ORDER.has(h.effect)).flatMap((h) => h.items.map((e) => e.id)))
+    let rungUp = []
     if (parsed.kind === "order") {
       const items = parsed.items.filter((i) => !notOrdered.has(i.entry.id))
       if (items.length) mergeHeard(items, "speech")
+      rungUp = items.filter((i) => !i.negated).map((i) => i.entry.id)
       // An item that is out today is not rung up (mergeHeard skips it); its closest
       // substitute is offered instead.
       const out = items.filter((i) => !i.negated && st.hot.blocked.has(i.entry.id)).map((i) => i.entry)
@@ -515,8 +533,50 @@ export function createEngine(set, posRef) {
       || hits.some((h) => CUSTOMER_KEYS.has(h.key)) || /^\s*(yes|yeah|no|nope|sure|okay|ok)\b/i.test(text)
     const operator = !customer && (isGreeting(text) || parsed.kind === "offer" || (cur && pitches(text, cur)) || /\?\s*$/.test(text))
     const role = customer ? "customer" : operator ? "operator" : ""
-    st.convo.push({ at: t, text, role })
+    const said = { at: t, text, role }
+    st.convo.push(said)
     if (role) set.voiceLine?.(role)
+    recompute()
+    scheduleBrain()
+    // The meaning layer reads the same line on the GPU box (handleMeaning applies its answer).
+    if (set.requestMeaning) {
+      st.meaningSeq += 1
+      st.meaningReqs.set(st.meaningSeq, { t, text, ids: rungUp, visit: st.visit, said })
+      for (const [id, r] of st.meaningReqs) if (t - r.t > MEANING_STALE_MS) st.meaningReqs.delete(id)
+      set.requestMeaning({ req_id: st.meaningSeq, text, prev: prev ? prev.text : "", exact: hits.map((h) => h.key) })
+    }
+  }
+
+  // ── The meaning layer (demopos tenant) ─────────────────────────────────────
+  /** The gateway's reading of a line (`meaning`): hot keys the exact words missed, fired the same way. */
+  function handleMeaning(msg) {
+    const req = msg && st.meaningReqs.get(msg.req_id)
+    if (!req) return
+    st.meaningReqs.delete(msg.req_id)
+    if (msg.error) { log(`Meaning layer unavailable: ${msg.error}`); return }
+    if (st.phase !== "active" || req.visit !== st.visit || now() - req.t > MEANING_STALE_MS) return
+    const fired = []
+    for (const m of msg.hits || []) {
+      const h = HOTKEY_BY_KEY.get(m.key)
+      if (!h || st.hot.fired.some((f) => f.at === req.t && f.key === m.key)) continue
+      let items = []
+      if (NOT_ORDER.has(h.effect)) {
+        // A complaint about an item is not an order: what speech rang up from this line before
+        // its meaning was known comes back off, as the exact words would have kept it off.
+        items = parseUtterance(req.text).items.filter((i) => !i.negated).map((i) => i.entry)
+        const undo = items.filter((e) => req.ids.includes(e.id))
+        if (undo.length) mergeHeard(undo.map((e) => ({ entry: e, qty: 1, size: null, negated: true, more: false })), "speech")
+      }
+      fired.push({ key: h.key, label: `${h.label} — by meaning (${Number(m.score).toFixed(2)})`, effect: h.effect,
+        action: h.action, meaning: h.meaning, phrase: m.clause, items, asked: "" })
+    }
+    if (!fired.length) return
+    // The line said something about the customer, so it was the customer's.
+    if (!req.said.role && fired.some((h) => CUSTOMER_KEYS.has(h.key))) {
+      req.said.role = "customer"
+      set.voiceLine?.("customer")
+    }
+    applyHotkeys(fired, now())
     recompute()
     scheduleBrain()
   }
@@ -696,7 +756,7 @@ export function createEngine(set, posRef) {
     recompute()
   }
 
-  return { st, beginCustomer, endCustomer, handleFinal, handleWhisperOrder, handleAi, handleBrain, handleVoice, receiptRecord,
+  return { st, beginCustomer, endCustomer, handleFinal, handleWhisperOrder, handleAi, handleBrain, handleVoice, handleMeaning, receiptRecord,
     acceptCard, declineCard, addPair, clearOutToday, recompute, onActivityEvent, log }
 }
 
@@ -739,6 +799,8 @@ export function useAssist(pos) {
       hot: setHot, voice: setVoice, brain: setBrain,
       voiceLine: (role) => sttRef.current?.voiceLine(role),
       requestBrain: (req) => sttRef.current?.requestUpsell(req),
+      // The meaning layer's examples and menu masking are the burger menu's (tenant demopos).
+      requestMeaning: RESTAURANT === "demopos" ? (req) => sttRef.current?.requestMeaning(req) : undefined,
     }, posRef)
   }
   const E = engineRef.current
@@ -795,6 +857,7 @@ export function useAssist(pos) {
           case "ai_prompt": if (msg.vvm1) E.handleAi(msg.vvm1); break
           case "brain_upsell": E.handleBrain(msg); break
           case "voice_match": E.handleVoice(msg); break
+          case "meaning": E.handleMeaning(msg); break
           case "receipt_saved": E.log(msg.error ? `Receipt not saved to the brain's store: ${msg.error}` : `Receipt saved to the brain's store${msg.voice_id ? ` (voice ${msg.voice_id}, visit ${msg.visits})` : ""}`); break
           case "voice_forgotten": E.log(msg.error ? `Forget voices failed: ${msg.error}` : `Voice prints forgotten: ${msg.voices} voice(s), ${msg.receipts} receipt(s)`); break
           case "state_transition":

@@ -17,9 +17,10 @@
 //   voiceLine(role)      whose line just finished (customer | operator), so the bridge can
 //                        collect the customer's speech for the voice print
 //   requestUpsell(req)   one decision from the demopos brain on the GPU box -> brain_upsell
+//   requestMeaning(req)  what one finished line means, read on the GPU box -> meaning
 //   sendReceipt(r)       the paid order, its conversation and its upsells, tagged by voice
 //   forgetVoices()       deletes this demo room's voice prints and receipts
-// and the bridge answers with voice_match, brain_upsell, receipt_saved, voice_forgotten.
+// and the bridge answers with voice_match, brain_upsell, meaning, receipt_saved, voice_forgotten.
 //
 // A dropped socket reconnects with backoff unless the bridge refused for a reason a
 // retry can't fix (sign-in required, unknown demo, bridge not configured).
@@ -157,6 +158,7 @@ export class SttClient {
 
   voiceLine(role) { if (this.armed) this.sendJson({ type: "voice_line", role }) }
   requestUpsell(req) { if (this.armed) this.sendJson({ type: "upsell_request", ...req }) }
+  requestMeaning(req) { if (this.armed) this.sendJson({ type: "meaning_request", ...req }) }
   sendReceipt(r) { this.sendJson({ type: "receipt", ...r }) }
   forgetVoices() { this.sendJson({ type: "voice_forget" }) }
 
