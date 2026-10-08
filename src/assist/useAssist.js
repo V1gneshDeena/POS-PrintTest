@@ -33,7 +33,8 @@
 //     accepted items are added to the ticket automatically. A spoken or tapped no
 //     declines it; 25 s without an answer lets it lapse. Then the next card. An
 //     unanswered card holds its place until a card from a strictly higher-priority source
-//     is available (hot key > basket completion / upsize > the AI's pick > behaviour).
+//     is available (hot key > the upsell brain > basket completion / upsize > the AI's pick
+//     > behaviour); an allergy answer replaces any card that is not itself one.
 //   • HOT KEYS (hotkeys.json) are the upsell's guidelines: a line that says an item is
 //     out, asks about an item, complains (too sweet, too bitter, doesn't like it, took
 //     forever, an order problem), states a dietary need, wants food, orders for others,
@@ -427,7 +428,9 @@ export function createEngine(set, posRef) {
     }
     const key = cardKey(next)
     if (pending) {
-      if (cur.key === key || (SOURCE_RANK[next.source] || 0) <= (SOURCE_RANK[cur.source] || 0)) return
+      // An allergy answer is about safety: it replaces any card that is not itself an allergy answer.
+      const allergyFirst = /^Allergy/.test(next.tag || "") && !/^Allergy/.test(cur.tag || "")
+      if (cur.key === key || (!allergyFirst && (SOURCE_RANK[next.source] || 0) <= (SOURCE_RANK[cur.source] || 0))) return
       // The displaced card leaves the offer log: it was never answered, so it must not
       // block that item from being offered again later.
       st.offers = offers

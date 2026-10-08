@@ -1,4 +1,4 @@
-// Runs the counter transactions in transcripts.js (24) through the real Vavoom Assist engine
+// Runs the counter transactions in transcripts.js (25) through the real Vavoom Assist engine
 // (useAssist.js createEngine, with upsellEngine, the hot keys, the order parser and the reply
 // classifier), on the burger menu, and writes what happened to transcript-results.md.
 //

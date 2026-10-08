@@ -1,4 +1,4 @@
-// 24 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 25 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -420,6 +420,22 @@ export const TRANSCRIPTS = [
       ["the declined upsize is on the record, said by the employee", (r) => r.c.receipt.upsells.some((u) => /Regular Cheeseburger/.test(u.title) && u.outcome === "declined" && u.pitched_by_employee)],
       ["the accepted fries are on the record with why", (r) => r.c.receipt.upsells.some((u) => u.title === "Fries" && u.outcome === "accepted" && u.why)],
       ["only customer lines were sent for the voice print as the customer's", (r) => r.c.roles.filter((x) => x === "customer").length >= 3],
+    ],
+  },
+  {
+    id: 25, title: "An allergy answer replaces a hot-key card already on screen",
+    setup: { outToday: ["Fries"] },
+    steps: [
+      { at: 0, who: "O", say: "Hi, what can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger and fries please" },
+      { at: 8, who: "C", say: "Oh wait, I'm allergic to milk" },
+      { at: 9, brain: { name: "Lettuce Wrap (no bun)", item: "Lettuce Wrap (no bun)", kind: "add", size: "each", price: 0, tag: "Allergy: no milk",
+        step: "allergy", framing: "I can make the Cheeseburger a lettuce wrap — no bun. Want that?", reason: "ladder step: allergy" } },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the out-of-stock substitute was on screen first", (r) => !!tagged(r.c, "Closest substitute")],
+      ["the allergy card replaced it", (r) => tagged(r.c, "Closest substitute")?.outcome === "replaced" && !!tagged(r.c, "Allergy: no milk")],
     ],
   },
 ]
