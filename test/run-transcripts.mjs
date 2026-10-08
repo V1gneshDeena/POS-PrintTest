@@ -1,4 +1,4 @@
-// Runs the counter transactions in transcripts.js (45) through the real Vavoom Assist engine
+// Runs the counter transactions in transcripts.js (49) through the real Vavoom Assist engine
 // (useAssist.js createEngine, with upsellEngine, the hot keys, the order parser and the reply
 // classifier), on the burger menu, and writes what happened to transcript-results.md.
 //
@@ -128,6 +128,9 @@ async function run(tr) {
     const ans = live("/v1/upsell", { demo: LIVE_ROOM, transcript: req.transcript, context: { ...req.context, voice: engineRef.E.st.voice || null } }, "brain")
     setTimeout(() => engineRef.E.handleBrain({ req_id: req.req_id, round_trip_ms: Math.round(liveLatency.brain.at(-1) || 0), ...ans }), 550)
   }
+  // Without --meaning or --live, meaning requests are only recorded; a `meaning` step answers the latest.
+  const meaningRequests = []
+  if (!MEANING && !LIVE) set.requestMeaning = (req) => meaningRequests.push(req)
   if (LIVE) {
     set.requestMeaning = (req) => {
       const ans = live("/v1/meaning", { demo: LIVE_ROOM, text: req.text, prev: req.prev, exact: req.exact }, "meaning")
@@ -242,6 +245,11 @@ async function run(tr) {
       const text = c && c.state === "pending" ? `Would you like ${c.kind === "upsize" ? `to make it a ${c.size}` : `the ${c.entry?.name || c.title}`}?` : "Anything else for you today?"
       note(`Operator: “${text}”`, "line")
       E.handleFinal(text)
+    } else if (step.meaning) {
+      // The meaning layer's answer to the latest line: [{ key, score, clause }].
+      const req = meaningRequests.at(-1)
+      note(`Meaning layer: ${step.meaning.map((h) => `${h.key} ${h.score}`).join(", ")}`, "line")
+      if (req) E.handleMeaning({ req_id: req.req_id, hits: step.meaning.map((h) => ({ need: 0.82, neg: 0.5, kind: "clause", clause: req.text, ...h })), near: [], ms: 3, round_trip_ms: 60 })
     } else if (step.section) {
       note(`Cashier opens ${step.section}`, "line")
       E.onActivityEvent({ type: "category_view", category: step.section, at: NOW })
@@ -277,7 +285,8 @@ async function run(tr) {
       E.onActivityEvent({ type: "payment_complete", at: NOW })
       E.noteSaving(receipt) // as useAssist does at payment
       E.endCustomer("paid", null)
-      customers.push({ cards, sections: sections.splice(0), ticket: pos.cart.map(lineText), waiting, fired, firedFull, receipt, roles: roles.splice(0),
+      const brainAllergens = brainRequests.at(-1)?.context?.allergens || []
+      customers.push({ cards, sections: sections.splice(0), ticket: pos.cart.map(lineText), waiting, fired, firedFull, brainAllergens, receipt, roles: roles.splice(0),
         brainRequests: brainRequests.length, reasoningNow,
         reasoning: (E.st.lastReasoning?.timeline || []).map((x) => ({ ...x, atSec: (x.at - T0) / 1000 })) })
       pos.cart = []
@@ -288,7 +297,7 @@ async function run(tr) {
     }
     await flush()
   }
-  const r = { customers, c: customers[0], errors, tr }
+  const r = { customers, c: customers[0], errors, tr, live: !!LIVE }
   const checks = tr.checks.map(([what, fn]) => {
     let ok = false
     try { ok = !!fn(r) } catch { ok = false }

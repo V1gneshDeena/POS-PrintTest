@@ -65,7 +65,7 @@
 //   • LONG DEMO VISITS (David, 2026-10-08: "there will be times i will be explaining the features so
 //     the transaction will be longer. it should."): nothing ends a visit but payment, End, Clear or
 //     the customer walking away; the context window lasts the whole visit; a hot word's response
-//     waits up to 10 minutes behind a held card; and a line that explains the system ("if a
+//     stays usable for 10 minutes behind a held card (never delaying one); and a line that explains the system ("if a
 //     customer says…", "for example…", "as you can see…"; orderParser.js isExplaining) is shown in
 //     the transcript and never read as the conversation. A brain answer to an earlier request is
 //     used when the ticket has not changed since, so talking on does not hold the brain's card back.
@@ -102,7 +102,9 @@
 //     Its `meaning` answer (~0.1 s) fires the same hot keys the exact words would, labelled
 //     "by meaning" with the clause it read, for lines the exact patterns missed ("it's like an
 //     oven out there"). A complaint, dislike or order problem read this way also takes back
-//     what speech rang up from that line, as the exact words would have kept it off.
+//     what speech rang up from that line, as the exact words would have kept it off. Its allergy
+//     keys ("dairy gives me hives", "I'm celiac", "sesame makes my throat swell"; and Dairy-free,
+//     as milk) add their allergen to the visit's, so no card holds it and the brain is told.
 //   • ORDERING AN ITEM THAT IS OUT: a customer who orders it gets its closest substitute
 //     (tagged "Closest substitute") and the item is not rung up. A cashier who taps it
 //     still rings it up (the cashier has the last word), the substitute pops up all the
@@ -147,7 +149,7 @@ import { startAssistPublisher } from "./assistSync.js"
 import { setAssistReceipt } from "./assistReceipt.js"
 import { healthNote, historyNote, memoryNote, openSlots, pickNote, pitchNote, savedNote } from "./reasoning.js"
 import { detectOrderEdits } from "./orderEdits.js"
-import { allergiesSaid, holdsAllergen } from "./allergens.js"
+import { allergiesSaid, holdsAllergen, MEANING_ALLERGENS, DAIRY_SAID } from "./allergens.js"
 
 // The tenant whisper and the brain know this menu as (its `restaurant` context, never shown).
 // The burger menu is its own tenant, `demopos`: whisper only transcribes for it (MEAL_LADDER_TENANTS,
@@ -840,6 +842,7 @@ export function createEngine(set, posRef) {
     const hits = detectHotkeys(text)
     // An allergy said ("I'm allergic to milk"): from now on no card holds it, whatever the GPU side does.
     const allergyNamed = allergiesSaid(text)
+    if (hits.some((h) => h.key === "dairy_free") && DAIRY_SAID.test(text)) allergyNamed.add("milk")
     const newly = [...allergyNamed].filter((a) => !st.hot.allergens.has(a))
     if (newly.length) {
       for (const a of newly) st.hot.allergens.add(a)
@@ -984,6 +987,7 @@ export function createEngine(set, posRef) {
     if (msg.error) { log(`Meaning layer unavailable: ${msg.error}`); return }
     if (st.phase !== "active" || req.visit !== st.visit || now() - req.t > MEANING_STALE_MS) return
     const fired = []
+    const heardAllergy = []
     for (const m of msg.hits || []) {
       if (m.key === "change_order") {
         // The line means the customer wants something off the order, in words the grammar does not
@@ -995,6 +999,15 @@ export function createEngine(set, posRef) {
         const targets = was.length ? was : named.filter((e) => req.ids.includes(e.id))
         if (targets.length) applyOrderEdits(targets.map((e) => ({ type: "remove", entry: e, qty: null, size: null })), req.text, now(), m)
         continue
+      }
+      // An allergy said in other words ("dairy gives me hives", "soy makes me break out"): its allergen is
+      // added to the visit's, so no card holds it and the brain is told. Dairy-free carries on as a hot key.
+      const allergens = MEANING_ALLERGENS[m.key]
+      if (allergens) {
+        const fresh = allergens.filter((a) => !st.hot.allergens.has(a))
+        for (const a of fresh) st.hot.allergens.add(a)
+        if (fresh.length) heardAllergy.push(`${fresh.join(", ").replace(/_/g, " ")} (“${m.clause}”, ${Number(m.score).toFixed(2)})`)
+        if (m.key !== "dairy_free") continue
       }
       const h = HOTKEY_BY_KEY.get(m.key)
       if (!h || st.hot.fired.some((f) => f.at === req.t && f.key === m.key)) continue
@@ -1009,13 +1022,17 @@ export function createEngine(set, posRef) {
       fired.push({ key: h.key, label: `${h.label} — by meaning (${Number(m.score).toFixed(2)})`, effect: h.effect,
         action: h.action, meaning: h.meaning, phrase: m.clause, items, asked: "", via: "meaning", score: m.score, baseLabel: h.label })
     }
-    if (!fired.length) return
-    // The line said something about the customer, so it was the customer's.
-    if (!req.said.role && fired.some((h) => CUSTOMER_KEYS.has(h.key))) {
+    if (heardAllergy.length) {
+      log(`Allergy heard by meaning: ${heardAllergy.join("; ")} — no card with it from now on`)
+      explain("health", `Heard an allergy in other words: ${heardAllergy.join("; ")}. No upsell that contains it from now on.`)
+    }
+    if (!fired.length && !heardAllergy.length) return
+    // The line said something about the customer (a hot word, an allergy), so it was the customer's.
+    if (!req.said.role && (heardAllergy.length || fired.some((h) => CUSTOMER_KEYS.has(h.key)))) {
       req.said.role = "customer"
       set.voiceLine?.("customer")
     }
-    applyHotkeys(fired, now())
+    if (fired.length) applyHotkeys(fired, now())
     recompute()
     scheduleBrain()
   }
@@ -1042,6 +1059,7 @@ export function createEngine(set, posRef) {
           behaviours: st.behavioursNow.map((b) => ({ key: b.key, category: b.category })),
           offers: st.offers.map((o) => ({ title: o.title, kind: o.kind, outcome: o.outcome })),
           out_today: [...st.outToday].map((id) => BY_ID.get(id)?.name).filter(Boolean),
+          allergens: [...st.hot.allergens], // said exactly or by meaning: the brain's swaps and notices answer them
           just_sized: justSizedId() ? BY_ID.get(justSizedId())?.name || null : null,
           removed: [...st.removed].map(([id, how]) => ({ name: BY_ID.get(id)?.name, how })).filter((r) => r.name),
           hour: new Date(now()).getHours(),

@@ -1,4 +1,4 @@
-// 45 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 49 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -16,6 +16,7 @@
 //   { at, choose: [name, size] }    the cashier picks a size on the upsell square's size prompt
 //   { at, clear: true }             the cashier presses Clear (the ticket empties; the visit ends)
 //   { at, section: "Drinks" }       the cashier opens a menu section (category_view)
+//   { at, meaning: [{ key, score }] }  the meaning layer's answer to the latest line (allergy keys, hot keys)
 //
 // checks: [description, (r) => boolean]. `r` is what happened (see run-transcripts.mjs):
 //   r.customers[i] = { cards, ticket, fired }, with r.c = r.customers[0] for one-customer runs.
@@ -590,6 +591,70 @@ export const TRANSCRIPTS = [
     ],
     checks: [
       ["no card after the allergy holds milk", (r) => r.c.cards.filter((x) => x.atSec >= 6).every((x) => !/Milkshake|Cheese|Hamburger/.test(x.entry))],
+    ],
+  },
+  {
+    id: 48, title: "A hot word stays usable for 10 minutes behind a held card, and no longer",
+    setup: { cardMode: "hold" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 8, who: "C", say: "It's so hot out today" },
+      { at: 670, pitch: true },
+      { at: 672, who: "C", say: "No thanks" },
+      { at: 690, pay: true },
+    ],
+    checks: [
+      ["the held card is answered after eleven minutes", (r) => r.c.cards[0]?.title === "Fries" && r.c.cards[0].outcome === "declined"],
+      ["the eleven-minute-old hot word brings no Something cold", (r) => !tagged(r.c, "Something cold")],
+    ],
+  },
+  {
+    id: 49, title: "A hot word seven minutes old still brings its card after a held card",
+    setup: { cardMode: "hold" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 8, who: "C", say: "It's so hot out today" },
+      { at: 430, pitch: true },
+      { at: 432, who: "C", say: "No thanks" },
+      { at: 450, pay: true },
+    ],
+    checks: [
+      ["Something cold follows the answer", (r) => tagged(r.c, "Something cold")?.atSec >= 432],
+    ],
+  },
+  {
+    id: 46, title: "An allergy said in other words, read by the meaning layer: no card holds it, and the brain is told",
+    // David, 2026-10-08: "correct the allergen meaning layer to not miss these" (milk in burger buns, sesame, gluten, spice).
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular hot dog and a regular fries please" },
+      { at: 6, who: "C", say: "Gluten and I really do not get along" },
+      { at: 6.1, meaning: [{ key: "allergy_wheat", score: 0.88 }] },
+      { at: 9, press: "no" },
+      { at: 12, press: "no" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["no card after it holds wheat (buns, hot dogs, burgers)", (r) => r.c.cards.filter((x) => x.atSec >= 6.1).every((x) => !/Burger|Dog|Melt|Grilled|BLT|Sandwich/.test(x.entry))],
+      ["the brain's next request carries the wheat allergy", (r) => r.c.brainAllergens.includes("wheat")],
+    ],
+  },
+  {
+    id: 47, title: "Dairy-free by meaning counts as milk: no bigger burger (the bun has milk), no shake",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A little cheeseburger please" },
+      { at: 6, who: "C", say: "Dairy and me are not friends" },
+      { at: 6.1, meaning: [{ key: "dairy_free", score: 0.9 }] },
+      { at: 9, press: "no" },
+      { at: 12, press: "no" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["no card after it holds milk", (r) => r.c.cards.filter((x) => x.atSec >= 6.1).every((x) => !/Burger|Cheese|Milkshake|Dog|Melt/.test(x.entry))],
+      ["the brain is told about milk", (r) => r.c.brainAllergens.includes("milk")],
     ],
   },
   // ── When the card changes: the operator's setting (useAssist.js CARD_MODES) ──

@@ -216,8 +216,9 @@ export function pickUpsell(ctx) {
         && (card.entry.role !== "other" || card.source === "hotkey" || card.source === "brain")) cands.push(card)
   }
   const pickFrom = (opts) => bestOf(opts).find((e) => allowedBy(constraints, e))
-  // A hot key's pending response (a substitute, "you asked about it", the temperature) waits up to 10
-  // minutes: a card held until answered, or a demo with explanations, can keep it waiting for minutes.
+  // A hot key's pending response (a substitute, "you asked about it", the temperature) stays usable for 10
+  // minutes after it was said: a card held until answered, or a demo with explanations, can keep it
+  // waiting that long (David, 2026-10-08, confirmed). It never delays a card; older than that, it is dropped.
   const recent = (list, ms = 10 * 60000) => (list || []).filter((x) => now - x.at < ms)
 
   // 1. Hot keys — what was just said decides first. Each response is offered once per time

@@ -70,7 +70,7 @@ const list = (parts) => (parts.length < 2 ? parts[0] : `${parts.slice(0, -1).joi
 function visit(id, title, opts = {}) {
   const v = {
     id, title, setup: { cardMode: opts.mode || pick(["dynamic", "dynamic", "trigger", "hold"]), ...(opts.setup || {}) }, steps: [], t: 0,
-    meta: { ordered: new Map(), tapped: new Map(), unsized: new Set(), mentioned: new Set(), removed: new Map(), allergens: new Map(), out: new Set(opts.setup?.outToday || []), cleared: [], explained: [] },
+    meta: { ordered: new Map(), tapped: new Map(), unsized: new Set(), mentioned: new Set(), removed: new Map(), allergens: new Map(), out: new Set(opts.setup?.outToday || []), cleared: [], explained: [], byMeaning: false },
   }
   v.meta.mode = v.setup.cardMode
   v.at = (dt = 2) => (v.t += dt)
@@ -156,7 +156,7 @@ const RULES = [
   }],
   ["no card offered something already on the ticket", (r) => r.customers.every((c) => c.cards.every((x) => x.kind !== "add" || x.tag === "Closest substitute" || /^Another /.test(x.title) || !x.ticketAtShow.includes(x.entry)))],
   ["no card offered what the customer had taken off", (r, m) => r.customers.every((c) => c.cards.every((x) => !(m.removed.has(x.entry) && x.atSec >= m.removed.get(x.entry) && x.kind === "add")))],
-  ["no card offered an item with an allergen the customer named", (r, m) => r.customers.every((c) => c.cards.every((x) => {
+  ["no card offered an item with an allergen the customer named (said in other words: on --live runs)", (r, m) => (m.byMeaning && !r.live) || r.customers.every((c) => c.cards.every((x) => {
     if (x.kind === "notice" || x.also || !x.entry) return true
     for (const [a, at] of m.allergens) if (x.atSec >= at + 1 && allergensOf(x.entry).has(a)) return false
     return true
@@ -182,6 +182,8 @@ const RULES = [
     || r.tr.steps.some((s) => s.who === "C" && s.say && s.say.toLowerCase().includes(f.phrase.toLowerCase()))))],
   ["no card called a cold item hot", (r) => r.customers.every((c) => c.cards.every((x) => !(COLD.test(x.entry) && /\b(hot|warm)\b(?! (dog|sauce))/i.test(x.reason || ""))))],
 ]
+
+let allergyVisits = 0 // the allergy kind alternates: said plainly, then in other words
 
 // ── the twenty kinds of visit ──
 const KINDS = [
@@ -226,7 +228,17 @@ const KINDS = [
   }],
   ["an allergy", (v) => {
     v.say("O", pick(GREETINGS), 0)
-    const kind = pick(["milk-cheeseburger", "gluten-hamburger", "spice-cajun", "milk-shake", "sesame-burger"])
+    // Every other allergy visit says it in other words (read by the meaning layer, checked on --live runs).
+    allergyVisits += 1
+    const kind = allergyVisits % 2 === 0 ? "paraphrase" : pick(["milk-cheeseburger", "gluten-hamburger", "spice-cajun", "milk-shake", "sesame-burger"])
+    if (kind === "paraphrase") {
+      // In other words: only the meaning layer reads these, so the allergy rule is held to them on --live runs.
+      const [allergen, line, main] = pick([["milk", "Dairy really doesn't agree with me", "Cheeseburger"], ["wheat", "Gluten and I don't get along", "Hot Dog"],
+        ["sesame", "Sesame makes my mouth itch", "Bacon Burger"], ["eggs", "Eggs make me break out in hives", "Hamburger"], ["spice", "Spicy food upsets my stomach", "Hamburger"],
+        ["milk", "Milk products give me a rash", "Bacon Cheeseburger"], ["soy", "Soy really disagrees with me", "Hamburger"]])
+      v.order([{ name: main, size: SIZED[main] ? "Regular" : null }], { dt: 3 }).allergy(allergen, line, 3)
+      v.meta.byMeaning = true
+    }
     if (kind === "milk-cheeseburger") v.order([{ name: "Cheeseburger", size: "Regular" }], { dt: 3 }).allergy("milk", "Oh wait, I'm allergic to milk", 3)
     if (kind === "gluten-hamburger") v.order([{ name: "Hamburger", size: "Regular" }], { dt: 3 }).allergy("wheat", "I can't have gluten by the way", 3)
     if (kind === "spice-cajun") v.order([{ name: "Hamburger", size: "Little" }, { name: "Cajun Fries", size: "Regular" }], { dt: 3 }).allergy("spice", "Oh, I can't have spicy food", 3)
@@ -341,8 +353,9 @@ const KINDS = [
     v.push({ section: "Drinks" }, 2)
     const d = pick(DRINKS)
     v.tap(d, SIZED[d] ? pick(SIZED[d]) : null, 2)
-    v.say("C", pick(["It's so hot out", "I'm in a rush", "I'm allergic to milk"]), 2)
-    if (/milk/.test(v.steps.at(-1).say)) v.meta.allergens.set("milk", v.t)
+    v.say("C", pick(["It's so hot out", "I'm in a rush", "I'm allergic to milk", "Dairy and me are not friends"]), 2)
+    if (/milk|Dairy/.test(v.steps.at(-1).say)) v.meta.allergens.set("milk", v.t)
+    if (/Dairy and me/.test(v.steps.at(-1).say)) v.meta.byMeaning = false // the POS's own "X and I …" rule reads this one
     v.push({ press: pick(["add", "no"]) }, 3)
   }],
 ]
