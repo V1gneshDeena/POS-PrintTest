@@ -33,31 +33,36 @@
 //              the customer said, and not reasoned from an item that is out. It ranks BELOW
 //              basket completion (David: "follow the basket completion"), so on this POS it
 //              fills in once the basket is complete, or names the same item as the basket
-//   basket     basket completion, in this menu's order: with sides (the burger menu) upsize the
-//              food item, then fries, then a drink, then a shake, then the rest; without
-//              sides (Gregory's) upsize the drink, then a treat, then food
+//   basket     basket completion, in this menu's order. With sides (the burger menu), David's order
+//              (2026-10-08 precedence picks): size up the main, then add a side and a drink, then
+//              size up the fries and the drink, then a shake, then a main; without sides (Gregory's)
+//              upsize the drink and the food, then a treat, then food
 //   behaviour  from the screen-activity estimates (behaviour.js): a treat when the customer
 //              is in a treat mood, the category they looked at and left, the bestseller when
 //              undecided, "make it two" on a second round
 // Gates: nothing for a minute after an order complaint; nothing right after the cashier
-// removes something; no upsize for a price-led or impatient customer; only one small
-// add-on at checkout or once the order is closing; dairy-free / sugar / caffeine / health /
-// drink-only constraints drop every candidate that breaks them, the AI's pick included;
-// weather, hurry, energy, routine and seasonal interest re-rank what is left.
+// removes something; a health-minded customer gets a size-up only of an item that is itself
+// healthy (healthyItem: water, diet, tea… or 150 kcal or less in the bigger size; David,
+// 2026-10-08), none once a size-up was declined this visit (a hurried or price-conscious one
+// still gets it, said as "only $X more"), and not for an item that was itself just upsold; only
+// one small add-on at checkout or once the order is closing; dairy-free / sugar / caffeine /
+// health / drink-only constraints drop every candidate that breaks them, the AI's pick
+// included; weather, hurry, energy, routine and seasonal interest re-rank what is left.
 // Nothing already on the ticket, declined, or already offered this customer is offered
 // again; after a declined add-on no other item of the same role is offered by the basket
-// or behaviour rules; a customer gets at most MAX_OFFERS cards.
+// or behaviour rules. There is no set number of cards: the conversation decides. Two no's in
+// a row close the door until the customer opens a new one (orders something, or says
+// something a hot key answers: ctx.lastOpeningAt).
 
 import { INDEX, bestOf, MENU_ROLES, norm } from "./menuIndex.js"
-
-export const MAX_OFFERS = 4
+import KB from "../data/menu-kb.json"
 
 // Basket completion order (see the header). Each step is "up:<role>" (upsize the line of
 // that role, if it has a bigger size) or "add:<role>" (add the most-ordered item of a role
 // the ticket doesn't have yet).
 const LADDER = MENU_ROLES.has("side")
-  ? ["up:main", "add:side", "add:drink", "add:treat", "up:side", "add:main", "up:drink"]
-  : ["up:drink", "add:treat", "add:main", "up:main"]
+  ? ["up:main", "add:side", "add:drink", "up:side", "up:drink", "add:treat", "add:main"]
+  : ["up:drink", "up:main", "add:treat", "add:main"]
 
 const fmt = (n) => `$${Number(n || 0).toFixed(2)}`
 
@@ -74,6 +79,15 @@ const HOT_ITEM = /\bhot\b|latte|\btea\b|chocolate|soup|cappuccino|americano|moch
 // Warm food, for "something warm" on a menu without hot drinks (the burger menu).
 const HOT_FOOD = /burger|fries|hot dog|sandwich|melt|grilled|\begg|bacon|soup|panini|toast/i
 const isColdItem = (e) => COLD_ITEM.test(e.name)
+// A healthy item: one a health-minded customer may still be offered a bigger size of. By name
+// (water, diet, tea, salad, fruit, a veggie item without cheese), or 150 kcal or less in that size
+// by the menu's nutrition data (menu-kb.json).
+const HEALTHY_NAME = /\b(water|diet|zero|unsweet|sparkling|tea|salad|fruit|apple)\b|veggie(?!.*cheese)/i
+export function healthyItem(e, size) {
+  if (HEALTHY_NAME.test(e.name)) return true
+  const cal = KB.items?.[e.name]?.sizes?.[size || ""]?.calories
+  return typeof cal === "number" && cal <= 150
+}
 const isHotItem = (e) => !COLD_ITEM.test(e.name) && (HOT_ITEM.test(e.name) || HOT_FOOD.test(e.name))
 // Which part of the meal a temperature card comes from first: a drink, then a side or treat.
 const TEMP_ROLE_ORDER = ["drink", "side", "treat", "main"]
@@ -96,7 +110,7 @@ const isFood = (e) => e.role === "main" || e.role === "side" || (e.role === "tre
 const words = (s) => new Set(norm(s).split(" ").filter((w) => w.length > 2))
 
 /** Does this entry respect every constraint the customer has stated? */
-function allowedBy(constraints, e) {
+export function allowedBy(constraints, e) {
   if (!constraints || !constraints.size) return true
   const n = e.name
   if (constraints.has("dairy_free") && DAIRY.test(n) && !/oat|almond|soy|coconut|dairy[- ]free/i.test(n)) return false
@@ -146,7 +160,10 @@ export function closestTo(target, { exclude = new Set(), constraints = null } = 
  *                customer's), outOfStock: [{entry, at}], interest: [{entry|null, asked, at}],
  *                disliked: [{entry, at}], temperature: [{cold, wanted, at}], constraints: Set,
  *                pausedUntil } | null }
- * ctx.brain = { entry, kind: 'add'|'upsize'|'swap', size, price, fromSize?, fromEntry?, tag,
+ * ctx.justSized = the id of the item whose size was just given (its size-up comes first), or null.
+ * ctx.removed = Map(entry id → "remove" | "replace"): what the customer had taken off this visit.
+ * ctx.brain = { entry, kind: 'add'|'upsize'|'swap', size, price, fromSize?, fromEntry?, alsoEntry? (an
+ *               allergy swap's lettuce wrap, rung up with it), tag,
  *               framing, why, at } | null — the upsell brain's latest pick (useAssist.handleBrain).
  * Returns the best card { kind: 'add'|'upsize'|'swap', entry, size, price, fromSize?, fromEntry?,
  * source, reason, title, tag, pair? } or null. `pair` (asked-about items) is { entry, size, price }.
@@ -158,7 +175,12 @@ export function pickUpsell(ctx) {
   const fired = (effect, withinMs = Infinity) => !!hot?.effects?.has(effect) && now - hot.effects.get(effect) < withinMs
   if (hot?.pausedUntil > now) return null
   if (has("changed_mind")) return null
-  if (offers.filter((o) => o.outcome).length >= MAX_OFFERS) return null
+  // Two no's in a row: quiet until the conversation opens a new door (useAssist passes when the
+  // customer last ordered something or said something a hot key answered).
+  const answered = offers.filter((o) => o.outcome === "accepted" || o.outcome === "declined")
+  const lastTwo = answered.slice(-2)
+  if (lastTwo.length === 2 && lastTwo.every((o) => o.outcome === "declined")
+      && (ctx.lastOpeningAt || 0) <= Math.max(...lastTwo.map((o) => o.answeredAt || 0))) return null
 
   const entryOf = (id) => INDEX.entries.find((x) => x.id === id)
   const inCart = new Set(cart.map((e) => e.item.id))
@@ -169,10 +191,16 @@ export function pickUpsell(ctx) {
   const constraints = hot?.constraints
   // A "no" to one side / drink / treat is a no to that part of the meal: the basket and the
   // behaviour rules don't offer another item of a declined role.
-  const declinedRoles = new Set(offers.filter((o) => o.outcome === "declined" && o.kind === "add")
-    .map((o) => entryOf(o.entryId)?.role).filter(Boolean))
+  // What the customer had taken off this visit (useAssist.js ctx.removed: id → "remove" | "replace") is
+  // not pitched back; taken off outright, its part of the meal counts as declined for the basket too.
+  const removed = ctx.removed || new Map()
+  for (const id of removed.keys()) blocked.add(id)
+  const declinedRoles = new Set([...offers.filter((o) => o.outcome === "declined" && o.kind === "add").map((o) => o.entryId),
+    ...[...removed].filter(([, how]) => how === "remove").map(([id]) => id)].map((id) => entryOf(id)?.role).filter(Boolean))
   const priceLed = !!has("value_seeking")
   const quick = fired("quick", 5 * 60000)
+  const upsizeDeclined = offers.some((o) => o.kind === "upsize" && o.outcome === "declined")
+  const healthMinded = !!constraints?.has?.("health")
   const checkout = !!has("checkout")
   if (checkout && offers.some((o) => o.atCheckout)) return null
 
@@ -251,7 +279,9 @@ export function pickUpsell(ctx) {
       if (entry) consider({ kind: "add", again: true, entry, size: same.size, price: same.price, source: "hotkey", score: 90, tag: "",
         reason: "Ordering for someone else too — a second one for them?", title: `Another ${entry.name}` })
     }
-    if (fired("food")) {
+    // Wants food pitches a main only when the ticket has none; with a main on it the basket is
+    // completed instead (food still ranks first in the re-rank below: the side before the drink).
+    if (fired("food") && !cartRoles.has("main")) {
       const pick = INDEX.entries.filter((e) => isFood(e) && !blocked.has(e.id))
         .sort((a, b) => (a.role === "main" ? 0 : 1) - (b.role === "main" ? 0 : 1) || a.rank - b.rank)
         .find((e) => allowedBy(constraints, e))
@@ -292,9 +322,14 @@ export function pickUpsell(ctx) {
     if (brain.kind === "upsize" && fromLine(brain.entry.id, brain.fromSize)) {
       consider({ ...base, kind: "upsize", fromSize: brain.fromSize, title: `${brain.size} ${brain.entry.name}` })
     } else if (brain.kind === "swap" && brain.fromEntry && fromLine(brain.fromEntry.id) && !blocked.has(brain.entry.id)) {
-      consider({ ...base, kind: "swap", fromEntry: brain.fromEntry, fromSize: brain.fromSize, title: brain.entry.name })
+      consider({ ...base, kind: "swap", fromEntry: brain.fromEntry, fromSize: brain.fromSize, alsoEntry: brain.alsoEntry || null,
+        title: brain.alsoEntry ? `${brain.entry.name} in a lettuce wrap` : brain.entry.name })
     } else if (brain.kind === "add" && !blocked.has(brain.entry.id)) {
       consider({ ...base, kind: "add", title: brain.entry.name })
+    } else if (brain.kind === "notice" && cart.some((l) => l.item.id === brain.entry.id)) {
+      // An allergy with no substitute (demopos_brain.py): the screen says so. Nothing to add, so not
+      // through consider(): the item it is about is ruled out by the very constraint it reports.
+      cands.push({ ...base, kind: "notice", price: 0, title: brain.title || `No substitute for the ${brain.entry.name}` })
     }
   }
 
@@ -314,18 +349,25 @@ export function pickUpsell(ctx) {
       const [op, role] = s.split(":")
       const score = 82 - step * 5
       if (op === "up") {
-        if (priceLed || quick) continue
-        const line = cart.filter((l) => entryOf(l.item.id)?.role === role)
+        if (upsizeDeclined) continue
+        // An item that was itself just upsold is not pitched a size-up straight after (two
+        // pitches on one item); what the customer ordered is. A health-minded customer is offered
+        // a bigger size only of a healthy item.
+        const line = cart.filter((l) => entryOf(l.item.id)?.role === role && !((l.via?.upsell || 0) >= l.count))
           .map((l) => ({ l, e: entryOf(l.item.id) }))
-          .filter(({ l, e }) => { const i = e.sizes.findIndex(([x]) => x === l.size); return i >= 0 && i < e.sizes.length - 1 })
+          .filter(({ l, e }) => { const i = e.sizes.findIndex(([x]) => x === l.size); return i >= 0 && i < e.sizes.length - 1
+            && (!healthMinded || healthyItem(e, e.sizes[i + 1][0])) })
           .sort((a, b) => b.l.price - a.l.price)[0]
         if (!line) continue
         const { l, e } = line
         const [toSize, toPrice] = e.sizes[e.sizes.findIndex(([x]) => x === l.size) + 1]
         consider({
-          kind: "upsize", entry: e, size: toSize, price: toPrice, fromSize: l.size, source: "upsize", tag: "",
-          score: score + (has("going_large") ? 10 : 0) + (fired("energy") ? 15 : 0) - (fired("routine") ? 10 : 0),
-          reason: `Make the ${e.name} a ${toSize} for ${fmt(toPrice - l.price)} more`, title: `${toSize} ${e.name}`,
+          kind: "upsize", entry: e, size: toSize, price: toPrice, delta: toPrice - l.price, fromSize: l.size, source: "upsize", tag: "",
+          // The item whose size the customer just gave is sized up first (David, 2026-10-08: "if
+          // there's a size ahead of it, it can upsize"), ahead of the side and drink.
+          score: score + (has("going_large") ? 10 : 0) + (fired("energy") ? 15 : 0) - (fired("routine") ? 10 : 0) + (ctx.justSized === e.id ? 30 : 0),
+          reason: priceLed ? `Only ${fmt(toPrice - l.price)} more to make the ${e.name} a ${toSize}` : `Make the ${e.name} a ${toSize} for ${fmt(toPrice - l.price)} more`,
+          title: `${toSize} ${e.name}`,
         })
         step += 1
       } else {
@@ -377,7 +419,7 @@ export function pickUpsell(ctx) {
     if (checkout && c.kind === "add") c.score -= c.price * 2 // a small last add-on, not a big one
     if (!hot) continue
     const n = c.entry.name
-    if (quick) c.score -= c.price * 4 // not patient: only something cheap and ready
+    if (quick) c.score -= (c.kind === "upsize" ? c.delta : c.price) * 4 // not patient: only something cheap and ready (a size-up costs its difference)
     if (fired("food") && isFood(c.entry)) c.score += 15
     if (fired("seasonal") && SEASONAL.test(n)) c.score += 20
     if (fired("energy") && ENERGY.test(n)) c.score += 10
@@ -395,3 +437,39 @@ export function pickUpsell(ctx) {
 
 /** Stable identity of a card, for the offer log ("add:<id>", "upsize:<id>", "add:<id>:again"). */
 export const cardKey = (c) => `${c.kind}:${c.entry.id}${c.again ? ":again" : ""}${c.price === 0 && c.size === "Complimentary" ? ":free" : ""}`
+
+/**
+ * The best item in one menu section for this customer, for the hint under the upsell square when
+ * the cashier opens that section (David, 2026-10-08: "any section they get to … simply says what the
+ * best item in that section for the customer should be"). Not a card: nothing is logged or offered.
+ * Weighs, in order: what this customer ordered last time (a returning voice), what was said (cold or
+ * warm, health), then the section's own popularity; leaves out what is out today, what the
+ * customer's words rule out (allergies, dairy-free, health…) and what is already on the ticket.
+ * Returns { entry, title, price, why } or null.
+ */
+export function bestInSection(category, { cart = [], hot = null, voice = null } = {}) {
+  const constraints = hot?.constraints
+  const out = hot?.blocked || new Set()
+  const effects = hot?.effects || new Map()
+  const inCart = new Set(cart.map((l) => l.item.id))
+  const pool = INDEX.entries.filter((e) => e.category === category && !out.has(e.id) && allowedBy(constraints, e))
+  const open = pool.filter((e) => !inCart.has(e.id))
+  if (!open.length) return null
+  const last = new Set((voice?.matched ? voice.last_order || [] : []).map((x) => norm(x.name)))
+  const cold = effects.has("want_cold") || effects.has("weather_hot")
+  const warm = effects.has("want_hot") || effects.has("weather_cold")
+  const health = !!constraints?.has?.("health")
+  const why = (e) => last.has(norm(e.name)) ? "what they had last time"
+    : cold && isColdItem(e) ? "something cold, from what they said"
+    : warm && isHotItem(e) ? "something warm, from what they said"
+    : health && healthyItem(e, (e.sizes[0] || [])[0]) ? "the lighter choice"
+    : "the most ordered here"
+  const score = (e) => -e.rank
+    + (last.has(norm(e.name)) ? 50 : 0)
+    + (cold ? (isColdItem(e) ? 15 : isHotItem(e) ? -15 : 0) : 0)
+    + (warm ? (isHotItem(e) ? 15 : isColdItem(e) ? -15 : 0) : 0)
+    + (health ? (healthyItem(e, (e.sizes[0] || [])[0]) ? 20 : INDULGENT.test(e.name) ? -20 : 0) : 0)
+  const best = [...open].sort((a, b) => score(b) - score(a))[0]
+  const [size, price] = defaultSizeOf(best)
+  return { entry: best, title: size && size !== "each" ? `${best.name} (${size})` : best.name, price, why: why(best) }
+}

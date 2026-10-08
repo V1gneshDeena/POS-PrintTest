@@ -3,7 +3,7 @@
 // Opened from the "Full bar" link on the POS's upsell square, or from the demo console
 // as its own surface for a second screen. It renders the snapshot the POS publishes
 // (assistSync.js) and never runs Assist itself. Across the top, HOW IT'S DECIDING (reasoning.js):
-// what the engine is weighing now (memory, health and ingredients, previous orders, the upsell plan)
+// what the engine is weighing now (memory, health and ingredients, previous orders, when it pitches next)
 // and the timeline of why it did each thing, for investors; after payment it shows the last visit.
 // Below: session and inputs, the upsell and the
 // history of every card shown, what the screen activity says about the customer, the
@@ -11,8 +11,8 @@
 // the words that force the upsell to be re-evaluated) with what each one did, and BEHIND
 // THE SCENES — every message whisper and the speech bridge sent, and Assist's own log.
 //
-// Controls (start / end customer, Add / No thanks, camera, a typed line, clear out-of-stock, forget
-// voices) work when this
+// Controls (start / end customer, Add / No thanks, camera, when the upsell card changes, a typed line,
+// clear out-of-stock, forget voices) work when this
 // page is open in the same browser as the POS; on any other screen it is view only.
 //
 // "Back to POS" (top left) closes this window and brings the POS forward when the POS
@@ -24,6 +24,7 @@ import { C, fmt } from "../components/posTheme.js"
 import { startAssistViewer, posUrl } from "./assistSync.js"
 import { CardTag } from "./AssistOverlay.jsx"
 import { getDemoId } from "./demoContext.js"
+import { CARD_MODES } from "./useAssist.js"
 import { VavoomMark } from "../components/ui.jsx"
 
 const SOURCE_LABEL = { ai: "Vavoom AI · from the conversation", basket: "Basket completion", upsize: "Upsize", behaviour: "From what the screen shows", hotkey: "Hot key · from what was just said", brain: "Vavoom brain · voice, history, calories, Qwen" }
@@ -66,7 +67,7 @@ const KIND = {
   voice: ["Voice print", "#7cb4ff"], memory: ["Memory", "#7cb4ff"], screen: ["Screen", "#fcd34d"],
   pick: ["Upsell", C.accent], outcome: ["Answer", C.white],
 }
-const WEIGHING = [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "How many upsells"]]
+const WEIGHING = [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "When it pitches"]]
 
 function Reasoning({ r, phase }) {
   const live = phase === "active" && r?.timeline?.length
@@ -80,7 +81,7 @@ function Reasoning({ r, phase }) {
   return (
     <Card title="How it's deciding" right={right}>
       {!view ? (
-        <Muted>Starts when a customer arrives: what it hears and what that means, who it remembers, what the screen shows, what the meal adds up to, how many upsells suit the visit, and why each one goes up.</Muted>
+        <Muted>Starts when a customer arrives: what it hears and what that means, who it remembers, what the screen shows, what the meal adds up to, when it pitches next, and why each upsell goes up.</Muted>
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16 }}>
           <div>
@@ -176,6 +177,14 @@ export default function AssistFullBar() {
               <button disabled={!local} onClick={() => cmd({ type: s.phase === "active" ? "end" : "start" })} style={btn(true, !local)}>{s.phase === "active" ? "End customer" : "Start customer"}</button>
               <button disabled={!local} onClick={() => cmd({ type: "camera", on: !s.presenceOn })} style={btn(false, !local)}>{s.presenceOn ? "Camera off" : "Camera on"}</button>
             </div>
+            <div style={{ fontSize: 11, color: C.textSec, marginBottom: 4 }}>When the upsell on screen changes</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+              {Object.entries(CARD_MODES).map(([k, m]) => (
+                <button key={k} disabled={!local} onClick={() => cmd({ type: "card_mode", mode: k })} style={btn(s.cardMode === k, !local)}>{m.label}</button>
+              ))}
+            </div>
+            <Muted>{CARD_MODES[s.cardMode || "dynamic"]?.label}: the card {CARD_MODES[s.cardMode || "dynamic"]?.says}.</Muted>
+            <div style={{ height: 8 }} />
             <form onSubmit={(e) => { e.preventDefault(); cmd({ type: "say", text: say }); setSay("") }} style={{ display: "flex", gap: 6 }}>
               <input disabled={!local} value={say} onChange={(e) => setSay(e.target.value)} placeholder="Type what the customer says…"
                 style={{ flex: 1, padding: "7px 9px", borderRadius: 7, border: `1px solid ${C.navyBorder}`, background: C.navy, color: C.text, fontFamily: "inherit", fontSize: 12 }} />
@@ -241,10 +250,10 @@ export default function AssistFullBar() {
               <div key={h.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, padding: "2px 0", color: h.qty ? C.text : C.textMuted }}>
                 <span>{h.qty}× {h.size && h.size !== "each" ? `${h.size} ` : ""}{h.name} <span style={{ fontSize: 10, color: C.textMuted }}>({h.sources.join(" + ")})</span></span>
                 <span style={{ fontSize: 10, color: h.locked ? C.textMuted : h.added ? C.success : C.textSec }}>
-                  {h.qty === 0 ? "cancelled" : h.locked ? "cashier changed it" : h.added ? "on ticket ✓" : "already rung"}
+                  {h.qty === 0 ? "cancelled" : h.locked ? "cashier changed it" : h.needsSize ? `needs a size: ${h.sizes.join(" or ")}` : h.added ? "on ticket ✓" : "already rung"}
                 </span>
               </div>
-            )) : <Muted>Items the customer names are rung up automatically and listed here.</Muted>}
+            )) : <Muted>Items the customer orders are rung up automatically and listed here; one that comes in sizes waits for its size.</Muted>}
           </Card>
           <Card title="Ticket on the POS">
             {(s.ticket || []).length ? s.ticket.map((t, i) => (
@@ -266,14 +275,14 @@ export default function AssistFullBar() {
               <>
                 <Row label="Voice">{s.voice.voice_id} <span style={{ color: C.textMuted }}>(anonymous; no name is stored)</span></Row>
                 <Row label="Match">{s.voice.matched ? `score ${s.voice.score} · tier ${s.voice.tier}` : `no match at 0.5 or above${s.voice.score != null ? ` (best ${s.voice.score})` : ""} — a new voice print`}</Row>
-                <Row label="Visits">{s.voice.matched ? `${s.voice.visits} before this one` : "first visit"}</Row>
+                <Row label="Visits">{s.voice.matched ? `heard ${s.voice.seen || (s.voice.visits || 0) + 1}× before, ${s.voice.visits || 0} paid` : "first visit"}</Row>
                 {(s.voice.last_order || []).length ? <Row label="Last time">{s.voice.last_order.map((x) => `${x.qty > 1 ? `${x.qty}× ` : ""}${x.name}${x.size && x.size !== "each" ? ` (${x.size})` : ""}`).join(", ")}</Row> : null}
                 <Row label="From">{s.voice.seconds} s of the customer's speech · ECAPA {s.voice.embed_ms} ms on the GPU · {s.voice.round_trip_ms} ms round trip</Row>
               </>
             ) : <Muted>Waiting for about 2.5 s of the customer's speech. Lines are marked as the customer's or the employee's; only the customer's speech makes the voice print (ECAPA on the GPU box). Matches are searched in tiers from 1.0 down to 0.5; below 0.5 the voice is new.</Muted>}
             <div style={{ marginTop: 8 }}>
               <button disabled={!local} onClick={() => cmd({ type: "forget_voices" })} style={{ ...btn(false, !local), padding: "2px 8px", fontSize: 10 }}
-                title="Delete this demo room's voice prints and the receipts tagged by them">Forget voices in this room</button>
+                title="Delete the voice prints made in this demo room and its receipts (prints are matched across every room)">Forget voices in this room</button>
             </div>
           </Card>
           <Card title="Upsell brain" right={s.brain ? <span style={{ fontSize: 10, color: C.textSec }}>{s.brain.latency_ms} ms brain · {s.brain.round_trip_ms} ms round trip · {s.brain.framer}</span> : null}>

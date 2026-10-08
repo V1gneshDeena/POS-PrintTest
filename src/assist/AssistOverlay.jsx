@@ -9,7 +9,15 @@
 //     status dots (microphone, speech-to-text, camera) and the "Full bar" link, which
 //     opens everything else (inputs, behaviour reading, heard order, offer history,
 //     whisper's raw messages, the event log) as its own page (AssistFullBar.jsx).
-//     Before Vavoom sign-in it holds the sign-in form instead.
+//     Before Vavoom sign-in it holds the sign-in form instead. Above the card, an item the
+//     customer ordered without a size ("a cheeseburger") asks the cashier to ask for the size,
+//     with a button per size that puts it on the ticket (so does the size said, or a tap on the
+//     menu). In the "Until accepted or declined" setting, a card the cashier has not said yet
+//     carries "Please voice the upsell". Under the card: "Earlier", the upsells a hot word or a
+//     better pick replaced (they come back once this one is answered; useAssist.js context
+//     window), and "Best in <section>", the best item for this customer in the menu section the
+//     cashier has open. The footer's card setting (When the card changes) is a POS-styled menu. An
+//     allergy with no substitute (the brain's "notice") is shown as such, with one "Got it" button.
 //   • the TRANSCRIPT — the live partial line and the last few lines heard.
 // All state comes from useAssist().
 
@@ -18,6 +26,7 @@ import { C, fmt } from "../components/posTheme.js"
 import { useDraggable } from "./useDraggable.js"
 import { fullBarUrl } from "./assistSync.js"
 import { VavoomMark } from "../components/ui.jsx"
+import { CARD_MODES } from "./useAssist.js"
 
 const SOURCE_LABEL = {
   ai: "Vavoom AI · from the conversation",
@@ -45,6 +54,13 @@ const btn = (primary) => ({
   border: primary ? "none" : `1px solid ${C.navyBorder}`, background: primary ? C.lime : "transparent",
   color: primary ? C.limeText : C.textSec,
 })
+// The footer's small pills, in the POS's ghost-button style (ui.jsx GhostButton, smaller).
+const pill = {
+  display: "inline-flex", alignItems: "center", gap: 6, height: 26, padding: "0 10px", borderRadius: 999,
+  border: `1px solid ${C.line2}`, background: "transparent", color: C.muted, fontFamily: "inherit",
+  fontSize: 11, fontWeight: 500, letterSpacing: "-0.01em", cursor: "pointer", whiteSpace: "nowrap",
+  transition: "border-color 0.15s, color 0.15s",
+}
 const input = {
   width: "100%", boxSizing: "border-box", padding: "7px 9px", borderRadius: 7, border: `1px solid ${C.navyBorder}`,
   background: C.navy, color: C.text, fontFamily: "inherit", fontSize: 12, outline: "none",
@@ -94,7 +110,7 @@ function UpsellSquare({ a }) {
   // An upsize or a swap (cheese / bacon, an allergy swap) shows the extra cost over the line it replaces.
   const fromPrice = c && (c.kind === "upsize" ? c.entry : c.kind === "swap" ? c.fromEntry : null)
   const basePrice = fromPrice ? (fromPrice.sizes.find(([l]) => l === c.fromSize) || fromPrice.sizes[0])?.[1] || 0 : 0
-  const priceText = c ? (c.kind === "upsize" || c.kind === "swap"
+  const priceText = c ? (c.kind === "notice" ? "" : c.kind === "upsize" || c.kind === "swap"
     ? `+${fmt(Math.max(0, c.price - basePrice))}`
     : c.price === 0 ? "Free" : fmt(c.price)) : ""
   const v = a.voice
@@ -115,11 +131,15 @@ function UpsellSquare({ a }) {
         <div style={{ padding: "6px 12px", borderBottom: `1px solid ${C.navyBorder}`, fontSize: 10.5, color: v.matched ? C.lime : C.textMuted, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
           title={v.matched ? `Voice print ${v.voice_id}: score ${v.score}, tier ${v.tier}` : `New voice print ${v.voice_id}`}>
           {v.matched
-            ? `Returning voice · visit ${(v.visits || 0) + 1}${(v.last_order || []).length ? ` · last time: ${v.last_order.map((x) => x.name).join(", ")}` : ""}`
+            ? `Returning voice · heard ${v.seen || (v.visits || 0) + 1}× before${(v.last_order || []).length ? ` · last time: ${v.last_order.map((x) => x.name).join(", ")}` : ""}`
             : "New voice — no history yet"}
         </div>
       ) : null}
+      {a.auth && a.phase === "active" ? <SizePrompt heard={a.heard} onChoose={a.chooseSize} /> : null}
       <div style={{ padding: 12, minHeight: 120 }}>
+        {a.auth && c && c.state === "pending" && a.cardMode === "hold" && !c.pitched ? (
+          <div style={{ fontSize: 12, fontWeight: 800, color: "#FBBF24", marginBottom: 8 }}>Please voice the upsell</div>
+        ) : null}
         {!a.auth ? <SignIn onSignIn={a.signIn} /> : c ? (
           <>
             <CardTag tag={c.tag} />
@@ -128,7 +148,7 @@ function UpsellSquare({ a }) {
               <div style={{ fontSize: 19, fontWeight: 800, lineHeight: 1.2 }}>{c.title}</div>
               <div style={{ fontSize: 17, fontWeight: 900, color: C.lime }}>{priceText}</div>
             </div>
-            <div style={{ fontSize: 11, color: C.textSec, margin: "6px 0 12px", lineHeight: 1.35 }}>{c.reason}</div>
+            <div style={{ fontSize: 11, color: C.textSec, margin: "6px 0 12px", lineHeight: 1.35 }}>{c.back ? "Back to the upsell from before. " : ""}{c.reason}</div>
             {c.pair ? (
               <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "-4px 0 12px", padding: "7px 9px", borderRadius: 8, background: C.navyCard, border: `1px solid ${C.navyBorder}` }}>
                 <span style={{ fontSize: 10, color: C.textMuted, flexShrink: 0 }}>Goes with it</span>
@@ -139,14 +159,21 @@ function UpsellSquare({ a }) {
                   : <button onClick={() => a.addPair()} style={{ ...btn(false), padding: "3px 8px", fontSize: 11 }}>+ Add</button>}
               </div>
             ) : null}
-            {c.state === "pending" ? (
+            {c.state === "pending" && (c.memory || []).length ? (
+              <div style={{ margin: "-4px 0 12px", fontSize: 10.5, color: C.soft, lineHeight: 1.4 }}>
+                Earlier: <span style={{ color: C.text }}>{c.memory.slice().reverse().join(", ")}</span> · comes back after this one
+              </div>
+            ) : null}
+            {c.state === "pending" && c.kind === "notice" ? (
+              <button onClick={() => a.decline("tapped Got it")} style={{ ...btn(false), width: "100%", padding: "10px 12px", fontSize: 13 }}>Got it</button>
+            ) : c.state === "pending" ? (
               <div style={{ display: "flex", gap: 8 }}>
                 <button onClick={() => a.accept()} style={{ ...btn(true), flex: 1, padding: "10px 12px", fontSize: 13 }}>{c.kind === "upsize" ? "Add upsize" : c.kind === "swap" ? "Swap" : "Add"}</button>
                 <button onClick={() => a.decline()} style={btn(false)}>No thanks</button>
               </div>
             ) : (
               <div style={{ fontSize: 13, fontWeight: 800, color: c.state === "accepted" ? C.success : C.textSec }}>
-                {c.state === "accepted" ? "Added to the ticket ✓" : c.state === "declined" ? "Declined" : "No answer — moving on"}
+                {c.state === "accepted" ? "Added to the ticket ✓" : c.state === "declined" ? "Declined" : c.state === "noted" ? "Noted ✓" : "No answer — moving on"}
               </div>
             )}
           </>
@@ -160,15 +187,102 @@ function UpsellSquare({ a }) {
         )}
       </div>
 
+      {a.auth && a.phase === "active" && a.section ? (
+        <div style={{ padding: "8px 12px 9px", borderTop: `1px solid ${C.navyBorder}` }}>
+          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.faint }}>Best in {a.section.category}</div>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8, marginTop: 3 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{a.section.name}</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: C.accent, flexShrink: 0 }}>{a.section.price ? fmt(a.section.price) : "Free"}</span>
+          </div>
+          <div style={{ fontSize: 10.5, color: C.soft, marginTop: 1 }}>{a.section.why.charAt(0).toUpperCase() + a.section.why.slice(1)}</div>
+        </div>
+      ) : null}
       {a.auth ? (
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "7px 12px", borderTop: `1px solid ${C.navyBorder}`, fontSize: 10, color: C.textMuted }}>
-          <span>{a.offers.length ? `${a.offers.length} shown · ${a.offers.filter((o) => o.outcome === "accepted").length} taken` : "No upsells yet"}</span>
-          <span style={{ display: "flex", gap: 6 }}>
-            <button onClick={() => a.setPresenceOn(!a.presenceOn)} style={{ ...btn(false), padding: "3px 8px", fontSize: 10 }}>{a.presenceOn ? "Camera off" : "Camera on"}</button>
-            {a.phase === "active" ? <button onClick={a.endCustomer} style={{ ...btn(false), padding: "3px 8px", fontSize: 10 }}>End customer</button> : null}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", rowGap: 7, padding: "8px 12px", borderTop: `1px solid ${C.navyBorder}`, fontSize: 10.5, color: C.textMuted }}>
+          <span style={{ whiteSpace: "nowrap", flex: "1 0 100%" }}>{a.offers.length ? `${a.offers.length} shown · ${a.offers.filter((o) => o.outcome === "accepted").length} taken` : "No upsells yet"}</span>
+          <span style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            <button onClick={() => a.setPresenceOn(!a.presenceOn)} style={pill}>{a.presenceOn ? "Camera off" : "Camera on"}</button>
+            <CardModeMenu mode={a.cardMode} onChange={a.setCardMode} />
+            {a.phase === "active" ? <button onClick={a.endCustomer} style={pill}>End customer</button> : null}
           </span>
         </div>
       ) : null}
+    </div>
+  )
+}
+
+/**
+ * When the card changes (useAssist.js CARD_MODES), as a POS-styled menu: a pill with the current
+ * setting's short name that opens a panel above it (the square sits low on the screen), each setting
+ * with its full name and what it does, the chosen one in lime. Closes on a choice, outside, or Escape.
+ */
+function CardModeMenu({ mode, onChange }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+  useEffect(() => {
+    if (!open) return undefined
+    const away = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    const esc = (e) => { if (e.key === "Escape") setOpen(false) }
+    document.addEventListener("pointerdown", away)
+    document.addEventListener("keydown", esc)
+    return () => { document.removeEventListener("pointerdown", away); document.removeEventListener("keydown", esc) }
+  }, [open])
+  const cur = CARD_MODES[mode] || CARD_MODES.dynamic
+  return (
+    <span ref={ref} style={{ position: "relative", display: "inline-flex" }}>
+      <button onClick={() => setOpen((o) => !o)} title="When the upsell on screen changes" aria-haspopup="listbox" aria-expanded={open}
+        style={{ ...pill, borderColor: open ? C.accentLine : C.line2, color: open ? C.white : C.muted }}>
+        <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent, flexShrink: 0 }} />
+        {cur.short || cur.label}
+        <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true" style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform 0.15s" }}>
+          <path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {open ? (
+        <div role="listbox" style={{
+          position: "absolute", bottom: "calc(100% + 8px)", right: 0, width: 248, padding: 6, zIndex: 2,
+          background: C.raised, border: `1px solid ${C.line2}`, borderRadius: 14, boxShadow: "0 14px 40px rgba(0,0,0,0.5)",
+        }}>
+          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.faint, padding: "6px 8px 4px" }}>When the card changes</div>
+          {Object.entries(CARD_MODES).map(([k, m]) => {
+            const on = k === mode
+            return (
+              <button key={k} role="option" aria-selected={on} onClick={() => { onChange(k); setOpen(false) }}
+                style={{
+                  display: "block", width: "100%", textAlign: "left", padding: "8px 10px", marginTop: 2, borderRadius: 10, cursor: "pointer",
+                  border: `1px solid ${on ? C.accentLine : "transparent"}`, background: on ? C.accentSoft : "transparent", fontFamily: "inherit",
+                }}
+                onMouseEnter={(e) => { if (!on) e.currentTarget.style.background = C.surface }}
+                onMouseLeave={(e) => { if (!on) e.currentTarget.style.background = "transparent" }}>
+                <div style={{ fontSize: 12.5, fontWeight: 600, color: on ? C.accent : C.text }}>{m.label}</div>
+                <div style={{ fontSize: 10.5, color: C.soft, lineHeight: 1.35, marginTop: 2 }}>{m.says.charAt(0).toUpperCase() + m.says.slice(1)}.</div>
+              </button>
+            )
+          })}
+        </div>
+      ) : null}
+    </span>
+  )
+}
+
+/** Items heard without a size: ask for it, one button per size (useAssist.js chooseSize). */
+function SizePrompt({ heard, onChoose }) {
+  const waiting = (heard || []).filter((h) => h.needsSize)
+  if (!waiting.length) return null
+  return (
+    <div style={{ padding: "9px 12px", borderBottom: `1px solid ${C.navyBorder}`, background: "#F59E0B14" }}>
+      {waiting.map((h) => (
+        <div key={h.id} style={{ marginBottom: 6 }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: "#FBBF24", marginBottom: 5 }}>
+            Ask the size: {h.qty > 1 ? `${h.qty}× ` : ""}{h.name}, {h.sizes.join(" or ")}?
+          </div>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {h.sizes.map((l) => (
+              <button key={l} onClick={() => onChoose(h.id, l)} style={{ ...btn(false), padding: "4px 10px", fontSize: 11 }}>{l}</button>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

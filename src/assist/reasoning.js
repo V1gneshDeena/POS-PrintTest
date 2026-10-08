@@ -7,10 +7,11 @@
 // brain's trace (ranked options with their history / fit / bestseller / price scores, and the
 // model's own one-line read) and the answers to each card. useAssist.js calls these and publishes
 //   { now: { memory, health, history, plan }, timeline: [{ at, kind, text }], last }
+// (`plan` is when it pitches next: pitchNote(); there is no set number of upsells)
 // where `now` is what it is weighing at this moment (updated in place), `timeline` is what happened
 // this visit, and `last` is the previous visit's, kept on screen after payment.
 import KB from "../data/menu-kb.json"
-import { roleOf } from "./menuIndex.js"
+import { INDEX, roleOf } from "./menuIndex.js"
 
 const fmt = (n) => `$${Number(n || 0).toFixed(2)}`
 const list = (xs) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`)
@@ -75,40 +76,40 @@ export function openSlots(cart) {
 }
 
 /**
- * How many upsells suit this visit (the engine's plan; it does not yet cap the cards). It starts
- * from the open parts of the meal, rises for a group, a receptive customer or a returning one who
- * bought a full meal before, and drops to one for a hurry, a price-conscious or health-minded
- * customer or a closing order. Two no's in a row end it.
+ * When it pitches (David, 2026-10-08: no set number, "let it just be triggered on the
+ * conversation"; "always attempt to upsize most of the time"). Pitching stays open while the
+ * conversation gives openings; it is paused after a complaint, quiet after two no's in a row until
+ * the customer opens a new door (orders something, or says something a hot key answers), and done
+ * once the order is closed and the last small offer answered. The next opening is a size-up of
+ * something the customer ordered, then the open parts of the meal.
  */
-export function upsellPlan({ cart, effects, constraints, offers, voice, brainHealth }) {
-  const why = []
-  const slots = openSlots(cart)
-  let n
-  if (slots === null) { n = 2; why.push("no main on the ticket yet, so the plan waits for the order") }
-  else if (!slots.length) { n = 1; why.push("the meal is complete (main, side, drink and shake)") }
-  else { n = slots.length; why.push(`${slots.length} part${slots.length > 1 ? "s" : ""} of the meal still open: ${list(slots)}`) }
+export function pitchNote({ cart, offers, effects, constraints, lastOpeningAt, pausedUntil, t, brainHealth }) {
   const answered = offers.filter((o) => o.outcome === "accepted" || o.outcome === "declined")
   const yes = answered.filter((o) => o.outcome === "accepted").length
-  if (effects.has("group")) { n += 1; why.push("ordering for others: room for a second item") }
-  if (yes > 0) { n += 1; why.push(`said yes ${yes === 1 ? "once" : `${yes} times`} already: receptive`) }
-  if (voice?.matched && (voice.last_order || []).length >= 3) { n += 1; why.push("a returning customer who bought a full meal last time") }
-  const capped = []
-  if (effects.has("quick")) capped.push("in a hurry")
-  if (effects.has("value")) capped.push("price-conscious")
-  if (constraints.includes("health") || (brainHealth != null && brainHealth >= 0.6)) capped.push("health-minded")
-  if (effects.has("closing")) capped.push("closing the order")
-  if (capped.length) { n = 1; why.push(`${list(capped)}: one small, well-chosen add-on only`) }
-  n = Math.max(1, Math.min(3, n))
-  let last2 = 0
-  for (const o of [...answered].reverse()) { if (o.outcome === "declined") last2 += 1; else break }
-  const shown = offers.length
-  const stop = last2 >= 2
-  if (stop) why.push("two no's in a row: stop asking")
-  const left = stop ? 0 : Math.max(0, n - shown)
-  return {
-    n, left,
-    text: `Plan: about ${n} upsell${n > 1 ? "s" : ""} for this visit (${shown} shown, ${yes} accepted${stop ? "; stopping" : left ? `, ${left} to go` : "; done"}). Why: ${why.join("; ")}.`,
+  const lastTwo = answered.slice(-2)
+  const quiet = lastTwo.length === 2 && lastTwo.every((o) => o.outcome === "declined")
+    && (lastOpeningAt || 0) <= Math.max(...lastTwo.map((o) => o.answeredAt || 0))
+  const closed = effects.has("closing") && offers.some((o) => o.atCheckout && o.outcome)
+  let status
+  if (pausedUntil > t) status = "Paused for a minute after a complaint: the order gets fixed first."
+  else if (closed) status = "Done: the customer closed the order and answered the last small offer."
+  else if (quiet) status = "Quiet: two no's in a row, so it waits for the customer to open a new door (order something, or say something a hot word answers)."
+  else {
+    const healthMinded = constraints.includes("health") || (brainHealth != null && brainHealth >= 0.6)
+    const upsizeNo = offers.some((o) => o.kind === "upsize" && o.outcome === "declined")
+    const up = healthMinded || upsizeNo ? null : cart.find((l) => {
+      const e = INDEX.entries.find((x) => x.id === l.item.id)
+      const i = e ? e.sizes.findIndex(([x]) => x === l.size) : -1
+      return i >= 0 && i < e.sizes.length - 1 && !((l.via?.upsell || 0) >= l.count) && e.role !== "other"
+    })
+    const slots = openSlots(cart)
+    const next = up ? `the size-up of the ${up.size} ${up.item.name}, the lowest-hanging fruit`
+      : slots === null ? "the order itself, once the customer names a main"
+      : slots.length ? `${list(slots)}${upsizeNo ? " (no more size-ups: one was turned down)" : healthMinded ? " (no size-ups: health-minded)" : ""}`
+      : "nothing on the ladder; only something the customer says opens a new pitch"
+    status = `Open: next is ${next}.`
   }
+  return `Pitching follows the conversation, with no set number: ${offers.length} shown so far, ${yes} accepted. ${status}`
 }
 
 const SOURCE_SAYS = {
@@ -144,7 +145,8 @@ export function memoryNote(voice, { listening }) {
   if (voice.error) return `Voice print unavailable (${voice.error}); this visit is not linked to anyone.`
   if (voice.matched) {
     const last = (voice.last_order || []).map((x) => `${x.qty > 1 ? `${x.qty}× ` : ""}${x.name}`)
-    return `Customer remembered: their voice matches a stored voice print (similarity ${voice.score}, tier ${voice.tier}). This is visit ${(voice.visits || 0) + 1}. Looking at what they ordered before: ${last.length ? list(last) : "no completed order on record yet"}.`
+    const seen = voice.seen || (voice.visits || 0) + 1
+    return `Customer remembered: their voice matches a stored voice print (similarity ${voice.score}, tier ${voice.tier}). Heard ${seen === 1 ? "once" : `${seen} times`} before, ${voice.visits ? `${voice.visits} paid order${voice.visits === 1 ? "" : "s"}` : "no paid order yet"}. Looking at what they ordered before: ${last.length ? list(last) : "no completed order on record yet"}.`
   }
   return `Don't know who this customer is: no stored voice was close enough${voice.score != null ? ` (best ${voice.score}; a match needs 0.5)` : ""}. Made a new anonymous voice print ${voice.voice_id}; this visit will be added to memory under it. No name is stored.`
 }

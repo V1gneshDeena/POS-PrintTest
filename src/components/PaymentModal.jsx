@@ -25,7 +25,7 @@ export default function PaymentModal({ subtotal, discount = 0, tax, total, onClo
       onClick={onClose}
       style={{
         position: "fixed", inset: 0, background: "rgba(5,7,10,0.72)", backdropFilter: "blur(4px)",
-        display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200, padding: 24,
+        display: "flex", alignItems: "center", justifyContent: "center", zIndex: 300, padding: 24,
       }}
     >
       <div

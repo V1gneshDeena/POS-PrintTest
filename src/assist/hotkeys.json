@@ -11,7 +11,8 @@
     "Speaker labels in that data bleed between operator and customer, so no hot key depends",
     "on who said it; the wording carries that (an operator says 'we're out of').",
     "`timing_rules` holds rules that are not phrases (the 3-second patience rule), applied by useAssist.js.",
-    "On the demo POS these are the upsell engine's guidelines: a hot key's response outranks basket completion, the AI's pick and screen behaviour (upsellEngine.js)."
+    "On the demo POS these are the upsell engine's guidelines: a hot key's response outranks basket completion, the AI's pick and screen behaviour (upsellEngine.js).",
+    "`skip_in_item_names`: the key does not fire on words that are part of a menu item the line names (\"a veggie sandwich\" is the order, not a customer open to food; David, 2026-10-08). The POS's hotkeys.js honours it; the GPU-side readers (the demopos brain and meaning layer) ignore it, and neither acts on Wants food."
   ],
   "hotkeys": [
     {
@@ -273,7 +274,7 @@
       ],
       "meaning": "Price matters",
       "effect": "value",
-      "action": "No upsizes; low-priced add-ons framed as value",
+      "action": "A size-up said as \"only $X more\"; low-priced add-ons framed as value",
       "evidence": {
         "aug": 0.035,
         "sep_oct": 0.013
@@ -373,6 +374,7 @@
         "\\bpastr(?:y|ies)\\b",
         "\\bsnack\\b"
       ],
+      "skip_in_item_names": true,
       "meaning": "Open to food",
       "effect": "food",
       "action": "Pitch food before drink add-ons",
@@ -565,9 +567,9 @@
     {
       "key": "impatient",
       "label": "Not patient",
-      "rule": "The customer's first order line comes within 3 s of the customer session opening (counter presence, a greeting, the cashier's first tap or Start). Not judged when the order itself opened the session.",
+      "rule": "The customer's first order line comes within 3 s of the customer walking up (counter presence opened the session). Not judged when a greeting, a tap, Start or the order itself opened it: answering the greeting within 3 s is the normal pace.",
       "effect": "quick",
-      "action": "Short pitch only: no upsizes, cheap ready items first",
+      "action": "Short pitch only: a quick size-up or a cheap ready item first",
       "window_ms": 3000
     }
   ]

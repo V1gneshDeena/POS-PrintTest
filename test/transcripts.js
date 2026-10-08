@@ -1,4 +1,4 @@
-// 25 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 41 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -12,11 +12,18 @@
 //   { at, pay: true }               payment completed (ends the customer session)
 //   { at, brain: {...} }            the upsell brain's answer (brain_upsell) to the POS's latest request
 //   { at, voice: {...} }            the voice print's answer (voice_match)
+//   { at, whisper: [{ name, quantity }] }  whisper's running order (order_update)
+//   { at, choose: [name, size] }    the cashier picks a size on the upsell square's size prompt
+//   { at, clear: true }             the cashier presses Clear (the ticket empties; the visit ends)
+//   { at, section: "Drinks" }       the cashier opens a menu section (category_view)
 //
 // checks: [description, (r) => boolean]. `r` is what happened (see run-transcripts.mjs):
 //   r.customers[i] = { cards, ticket, fired }, with r.c = r.customers[0] for one-customer runs.
-//   cards: [{ title, tag, source, reason, outcome, via }] in the order shown.
+//   cards: [{ title, tag, source, reason, outcome, via, back, memory, pitchedSec }] in the order shown;
+//   back = brought back by the context window, memory = the remembered titles shown under it,
+//   pitchedSec = when the cashier said it. sections: the "Best in <section>" hints shown.
 //   ticket: what was on the ticket when it was paid ["2× Cheeseburger (Regular)", ...].
+//   waiting: items heard without a size and still waiting for one at payment ["Cheeseburger"].
 //   receipt: the visit's record (voice, transcript with roles, upsells with why / said / outcome);
 //   roles: whose each line was, as marked for the voice print; brainRequests: how many were sent.
 //   reasoning: how it decided (reasoning.js), the steps [{ kind, text }]; reasoningNow: { memory,
@@ -46,7 +53,7 @@ export const TRANSCRIPTS = [
       ["the upsize to a Regular is offered first and accepted", (r) => card(r.c, "Regular Cheeseburger", "accepted")],
       ["the ticket has one Regular Cheeseburger, no Little", (r) => has(r.c, "1× Cheeseburger (Regular)") && !r.c.ticket.some((l) => /Little/.test(l))],
       ["fries are offered next and declined", (r) => card(r.c, "Fries", "declined")],
-      ["how it decided: a plan for how many upsells, each card explained, the visit added to memory", (r) => /^Plan: about \d upsell/.test(r.c.reasoningNow.plan)
+      ["how it decided: when it pitches (no set number), each card explained, the visit added to memory", (r) => /^Pitching follows the conversation, with no set number/.test(r.c.reasoningNow.plan)
         && r.c.reasoning.filter((x) => x.kind === "pick").length >= 2 && r.c.reasoning.some((x) => x.kind === "memory" && /Adding this transaction to memory/.test(x.text))],
       ["\"No thanks, that's it\" ends the upselling: no card after it", (r) => !r.c.cards.some((x) => x.atSec >= 22)],
     ],
@@ -266,7 +273,7 @@ export const TRANSCRIPTS = [
     ],
     checks: [
       ["Not patient fired", (r) => fired(r.c, "impatient")],
-      ["no upsize is offered", (r) => !r.c.cards.some((x) => x.source === "upsize")],
+      ["a quick size-up is still offered first (upsize most of the time), and the no is taken", (r) => r.c.cards[0]?.source === "upsize" && r.c.cards[0]?.outcome === "declined"],
     ],
   },
   {
@@ -314,7 +321,7 @@ export const TRANSCRIPTS = [
     ],
   },
   {
-    id: 18, title: "In a hurry: no upsize",
+    id: 18, title: "In a hurry: the size-up is still offered first",
     steps: [
       { at: 0, who: "O", say: "Hey, welcome in" },
       { at: 3, who: "C", say: "I'm in a rush, just a little hamburger" },
@@ -323,7 +330,7 @@ export const TRANSCRIPTS = [
     ],
     checks: [
       ["the hurry hot key fired", (r) => fired(r.c, "time_pressure")],
-      ["no upsize is offered", (r) => !r.c.cards.some((x) => x.source === "upsize")],
+      ["the size-up is offered first even in a hurry (upsize most of the time)", (r) => r.c.cards[0]?.source === "upsize"],
     ],
   },
   {
@@ -444,6 +451,251 @@ export const TRANSCRIPTS = [
     checks: [
       ["the out-of-stock substitute was on screen first", (r) => !!tagged(r.c, "Closest substitute")],
       ["the allergy card replaced it", (r) => tagged(r.c, "Closest substitute")?.outcome === "replaced" && !!tagged(r.c, "Allergy: no milk")],
+    ],
+  },
+  {
+    id: 29, title: "Ordering a Veggie Sandwich completes the basket, not another food item",
+    // David, 2026-10-08 (live): "ordered a veggie sandwich and it offered me another food item instead
+    // of drink … it should be looking at the basket and trying to complete whatever's in the cart".
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "Can I get a veggie sandwich" },
+      { at: 12, pay: true },
+    ],
+    checks: [
+      ["\"sandwich\" in the order does not fire Wants food", (r) => !fired(r.c, "food_intent")],
+      ["the first card completes the basket (a side, a drink or a size-up), not another main", (r) => r.c.cards[0] && !/sandwich|burger|dog|melt|grilled cheese|blt/i.test(r.c.cards[0].title)],
+    ],
+  },
+  // ── Tapped orders drive the cards the same way spoken ones do (David, 2026-10-08 live: "it's also not
+  // suggesting based on clicked order as well, only voiced orders") ──
+  {
+    id: 30, title: "Tap only, nothing said: the tap opens the visit and a card follows",
+    steps: [
+      { at: 2, tap: "Cheeseburger", size: "Regular" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["a card is shown within a second of the tap", (r) => r.c.cards[0] && r.c.cards[0].atSec <= 3],
+      ["the brain is asked about the tapped order", (r) => r.c.brainRequests >= 1],
+    ],
+  },
+  {
+    id: 31, title: "Greeting, then the cashier taps the order: a card follows the tap",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 6, tap: "Bacon Cheeseburger", size: "Regular" },
+      { at: 9, tap: "Cajun Fries", size: "Regular" },
+      { at: 30, pay: true },
+    ],
+    checks: [
+      ["a card is shown within a second of the first tap", (r) => r.c.cards[0] && r.c.cards[0].atSec >= 6 && r.c.cards[0].atSec <= 7],
+      ["tapping another side (Cajun Fries) takes the Fries card down at once, not after 25 s of silence", (r) => r.c.cards[0]?.title === "Fries" && ["replaced", "taken down"].includes(r.c.cards[0].outcome) && r.c.cards.some((x) => x.atSec >= 9 && x.atSec <= 10)],
+    ],
+  },
+  {
+    id: 32, title: "Clear starts a new visit: what was declined before no longer blocks the new order",
+    steps: [
+      { at: 2, tap: "Cheeseburger", size: "Regular" },
+      { at: 4, press: "no" },
+      { at: 8, clear: true },
+      { at: 10, tap: "Hamburger", size: "Regular" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["Fries is offered again for the new order", (r) => r.c.cards.some((x) => x.title === "Fries" && x.atSec >= 10)],
+    ],
+  },
+  {
+    id: 41, title: "Allergic with no substitute: the square says so, and Got it notes it (not a decline)",
+    // David, 2026-10-08: "If a customer says he is allergic to a specific item but there are no substitutes
+    // … say you don't have a substitute on the modal".
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A milkshake please, but I'm allergic to dairy" },
+      { at: 6, brain: { name: "Hand-Spun Milkshake", item: "No substitute for the Hand-Spun Milkshake", kind: "notice", size: "each", price: 0,
+        tag: "Allergy: no substitute", framing: "Sorry, we don't have a Hand-Spun Milkshake without milk, and nothing like it that's safe for you." } },
+      { at: 9, press: "no" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the notice is on the square", (r) => tagged(r.c, "Allergy: no substitute")?.title === "No substitute for the Hand-Spun Milkshake"],
+      ["Got it notes it, it is not declined", (r) => tagged(r.c, "Allergy: no substitute")?.outcome === "noted"],
+      ["the milkshake stays on the ticket (the cashier decides)", (r) => r.c.ticket.some((l) => /Milkshake/.test(l))],
+    ],
+  },
+  // ── When the card changes: the operator's setting (useAssist.js CARD_MODES) ──
+  // Each setting proved to change the engine's behaviour, not only the menu (David, 2026-10-08: "ensure
+  // the model actually follows it and it is not for show"), and the context window: a card a hot word
+  // replaced comes back once the new one is answered (David: "it remembers the original upsell").
+  {
+    id: 33, title: "Dynamic: a hot word replaces the card, and the original comes back after it is answered",
+    setup: { cardMode: "dynamic" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 8, who: "C", say: "It's so hot out today" },
+      { at: 12, press: "no" },
+      { at: 24, pay: true },
+    ],
+    checks: [
+      ["Fries is up first, then the hot word's card replaces it", (r) => r.c.cards[0]?.title === "Fries" && tagged(r.c, "Something cold")?.atSec >= 8],
+      ["the hot word's card shows Fries as remembered", (r) => (tagged(r.c, "Something cold")?.memory || []).includes("Fries")],
+      ["after the no, Fries comes back", (r) => r.c.cards.some((x) => x.title === "Fries" && x.back && x.atSec >= 12)],
+    ],
+  },
+  {
+    id: 34, title: "On new trigger: the same, and no 25 s silence timeout in between",
+    setup: { cardMode: "trigger" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 8, who: "C", say: "It's so hot out today" },
+      { at: 50, press: "no" },
+      { at: 60, pay: true },
+    ],
+    checks: [
+      ["the hot word's card stays through 40 s of silence", (r) => tagged(r.c, "Something cold")?.outcome === "declined" && tagged(r.c, "Something cold")?.endSec >= 50],
+      ["after the no, Fries comes back", (r) => r.c.cards.some((x) => x.title === "Fries" && x.back && x.atSec >= 50)],
+    ],
+  },
+  {
+    id: 35, title: "Until accepted or declined: hot words and taps wait, the card asks to be voiced until it is said",
+    setup: { cardMode: "hold" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 8, who: "C", say: "It's so hot out today" },
+      { at: 10, section: "Shakes" },
+      { at: 40, who: "O", say: "Do you want fries with that?" },
+      { at: 42, who: "C", say: "No thanks" },
+      { at: 50, pay: true },
+    ],
+    checks: [
+      ["Fries stays up through the hot word and 36 s of silence, then is declined", (r) => r.c.cards[0]?.title === "Fries" && r.c.cards[0].outcome === "declined" && r.c.cards[0].endSec >= 42],
+      ["it counted as said only when the cashier said it", (r) => r.c.cards[0]?.pitchedSec >= 40],
+      ["nothing was remembered (nothing was replaced)", (r) => !r.c.cards.some((x) => x.back || (x.memory || []).length)],
+    ],
+  },
+  {
+    id: 36, title: "Dynamic: the brain's card replaced by a hot word comes back after it",
+    setup: { cardMode: "dynamic" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 6, brain: { name: "Bacon Cheeseburger", item: "Bacon Cheeseburger", kind: "upgrade", from: "Cheeseburger", size: "Regular", price: 17.21,
+        framing: "Make it a Bacon Cheeseburger for $1.11 more?", reason: "topping upgrade" } },
+      { at: 9, who: "C", say: "It's so hot out today" },
+      { at: 12, press: "no" },
+      { at: 24, pay: true },
+    ],
+    checks: [
+      ["the brain's Bacon Cheeseburger is up first", (r) => r.c.cards.find((x) => x.source === "brain")?.title === "Bacon Cheeseburger"],
+      ["after the hot word's card is declined, the Bacon Cheeseburger comes back", (r) => r.c.cards.some((x) => x.title === "Bacon Cheeseburger" && x.back && x.atSec >= 12)],
+    ],
+  },
+  {
+    id: 40, title: "An allergy answer clears the context window: what was picked before it does not come back",
+    setup: { cardMode: "dynamic" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 6, brain: { name: "Bacon Cheeseburger", item: "Bacon Cheeseburger", kind: "upgrade", from: "Cheeseburger", size: "Regular", price: 17.21,
+        framing: "Make it a Bacon Cheeseburger for $1.11 more?", reason: "topping upgrade" } },
+      { at: 9, brain: { name: "Lettuce Wrap (no bun)", item: "Lettuce Wrap (no bun)", kind: "add", size: "each", price: 0, tag: "Allergy: no sesame",
+        framing: "I can do it in a lettuce wrap so there's no sesame. Want that?", reason: "sesame allergy" } },
+      { at: 12, press: "no" },
+      { at: 24, pay: true },
+    ],
+    checks: [
+      ["the Bacon Cheeseburger does not come back after the allergy answer", (r) => !r.c.cards.some((x) => x.back)],
+    ],
+  },
+  {
+    id: 37, title: "\"No thanks, and take off the fries\" after the cashier said the card: declined, and the fries come off",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger and a regular fries please" },
+      { at: 8, who: "O", say: "Would you like a drink with that?" },
+      { at: 10, who: "C", say: "No thanks, and take off the fries" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the drink card is declined", (r) => r.c.cards.some((x) => /drink/i.test(x.title) && x.outcome === "declined")],
+      ["the fries came off", (r) => !r.c.ticket.some((l) => /Fries/.test(l))],
+      ["no side is pitched back after it", (r) => !r.c.cards.some((x) => x.atSec >= 10 && /Fries|Poutine/.test(x.title))],
+    ],
+  },
+  {
+    id: 38, title: "The same line before the cashier said the card: only the fries come off",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger and a regular fries please" },
+      { at: 10, who: "C", say: "No thanks, and take off the fries" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the card is not declined", (r) => !r.c.cards.some((x) => x.outcome === "declined")],
+      ["the fries came off", (r) => !r.c.ticket.some((l) => /Fries/.test(l))],
+      ["no side is pitched back after it", (r) => !r.c.cards.some((x) => x.atSec >= 10 && /Fries|Poutine/.test(x.title))],
+    ],
+  },
+  {
+    id: 39, title: "Best in this section: the cashier opens Drinks for a returning customer who had water last time",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 6, voice: { voice_id: "V0water1", matched: true, score: 0.91, tier: 0.9, visits: 3, last_order: [{ name: "Bottled Water", size: "each", qty: 1 }] } },
+      { at: 8, section: "Drinks" },
+      { at: 12, section: "Shakes" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["Drinks: the Bottled Water, what they had last time", (r) => r.c.sections.some((x) => x.category === "Drinks" && x.name === "Bottled Water" && /last time/.test(x.why))],
+      ["Shakes: the milkshake", (r) => r.c.sections.some((x) => x.category === "Shakes" && /Milkshake/.test(x.name))],
+    ],
+  },
+  {
+    id: 26, title: "Card setting Dynamic: silence lets the card lapse",
+    setup: { cardMode: "dynamic" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 40, pay: true },
+    ],
+    checks: [
+      ["the first card lapses after 25 s of silence", (r) => r.c.cards[0]?.outcome === "lapsed"],
+      ["the next card follows it", (r) => r.c.cards.length >= 2 && r.c.cards[1].atSec > 29],
+    ],
+  },
+  {
+    id: 27, title: "Card setting On new trigger: silence keeps the card, a hot word changes it",
+    setup: { cardMode: "trigger" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 34, who: "C", say: "It's so hot out today" },
+      { at: 40, pay: true },
+    ],
+    checks: [
+      ["30 s of silence does not change the card", (r) => r.c.cards[0]?.outcome !== "lapsed" && !r.c.cards.some((x) => x.atSec > 5 && x.atSec < 34)],
+      ["the hot word brings Something cold", (r) => tagged(r.c, "Something cold")?.atSec >= 34],
+    ],
+  },
+  {
+    id: 28, title: "Card setting Until accepted or declined: a hot word waits until the card is answered",
+    setup: { cardMode: "hold" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 8, who: "C", say: "It's so hot out today" },
+      { at: 12, who: "O", say: "Want fries with that?" },
+      { at: 14, who: "C", say: "No thanks" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the first card is held through the hot word and answered", (r) => card(r.c, "Fries", "declined")],
+      ["Something cold comes after the answer, not before", (r) => tagged(r.c, "Something cold")?.atSec >= 14],
     ],
   },
 ]

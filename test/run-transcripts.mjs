@@ -1,4 +1,4 @@
-// Runs the counter transactions in transcripts.js (25) through the real Vavoom Assist engine
+// Runs the counter transactions in transcripts.js (41) through the real Vavoom Assist engine
 // (useAssist.js createEngine, with upsellEngine, the hot keys, the order parser and the reply
 // classifier), on the burger menu, and writes what happened to transcript-results.md.
 //
@@ -17,6 +17,8 @@
 //   • the upsell brain and voice prints: a `brain` step answers the POS's latest request with a
 //     brain_upsell message and a `voice` step delivers a voice_match, exactly as the speech bridge
 //     would; the requests the POS sends and the line roles it marks are recorded.
+//   • --set edits runs test/order-edits.js instead: order changes said 60 ways (take it off, swap it,
+//     lines that only sound like a change) and auto-picked orders; report test/order-edits-results.md.
 //   • how it decided (reasoning.js): each customer's reasoning (what it weighed at payment and the
 //     timeline of steps, including the visit going into memory) is recorded and printed under the
 //     transaction in the report.
@@ -26,6 +28,13 @@
 //     "previous line␞line"); without it the POS sends no meaning requests, as on Gregory's menu.
 //       npm run test:transcripts -- --meaning test/meaning-demo.json
 //     writes test/transcript-results-meaning.md.
+//   • --set pressure runs test/pressure.js: 100 generated transactions across the board, each checked
+//     against rules that must always hold (nothing rung up that nobody ordered, no card for what is on
+//     the ticket, taken off, out or holding a stated allergen, the card setting obeyed…); report
+//     test/pressure-results.md.
+//   • --live URL sends the POS's brain and meaning requests to the real demopos gateway (an SSH tunnel to
+//     gpu-setup's :8024, e.g. ssh -N -L 18124:127.0.0.1:8024 …) with curl, and delivers each answer 550 ms
+//     (brain) or 60 ms (meaning) later in simulated time; the real round trips are reported.
 // Not simulated: the microphone, the speech bridge and whisper itself (lines arrive as text),
 // whisper's own AI pick, the GPU-box brain's own decision (tested on the box), and the screen.
 
@@ -33,13 +42,32 @@ import "./shim.mjs"
 import { readFileSync, writeFileSync } from "node:fs"
 import { createEngine } from "../src/assist/useAssist.js"
 import { INDEX, defaultSize } from "../src/assist/menuIndex.js"
-import { TRANSCRIPTS } from "./transcripts.js"
+import { TRANSCRIPTS as MAIN } from "./transcripts.js"
+import { TRANSCRIPTS as EDITS } from "./order-edits.js"
+import { TRANSCRIPTS as PRESSURE } from "./pressure.js"
+import { execFileSync } from "node:child_process"
 
 const ARGS = process.argv.slice(2)
 const MEANING_FILE = ARGS.includes("--meaning") ? ARGS[ARGS.indexOf("--meaning") + 1] : ""
 const MEANING = MEANING_FILE ? JSON.parse(readFileSync(MEANING_FILE, "utf8")) : null
-const OUT = ARGS.find((a, i) => !a.startsWith("--") && ARGS[i - 1] !== "--meaning")
-  || (MEANING ? "test/transcript-results-meaning.md" : "test/transcript-results.md")
+const SET = ARGS.includes("--set") ? ARGS[ARGS.indexOf("--set") + 1] : "main"
+const LIVE = ARGS.includes("--live") ? ARGS[ARGS.indexOf("--live") + 1].replace(/\/+$/, "") : ""
+const TRANSCRIPTS = SET === "edits" ? EDITS : SET === "pressure" ? PRESSURE : MAIN
+const OUT = ARGS.find((a, i) => !a.startsWith("--") && !["--meaning", "--set", "--live"].includes(ARGS[i - 1]))
+  || `test/${SET === "edits" ? "order-edits-results" : SET === "pressure" ? "pressure-results" : "transcript-results"}${MEANING ? "-meaning" : ""}${LIVE ? "-live" : ""}.md`
+// The live gateway, synchronously (curl), so the simulated clock stays in charge; real milliseconds kept.
+const liveLatency = { brain: [], meaning: [] }
+function live(path, body, kind) {
+  const t0 = performance.now()
+  try {
+    const out = execFileSync("curl", ["-s", "-m", "8", "-X", "POST", "-H", "content-type: application/json", "--data-binary", "@-", `${LIVE}${path}`],
+      { input: JSON.stringify(body), encoding: "utf8" })
+    liveLatency[kind].push(performance.now() - t0)
+    return JSON.parse(out)
+  } catch (e) {
+    return { error: String(e.message || e).slice(0, 100) }
+  }
+}
 const meaningFor = (prev, text) => MEANING[`${prev}␞${text}`]
   || Object.entries(MEANING).find(([k]) => k.endsWith(`␞${text}`))?.[1] || []
 const T0 = Date.UTC(2026, 9, 8, 16, 0, 0)
@@ -79,16 +107,33 @@ async function run(tr) {
     let rec = cards.find((x) => x.key === c.key && x.shownAt === c.shownAt)
     if (!rec) {
       if (lastCard && lastCard.outcome == null) lastCard.outcome = "replaced"
-      rec = { key: c.key, shownAt: c.shownAt, atSec: sec(), title: c.title, tag: c.tag || "", source: c.source, reason: c.reason, pair: c.pair?.entry?.name || "", outcome: null, via: "" }
+      rec = { key: c.key, shownAt: c.shownAt, atSec: sec(), title: c.title, tag: c.tag || "", source: c.source, reason: c.reason, pair: c.pair?.entry?.name || "", outcome: null, via: "",
+        back: !!c.back, memory: [], entry: c.entry?.name || "", kind: c.kind, size: c.size || "", fromSize: c.fromSize || "",
+        from: c.fromEntry?.name || "", also: c.alsoEntry?.name || "", mode: E_ref.E?.st.cardMode || "", ticketAtShow: (base_ref.cart || []).map((l) => l.item.name) }
       cards.push(rec)
     }
+    if (c.pitched && !rec.pitchedSec) rec.pitchedSec = sec() // when the cashier said it (the square stops asking to voice it)
+    for (const m of c.memory || []) if (!rec.memory.includes(m)) rec.memory.push(m) // the context window shown under it
     if (c.state && c.state !== "pending" && rec.outcome == null) { rec.outcome = c.state; rec.via = c.via || ""; rec.endSec = sec() }
     lastCard = rec
   }
   const set = {}
   const brainRequests = []
   const roles = []
-  set.requestBrain = (req) => brainRequests.push(req)
+  const errors = []
+  const LIVE_ROOM = `probe-pressure-${tr.id}`
+  set.requestBrain = (req) => {
+    brainRequests.push(req)
+    if (!LIVE) return
+    const ans = live("/v1/upsell", { demo: LIVE_ROOM, transcript: req.transcript, context: { ...req.context, voice: engineRef.E.st.voice || null } }, "brain")
+    setTimeout(() => engineRef.E.handleBrain({ req_id: req.req_id, round_trip_ms: Math.round(liveLatency.brain.at(-1) || 0), ...ans }), 550)
+  }
+  if (LIVE) {
+    set.requestMeaning = (req) => {
+      const ans = live("/v1/meaning", { demo: LIVE_ROOM, text: req.text, prev: req.prev, exact: req.exact }, "meaning")
+      setTimeout(() => engineRef.E.handleMeaning({ req_id: req.req_id, ...ans }), 60)
+    }
+  }
   set.voiceLine = (role) => roles.push(role)
   if (MEANING) {
     set.requestMeaning = (req) => {
@@ -96,9 +141,11 @@ async function run(tr) {
       setTimeout(() => engineRef.E.handleMeaning({ req_id: req.req_id, hits, near: [], ms: 3, round_trip_ms: 120 }), 120)
     }
   }
-  for (const k of Object.keys(state).concat(["phase", "trigger", "aiNote", "customerName", "voice", "brain", "reasoning"])) {
+  let sections = [] // the "Best in <section>" hints shown, in order
+  for (const k of Object.keys(state).concat(["phase", "trigger", "aiNote", "customerName", "voice", "brain", "reasoning", "section"])) {
     set[k] = (v) => {
       state[k] = typeof v === "function" ? v(state[k]) : v
+      if (k === "section" && state.section) sections.push({ ...state.section, atSec: sec() })
       if (k === "card") recordCard(state.card)
       if (k === "events") note(state.events[0].text)
     }
@@ -106,7 +153,9 @@ async function run(tr) {
 
   // The POS.
   const engineRef = {}
+  const E_ref = engineRef
   const pos = { cart: [] }
+  const base_ref = pos
   let pending = null
   const base = () => pending || pos.cart
   const render = () => {
@@ -148,6 +197,7 @@ async function run(tr) {
   const posRef = { current: pos }
   const E = createEngine(set, posRef)
   engineRef.E = E
+  if (tr.setup?.cardMode) E.setCardMode(tr.setup.cardMode)
 
   async function advanceTo(ms) {
     while (NOW < ms) {
@@ -161,7 +211,11 @@ async function run(tr) {
   }
 
   const customers = []
-  for (const step of tr.steps) {
+  const steps = tr.steps
+  for (const step of steps) {
+    try { await runStep(step) } catch (e) { errors.push(`${step.at}s: ${String(e.stack || e).split("\n").slice(0, 3).join(" | ")}`); note(`ENGINE ERROR: ${e.message}`) }
+  }
+  async function runStep(step) {
     await advanceTo(T0 + step.at * 1000)
     if (step.say) {
       note(`${step.who === "O" ? "Operator" : "Customer"}: “${step.say}”`, "line")
@@ -181,6 +235,29 @@ async function run(tr) {
       const req = brainRequests[brainRequests.length - 1]
       note(`Upsell brain answers: ${step.brain.item || step.brain.name} — ${step.brain.framing || ""}`, "line")
       E.handleBrain({ req_id: req ? req.req_id : -1, latency_ms: 480, round_trip_ms: 530, framer: "qwen3-14b", ...step.brain })
+    } else if (step.pitch) {
+      // The cashier says the card on screen (or, with none, asks if there is anything else).
+      const c = E.st.card
+      const text = c && c.state === "pending" ? `Would you like ${c.kind === "upsize" ? `to make it a ${c.size}` : `the ${c.entry?.name || c.title}`}?` : "Anything else for you today?"
+      note(`Operator: “${text}”`, "line")
+      E.handleFinal(text)
+    } else if (step.section) {
+      note(`Cashier opens ${step.section}`, "line")
+      E.onActivityEvent({ type: "category_view", category: step.section, at: NOW })
+    } else if (step.clear) {
+      // The POS's Clear: the ticket empties and, as useAssist's listener does, the visit ends.
+      note("Cashier presses Clear", "line")
+      pos.cart = []
+      pending = null
+      E.onActivityEvent({ type: "clear", at: NOW })
+      E.endCustomer("ticket cleared", null)
+    } else if (step.choose) {
+      const [name, size] = step.choose
+      note(`Cashier picks ${size} for ${name} on the size prompt`, "line")
+      E.chooseSize(byName(name).id, size)
+    } else if (step.whisper) {
+      note(`Whisper's order: ${step.whisper.map((i) => `${i.quantity}× ${i.name}`).join(", ")}`, "line")
+      E.handleWhisperOrder(step.whisper)
     } else if (step.voice) {
       note(`Voice print: ${step.voice.matched ? `returning ${step.voice.voice_id} (score ${step.voice.score})` : `new ${step.voice.voice_id}`}`, "line")
       E.handleVoice({ seconds: 3.2, embed_ms: 9, round_trip_ms: 40, ...step.voice })
@@ -190,6 +267,7 @@ async function run(tr) {
     } else if (step.pay) {
       await flush()
       const fired = (E.st.hot.fired || []).map((f) => f.key)
+      const waiting = [...E.st.heard.values()].filter((h) => h.needsSize).map((h) => h.entry.name) // before the visit resets
       for (const c of cards) if (c.outcome == null) c.outcome = "unanswered"
       const receipt = E.receiptRecord()
       const reasoningNow = { ...E.st.reasonNow }
@@ -197,7 +275,7 @@ async function run(tr) {
       E.onActivityEvent({ type: "payment_complete", at: NOW })
       E.noteSaving(receipt) // as useAssist does at payment
       E.endCustomer("paid", null)
-      customers.push({ cards, ticket: pos.cart.map(lineText), fired, receipt, roles: roles.splice(0),
+      customers.push({ cards, sections: sections.splice(0), ticket: pos.cart.map(lineText), waiting, fired, receipt, roles: roles.splice(0),
         brainRequests: brainRequests.length, reasoningNow,
         reasoning: (E.st.lastReasoning?.timeline || []).map((x) => ({ ...x, atSec: (x.at - T0) / 1000 })) })
       pos.cart = []
@@ -208,7 +286,7 @@ async function run(tr) {
     }
     await flush()
   }
-  const r = { customers, c: customers[0] }
+  const r = { customers, c: customers[0], errors, tr }
   const checks = tr.checks.map(([what, fn]) => {
     let ok = false
     try { ok = !!fn(r) } catch { ok = false }
@@ -246,7 +324,7 @@ for (const { tr, r, timeline, checks } of results) {
   out.push("")
   r.customers.forEach((c, i) => {
     out.push(`**How it decided${r.customers.length > 1 ? ` (customer ${i + 1})` : ""}** — weighing at payment:`, "")
-    for (const [k, label] of [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "Upsell plan"]]) {
+    for (const [k, label] of [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "When it pitches"]]) {
       if (c.reasoningNow[k]) out.push(`- *${label}:* ${c.reasoningNow[k]}`)
     }
     out.push("", "Steps:", "")
@@ -258,5 +336,11 @@ writeFileSync(OUT, out.join("\n"))
 for (const { tr, checks } of results) {
   const bad = checks.filter((c) => !c.ok)
   console.log(`${bad.length ? "FAIL" : "PASS"}  ${String(tr.id).padStart(2)}. ${tr.title}${bad.length ? `\n        ✗ ${bad.map((c) => c.what).join("\n        ✗ ")}` : ""}`)
+}
+if (LIVE) {
+  const stat = (xs) => { const s = [...xs].sort((a, b) => a - b); return s.length ? `n=${s.length}, median ${Math.round(s[Math.floor(s.length / 2)])} ms, p95 ${Math.round(s[Math.floor(s.length * 0.95)])} ms, max ${Math.round(s.at(-1))} ms` : "none" }
+  const line = `Live round trips through ${LIVE}: brain ${stat(liveLatency.brain)}; meaning ${stat(liveLatency.meaning)}.`
+  writeFileSync(OUT, readFileSync(OUT, "utf8").replace("\n\n| # |", `\n\n${line}\n\n| # |`))
+  console.log(line)
 }
 console.log(`\n${passed}/${total} checks passed — report: ${OUT}`)

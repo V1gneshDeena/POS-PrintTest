@@ -13,11 +13,17 @@
 //   • A bare acknowledgement ("okay", "alright") accepts the card only once the cashier has
 //     pitched it (pitches(), marked on the card as `pitched`): "We don't carry onion rings."
 //     "Hmm okay, then a cheeseburger" is not a yes to the substitute.
+//   • "Sure" inside "make sure", "be sure" or "not sure" is not a yes (the order-change test,
+//     test/order-edits.js, found "Make sure the fries are hot" accepting a shake card).
+//   • A line that changes the order ("I don't want the fries anymore") is not read as a reply
+//     unless it names the card's own item (useAssist.js, with orderEdits.js).
 
 const NO = /\b(no|nope|nah|no thanks|no thank you|i('m| am) (good|fine|okay|ok|all set)|not today|not this time|that('s| is| will be|'ll be) (all|it|everything)|nothing else|just (that|the)|maybe next time|i('ll| will) pass|pass on|not really|don('t| not) (want|need))\b/
 const CLOSING = /\b(that('s| is| will be|'ll be) (all|it|everything)|nothing else)\b/
 const YES = /\b(yes|yeah|yep|yup|sure|sounds (good|great)|let('s| us) do (it|that)|why not|go for it|please do|i('ll| will) (take|have|try|do) (it|that|one|them)|add (it|that|one)|that works|perfect|absolutely|definitely|of course|go on then)\b/
 const WEAK_YES = /\b(ok|okay|alright|all right)\b/
+// "Sure" that is not a yes: "make sure the fries are hot", "be sure", "I'm not sure".
+const NOT_A_YES = /\b(make|be|not|unsure) sure\b/g
 const OFFERING = /\b(would you like|do you want|how about|can i (get|interest) you|want to (add|try|make)|(want|like) (some|a|an|the)?\s?\w+ (with that|instead|too))\b/
 const QUESTION = /\?\s*$|^\W*(do|does|did|is|are|was|were|can|could|would|will|what|which|who|how|anything|any|for here|name)\b/
 // Words that tie a pitch to the part of the meal the card is from.
@@ -49,7 +55,8 @@ export function classifyReply(text, { prev = "", card = null } = {}) {
   if (CLOSING.test(t)) return "no"
   if (prev && card && QUESTION.test(lower(prev).trim()) && !pitches(prev, card)) return null
   if (NO.test(t)) return "no"
-  if (YES.test(t)) return "yes"
-  if (WEAK_YES.test(t)) return card && !card.pitched ? null : "yes"
+  const y = t.replace(NOT_A_YES, " ")
+  if (YES.test(y)) return "yes"
+  if (WEAK_YES.test(y)) return card && !card.pitched ? null : "yes"
   return null
 }
