@@ -59,7 +59,7 @@ import { CounterPresence } from "./presence.js"
 import { onActivity } from "./activity.js"
 import { BehaviourTracker } from "./behaviour.js"
 import { parseUtterance, isGreeting } from "./orderParser.js"
-import { classifyReply } from "./acceptance.js"
+import { classifyReply, pitches } from "./acceptance.js"
 import { pickUpsell, cardKey } from "./upsellEngine.js"
 import { detectHotkeys, TIMING_RULES } from "./hotkeys.js"
 import { INDEX, findEntry, defaultSize } from "./menuIndex.js"
@@ -99,6 +99,8 @@ const newHot = (outToday) => ({
   effects: new Map(), blocked: new Set(outToday || []), outOfStock: [], interest: [], disliked: [], temperature: [],
   constraints: new Set(), pausedUntil: 0, fired: [],
 })
+// Hot-key effects whose items are not an order: out, only asked about, disliked, complained about.
+const NOT_ORDER = new Set(["block_item", "interest_item", "alternative", "counter_sweet", "counter_bitter", "pause"])
 const HAS_SOUVENIR = INDEX.entries.some((e) => /merch|souvenir|gift/i.test(e.category))
 // Ordering an item that is out today is a rule, not a phrase (like "not patient"): it is
 // recorded with the hot keys and answered with the item's closest substitute.
@@ -110,7 +112,9 @@ const TEMPERATURE = {
   weather_cold: { cold: false, wanted: false }, want_hot: { cold: false, wanted: true },
 }
 
-function createEngine(set, posRef) {
+// Exported for the transcript tests (test/run-transcripts.mjs), which drive it with a
+// simulated POS and clock; the app only uses it through useAssist().
+export function createEngine(set, posRef) {
   const st = {
     phase: "standby",
     sessionStart: 0,
@@ -153,6 +157,7 @@ function createEngine(set, posRef) {
     st.lastAdded = null
     st.lastAddedAt = 0
     st.firstOrderAt = 0
+    st.prevLine = null
     st.hot = newHot(st.outToday)
     clearTimeout(st.resultTimer)
     publishHeard(); publishCard(); publishOffers(); publishHot()
@@ -324,9 +329,10 @@ function createEngine(set, posRef) {
 
   // recompute() can be re-entered (adding to the ticket emits an activity event that
   // calls it). A nested call is deferred to a microtask instead of running inside the
-  // outer one.
+  // outer one. It is also deferred while a line's hot keys are being applied
+  // (st.applying), so no card is picked from half of what the line said.
   function recompute() {
-    if (st.busy) { st.again = true; return }
+    if (st.busy || st.applying) { st.again = true; return }
     st.busy = true
     try { recomputeNow() } finally { st.busy = false }
     if (st.again) { st.again = false; queueMicrotask(recompute) }
@@ -417,15 +423,27 @@ function createEngine(set, posRef) {
       return
     }
     const cur = st.card
+    const prev = st.prevLine
+    st.prevLine = { text, at: t }
+    let declined = null
     if (!replay && cur && cur.state === "pending" && t - cur.shownAt >= REPLY_MIN_MS) {
-      const r = classifyReply(text)
+      // Read in context (acceptance.js): the line before, if it came after the card, and
+      // whether the cashier has pitched the card yet.
+      const r = classifyReply(text, { prev: prev && prev.at >= cur.shownAt ? prev.text : "", card: cur })
       if (r === "yes") acceptCard("spoken yes")
-      else if (r === "no") declineCard("spoken no")
+      else if (r === "no") { declineCard("spoken no"); declined = cur }
+      else if (pitches(text, cur)) cur.pitched = true
     }
     const hits = detectHotkeys(text)
-    // Items the line says are out, only asks about, or doesn't like are not an order.
-    const notOrdered = new Set(hits.filter((h) => h.effect === "block_item" || h.effect === "interest_item" || h.effect === "alternative")
-      .flatMap((h) => h.items.map((e) => e.id)))
+    // "No thanks, that's it": the card just declined was the last chance, so no more cards
+    // after it (upsellEngine.js stops once a checkout offer has been made).
+    if (declined && hits.some((h) => h.key === "closing")) {
+      const o = st.offers.find((x) => x.key === declined.key)
+      if (o) o.atCheckout = true
+    }
+    // Items the line says are out, only asks about, doesn't like, or complains about ("the
+    // shake was too sweet", "I was missing my fries") are not an order.
+    const notOrdered = new Set(hits.filter((h) => NOT_ORDER.has(h.effect)).flatMap((h) => h.items.map((e) => e.id)))
     if (parsed.kind === "order") {
       const items = parsed.items.filter((i) => !notOrdered.has(i.entry.id))
       if (items.length) mergeHeard(items, "speech")
@@ -454,42 +472,47 @@ function createEngine(set, posRef) {
   /** Apply a line's hot keys, then force the card on screen to be re-picked. */
   function applyHotkeys(hits, t) {
     const hot = st.hot
-    for (const h of hits) {
-      if (h.effect.startsWith("constrain:")) hot.constraints.add(h.effect.slice("constrain:".length))
-      hot.effects.set(h.effect, t)
-      if (h.effect === "pause") hot.pausedUntil = t + COMPLAINT_PAUSE_MS
-      if (h.effect === "block_item") {
-        for (const e of h.items) {
-          hot.blocked.add(e.id)
-          st.outToday.add(e.id)
-          saveOutToday(st.outToday)
-          hot.outOfStock.push({ entry: e, at: t })
-          // Speech may already have rung it up: take that back off, like "no fries".
-          const heard = st.heard.get(e.id)
-          if (heard && heard.added > 0) mergeHeard([{ entry: e, qty: 1, size: null, negated: true, more: false }], "speech")
+    st.applying = true // taking items off the ticket below must not pick a card mid-line
+    try {
+      for (const h of hits) {
+        if (h.effect.startsWith("constrain:")) hot.constraints.add(h.effect.slice("constrain:".length))
+        hot.effects.set(h.effect, t)
+        if (h.effect === "pause") hot.pausedUntil = t + COMPLAINT_PAUSE_MS
+        if (h.effect === "block_item") {
+          for (const e of h.items) {
+            hot.blocked.add(e.id)
+            st.outToday.add(e.id)
+            saveOutToday(st.outToday)
+            hot.outOfStock.push({ entry: e, at: t })
+            // Speech may already have rung it up: take that back off, like "no fries".
+            const heard = st.heard.get(e.id)
+            if (heard && heard.added > 0) mergeHeard([{ entry: e, qty: 1, size: null, negated: true, more: false }], "speech")
+          }
         }
+        if (h.effect === "ordered_out") for (const e of h.items) hot.outOfStock.push({ entry: e, at: t })
+        if (TEMPERATURE[h.effect]) {
+          // One record per temperature per line; "I'm so hot, something cold please" is one want.
+          const { cold, wanted } = TEMPERATURE[h.effect]
+          const same = hot.temperature.find((r) => r.at === t && r.cold === cold)
+          if (same) same.wanted = same.wanted || wanted
+          else hot.temperature.push({ cold, wanted, at: t })
+        }
+        if (h.effect === "interest_item") {
+          for (const e of h.items) hot.interest.push({ entry: e, asked: "", at: t })
+          if (!h.items.length && h.asked) hot.interest.push({ entry: null, asked: h.asked, at: t })
+        }
+        if (h.effect === "alternative") {
+          // The item they don't like: the one named, else the last one ordered.
+          const e = h.items[0] || (st.lastAdded && BY_ID.get(st.lastAdded.item.id))
+          if (e) hot.disliked.push({ entry: e, at: t })
+        }
+        if (h.effect === "souvenir" && !HAS_SOUVENIR) log("Took forever — this menu has no souvenir to give, so no complimentary card")
+        const named = h.items.length ? ` (${h.items.map((e) => e.name).join(", ")})` : h.asked ? ` (“${h.asked}”)` : ""
+        hot.fired.unshift({ at: t, key: h.key, label: h.label, phrase: h.phrase, items: h.items.length ? h.items.map((e) => e.name) : h.asked ? [`“${h.asked}”`] : [], action: h.action })
+        log(`Hot key — ${h.label}: “${h.phrase}”${named} → ${h.action}`)
       }
-      if (h.effect === "ordered_out") for (const e of h.items) hot.outOfStock.push({ entry: e, at: t })
-      if (TEMPERATURE[h.effect]) {
-        // One record per temperature per line; "I'm so hot, something cold please" is one want.
-        const { cold, wanted } = TEMPERATURE[h.effect]
-        const same = hot.temperature.find((r) => r.at === t && r.cold === cold)
-        if (same) same.wanted = same.wanted || wanted
-        else hot.temperature.push({ cold, wanted, at: t })
-      }
-      if (h.effect === "interest_item") {
-        for (const e of h.items) hot.interest.push({ entry: e, asked: "", at: t })
-        if (!h.items.length && h.asked) hot.interest.push({ entry: null, asked: h.asked, at: t })
-      }
-      if (h.effect === "alternative") {
-        // The item they don't like: the one named, else the last one ordered.
-        const e = h.items[0] || (st.lastAdded && BY_ID.get(st.lastAdded.item.id))
-        if (e) hot.disliked.push({ entry: e, at: t })
-      }
-      if (h.effect === "souvenir" && !HAS_SOUVENIR) log("Took forever — this menu has no souvenir to give, so no complimentary card")
-      const named = h.items.length ? ` (${h.items.map((e) => e.name).join(", ")})` : h.asked ? ` (“${h.asked}”)` : ""
-      hot.fired.unshift({ at: t, key: h.key, label: h.label, phrase: h.phrase, items: h.items.length ? h.items.map((e) => e.name) : h.asked ? [`“${h.asked}”`] : [], action: h.action })
-      log(`Hot key — ${h.label}: “${h.phrase}”${named} → ${h.action}`)
+    } finally {
+      st.applying = false
     }
     hot.fired = hot.fired.slice(0, 30)
     // Force the re-evaluation: an unanswered card leaves the screen (and the offer log,

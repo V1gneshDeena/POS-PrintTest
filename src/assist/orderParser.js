@@ -10,8 +10,9 @@
 // ("would you like fries with that?") names items too. So each line is classified:
 //   order — a customer ordering: an order cue ("can I get", "I'll have", "I'd like")
 //           or items named without an offer pattern
-//   offer — the cashier offering or asking ("would you like", "anything else",
-//           "how about", a question with no order cue): its items are never added
+//   offer — the cashier offering, asking or recommending ("would you like", "anything
+//           else", "how about", "the bacon cheeseburger is our most popular", "we have
+//           cajun fries", a question with no order cue): its items are never added
 //   other — no menu items
 
 import { INDEX, norm, sizeFromWord } from "./menuIndex.js"
@@ -26,8 +27,8 @@ const SIZE_WORDS = /^(small|little|medium|regular|large|big|single|double|kids?)
 const NEGATE = /^(no|without|not|hold|cancel|remove|minus|skip|scratch)$/
 const MORE = /^(another|more|extra|also)$/
 
-const ORDER_CUE = /\b(can i (get|have|grab)|could i (get|have)|may i (get|have)|i('ll| will) (have|get|take|do|go with)|i('d| would) (like|love|want)|i want|i need|give me|get me|let me (get|have|grab)|i('m| am) (getting|gonna get|going to get)|we('ll| will) (have|get|take)|we('d| would) like|add (a|an|some|another)|make (it|that) (a|two))\b/
-const OFFER_CUE = /\b(would you like|do you want|you want|want to (add|try|make|get)|can i (get|interest) you|anything else|what can i get|what would you like|what('ll| will) it be|how about|would you care|care for|interested in|make it a (large|regular)|upgrade|try our|have you tried|is that (all|it)|for here or|your total)\b/
+const ORDER_CUE = /\b(can (i|we) (get|have|grab)|could (i|we) (get|have)|may (i|we) (get|have)|i('ll| will) (have|get|take|do|go with)|i('d| would) (like|love|want)|i want|i need|give me|get me|let me (get|have|grab)|i('m| am) (getting|gonna get|going to get)|we('ll| will) (have|get|take)|we('d| would) like|add (a|an|some|another)|make (it|that) (a|two))\b/
+const OFFER_CUE = /\b(would you like|do you want|you want|want to (add|try|make|get)|can i (get|interest) you|anything else|what can i get|what would you like|what('ll| will) it be|how about|would you care|care for|interested in|make it a (large|regular)|upgrade|try our|have you tried|is that (all|it)|for here or|your total|our (most popular|best ?sellers?|favou?rites?|specials?)|(is|are) (really |pretty |very |so )?(popular|good|great|amazing|delicious)|i('d)? recommend|you should (try|get)|people (love|like)|we('ve)? (also )?(got|have)|comes with|on special)\b/
 
 /**
  * Parse one transcript line. Returns { kind: 'order'|'offer'|'other', items }, where

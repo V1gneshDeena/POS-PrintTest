@@ -84,7 +84,9 @@ function buildIndex() {
   }
   for (const [said, name] of Object.entries(MENU_ALIASES[MENU_KEY] || {})) {
     const e = byName.get(norm(name))
-    if (e) add(said, e)
+    if (!e) continue
+    add(said, e)
+    if (!norm(said).endsWith("s")) add(`${norm(said)}s`, e) // "two hot dogs", "two shakes"
   }
   const maxWords = Math.max(1, ...[...aliases.keys()].map((k) => k.split(" ").length))
   return { entries, aliases, byName, byCat, maxWords }
