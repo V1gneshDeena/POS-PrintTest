@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { C } from "./posTheme.js"
+import { C, PAGE_BG } from "./posTheme.js"
+import { Brand, GhostButton } from "./ui.jsx"
 import { BRAND } from "../data/catalog.js"
 import { usePos } from "./usePos.js"
 import ModernView from "./ModernView.jsx"
@@ -18,14 +19,14 @@ function ViewToggle({ view, setView }) {
     { key: "legacy", label: "Classic" },
   ]
   return (
-    <div style={{ display: "flex", background: C.navyCard, border: `1px solid ${C.navyBorder}`, borderRadius: 9, padding: 2 }}>
+    <div style={{ display: "flex", background: C.surface, border: `1px solid ${C.line}`, borderRadius: 999, padding: 3 }}>
       {opts.map((o) => {
         const on = view === o.key
         return (
           <button key={o.key} onClick={() => setView(o.key)} style={{
-            padding: "5px 12px", borderRadius: 7, border: "none", cursor: "pointer", fontFamily: "inherit",
-            fontSize: 11, fontWeight: 700,
-            background: on ? C.lime : "transparent", color: on ? C.limeText : C.textSec,
+            height: 26, padding: "0 12px", borderRadius: 999, border: "none", cursor: "pointer", fontFamily: "inherit",
+            fontSize: 11.5, fontWeight: 500,
+            background: on ? C.raised : "transparent", color: on ? C.white : C.soft,
             transition: "all 0.15s",
           }}>{o.label}</button>
         )
@@ -45,40 +46,41 @@ export default function POSLayout({ user, onLogout }) {
   useEffect(() => { localStorage.setItem(VIEW_KEY, view) }, [view])
 
   return (
-    <div style={{ height: "100vh", background: C.navy, display: "flex", flexDirection: "column", color: C.text, overflow: "hidden" }}>
+    <div style={{ height: "100vh", background: PAGE_BG, display: "flex", flexDirection: "column", color: C.text, overflow: "hidden" }}>
 
       {/* Header */}
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "12px 20px", background: C.navyMid, borderBottom: `1px solid ${C.navyBorder}`, flexShrink: 0,
+        padding: "12px 20px", background: "rgba(11,14,20,0.6)", backdropFilter: "blur(10px)", borderBottom: `1px solid ${C.line}`, flexShrink: 0,
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ background: C.lime, color: C.limeText, fontWeight: 900, fontSize: 12, padding: "4px 9px", borderRadius: 7, letterSpacing: "-0.02em" }}>VAVOOM</div>
-          <div style={{ fontSize: 14, fontWeight: 700 }}>{BRAND.name}</div>
-          <div style={{ fontSize: 10, color: C.textMuted, background: C.navyCard, padding: "3px 7px", borderRadius: 5, border: `1px solid ${C.navyBorder}` }}>{assist.enabled ? "In-Store" : BRAND.location}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <Brand size={28} />
+          <div style={{ width: 1, height: 20, background: C.line2 }} />
+          <div style={{ fontSize: 14, fontWeight: 500, color: C.white, letterSpacing: "-0.02em" }}>{BRAND.name}</div>
+          <div style={{
+            fontSize: 10, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: C.accent,
+            border: `1px solid ${C.accentLine}`, padding: "4px 10px", borderRadius: 999,
+          }}>{assist.enabled ? "In-Store" : BRAND.location}</div>
           <ViewToggle view={view} setView={setView} />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ fontSize: 12, color: C.textSec }}>{pos.dateStr}</div>
-          <div style={{ fontSize: 15, fontWeight: 700 }}>{pos.timeStr}</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "50%", background: pos.printerOnline ? C.success : C.danger }} />
-            <span style={{ fontSize: 11, color: pos.printerOnline ? C.success : C.danger, fontWeight: 600 }}>
-              {pos.printerOnline ? "Printer" : "Printer Offline"}
-            </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <div style={{ textAlign: "right", lineHeight: 1.15 }}>
+            <div style={{ fontSize: 15, fontWeight: 500, color: C.white, letterSpacing: "-0.02em" }}>{pos.timeStr}</div>
+            <div style={{ fontSize: 11, color: C.soft }}>{pos.dateStr}</div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.success }} />
-            <span style={{ fontSize: 11, color: C.success, fontWeight: 600 }}>Live</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{ width: 7, height: 7, borderRadius: "50%", background: pos.printerOnline ? C.success : C.danger, boxShadow: `0 0 8px ${pos.printerOnline ? C.success : C.danger}` }} />
+            <span style={{ fontSize: 11.5, color: C.muted }}>{pos.printerOnline ? "Printer" : "Printer offline"}</span>
           </div>
-          <div style={{ fontSize: 12, color: C.textSec, borderLeft: `1px solid ${C.navyBorder}`, paddingLeft: 16 }}>
-            {user.name} · <span style={{ color: C.lime }}>{user.role}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, boxShadow: `0 0 8px ${C.accent}` }} />
+            <span style={{ fontSize: 11.5, color: C.muted }}>Live</span>
           </div>
-          <button onClick={pos.handleLogout} style={{
-            background: "transparent", border: `1px solid ${C.navyBorder}`, color: C.textSec,
-            fontSize: 12, padding: "5px 12px", borderRadius: 8, cursor: "pointer", fontFamily: "inherit",
-          }}>Sign Out</button>
+          <div style={{ fontSize: 12.5, color: C.muted, borderLeft: `1px solid ${C.line2}`, paddingLeft: 18 }}>
+            <span style={{ color: C.white }}>{user.name}</span> · {user.role}
+          </div>
+          <GhostButton onClick={pos.handleLogout} style={{ height: 34, fontSize: 12.5 }}>Sign out</GhostButton>
         </div>
       </div>
 
@@ -91,11 +93,11 @@ export default function POSLayout({ user, onLogout }) {
 
       {/* Footer */}
       <div style={{
-        padding: "8px 20px", borderTop: `1px solid ${C.navyBorder}`, background: C.navyMid, flexShrink: 0,
+        padding: "8px 20px", borderTop: `1px solid ${C.line}`, background: C.bg, flexShrink: 0,
         display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
-        <div style={{ fontSize: 10, color: C.textMuted }}>{user.name} · {user.shift} Shift</div>
-        <div style={{ fontSize: 10, color: C.textMuted }}>Vavoom POS · Demo v1.0 · {BRAND.footer}</div>
+        <div style={{ fontSize: 10.5, color: C.faint }}>{user.name} · {user.shift} shift</div>
+        <div style={{ fontSize: 10.5, color: C.faint }}>Vavoom POS · Demo v1.0 · {BRAND.footer}</div>
       </div>
 
       {/* Shared modals */}

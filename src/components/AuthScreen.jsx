@@ -1,17 +1,8 @@
 import { useState } from "react"
 import { makeOperator, saveSession } from "../data/auth.js"
 import { BRAND } from "../data/catalog.js"
-
-const C = {
-  navy: "#0B0E14",
-  navyMid: "#141920",
-  navyCard: "#1A2130",
-  navyBorder: "#252E3D",
-  lime: "#CFFF2F",
-  limeText: "#0B0E14",
-  text: "#F0F4FF",
-  textSec: "#7B8BAD",
-}
+import { C, PAGE_BG } from "./posTheme.js"
+import { ArrowPill, Brand, Eyebrow } from "./ui.jsx"
 
 /**
  * Not a login — just a name bar. The operator types their name and is in.
@@ -32,75 +23,21 @@ export default function AuthScreen({ onLogin }) {
 
   return (
     <div style={{
-      minHeight: "100vh",
-      background: C.navy,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 24,
-      position: "relative",
-      overflow: "hidden",
+      minHeight: "100vh", background: PAGE_BG, display: "flex", alignItems: "center", justifyContent: "center",
+      padding: 24, position: "relative", overflow: "hidden",
     }}>
-      {/* Background grid pattern */}
-      <div style={{
-        position: "absolute", inset: 0,
-        backgroundImage: `linear-gradient(${C.navyBorder}44 1px, transparent 1px), linear-gradient(90deg, ${C.navyBorder}44 1px, transparent 1px)`,
-        backgroundSize: "48px 48px",
-        opacity: 0.4,
-      }} />
+      <div style={{ position: "absolute", top: 24, left: 28 }}><Brand size={30} /></div>
 
-      {/* Lime glow */}
-      <div style={{
-        position: "absolute",
-        width: 400, height: 400,
-        background: `radial-gradient(circle, ${C.lime}14 0%, transparent 70%)`,
-        top: "10%", left: "50%", transform: "translateX(-50%)",
-        pointerEvents: "none",
-      }} />
+      <div style={{ position: "relative", width: "100%", maxWidth: 520 }}>
+        <Eyebrow style={{ marginBottom: 14 }}>{BRAND.name} · point of sale</Eyebrow>
+        <h1 style={{ color: C.white, fontSize: 44, fontWeight: 500, letterSpacing: "-0.045em", lineHeight: 1.05, marginBottom: 12 }}>
+          Who's on the <span style={{ color: C.accent }}>window</span>?
+        </h1>
+        <p style={{ color: C.muted, fontSize: 15, marginBottom: 28 }}>Type your name to start. It prints on every receipt.</p>
 
-      <div style={{
-        position: "relative",
-        width: "100%",
-        maxWidth: 460,
-      }}>
-        {/* Brand header */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 10,
-            marginBottom: 20,
-          }}>
-            <div style={{
-              background: C.lime,
-              color: C.limeText,
-              fontWeight: 900,
-              fontSize: 14,
-              padding: "6px 12px",
-              borderRadius: 8,
-              letterSpacing: "-0.02em",
-            }}>VAVOOM</div>
-            <div style={{ color: C.navyBorder, fontSize: 18 }}>×</div>
-            <div style={{ color: C.textSec, fontWeight: 600, fontSize: 14 }}>{BRAND.name}</div>
-          </div>
-          <h1 style={{
-            color: C.text,
-            fontSize: 26,
-            fontWeight: 800,
-            letterSpacing: "-0.03em",
-            marginBottom: 6,
-          }}>Who's on the window?</h1>
-          <p style={{ color: C.textSec, fontSize: 14 }}>Type your name to start — it prints on every receipt</p>
-        </div>
-
-        {/* Name bar */}
         <form onSubmit={handleSubmit} style={{
-          background: C.navyCard,
-          border: `1px solid ${C.navyBorder}`,
-          borderRadius: 20,
-          padding: 24,
-          display: "flex",
-          gap: 12,
+          background: C.surface, border: `1px solid ${C.line}`, borderRadius: 999, padding: 6,
+          display: "flex", gap: 8, alignItems: "center",
         }}>
           <input
             type="text"
@@ -110,38 +47,11 @@ export default function AuthScreen({ onLogin }) {
             autoFocus
             maxLength={40}
             style={{
-              flex: 1,
-              padding: "14px 16px",
-              background: C.navyMid,
-              border: `1px solid ${C.navyBorder}`,
-              borderRadius: 12,
-              color: C.text,
-              fontSize: 17,
-              outline: "none",
-              transition: "border-color 0.2s",
-              fontFamily: "inherit",
+              flex: 1, minWidth: 0, height: 52, padding: "0 22px", background: "transparent", border: "none",
+              color: C.white, fontSize: 17, outline: "none", fontFamily: "inherit", letterSpacing: "-0.01em",
             }}
-            onFocus={(e) => e.target.style.borderColor = C.lime + "88"}
-            onBlur={(e) => e.target.style.borderColor = C.navyBorder}
           />
-          <button
-            type="submit"
-            disabled={!trimmed}
-            style={{
-              padding: "14px 26px",
-              borderRadius: 12,
-              border: "none",
-              background: trimmed ? C.lime : C.navyBorder,
-              color: trimmed ? C.limeText : C.textSec,
-              fontWeight: 800,
-              fontSize: 15,
-              cursor: trimmed ? "pointer" : "default",
-              transition: "all 0.2s",
-              fontFamily: "inherit",
-              letterSpacing: "-0.01em",
-              whiteSpace: "nowrap",
-            }}
-          >Start Shift</button>
+          <ArrowPill big type="submit" disabled={!trimmed}>Start shift</ArrowPill>
         </form>
       </div>
     </div>

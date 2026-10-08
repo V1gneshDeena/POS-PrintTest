@@ -3,18 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0e14" />
     <title>Vavoom POS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- General Sans, vavoom.io's typeface (src/components/posTheme.js); the system font shows until it loads. -->
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" />
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html, body, #root { height: 100%; background: #0B0E14; }
-      body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; }
-      button { font-family: 'Plus Jakarta Sans', sans-serif; }
-      ::-webkit-scrollbar { width: 4px; }
+      html, body, #root { height: 100%; background: #0b0e14; }
+      body { font-family: "General Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #e9edf3; letter-spacing: -0.003em; -webkit-font-smoothing: antialiased; }
+      button, input { font-family: inherit; }
+      ::-webkit-scrollbar { width: 4px; height: 4px; }
       ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #252E3D; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
     </style>
   </head>
   <body>
