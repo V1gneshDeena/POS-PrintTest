@@ -162,7 +162,8 @@ TOPPINGS = [  # the 15 free toppings (Canada guide: HP Sauce, where fiveguys.ca'
     ("Jalapeño Peppers", "Jalapeño Peppers"), ("Green Peppers", "Green Peppers"), ("BBQ Sauce", "BBQ Sauce"),
     ("Hot Sauce", "Hot Sauce"), ("HP Sauce", "HP Sauce"),
 ]
-MIXINS = [("Bacon", "Bacon", "Bacon"), ("Bananas", "Banana", "Banana"), ("Chocolate", "Chocolate", "Chocolate"),
+# The bacon mix-in is named "Bacon (shake mix-in)" so "with bacon" on a burger never reads as it.
+MIXINS = [("Bacon (shake mix-in)", "Bacon", "Bacon"), ("Bananas", "Banana", "Banana"), ("Chocolate", "Chocolate", "Chocolate"),
           ("Oreo Cookie Pieces", "Oreo® Cookie Pieces", "Oreo® Cookie Pieces"), ("Peanut Butter", "Peanut Butter", "Peanut Butter"),
           ("Reese's Peanut Butter Cup", "Reese’s® Peanut Butter Cup", "Reese’s® Peanut Butter Cup"),
           ("Salted Caramel", "Salted Caramel", "Salted Caramel"), ("Strawberries", "Strawberry", "Strawberry"),

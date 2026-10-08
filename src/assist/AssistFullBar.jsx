@@ -8,7 +8,8 @@
 // the words that force the upsell to be re-evaluated) with what each one did, and BEHIND
 // THE SCENES — every message whisper and the speech bridge sent, and Assist's own log.
 //
-// Controls (start / end customer, Add / No thanks, camera, a typed line) work when this
+// Controls (start / end customer, Add / No thanks, camera, a typed line, clear out-of-stock, forget
+// voices) work when this
 // page is open in the same browser as the POS; on any other screen it is view only.
 //
 // "Back to POS" (top left) closes this window and brings the POS forward when the POS
@@ -21,8 +22,8 @@ import { startAssistViewer, posUrl } from "./assistSync.js"
 import { CardTag } from "./AssistOverlay.jsx"
 import { getDemoId } from "./demoContext.js"
 
-const SOURCE_LABEL = { ai: "Vavoom AI · from the conversation", basket: "Basket completion", upsize: "Upsize", behaviour: "From what the screen shows", hotkey: "Hot key · from what was just said" }
-const SOURCE_SHORT = { ai: "AI", basket: "Basket", upsize: "Upsize", behaviour: "Behaviour", hotkey: "Hot key" }
+const SOURCE_LABEL = { ai: "Vavoom AI · from the conversation", basket: "Basket completion", upsize: "Upsize", behaviour: "From what the screen shows", hotkey: "Hot key · from what was just said", brain: "Vavoom brain · voice, history, calories, Qwen" }
+const SOURCE_SHORT = { ai: "AI", basket: "Basket", upsize: "Upsize", behaviour: "Behaviour", hotkey: "Hot key", brain: "Brain" }
 const CONSTRAINT_LABEL = { dairy_free: "dairy-free", sugar_aware: "watching sugar", decaf: "no caffeine", health: "health-minded", no_food: "drink only" }
 const OUTCOME_COLOR = { accepted: C.success, declined: C.danger, lapsed: C.textMuted }
 const time = (t) => new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })
@@ -202,6 +203,43 @@ export default function AssistFullBar() {
 
         {/* ── Column 3: hot keys, transcript, behind the scenes ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <Card title="Voice print" right={s.voice?.voice_id ? <span style={{ fontSize: 10, fontWeight: 700, color: s.voice.matched ? C.success : C.textSec }}>{s.voice.matched ? "returning" : "new"}</span> : null}>
+            {s.voice?.voice_id ? (
+              <>
+                <Row label="Voice">{s.voice.voice_id} <span style={{ color: C.textMuted }}>(anonymous; no name is stored)</span></Row>
+                <Row label="Match">{s.voice.matched ? `score ${s.voice.score} · tier ${s.voice.tier}` : `no match at 0.5 or above${s.voice.score != null ? ` (best ${s.voice.score})` : ""} — a new voice print`}</Row>
+                <Row label="Visits">{s.voice.matched ? `${s.voice.visits} before this one` : "first visit"}</Row>
+                {(s.voice.last_order || []).length ? <Row label="Last time">{s.voice.last_order.map((x) => `${x.qty > 1 ? `${x.qty}× ` : ""}${x.name}${x.size && x.size !== "each" ? ` (${x.size})` : ""}`).join(", ")}</Row> : null}
+                <Row label="From">{s.voice.seconds} s of the customer's speech · ECAPA {s.voice.embed_ms} ms on the GPU · {s.voice.round_trip_ms} ms round trip</Row>
+              </>
+            ) : <Muted>Waiting for about 2.5 s of the customer's speech. Lines are marked as the customer's or the employee's; only the customer's speech makes the voice print (ECAPA on the GPU box). Matches are searched in tiers from 1.0 down to 0.5; below 0.5 the voice is new.</Muted>}
+            <div style={{ marginTop: 8 }}>
+              <button disabled={!local} onClick={() => cmd({ type: "forget_voices" })} style={{ ...btn(false, !local), padding: "2px 8px", fontSize: 10 }}
+                title="Delete this demo room's voice prints and the receipts tagged by them">Forget voices in this room</button>
+            </div>
+          </Card>
+          <Card title="Upsell brain" right={s.brain ? <span style={{ fontSize: 10, color: C.textSec }}>{s.brain.latency_ms} ms brain · {s.brain.round_trip_ms} ms round trip · {s.brain.framer}</span> : null}>
+            {s.brain?.error ? <Muted>Unavailable: {s.brain.error}</Muted> : s.brain ? (
+              <>
+                <Row label="Pick">{s.brain.item || "(nothing to offer)"} {s.brain.tag ? <CardTag tag={s.brain.tag} /> : null}</Row>
+                {s.brain.framing ? <Row label="Line">“{s.brain.framing}”</Row> : null}
+                <Row label="Ladder step">{s.brain.trace?.step || s.brain.step || "—"}</Row>
+                <Row label="Meal">{s.brain.trace?.calories?.kcal ?? "—"} cal ({s.brain.trace?.calories?.band || "—"}) · health {s.brain.trace?.health ?? "—"}{(s.brain.trace?.allergens || []).length ? ` · allergy: ${s.brain.trace.allergens.join(", ")}` : ""}</Row>
+                {s.brain.trace?.visits ? <Row label="History">{s.brain.trace.visits} visit(s){s.brain.trace.gap != null ? ` · ${fmt(s.brain.trace.gap)} below their usual spend` : ""}</Row> : null}
+                {(s.brain.trace?.ranked || []).length ? (
+                  <div style={{ marginTop: 6 }}>
+                    {s.brain.trace.ranked.map((r, i) => (
+                      <div key={i} style={{ fontSize: 11, color: i ? C.textSec : C.text, display: "flex", gap: 8 }}>
+                        <span style={{ width: 150, flexShrink: 0 }}>{r.title}</span>
+                        <span>{r.score.toFixed(3)}</span>
+                        <span style={{ color: C.textMuted }}>history {r.history} · w·c {(r.w * r.c).toFixed(2)} · fit {r.fit} · best {r.best} · price {r.price_fit}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </>
+            ) : <Muted>Asked after every line and ticket change. It runs on the GPU box (glm-upsell, tenant demopos): the ladder, the voice's history, the order's calories and allergies, then Qwen3-14B picks one of the top three and words it.</Muted>}
+          </Card>
           <Card title="Hot keys" right={s.hot?.pausedUntil > Date.now() ? <span style={{ fontSize: 10, fontWeight: 700, color: C.danger }}>upsell paused after a complaint</span> : null}>
             {(s.hot?.constraints || []).length || (s.hot?.outToday || []).length ? (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8, alignItems: "center" }}>

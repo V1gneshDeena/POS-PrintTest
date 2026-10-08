@@ -1184,8 +1184,8 @@
  ],
  "mixins": [
   {
-   "name": "Bacon",
-   "key": "mix_bacon",
+   "name": "Bacon (shake mix-in)",
+   "key": "mix_bacon_shake_mix_in",
    "price": 0.0,
    "free": true,
    "calories": 70,
@@ -1925,8 +1925,8 @@
    ],
    "ingredients": "Vinegar, Sugars (glucose-fructose, molasses, dates, concentrated orange juice, concentrated apple juice), Tomato puree, Modified corn starch, Salt, Water, Spices (mustard), Onions, Natural flavour, Garlic, Caramel. Contains: Mustard"
   },
-  "mix_bacon": {
-   "name": "Bacon",
+  "mix_bacon_shake_mix_in": {
+   "name": "Bacon (shake mix-in)",
    "nutrition": {
     "serving_g": 14,
     "calories": 70,

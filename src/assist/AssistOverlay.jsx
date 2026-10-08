@@ -24,6 +24,7 @@ const SOURCE_LABEL = {
   upsize: "Upsize",
   behaviour: "From what the screen shows",
   hotkey: "Hot key · from what was just said",
+  brain: "Vavoom brain · voice, history, calories, Qwen",
 }
 
 /** The hot-key tag across the top of the card. */
@@ -89,9 +90,13 @@ function UpsellSquare({ a }) {
     e.preventDefault()
     window.open(fullBarUrl(), "vavoom-assist-full-bar", "width=1180,height=860")
   }
-  const priceText = c ? (c.kind === "upsize"
-    ? `+${fmt(c.price - (c.entry.sizes.find(([l]) => l === c.fromSize)?.[1] || 0))}`
+  // An upsize or a swap (cheese / bacon, an allergy swap) shows the extra cost over the line it replaces.
+  const fromPrice = c && (c.kind === "upsize" ? c.entry : c.kind === "swap" ? c.fromEntry : null)
+  const basePrice = fromPrice ? (fromPrice.sizes.find(([l]) => l === c.fromSize) || fromPrice.sizes[0])?.[1] || 0 : 0
+  const priceText = c ? (c.kind === "upsize" || c.kind === "swap"
+    ? `+${fmt(Math.max(0, c.price - basePrice))}`
     : c.price === 0 ? "Free" : fmt(c.price)) : ""
+  const v = a.voice
   return (
     <div ref={boxRef} style={{ ...box, left: pos.x, top: pos.y, width: 300 }}>
       <div {...handleProps} style={{ ...handleProps.style, display: "flex", alignItems: "center", gap: 8, padding: "9px 12px", borderBottom: `1px solid ${C.navyBorder}`, userSelect: "none" }}>
@@ -105,11 +110,19 @@ function UpsellSquare({ a }) {
         <a href={fullBarUrl()} onClick={openFullBar} style={{ fontSize: 10, fontWeight: 700, color: C.textSec, textDecoration: "none", marginLeft: 2 }} title="Open the full Assist bar: inputs, what the screen says, heard order, and what it's doing behind the scenes">Full bar ↗</a>
       </div>
 
+      {a.auth && a.phase === "active" && v?.voice_id ? (
+        <div style={{ padding: "6px 12px", borderBottom: `1px solid ${C.navyBorder}`, fontSize: 10.5, color: v.matched ? C.lime : C.textMuted, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+          title={v.matched ? `Voice print ${v.voice_id}: score ${v.score}, tier ${v.tier}` : `New voice print ${v.voice_id}`}>
+          {v.matched
+            ? `Returning voice · visit ${(v.visits || 0) + 1}${(v.last_order || []).length ? ` · last time: ${v.last_order.map((x) => x.name).join(", ")}` : ""}`
+            : "New voice — no history yet"}
+        </div>
+      ) : null}
       <div style={{ padding: 12, minHeight: 120 }}>
         {!a.auth ? <SignIn onSignIn={a.signIn} /> : c ? (
           <>
             <CardTag tag={c.tag} />
-            <div style={{ fontSize: 10, fontWeight: 700, color: c.source === "ai" ? "#C084FC" : C.textSec, marginBottom: 4 }}>{SOURCE_LABEL[c.source] || c.source}</div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: c.source === "ai" || c.source === "brain" ? "#C084FC" : C.textSec, marginBottom: 4 }}>{SOURCE_LABEL[c.source] || c.source}</div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
               <div style={{ fontSize: 19, fontWeight: 800, lineHeight: 1.2 }}>{c.title}</div>
               <div style={{ fontSize: 17, fontWeight: 900, color: C.lime }}>{priceText}</div>
@@ -127,7 +140,7 @@ function UpsellSquare({ a }) {
             ) : null}
             {c.state === "pending" ? (
               <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => a.accept()} style={{ ...btn(true), flex: 1, padding: "10px 12px", fontSize: 13 }}>Add{c.kind === "upsize" ? " upsize" : ""}</button>
+                <button onClick={() => a.accept()} style={{ ...btn(true), flex: 1, padding: "10px 12px", fontSize: 13 }}>{c.kind === "upsize" ? "Add upsize" : c.kind === "swap" ? "Swap" : "Add"}</button>
                 <button onClick={() => a.decline()} style={btn(false)}>No thanks</button>
               </div>
             ) : (

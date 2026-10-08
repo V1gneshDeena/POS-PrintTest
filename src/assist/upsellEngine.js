@@ -21,6 +21,13 @@
 //                "something hot" / "I'm freezing" → the most-ordered warm item (Something warm)
 //                and food when they want food, a second item when ordering for others, a
 //                seasonal pairing
+//   brain      the demopos tenant's upsell brain on the GPU box (demopos_brain.py in glm-upsell):
+//              the ladder (allergy, upsize, cheese / bacon, side, drink, shake) scored by the
+//              voice print's history, the order's calories and health, temperature and
+//              behaviour, picked and worded by Qwen3-14B from SQLite facts. Its card (95; an
+//              allergy answer 108) ranks above basket completion and the AI pick and below the
+//              tagged hot-key answers this POS gives instantly. Kinds: add, upsize, and swap (the
+//              item replaces one on the ticket: a cheese / bacon upgrade or an allergy swap)
 //   ai         whisper's live upsell (the production engine, from the conversation), used
 //              only when its item is on THIS POS's menu, not on the ticket, allowed by what
 //              the customer said, and not reasoned from an item that is out. It ranks BELOW
@@ -139,11 +146,13 @@ export function closestTo(target, { exclude = new Set(), constraints = null } = 
  *                customer's), outOfStock: [{entry, at}], interest: [{entry|null, asked, at}],
  *                disliked: [{entry, at}], temperature: [{cold, wanted, at}], constraints: Set,
  *                pausedUntil } | null }
- * Returns the best card { kind: 'add'|'upsize', entry, size, price, fromSize?, source, reason,
- * title, tag, pair? } or null. `pair` (asked-about items) is { entry, size, price }.
+ * ctx.brain = { entry, kind: 'add'|'upsize'|'swap', size, price, fromSize?, fromEntry?, tag,
+ *               framing, why, at } | null — the upsell brain's latest pick (useAssist.handleBrain).
+ * Returns the best card { kind: 'add'|'upsize'|'swap', entry, size, price, fromSize?, fromEntry?,
+ * source, reason, title, tag, pair? } or null. `pair` (asked-about items) is { entry, size, price }.
  */
 export function pickUpsell(ctx) {
-  const { cart = [], lastAdded = null, behaviours = [], ai = null, offers = [], hot = null } = ctx
+  const { cart = [], lastAdded = null, behaviours = [], ai = null, brain = null, offers = [], hot = null } = ctx
   const has = (key) => behaviours.find((b) => b.key === key)
   const now = hot?.now || Date.now()
   const fired = (effect, withinMs = Infinity) => !!hot?.effects?.has(effect) && now - hot.effects.get(effect) < withinMs
@@ -168,7 +177,12 @@ export function pickUpsell(ctx) {
   if (checkout && offers.some((o) => o.atCheckout)) return null
 
   const cands = []
-  const consider = (card) => { if (card && allowedBy(constraints, card.entry)) cands.push(card) }
+  // Free toppings and mix-ins (role "other") are never pitched by the basket, behaviour or AI rules;
+  // only a hot-key answer or the brain (an allergy lettuce wrap, last visit's toppings) offers one.
+  const consider = (card) => {
+    if (card && allowedBy(constraints, card.entry)
+        && (card.entry.role !== "other" || card.source === "hotkey" || card.source === "brain")) cands.push(card)
+  }
   const pickFrom = (opts) => bestOf(opts).find((e) => allowedBy(constraints, e))
   const recent = (list, ms = 2 * 60000) => (list || []).filter((x) => now - x.at < ms)
 
@@ -268,6 +282,22 @@ export function pickUpsell(ctx) {
     }
   }
 
+  // 1b. The upsell brain's pick (see the header). Dropped when stale: older than 20 s, an item now
+  // on the ticket or out, or the line it upsizes / replaces has left the ticket.
+  if (brain?.entry && now - (brain.at || 0) < 20000) {
+    const fromLine = (id, size) => cart.some((l) => l.item.id === id && (!size || l.size === size))
+    const score = /^Allergy/.test(brain.tag || "") ? 108 : 95
+    const base = { entry: brain.entry, size: brain.size, price: brain.price, source: "brain", score, tag: brain.tag || "",
+      reason: brain.framing || brain.why || "", why: brain.why || "" }
+    if (brain.kind === "upsize" && fromLine(brain.entry.id, brain.fromSize)) {
+      consider({ ...base, kind: "upsize", fromSize: brain.fromSize, title: `${brain.size} ${brain.entry.name}` })
+    } else if (brain.kind === "swap" && brain.fromEntry && fromLine(brain.fromEntry.id) && !blocked.has(brain.entry.id)) {
+      consider({ ...base, kind: "swap", fromEntry: brain.fromEntry, fromSize: brain.fromSize, title: brain.entry.name })
+    } else if (brain.kind === "add" && !blocked.has(brain.entry.id)) {
+      consider({ ...base, kind: "add", title: brain.entry.name })
+    }
+  }
+
   // 2. The production AI's pick, grounded on this menu. A pick whose reason names an item
   // that is out ("Pairs with the Fries") was reasoned from a stale order.
   const outNames = [...outToday].map((id) => (entryOf(id)?.name || "").toLowerCase()).filter(Boolean)
@@ -339,10 +369,10 @@ export function pickUpsell(ctx) {
   }
 
   const fresh = cands.filter((c) => !offeredKeys.has(cardKey(c))
-    && (c.source === "ai" || c.source === "hotkey" || c.kind !== "add" || c.again || !declinedRoles.has(c.entry.role)))
+    && (c.source === "ai" || c.source === "hotkey" || c.source === "brain" || c.kind !== "add" || c.again || !declinedRoles.has(c.entry.role)))
   if (!fresh.length) return null
   for (const c of fresh) {
-    if (c.source === "hotkey" && c.tag) continue // a direct response to what was said is not re-ranked
+    if ((c.source === "hotkey" && c.tag) || c.source === "brain") continue // direct answers and the brain's pick are not re-ranked
     if (priceLed && c.kind === "add") c.score -= c.price * 3
     if (checkout && c.kind === "add") c.score -= c.price * 2 // a small last add-on, not a big one
     if (!hot) continue
@@ -357,7 +387,7 @@ export function pickUpsell(ctx) {
     if (fired("want_hot")) c.score += isHotItem(c.entry) ? 20 : isColdItem(c.entry) ? -20 : 0
     // A re-rank never lifts a basket, AI or behaviour card past a tagged hot-key response
     // (86 and up): what was just said still decides first.
-    if (c.source !== "hotkey") c.score = Math.min(c.score, 85)
+    if (c.source !== "hotkey" && c.source !== "brain") c.score = Math.min(c.score, 85)
   }
   fresh.sort((a, b) => b.score - a.score)
   return { ...fresh[0], atCheckout: checkout }

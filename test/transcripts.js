@@ -1,4 +1,4 @@
-// 20 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 24 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -10,17 +10,24 @@
 //   { at, press: "add" | "no" | "pair" }  the cashier presses Add / No thanks / the pairing's Add
 //   { at, presence: true }          counter presence: the customer walks up
 //   { at, pay: true }               payment completed (ends the customer session)
+//   { at, brain: {...} }            the upsell brain's answer (brain_upsell) to the POS's latest request
+//   { at, voice: {...} }            the voice print's answer (voice_match)
 //
 // checks: [description, (r) => boolean]. `r` is what happened (see run-transcripts.mjs):
 //   r.customers[i] = { cards, ticket, fired }, with r.c = r.customers[0] for one-customer runs.
 //   cards: [{ title, tag, source, reason, outcome, via }] in the order shown.
 //   ticket: what was on the ticket when it was paid ["2× Cheeseburger (Regular)", ...].
+//   receipt: the visit's record (voice, transcript with roles, upsells with why / said / outcome);
+//   roles: whose each line was, as marked for the voice print; brainRequests: how many were sent.
 
 const card = (c, title, outcome) => c.cards.find((x) => x.title === title && (!outcome || x.outcome === outcome))
 const tagged = (c, tag) => c.cards.find((x) => x.tag === tag)
 const has = (c, line) => c.ticket.includes(line)
 const fired = (c, key) => c.fired.includes(key)
 const none = (c, re) => !c.cards.some((x) => re.test(x.title))
+
+const LAST_TIME = { voice_id: "V1dabbd0c", matched: true, score: 0.915, tier: 0.9, visits: 2,
+  last_order: [{ name: "Bacon Cheeseburger", size: "Regular", qty: 1 }, { name: "Cajun Fries", size: "Regular", qty: 1 }] }
 
 export const TRANSCRIPTS = [
   {
@@ -342,6 +349,77 @@ export const TRANSCRIPTS = [
     checks: [
       ["a Something warm card is shown and accepted", (r) => tagged(r.c, "Something warm")?.outcome === "accepted"],
       ["it is not a cold item", (r) => !/shake|drink|water/i.test(tagged(r.c, "Something warm")?.title || "shake")],
+    ],
+  },
+  {
+    id: 21, title: "Returning voice: the brain offers last visit's side",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome back! What can I get you?" },
+      { at: 4, who: "C", say: "Can I get a regular bacon cheeseburger" },
+      { at: 6, voice: LAST_TIME },
+      { at: 7, brain: { name: "Cajun Fries", item: "Cajun Fries", kind: "add", size: "Regular", price: 7.74, tag: "Last time",
+        step: "side", framing: "Same Cajun Fries as last time?", reason: "Returning voice — ladder step: side" } },
+      { at: 10, who: "O", say: "Same Cajun Fries as last time?" },
+      { at: 12, who: "C", say: "Yes please" },
+      { at: 20, who: "C", say: "That's it" },
+      { at: 26, pay: true },
+    ],
+    checks: [
+      ["the brain's card is shown tagged Last time and accepted", (r) => tagged(r.c, "Last time")?.outcome === "accepted" && tagged(r.c, "Last time")?.source === "brain"],
+      ["Cajun Fries are on the ticket", (r) => r.c.ticket.some((l) => /Cajun Fries/.test(l))],
+      ["the receipt carries the voice print", (r) => r.c.receipt.voice?.voice_id === "V1dabbd0c" && r.c.receipt.voice.matched],
+      ["the brain was asked after the lines", (r) => r.c.brainRequests >= 2],
+    ],
+  },
+  {
+    id: 22, title: "Allergic to milk: the brain offers the lettuce wrap",
+    steps: [
+      { at: 0, who: "O", say: "Hi there, what can I get you?" },
+      { at: 4, who: "C", say: "A regular hamburger please. I'm allergic to milk" },
+      { at: 6, brain: { name: "Lettuce Wrap (no bun)", item: "Lettuce Wrap (no bun)", kind: "add", size: "each", price: 0, tag: "Allergy: no milk",
+        step: "allergy", framing: "I can make the Hamburger a lettuce wrap — no bun. Want that?", reason: "ladder step: allergy" } },
+      { at: 9, who: "C", say: "Yes, do that" },
+      { at: 18, who: "C", say: "That's all" },
+      { at: 24, pay: true },
+    ],
+    checks: [
+      ["the allergy card outranks everything and is accepted", (r) => tagged(r.c, "Allergy: no milk")?.outcome === "accepted"],
+      ["the lettuce wrap is on the ticket", (r) => r.c.ticket.some((l) => /Lettuce Wrap/.test(l))],
+    ],
+  },
+  {
+    id: 23, title: "Topping done right: the brain's cheese upgrade swaps the burger",
+    steps: [
+      { at: 0, who: "O", say: "Welcome! What can I get for you?" },
+      { at: 4, who: "C", say: "A regular hamburger" },
+      { at: 6, brain: { name: "Cheeseburger", item: "Cheeseburger", kind: "upgrade", from: "Hamburger", size: "Regular", price: 16.10, delta: 2.46,
+        tag: "Topping", step: "topping", framing: "Make it a Cheeseburger for $2.46 more?", reason: "ladder step: topping" } },
+      { at: 9, press: "add" },
+      { at: 18, who: "C", say: "That's it" },
+      { at: 24, pay: true },
+    ],
+    checks: [
+      ["the swap card is shown tagged Topping", (r) => !!tagged(r.c, "Topping")],
+      ["the ticket has the Cheeseburger instead of the Hamburger", (r) => has(r.c, "1× Cheeseburger (Regular)") && !r.c.ticket.some((l) => /Hamburger/.test(l))],
+    ],
+  },
+  {
+    id: 24, title: "The receipt record: who said what, and every upsell with why and its outcome",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in, what can I get you?" },
+      { at: 4, who: "C", say: "Can I get a little cheeseburger" },
+      { at: 9, who: "O", say: "Would you like to make that a regular?" },
+      { at: 12, who: "C", say: "No thanks" },
+      { at: 16, who: "O", say: "Want fries with that?" },
+      { at: 19, who: "C", say: "Sure" },
+      { at: 26, who: "C", say: "That's all" },
+      { at: 32, pay: true },
+    ],
+    checks: [
+      ["customer and employee lines are told apart", (r) => r.c.receipt.transcript.some((l) => l.role === "customer") && r.c.receipt.transcript.some((l) => l.role === "operator")],
+      ["the declined upsize is on the record, said by the employee", (r) => r.c.receipt.upsells.some((u) => /Regular Cheeseburger/.test(u.title) && u.outcome === "declined" && u.pitched_by_employee)],
+      ["the accepted fries are on the record with why", (r) => r.c.receipt.upsells.some((u) => u.title === "Fries" && u.outcome === "accepted" && u.why)],
+      ["only customer lines were sent for the voice print as the customer's", (r) => r.c.roles.filter((x) => x === "customer").length >= 3],
     ],
   },
 ]

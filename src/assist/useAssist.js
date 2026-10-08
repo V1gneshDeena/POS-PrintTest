@@ -19,7 +19,8 @@
 // Where it shows: the POS keeps two small floating pieces on screen (AssistOverlay.jsx:
 // the upsell square and the transcript). The whole state is also published as a
 // snapshot (assistSync.js) for the FULL BAR page, which shows everything else and can
-// send commands back (start / end customer, Add / No thanks, a typed line, camera).
+// send commands back (start / end customer, Add / No thanks, the pairing's Add, a typed line,
+// camera, clear out-of-stock, forget voices).
 //
 // Outputs while a customer is active
 //   • STATED ORDER → TICKET: every item heard (POS-side parser on each line, plus
@@ -49,6 +50,19 @@
 //     same, and Add swaps the substitute in for it.
 //   • NOT PATIENT: the customer's first order line within 3 s of the session opening
 //     (hotkeys.json timing_rules) fires the "quick" effect: no upsizes, cheap items.
+//   • THE UPSELL BRAIN (the demopos tenant on the GPU box, reached through the speech bridge):
+//     after every finished line and every ticket change the POS asks it for one decision
+//     (scheduleBrain), sending the ticket, the last lines, constraints, hot-word effects,
+//     behaviours, this visit's offers and today's out-of-stock list; the bridge adds the
+//     voice print. Its pick arrives as `brain_upsell` (~0.5 s) and becomes a card ranked
+//     above basket completion (upsellEngine.js ctx.brain).
+//   • VOICE PRINT: each finished line is marked as the customer's or the employee's
+//     (voiceLine), so the bridge can send the customer's speech to ECAPA on the GPU box. A
+//     returning voice (`voice_match`) brings its visits and last order; no name is stored.
+//   • RECEIPT: at payment the visit is captured (receiptRecord) and sent to the brain's store,
+//     tagged by voice print: the order, the conversation with who said each line, and every
+//     upsell with why it was shown, whether the employee said it and its outcome. The same
+//     record goes on the printed receipt (assistReceipt.js).
 
 import { useEffect, useRef, useState } from "react"
 import { BRAND, MENU_KEY } from "../data/catalog.js"
@@ -61,13 +75,15 @@ import { BehaviourTracker } from "./behaviour.js"
 import { parseUtterance, isGreeting } from "./orderParser.js"
 import { classifyReply, pitches } from "./acceptance.js"
 import { pickUpsell, cardKey } from "./upsellEngine.js"
-import { detectHotkeys, TIMING_RULES } from "./hotkeys.js"
+import { detectHotkeys, TIMING_RULES, HOTKEYS } from "./hotkeys.js"
 import { INDEX, findEntry, defaultSize } from "./menuIndex.js"
 import { startAssistPublisher } from "./assistSync.js"
+import { setAssistReceipt } from "./assistReceipt.js"
 
-// The upsell catalogue whisper should use for this menu (its `restaurant` context). "fiveguys"
-// is whisper's internal id for the burger catalogue; it is never shown.
-const RESTAURANT = MENU_KEY === "burgers" ? "fiveguys" : "gregorys"
+// The tenant whisper and the brain know this menu as (its `restaurant` context, never shown).
+// The burger menu is its own tenant, `demopos`: whisper only transcribes for it (MEAL_LADDER_TENANTS,
+// no upsell of its own), and the upsell comes from the demopos brain through the speech bridge.
+const RESTAURANT = MENU_KEY === "burgers" ? "demopos" : "gregorys"
 const CARD_TIMEOUT_MS = 25000
 const CARD_RESULT_MS = 1800   // how long "Added ✓" / "Declined" stays before the next card
 const REPLY_MIN_MS = 800      // a reply must come after the card was on screen this long
@@ -75,7 +91,10 @@ const STANDBY_REPLAY_MS = 20000
 const BY_ID = new Map(INDEX.entries.map((e) => [e.id, e]))
 const COMPLAINT_PAUSE_MS = 60000
 // Which card source may replace an unanswered card of another (strictly higher wins).
-const SOURCE_RANK = { hotkey: 4, basket: 3, upsize: 3, ai: 2, behaviour: 1 }
+const SOURCE_RANK = { hotkey: 4, brain: 3.5, basket: 3, upsize: 3, ai: 2, behaviour: 1 }
+// Which hot keys are the customer talking (hotkeys.json `family`), for marking whose line it was.
+const CUSTOMER_KEYS = new Set(HOTKEYS.filter((h) => h.family === "customer").map((h) => h.key))
+const BRAIN_DEBOUNCE_MS = 150
 // How long a spoken signal keeps acting as a behaviour for the upsell engine.
 const SPOKEN_UNDECIDED_MS = 30000
 const SPOKEN_CLOSING_MS = 30000
@@ -131,6 +150,12 @@ export function createEngine(set, posRef) {
     trigger: "",
     firstOrderAt: 0,
     hot: null,
+    convo: [],        // this visit's lines: { at, text, role: customer | operator | "" }
+    voice: null,      // the bridge's voice_match for this visit
+    brain: null,      // the brain's latest pick (upsellEngine.js ctx.brain)
+    brainSeq: 0,
+    brainTimer: null,
+    behavioursNow: [],
   }
   st.hot = newHot(st.outToday)
   const now = () => Date.now()
@@ -158,6 +183,12 @@ export function createEngine(set, posRef) {
     st.lastAddedAt = 0
     st.firstOrderAt = 0
     st.prevLine = null
+    st.convo = []
+    st.voice = null
+    st.brain = null
+    clearTimeout(st.brainTimer)
+    set.voice?.(null)
+    set.brain?.(null)
     st.hot = newHot(st.outToday)
     clearTimeout(st.resultTimer)
     publishHeard(); publishCard(); publishOffers(); publishHot()
@@ -262,7 +293,7 @@ export function createEngine(set, posRef) {
 
   // ── Upsell card ───────────────────────────────────────────────────────────
   function cardSatisfied(c) {
-    if (c.kind === "upsize") return countOf(c.entry.id, c.size) > c.baseCount
+    if (c.kind === "upsize" || c.kind === "swap") return countOf(c.entry.id, c.size) > c.baseCount
     if (c.again) return countOf(c.entry.id) > c.baseCount
     return countOf(c.entry.id) > 0
   }
@@ -274,7 +305,7 @@ export function createEngine(set, posRef) {
     c.via = via
     c.resolvedAt = now()
     const o = st.offers.find((x) => x.key === c.key && !x.outcome)
-    if (o) { o.outcome = outcome; o.via = via }
+    if (o) { o.outcome = outcome; o.via = via; o.pitched = !!c.pitched }
     log(`Upsell ${outcome}: ${c.title}${via ? ` (${via})` : ""}`)
     publishCard(); publishOffers()
     clearTimeout(st.resultTimer)
@@ -289,6 +320,12 @@ export function createEngine(set, posRef) {
       if (c.kind === "upsize") {
         const line = cart().find((e) => e.item.id === c.entry.id && e.size === c.fromSize)
         if (line) p.decrementFromCart(line.key, "voice")
+      }
+      if (c.kind === "swap" && c.fromEntry) {
+        // A cheese / bacon upgrade or an allergy swap: the new item takes the old one's place.
+        const line = cart().find((e) => e.item.id === c.fromEntry.id && (!c.fromSize || e.size === c.fromSize))
+          || cart().find((e) => e.item.id === c.fromEntry.id)
+        if (line) { p.decrementFromCart(line.key, "upsell"); log(`Swapped ${line.item.name} for the ${c.entry.name}`) }
       }
       p.addToCart(c.entry.item, c.size, c.price, c.entry.category, "upsell")
     }
@@ -375,7 +412,8 @@ export function createEngine(set, posRef) {
     // Re-picking while a card is up: leave that card out of the offer log for the pick,
     // so the engine may choose it again (then nothing changes).
     const offers = pending ? st.offers.filter((x) => !(x.key === cur.key && !x.outcome)) : st.offers
-    const next = pickUpsell({ cart: c, lastAdded: st.lastAdded, behaviours: [...behaviours, ...spoken], ai: st.ai, offers, hot: { ...st.hot, now: t } })
+    st.behavioursNow = behaviours
+    const next = pickUpsell({ cart: c, lastAdded: st.lastAdded, behaviours: [...behaviours, ...spoken], ai: st.ai, brain: st.brain, offers, hot: { ...st.hot, now: t } })
     // An AI pick that can no longer be offered (on the ticket, already offered, or out) is
     // stale; drop it. One that only lost this round to the basket is kept: it ranks below
     // basket completion and fills in once the basket is complete.
@@ -395,9 +433,11 @@ export function createEngine(set, posRef) {
       st.offers = offers
       log(`Upsell replaced (${next.source}): ${cur.title}`)
     }
-    st.card = { ...next, key, shownAt: t, state: "pending", baseCount: countOf(next.entry.id, next.kind === "upsize" ? next.size : undefined) }
-    st.offers.push({ key, entryId: next.entry.id, kind: next.kind, again: !!next.again, source: next.source, title: next.title, outcome: null, atCheckout: !!next.atCheckout, at: t })
+    st.card = { ...next, key, shownAt: t, state: "pending", baseCount: countOf(next.entry.id, next.kind === "upsize" || next.kind === "swap" ? next.size : undefined) }
+    st.offers.push({ key, entryId: next.entry.id, kind: next.kind, again: !!next.again, source: next.source, title: next.title, outcome: null, atCheckout: !!next.atCheckout, at: t,
+      tag: next.tag || "", why: next.why || next.reason || "", line: next.reason || "", pitched: false })
     if (next.source === "ai") st.ai = null // consumed
+    if (next.source === "brain") st.brain = null // consumed; the next decision asks again
     // A hot-key response is offered once per time it is said (upsellEngine.js `origin`).
     if (next.origin) {
       if (next.origin.effect) st.hot.effects.delete(next.origin.effect)
@@ -466,7 +506,86 @@ export function createEngine(set, posRef) {
       }
     }
     if (hits.length) applyHotkeys(hits, t)
+    // Whose line was it? The customer orders, answers the card or says a customer hot word; the
+    // employee greets, offers or pitches. Lines that are neither stay unassigned.
+    const customer = parsed.kind === "order" || !!declined || cur?.state === "accepted"
+      || hits.some((h) => CUSTOMER_KEYS.has(h.key)) || /^\s*(yes|yeah|no|nope|sure|okay|ok)\b/i.test(text)
+    const operator = !customer && (isGreeting(text) || parsed.kind === "offer" || (cur && pitches(text, cur)) || /\?\s*$/.test(text))
+    const role = customer ? "customer" : operator ? "operator" : ""
+    st.convo.push({ at: t, text, role })
+    if (role) set.voiceLine?.(role)
     recompute()
+    scheduleBrain()
+  }
+
+  // ── The upsell brain (demopos tenant) ──────────────────────────────────────
+  /** Ask the brain for one decision, coalescing a line and the ticket changes it causes. */
+  function scheduleBrain() {
+    if (!set.requestBrain || st.phase !== "active") return
+    clearTimeout(st.brainTimer)
+    st.brainTimer = setTimeout(() => {
+      if (st.phase !== "active") return
+      st.brainSeq += 1
+      set.requestBrain({
+        req_id: st.brainSeq,
+        transcript: st.convo.length ? st.convo[st.convo.length - 1].text : "",
+        context: {
+          ticket: cart().map((l) => ({ name: l.item.name, size: l.size, qty: l.count, price: l.price })),
+          lines: st.convo.slice(-6).map((l) => l.text),
+          constraints: [...st.hot.constraints],
+          effects: [...st.hot.effects.keys()],
+          behaviours: st.behavioursNow.map((b) => ({ key: b.key, category: b.category })),
+          offers: st.offers.map((o) => ({ title: o.title, outcome: o.outcome })),
+          out_today: [...st.outToday].map((id) => BY_ID.get(id)?.name).filter(Boolean),
+          hour: new Date(now()).getHours(),
+        },
+      })
+    }, BRAIN_DEBOUNCE_MS)
+  }
+
+  /** The brain's answer (brain_upsell): the newest request's pick becomes a candidate card. */
+  function handleBrain(msg) {
+    if (!msg || msg.req_id !== st.brainSeq) return // an answer to an older ticket
+    if (msg.error) { log(`Upsell brain unavailable: ${msg.error}`); return }
+    set.brain?.({ ...msg, at: now() })
+    if (!msg.name) { st.brain = null; return }
+    const entry = findEntry(msg.name)
+    if (!entry) { log(`Upsell brain suggested "${msg.name}" — not on this POS menu, skipped`); return }
+    const fromEntry = msg.from ? findEntry(msg.from) : null
+    const fromLine = fromEntry && cart().find((l) => l.item.id === fromEntry.id)
+    const kind = msg.kind === "upgrade" || msg.kind === "swap" ? "swap" : msg.kind === "upsize" ? "upsize" : "add"
+    st.brain = {
+      entry, kind, size: msg.size, price: msg.price, fromSize: msg.from_size || fromLine?.size || "", fromEntry,
+      tag: msg.tag || "", framing: msg.framing || "", why: msg.reason || "", at: now(),
+    }
+    log(`Upsell brain (${msg.step || "?"}, ${msg.latency_ms ?? "?"} ms${msg.round_trip_ms != null ? `, ${msg.round_trip_ms} ms round trip` : ""}): ${msg.item} — ${msg.framing}`)
+    recompute()
+  }
+
+  /** The voice print (voice_match): a returning voice brings its history; a new one is anonymous. */
+  function handleVoice(msg) {
+    if (!msg || msg.error) { if (msg?.error) log(`Voice print unavailable: ${msg.error}`); return }
+    st.voice = msg
+    set.voice?.({ ...msg })
+    const last = (msg.last_order || []).map((x) => x.name).join(", ")
+    log(msg.matched
+      ? `Voice print: returning voice ${msg.voice_id} (score ${msg.score}, tier ${msg.tier}, ${msg.visits} visit(s)) — last time: ${last || "nothing recorded"}`
+      : `Voice print: new voice ${msg.voice_id} (${msg.seconds} s of speech)`)
+    scheduleBrain()
+  }
+
+  /** The paid visit, for the brain's store and the printed receipt. */
+  function receiptRecord() {
+    const c = cart()
+    return {
+      voice: st.voice ? { voice_id: st.voice.voice_id, matched: !!st.voice.matched, score: st.voice.score, tier: st.voice.tier,
+        visits: st.voice.visits } : null,
+      items: c.map((l) => ({ name: l.item.name, size: l.size, qty: l.count, price: l.price })),
+      total: Math.round(c.reduce((sum, l) => sum + l.price * l.count, 0) * 100) / 100,
+      transcript: st.convo.map((l) => ({ at: l.at, role: l.role || "unknown", text: l.text })),
+      upsells: st.offers.map((o) => ({ title: o.title, source: o.source, tag: o.tag || "", why: o.why || "", line: o.line || "",
+        pitched_by_employee: !!o.pitched, outcome: o.outcome || "not answered", via: o.via || "", at: o.at })),
+    }
   }
 
   /** Apply a line's hot keys, then force the card on screen to be re-picked. */
@@ -563,6 +682,7 @@ export function createEngine(set, posRef) {
       st.lastAdded = other ? { item: other.item, category: other.category, size: other.size, price: other.price } : null
     }
     if (st.phase !== "active" && (e.type === "item_click" || (e.type === "item_added" && e.source === "cashier"))) beginCustomer("cashier started ringing")
+    if (e.type === "item_added" || e.type === "item_removed") scheduleBrain()
     // The cashier tapped an item that is out today. The POS still rings it up; the
     // closest substitute pops up, and Add swaps it in (acceptCard).
     const tapped = e.type === "item_click" && st.phase === "active" && st.outToday.has(e.item.id) && BY_ID.get(e.item.id)
@@ -573,7 +693,8 @@ export function createEngine(set, posRef) {
     recompute()
   }
 
-  return { st, beginCustomer, endCustomer, handleFinal, handleWhisperOrder, handleAi, acceptCard, declineCard, addPair, clearOutToday, recompute, onActivityEvent, log }
+  return { st, beginCustomer, endCustomer, handleFinal, handleWhisperOrder, handleAi, handleBrain, handleVoice, receiptRecord,
+    acceptCard, declineCard, addPair, clearOutToday, recompute, onActivityEvent, log }
 }
 
 export function useAssist(pos) {
@@ -600,19 +721,24 @@ export function useAssist(pos) {
   const [backend, setBackend] = useState([])
   // Hot keys fired for this customer and what they currently constrain (full bar).
   const [hot, setHot] = useState({ fired: [], pausedUntil: 0, constraints: [], outToday: [], outIds: [] })
+  // The voice print of this visit and the brain's latest answer (full bar, upsell square).
+  const [voice, setVoice] = useState(null)
+  const [brain, setBrain] = useState(null)
 
   const posRef = useRef(pos)
   posRef.current = pos
   const engineRef = useRef(null)
+  const sttRef = useRef(null)
   if (!engineRef.current) {
     engineRef.current = createEngine({
       events: setEvents, heard: setHeard, card: setCard, offers: setOffers, phase: setPhase,
       trigger: setTrigger, lines: setLines, behaviours: setBehaviours, aiNote: setAiNote, customerName: setCustomerName,
-      hot: setHot,
+      hot: setHot, voice: setVoice, brain: setBrain,
+      voiceLine: (role) => sttRef.current?.voiceLine(role),
+      requestBrain: (req) => sttRef.current?.requestUpsell(req),
     }, posRef)
   }
   const E = engineRef.current
-  const sttRef = useRef(null)
   const presRef = useRef(null)
 
   useEffect(() => { resolveAssistEnabled().then(setEnabled) }, [])
@@ -622,7 +748,14 @@ export function useAssist(pos) {
     if (!enabled) return undefined
     const off = onActivity((e) => {
       E.onActivityEvent(e)
-      if (e.type === "payment_complete") E.endCustomer("paid", sttRef.current)
+      if (e.type === "payment_complete") {
+        // Capture the visit before it resets: to the brain's store (tagged by voice print) and
+        // to the receipt printer, which runs right after in the same click.
+        const record = E.receiptRecord()
+        setAssistReceipt(record)
+        sttRef.current?.sendReceipt(record)
+        E.endCustomer("paid", sttRef.current)
+      }
     })
     const tick = setInterval(() => E.recompute(), 1000)
     return () => { off(); clearInterval(tick) }
@@ -657,6 +790,10 @@ export function useAssist(pos) {
           case "final": setPartial(""); if (msg.text) E.handleFinal(msg.text); break
           case "order_update": E.handleWhisperOrder(msg.items); break
           case "ai_prompt": if (msg.vvm1) E.handleAi(msg.vvm1); break
+          case "brain_upsell": E.handleBrain(msg); break
+          case "voice_match": E.handleVoice(msg); break
+          case "receipt_saved": E.log(msg.error ? `Receipt not saved to the brain's store: ${msg.error}` : `Receipt saved to the brain's store${msg.voice_id ? ` (voice ${msg.voice_id}, visit ${msg.visits})` : ""}`); break
+          case "voice_forgotten": E.log(msg.error ? `Forget voices failed: ${msg.error}` : `Voice prints forgotten: ${msg.voices} voice(s), ${msg.receipts} receipt(s)`); break
           case "state_transition":
             if (msg.transition === "NAME_CAPTURED" && msg.data?.name) setCustomerName(msg.data.name)
             if (msg.vvm1) E.handleAi(msg.vvm1)
@@ -704,6 +841,7 @@ export function useAssist(pos) {
     say: (text) => { if (String(text || "").trim()) E.handleFinal(String(text).trim(), { typed: true }) },
     addPair: () => E.addPair(),
     clearOutToday: () => E.clearOutToday(),
+    forgetVoices: () => sttRef.current?.forgetVoices(),
   }
   const actionsRef = useRef(actions)
   actionsRef.current = actions
@@ -724,6 +862,7 @@ export function useAssist(pos) {
         case "camera": a.setPresenceOn(!!cmd.on); break
         case "pair": a.addPair(); break
         case "clear_out": a.clearOutToday(); break
+        case "forget_voices": a.forgetVoices(); break
         default:
       }
     })
@@ -734,7 +873,11 @@ export function useAssist(pos) {
   const snapshot = enabled ? {
     demoId: getDemoId(), brand: BRAND.name, restaurant: RESTAURANT, signedIn: !!auth?.ticket, operator: auth?.name || "",
     status, level, phase, trigger, partial, lines, heard, offers, behaviours, customerName, events, aiNote,
-    presenceOn, present, backend, hot, card: card && {
+    presenceOn, present, backend, hot, voice, brain: brain && {
+      item: brain.item, framing: brain.framing, tag: brain.tag, step: brain.step, kind: brain.kind, framer: brain.framer,
+      latency_ms: brain.latency_ms, round_trip_ms: brain.round_trip_ms, error: brain.error || "", trace: brain.trace || null,
+    },
+    card: card && {
       kind: card.kind, title: card.title, price: card.price, size: card.size, fromSize: card.fromSize || "",
       fromPrice: card.kind === "upsize" ? (card.entry.sizes.find(([l]) => l === card.fromSize)?.[1] || 0) : 0,
       reason: card.reason, source: card.source, state: card.state, via: card.via || "", tag: card.tag || "",
@@ -756,7 +899,7 @@ export function useAssist(pos) {
 
   return {
     enabled, auth, status, level, phase, trigger, partial, lines, heard, card, offers, behaviours,
-    customerName, events, aiNote, presenceOn, present, camStream, backend, hot,
+    customerName, events, aiNote, presenceOn, present, camStream, backend, hot, voice, brain,
     ...actions,
   }
 }
@@ -773,6 +916,9 @@ function summarize(msg) {
     case "state_transition": return `${msg.transition}${msg.data?.name ? ` (${msg.data.name})` : ""} · ${msg.source || ""}`
     case "bridge_status": return `${msg.state}${msg.error ? ` · ${msg.error}` : ""}${msg.sessionId ? ` · session ${String(msg.sessionId).slice(0, 8)}` : ""}${msg.code ? ` · code ${msg.code}` : ""}`
     case "customer_profile": return msg.returning ? `returning: ${msg.customerName || ""}` : "new customer"
+    case "voice_match": return msg.error ? `voice print error: ${msg.error}` : `${msg.matched ? "returning" : "new"} voice ${msg.voice_id} · score ${msg.score ?? "—"}${msg.tier ? ` · tier ${msg.tier}` : ""} · ${msg.seconds} s · ${msg.round_trip_ms} ms`
+    case "brain_upsell": return msg.error ? `brain error: ${msg.error}` : `${msg.item || "(no pick)"} · ${msg.step || ""} · ${msg.framer || ""} · ${msg.latency_ms} ms brain / ${msg.round_trip_ms} ms round trip`
+    case "receipt_saved": return msg.error ? `receipt error: ${msg.error}` : `receipt saved · voice ${msg.voice_id || "—"} · visit ${msg.visits}`
     default: return JSON.stringify(msg).slice(0, 160)
   }
 }
