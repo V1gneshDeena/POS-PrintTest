@@ -89,7 +89,7 @@ export default function AssistFullBar() {
             <Row label="State"><b style={{ color: s.phase === "active" ? C.lime : C.textSec }}>{s.phase === "active" ? "Customer at the counter" : "Standby"}</b></Row>
             {s.trigger ? <Row label="Started by">{s.trigger}</Row> : null}
             {s.customerName ? <Row label="Customer">{s.customerName}</Row> : null}
-            <Row label="Menu">{s.brand} <span style={{ color: C.textMuted }}>(whisper catalogue: {s.restaurant})</span></Row>
+            <Row label="Menu">{s.brand} <span style={{ color: C.textMuted }}>({s.restaurant === "gregorys" ? "Gregory's coffee menu" : "burger menu"})</span></Row>
             <Row label="Vavoom login">{s.signedIn ? s.operator || "signed in" : <span style={{ color: C.danger }}>not signed in on the POS</span>}</Row>
           </Card>
           <Card title="Inputs">

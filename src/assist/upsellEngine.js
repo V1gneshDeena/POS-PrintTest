@@ -17,6 +17,8 @@
 //                "do you have X?"      → X, with a complementary item below it (You asked about
 //                                        it); if X is out or not on the menu, the closest
 //                                        substitute
+//                "something cold" / "I'm so hot" → the most-ordered cold item (Something cold);
+//                "something hot" / "I'm freezing" → the most-ordered warm item (Something warm)
 //                and food when they want food, a second item when ordering for others, a
 //                seasonal pairing
 //   ai         whisper's live upsell (the production engine, from the conversation), used
@@ -24,7 +26,7 @@
 //              the customer said, and not reasoned from an item that is out. It ranks BELOW
 //              basket completion (David: "follow the basket completion"), so on this POS it
 //              fills in once the basket is complete, or names the same item as the basket
-//   basket     basket completion, in this menu's order: with sides (Five Guys) upsize the
+//   basket     basket completion, in this menu's order: with sides (the burger menu) upsize the
 //              food item, then fries, then a drink, then a shake, then the rest; without
 //              sides (Gregory's) upsize the drink, then a treat, then food
 //   behaviour  from the screen-activity estimates (behaviour.js): a treat when the customer
@@ -60,8 +62,14 @@ const SWEET = /shake|cookie|cake|donut|doughnut|brownie|muffin|cinnamon|sweet|ca
 const CAFFEINE = /espresso|cold brew|coffee|americano|latte|shot|nitro|macchiato|cappuccino|mocha|matcha|chai|black tea|\btea\b/i
 const INDULGENT = /shake|cookie|cake|donut|doughnut|brownie|fries|bacon|frapp|cinnamon roll|cheese fries/i
 const SEASONAL = /pumpkin|pecan|apple|peppermint|gingerbread|maple|spice|cranberry|eggnog/i
-const COLD_ITEM = /iced|cold|frapp|shake|lemonade|refresher|smoothie|frozen/i
+const COLD_ITEM = /iced|cold|frapp|shake|lemonade|refresher|smoothie|frozen|fountain|soda|\bwater\b|sparkling|ice cream|slush/i
 const HOT_ITEM = /\bhot\b|latte|\btea\b|chocolate|soup|cappuccino|americano|mocha|chai|warm|coffee|sandwich|melt/i
+// Warm food, for "something warm" on a menu without hot drinks (the burger menu).
+const HOT_FOOD = /burger|fries|hot dog|sandwich|melt|grilled|\begg|bacon|soup|panini|toast/i
+const isColdItem = (e) => COLD_ITEM.test(e.name)
+const isHotItem = (e) => !COLD_ITEM.test(e.name) && (HOT_ITEM.test(e.name) || HOT_FOOD.test(e.name))
+// Which part of the meal a temperature card comes from first: a drink, then a side or treat.
+const TEMP_ROLE_ORDER = ["drink", "side", "treat", "main"]
 const ENERGY = /shot|espresso|cold brew|nitro/i
 // Counters: plain / savoury against "too sweet", sweet against "too bitter".
 const PLAIN = /water|americano|black|brewed|drip|unsweet|cold brew|espresso|fries|salt|pretzel|bagel|plain|grilled cheese|veggie|egg|hot dog|burger/i
@@ -129,7 +137,8 @@ export function closestTo(target, { exclude = new Set(), constraints = null } = 
  *         offers: [{key, entryId, kind, again, outcome, atCheckout}],   (key = cardKey(card))
  *         hot: { now, effects: Map(effect → last fired ms), blocked: Set(entryId) (today's and this
  *                customer's), outOfStock: [{entry, at}], interest: [{entry|null, asked, at}],
- *                disliked: [{entry, at}], constraints: Set, pausedUntil } | null }
+ *                disliked: [{entry, at}], temperature: [{cold, wanted, at}], constraints: Set,
+ *                pausedUntil } | null }
  * Returns the best card { kind: 'add'|'upsize', entry, size, price, fromSize?, source, reason,
  * title, tag, pair? } or null. `pair` (asked-about items) is { entry, size, price }.
  */
@@ -238,6 +247,25 @@ export function pickUpsell(ctx) {
       const pick = INDEX.entries.filter((e) => SEASONAL.test(e.name) && !blocked.has(e.id)).sort((a, b) => a.rank - b.rank).find((e) => allowedBy(constraints, e))
       if (pick) consider(addCard(pick, { source: "hotkey", score: 88, reason: "Asked for something seasonal — it pairs with the season's menu" }))
     }
+    // Temperature (hot.temperature, newest record per temperature only, once per time it is
+    // said): wanting something cold or hot gets the most-ordered item of that temperature, a
+    // drink first (Something cold / Something warm); feeling hot or cold gets the same card a
+    // little lower. Neither when the ticket already has a drink or treat of that temperature
+    // ("something cold to drink" rings up the drink itself; a shake already answers "I'm hot").
+    for (const cold of [true, false]) {
+      const r = recent(hot.temperature).filter((x) => x.cold === cold).pop()
+      if (!r || r.offered) continue
+      const isTemp = cold ? isColdItem : isHotItem
+      if (cart.some((l) => { const e = entryOf(l.item.id); return e && (e.role === "drink" || e.role === "treat") && isTemp(e) })) continue
+      const pick = INDEX.entries.filter((e) => isTemp(e) && !blocked.has(e.id) && e.role !== "other")
+        .sort((a, b) => (TEMP_ROLE_ORDER.indexOf(a.role) + 1 || 9) - (TEMP_ROLE_ORDER.indexOf(b.role) + 1 || 9) || a.rank - b.rank)
+        .find((e) => allowedBy(constraints, e))
+      if (!pick) continue
+      const reason = cold
+        ? (r.wanted ? "Asked for something cold — our most-ordered cold one" : "Feeling the heat — something cold to cool down")
+        : (r.wanted ? "Asked for something hot — our most-ordered warm one" : "Feeling the cold — something warm")
+      consider({ ...addCard(pick, { source: "hotkey", tag: cold ? "Something cold" : "Something warm", score: r.wanted ? 89 : 87, reason }), origin: r })
+    }
   }
 
   // 2. The production AI's pick, grounded on this menu. A pick whose reason names an item
@@ -323,8 +351,13 @@ export function pickUpsell(ctx) {
     if (fired("food") && isFood(c.entry)) c.score += 15
     if (fired("seasonal") && SEASONAL.test(n)) c.score += 20
     if (fired("energy") && ENERGY.test(n)) c.score += 10
-    if (fired("weather_hot")) c.score += COLD_ITEM.test(n) ? 12 : HOT_ITEM.test(n) ? -10 : 0
-    if (fired("weather_cold")) c.score += HOT_ITEM.test(n) ? 12 : COLD_ITEM.test(n) ? -10 : 0
+    if (fired("weather_hot")) c.score += isColdItem(c.entry) ? 12 : isHotItem(c.entry) ? -10 : 0
+    if (fired("weather_cold")) c.score += isHotItem(c.entry) ? 12 : isColdItem(c.entry) ? -10 : 0
+    if (fired("want_cold")) c.score += isColdItem(c.entry) ? 20 : isHotItem(c.entry) ? -20 : 0
+    if (fired("want_hot")) c.score += isHotItem(c.entry) ? 20 : isColdItem(c.entry) ? -20 : 0
+    // A re-rank never lifts a basket, AI or behaviour card past a tagged hot-key response
+    // (86 and up): what was just said still decides first.
+    if (c.source !== "hotkey") c.score = Math.min(c.score, 85)
   }
   fresh.sort((a, b) => b.score - a.score)
   return { ...fresh[0], atCheckout: checkout }

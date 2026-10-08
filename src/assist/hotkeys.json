@@ -441,39 +441,85 @@
     },
     {
       "key": "weather_hot",
-      "label": "Hot weather",
+      "label": "Feeling hot / hot weather",
       "family": "customer",
       "patterns": [
-        "\\b(?:hot|warm) (?:out|outside|today)\\b",
+        "\\bi'?m (?:so |just so |really |very |kinda |a bit |getting )?(?:hot|sweaty|sweating|boiling|melting|burning up)\\b",
+        "\\b(?:hot|warm|boiling) (?:out|outside|in here)\\b",
+        "\\b(?:it'?s|so|really|very|pretty|getting) (?:hot|warm|boiling) today\\b",
         "\\bso hot\\b",
+        "\\bsweat(?:ing|y)\\b",
+        "\\bheat ?wave\\b",
         "\\bsunny\\b",
-        "\\bheat wave\\b"
+        "\\bfeeling (?:hot|warm)\\b"
       ],
-      "meaning": "Feels hot",
+      "meaning": "The customer feels hot, or says it is hot out",
       "effect": "weather_hot",
-      "action": "Iced and cold items first",
+      "action": "Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher",
+      "evidence": {
+        "aug": 0.028,
+        "sep_oct": 0.001
+      }
+    },
+    {
+      "key": "weather_cold",
+      "label": "Feeling cold / cold or wet weather",
+      "family": "customer",
+      "patterns": [
+        "\\bi'?m (?:so |just so |really |very |kinda |a bit |getting )?(?:cold|freezing|chilly|frozen|shivering)\\b",
+        "\\b(?:cold|freezing|chilly) (?:out|outside|in here)\\b",
+        "\\b(?:it'?s|so|really|very|pretty|getting) (?:cold|freezing|chilly) today\\b",
+        "\\bfreezing\\b",
+        "\\bchilly\\b",
+        "\\bshivering\\b",
+        "\\brain(?:ing|y)?\\b",
+        "\\bsnow(?:ing|y)?\\b",
+        "\\bfeeling cold\\b"
+      ],
+      "meaning": "The customer feels cold, or says it is cold or wet out",
+      "effect": "weather_cold",
+      "action": "Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher",
       "evidence": {
         "aug": 0.014,
         "sep_oct": 0.001
       }
     },
     {
-      "key": "weather_cold",
-      "label": "Cold or wet weather",
+      "key": "want_cold",
+      "label": "Wants something cold",
       "family": "customer",
       "patterns": [
-        "\\bcold (?:out|outside|today)\\b",
-        "\\bfreezing\\b",
-        "\\bchilly\\b",
-        "\\brain(?:ing|y)?\\b",
-        "\\bsnow(?:ing)?\\b"
+        "\\bsomething (?:cold|cool|iced|icy|refreshing|frozen|chilled)\\b",
+        "\\b(?:a |some )?cold drinks?\\b",
+        "\\bcool (?:me |myself )?(?:down|off)\\b",
+        "\\brefreshing\\b",
+        "\\bthirsty\\b"
       ],
-      "meaning": "Feels cold",
-      "effect": "weather_cold",
-      "action": "Hot drinks and warm food first",
+      "meaning": "The customer asks for something cold or refreshing",
+      "effect": "want_cold",
+      "action": "Pop up the most-ordered cold item (a drink first), tagged Something cold, unless a cold drink or shake is already on the ticket; cold items rank well above hot ones",
       "evidence": {
-        "aug": 0.014,
-        "sep_oct": 0.001
+        "aug": 0.0,
+        "sep_oct": 0.002
+      }
+    },
+    {
+      "key": "want_hot",
+      "label": "Wants something hot",
+      "family": "customer",
+      "patterns": [
+        "\\bsomething (?:hot|warm)\\b",
+        "\\b(?:a |some )?(?:hot|warm) drinks?\\b",
+        "\\bwarm (?:me|myself|us) up\\b",
+        "\\bsomething to warm\\b",
+        "\\bheat (?:me|myself) up\\b"
+      ],
+      "meaning": "The customer asks for something hot or warming",
+      "effect": "want_hot",
+      "action": "Pop up the most-ordered warm item (a hot drink first, else warm food), tagged Something warm, unless a hot drink is already on the ticket; hot items rank well above cold ones",
+      "evidence": {
+        "aug": 0.007,
+        "sep_oct": 0.0
       }
     },
     {

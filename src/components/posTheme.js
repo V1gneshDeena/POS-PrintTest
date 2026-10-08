@@ -26,7 +26,7 @@ export const CAT_COLORS = {
   "Food": "#D97706",
   "Bakery & Sweets": "#DB2777",
   "Extras & Merch": "#7C3AED",
-  // Five Guys categories
+  // Burger menu categories
   "Burgers": "#DC2626",
   "Hot Dogs": "#EA580C",
   "Sandwiches": "#CA8A04",

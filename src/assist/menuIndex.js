@@ -3,7 +3,7 @@
 // Every item becomes an entry { id, name, category, role, sizes, tag, rank, item }:
 //   role  — the item's part of a meal, from its category: main | side | drink | treat |
 //           other. Upsell pairing (upsellEngine.js) works in roles, so one rule set
-//           covers Five Guys (Burgers → Fries → Drinks → Shakes) and Gregory's
+//           covers the burger menu (Burgers → Fries → Drinks → Shakes) and Gregory's
 //           (Drinks → Bakery & Sweets → Food) alike.
 //   rank  — popularity order: bestseller, popular, signature tags first, then the
 //           menu's own order (Gregory's menu is already sorted by units sold).
@@ -11,7 +11,7 @@
 // ("cheese burger", plurals), and a short per-brand list of what customers actually
 // say ("shake", "coke", "hot dog").
 
-import { MENU, BRAND } from "../data/catalog.js"
+import { MENU, MENU_KEY } from "../data/catalog.js"
 
 export const norm = (s) =>
   String(s || "")
@@ -35,16 +35,16 @@ export function roleOf(category) {
   return "other"
 }
 
-// What customers say → the menu item they mean, per brand (BRAND.name in catalog.js).
-const BRAND_ALIASES = {
-  "Five Guys": {
+// What customers say → the menu item they mean, per menu (MENU_KEY in catalog.js).
+const MENU_ALIASES = {
+  burgers: {
     "shake": "Hand-Spun Milkshake", "milkshake": "Hand-Spun Milkshake", "milk shake": "Hand-Spun Milkshake",
     "soda": "Fountain Drink", "coke": "Fountain Drink", "pop": "Fountain Drink", "soft drink": "Fountain Drink",
     "pepsi": "Fountain Drink", "sprite": "Fountain Drink", "drink": "Fountain Drink", "fountain": "Fountain Drink",
     "water": "Bottled Water", "hot dog": "Kosher Style Hot Dog", "hotdog": "Kosher Style Hot Dog",
     "burger": "Hamburger", "veggie": "Veggie Sandwich", "egg and cheese sandwich": "Egg & Cheese",
   },
-  "Gregory's Coffee": {
+  gregorys: {
     "coffee": "Brewed Coffee", "drip": "Brewed Coffee", "iced coffee": "Iced Coffee",
   },
 }
@@ -82,7 +82,7 @@ function buildIndex() {
     if (/\Sburger/.test(k)) add(k.replace(/(\S)burger/, "$1 burger"), e)
     if (!k.endsWith("s")) add(`${k}s`, e)
   }
-  for (const [said, name] of Object.entries(BRAND_ALIASES[BRAND.name] || {})) {
+  for (const [said, name] of Object.entries(MENU_ALIASES[MENU_KEY] || {})) {
     const e = byName.get(norm(name))
     if (e) add(said, e)
   }
@@ -122,7 +122,7 @@ export function sizeFromWord(entry, word) {
   if (exact) return exact
   if (/^(small|little|single|kid|kids)$/.test(w)) return entry.sizes[0]
   if (/^(large|big|biggest|double)$/.test(w)) return entry.sizes[entry.sizes.length - 1]
-  // Middle size of three; the smaller of two (Five Guys drinks: Regular / Large).
+  // Middle size of three; the smaller of two (burger-menu drinks: Regular / Large).
   if (/^(medium|regular)$/.test(w)) return entry.sizes[Math.floor((entry.sizes.length - 1) / 2)]
   return null
 }
@@ -135,5 +135,5 @@ export function bestOf({ role, category, exclude = new Set() }) {
     (TAG_SCORE[b.tag] || 0) - (TAG_SCORE[a.tag] || 0) || a.rank - b.rank)
 }
 
-/** Roles this menu actually has (Gregory's has no "side", Five Guys no bakery). */
+/** Roles this menu actually has (Gregory's has no "side", the burger menu no bakery). */
 export const MENU_ROLES = new Set(INDEX.entries.map((e) => e.role))

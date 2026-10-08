@@ -12,8 +12,8 @@ The speaker labels in that data bleed: the same sentence often appears under bot
 
 ## How the POS demo's engine decides
 
-1. **Hot keys first.** The responses David set (below) come with a tag across the top of the upsell: **Closest substitute**, **Counter: too sweet**, **Counter: too bitter**, **Alternative**, **Complimentary**, **You asked about it**. Each is offered once per time it is said, so a declined substitute is not followed by a second one.
-2. **Basket completion**, in this menu's order. With sides (Five Guys): upsize the food item, then fries, then a drink, then a shake, then a fries upsize, then food, then a drink upsize. Without sides (Gregory's): upsize the drink, then a treat, then food.
+1. **Hot keys first.** The responses David set (below) come with a tag across the top of the upsell: **Closest substitute**, **Counter: too sweet**, **Counter: too bitter**, **Alternative**, **Complimentary**, **You asked about it**, and for temperature **Something cold** / **Something warm**. Each is offered once per time it is said, so a declined substitute is not followed by a second one.
+2. **Basket completion**, in this menu's order. With sides (the burger menu): upsize the food item, then fries, then a drink, then a shake, then a fries upsize, then food, then a drink upsize. Without sides (Gregory's): upsize the drink, then a treat, then food.
 3. **The production AI's pick** (whisper), once the basket is complete or when it names the same item. Only items on this POS's menu, never one the customer's needs rule out or one reasoned from an item that is out.
 4. **Screen behaviour** ([BEHAVIOUR-MODEL.md](BEHAVIOUR-MODEL.md)).
 
@@ -28,7 +28,7 @@ An unanswered card stays until a card from a higher step is available, and every
 | **Too sweet** | too sweet, too sugary, sickly sweet | 0.7% | "Nothing too sweet." | Something to counter it, tagged **Counter: too sweet**: a salty side where the menu has sides (fries), else a plain drink (cold brew, Americano) |
 | **Too bitter** | too bitter, too strong, so bitter, tastes burnt, burnt | 0.0% | — | Something to counter it, tagged **Counter: too bitter**: a treat (shake, croissant), else a sweet drink |
 | **Doesn't like it** | I don't like it / this / the …, I didn't like the …, not a fan of | 2.8% | "I do, but I don't like it." | An alternative from the same category, tagged **Alternative**, for the item named or else the last one ordered; that item is never rung up from the line |
-| **Took forever** | took forever / so long / ages, taking forever, long wait, been waiting | 0.0% | — | A free souvenir, tagged **Complimentary**, if the menu has merchandise (Gregory's: from Extras & Merch, added at $0); Five Guys has none, so it is only logged |
+| **Took forever** | took forever / so long / ages, taking forever, long wait, been waiting | 0.0% | — | A free souvenir, tagged **Complimentary**, if the menu has merchandise (Gregory's: from Extras & Merch, added at $0); the burger menu has none, so it is only logged |
 | **Complaint (order problem)** | got it wrong, wrong order / drink / size, missing my, didn't get my, forgot my, remake, messed up, not happy | 0.7% | "We didn't get the right part." | Stop pitching for 60 s; fix the order first |
 | **Dairy-free** | oat milk, almond, soy, coconut, lactose, dairy-free, non-dairy, vegan | 21.7% | "…a grande caramel macchiato with almond milk?" / "I'll do lactose free, actually." | Drop every milk, cream, cheese and shake pitch, the AI's included |
 | **Watching sugar** | sugar-free, no sugar, half sweet, less sweet, not too sweet, skinny, unsweetened | 11.2% | "Can you do sugar free vanilla?" | Drop sweet treats and syrup-heavy drinks |
@@ -44,8 +44,10 @@ An unanswered card stays until a card from a higher step is available, and every
 | **Drink only** | no food, just the drink, just a coffee, not hungry, already ate | 1.4% | "Just a drink? Yeah. Venti white mocha." | No food pitches at all |
 | **In a hurry** | quick, in a rush, running late, I'm late, no time, on my way to | 0.7% | "I'm gonna have a quick grande nitro cold brew." | No upsizes for 5 min; only cheap, ready items rank |
 | **Needs a boost** | tired, exhausted, need my caffeine, long day, wake me up, rough morning | 1.4% | "It's morning. I need my caffeine." | An upsize or an extra-shot item ranks higher |
-| **Hot weather** | hot out / today, so hot, sunny, heat wave | 1.4% | "I'm just so hot right now." | Iced and cold items rank higher, hot ones lower |
-| **Cold or wet weather** | cold out, freezing, chilly, raining, snowing | 1.4% | "Is it raining today?" | Hot drinks and warm food rank higher |
+| **Feeling hot / hot weather** | I'm (so) hot, I'm sweating / boiling / melting, so hot, hot out / outside / in here, it's hot today, sweaty, sunny, heat wave, feeling hot | 2.8% | "Sweating. Sorry. I'm just so hot right now." | The most-ordered cold item pops up, tagged **Something cold** (a drink first; not when a cold drink or shake is already on the ticket); iced and cold items rank higher, hot ones lower |
+| **Feeling cold / cold or wet weather** | I'm (so) cold / freezing / chilly / shivering, cold out / outside / in here, it's cold today, freezing, chilly, raining, snowing, feeling cold | 1.4% | "Is it raining today?" | The most-ordered warm item pops up, tagged **Something warm** (a hot drink first, else warm food such as fries; not when a hot drink is already on the ticket); hot drinks and warm food rank higher |
+| **Wants something cold** | something cold / cool / iced / refreshing / frozen, a cold drink, cool (me) down / off, refreshing, thirsty | 0.0% (0.2% of Sept–Oct clips) | "I probably just want something refreshing. Just cold." | The most-ordered cold item pops up, tagged **Something cold** (not when a cold drink or shake is already on the ticket: "something cold to drink" rings up the drink itself); cold items rank well above hot ones |
+| **Wants something hot** | something hot / warm, a hot / warm drink, warm me up, something to warm, heat me up | 0.7% | "And then I think I might get a hot drink this time." | The most-ordered warm item pops up, tagged **Something warm** (not when a hot drink is already on the ticket); hot items rank well above cold ones |
 | **Undecided** | not sure, can't decide, what do you recommend, what's good, what's popular, take your time, surprise me | 3.5% | "I'm not able to decide." | One clear recommendation: the bestseller, for 30 s |
 | **Order closing** | that's it, that's all, that's everything, that'll be it, nothing else | 32.9% | "That's everything." | One last small add-on now, then no more cards |
 
@@ -66,10 +68,11 @@ Replaying the patterns over the 2,103 August lines found these misfires, now fix
 
 - "Can I get that with oat milk" counted as an availability question; that form was removed (it is an order modifier).
 - The operator's "Would you like to upsize to a venti?" counted as the customer going large; a line that is an upsize offer no longer fires it.
+- "Hot or iced?", "a hot one", "extra hot", "iced" and "warmed up" are the drink being ordered, not a feeling, and were never made temperature hot keys (they are in about half of all orders). "Hot today" on its own was dropped too: STT writes it in garbled greetings ("can I just get a hot potential today").
 - "What's wrong with me?" counted as a complaint, which would have paused upsells for a minute. Order complaints now need a complaint shape ("got it wrong", "wrong order", "missing my").
 - The loyalty question, as STT writes it ("Do you have your words up with us?"), counted as asking about an item. Excluding it brought "Asked if we have something" from 16.8% to 14.0% of orders.
 
-And in the engine: "Bottled Water" matched the souvenir name list through "bottle", so Five Guys would have handed out free water; souvenirs now come only from merchandise.
+And in the engine: "Bottled Water" matched the souvenir name list through "bottle", so the burger menu would have handed out free water; souvenirs now come only from merchandise.
 
 Still possible and accepted: "breakfast" fires on the operator's own mention of breakfast sandwiches, and "another" on "try another one". Both only nudge food or a second item; neither blocks or pauses anything.
 
@@ -79,5 +82,5 @@ Nothing below is built. It needs whisper's code, a deploy to gpu-setup, and your
 
 1. Copy `hotkeys.json` into whisper (`app/ai/`) and run the same detection on every final line from the operator mic and, where there is one, the customer mic.
 2. **Out of stock is a spoken 86**: add the item to the store's blocked items for the day and run the same recompute the tablet's `inventory_update` already triggers (`_compute_upsell("inventory_change")`), which emits a replacement card.
-3. Every other hot key clears the sticky hold (`held_item`) and recomputes with the hot key passed to glm-upsell as context, alongside the dormant customer-cue path (`CUE_UPSELL_TENANTS`), which handles the meaning-based cues ("I'm freezing") these phrases don't cover. The tablet would show the same tags.
+3. Every other hot key clears the sticky hold (`held_item`) and recomputes with the hot key passed to glm-upsell as context, alongside the dormant customer-cue path (`CUE_UPSELL_TENANTS`), which handles meaning-based cues these phrases don't cover (a customer who says "brr, it's brutal out there" rather than "I'm freezing"). The tablet would show the same tags.
 4. Ship it in shadow first, logging "hot key X would re-pick A → B" without changing the card, the way `CUE_UPSELL_MODE=shadow` was planned, and compare against receipts before switching it on.

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { makeOperator, saveSession } from "../data/auth.js"
+import { BRAND } from "../data/catalog.js"
 
 const C = {
   navy: "#0B0E14",
@@ -80,7 +81,7 @@ export default function AuthScreen({ onLogin }) {
               letterSpacing: "-0.02em",
             }}>VAVOOM</div>
             <div style={{ color: C.navyBorder, fontSize: 18 }}>×</div>
-            <div style={{ color: C.textSec, fontWeight: 600, fontSize: 14 }}>Gregory's Coffee</div>
+            <div style={{ color: C.textSec, fontWeight: 600, fontSize: 14 }}>{BRAND.name}</div>
           </div>
           <h1 style={{
             color: C.text,

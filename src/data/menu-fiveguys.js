@@ -1,4 +1,7 @@
-// Five Guys — full demo menu for the scripted Five Guys pilot.
+// The burger menu — the POS's default demo menu, shown under GENERIC branding (BRAND below:
+// "Demo Restaurant"; David, 2026-10-07: no Five Guys branding on the POS). The items and
+// prices were modelled on Five Guys for the scripted Five Guys pilot, which is why the notes
+// below cite it; nothing on screen or on the receipt names it.
 // Same shape as menu.js (the Gregory's catalog): MENU keyed by category, each
 // item { id, name, sizes: {label: price}, tag }, plus CATEGORY_ICONS + TAG_CONFIG.
 //
@@ -69,7 +72,8 @@ export const TAG_CONFIG = {
   "classic":    { "label": "Classic",    "color": "#94A3B8", "bg": "#94A3B818" },
 }
 
-// Free at Five Guys — shown on the menu board, not charged on the POS.
+// Free toppings and mix-ins (the pilot's menu board) — not charged on the POS, and not shown
+// by it.
 export const FREE_TOPPINGS = [
   "Mayo", "Lettuce", "Pickles", "Tomatoes", "Grilled Onions", "Raw Onions",
   "Grilled Mushrooms", "Jalapeños", "Green Peppers", "Ketchup", "Mustard",
@@ -80,12 +84,13 @@ export const FREE_MIXINS = [
   "Peanut Butter", "Bacon", "Salted Caramel", "Reese's Cups", "Chocolate", "Coffee",
 ]
 
+// Generic on purpose: what the header, sign-in screen, receipt, order numbers and page title show.
 export const BRAND = {
-  name: "Five Guys",
+  name: "Demo Restaurant",
   location: "Drive-Thru",
-  footer: "Five Guys Pilot",
-  receiptHeader: "FIVE GUYS",
+  footer: "Demo menu",
+  receiptHeader: "DEMO RESTAURANT",
   receiptSub: "Drive-Thru",
   thankYou: "Enjoy! 🍔",
-  orderPrefix: "fg_",
+  orderPrefix: "ord_",
 }

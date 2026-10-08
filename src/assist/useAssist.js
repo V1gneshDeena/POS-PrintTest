@@ -36,8 +36,9 @@
 //   • HOT KEYS (hotkeys.json) are the upsell's guidelines: a line that says an item is
 //     out, asks about an item, complains (too sweet, too bitter, doesn't like it, took
 //     forever, an order problem), states a dietary need, wants food, orders for others,
-//     is in a hurry, mentions the weather or the season, or closes the order releases the
-//     card on screen and re-picks at once with that context (upsellEngine.js ctx.hot). An
+//     is in a hurry, feels hot or cold or wants something cold or hot, mentions the season,
+//     or closes the order releases the card on screen and re-picks at once with that
+//     context (upsellEngine.js ctx.hot). An
 //     item the operator says is out, or the customer only asks about, is never rung up
 //     from that line. An out-of-stock item is never offered again THAT DAY in this demo
 //     room (kept in localStorage per demo and date; the full bar can clear it), and its
@@ -50,7 +51,7 @@
 //     (hotkeys.json timing_rules) fires the "quick" effect: no upsizes, cheap items.
 
 import { useEffect, useRef, useState } from "react"
-import { BRAND } from "../data/catalog.js"
+import { BRAND, MENU_KEY } from "../data/catalog.js"
 import { resolveAssistEnabled, getDemoId } from "./demoContext.js"
 import { loadAssistAuth, clearAssistAuth, signInAssist } from "./vavoomAuth.js"
 import { SttClient } from "./sttClient.js"
@@ -64,8 +65,9 @@ import { detectHotkeys, TIMING_RULES } from "./hotkeys.js"
 import { INDEX, findEntry, defaultSize } from "./menuIndex.js"
 import { startAssistPublisher } from "./assistSync.js"
 
-// The upsell catalogue whisper should use for this menu (its `restaurant` context).
-const RESTAURANT = BRAND.name === "Five Guys" ? "fiveguys" : "gregorys"
+// The upsell catalogue whisper should use for this menu (its `restaurant` context). "fiveguys"
+// is whisper's internal id for the burger catalogue; it is never shown.
+const RESTAURANT = MENU_KEY === "burgers" ? "fiveguys" : "gregorys"
 const CARD_TIMEOUT_MS = 25000
 const CARD_RESULT_MS = 1800   // how long "Added ✓" / "Declined" stays before the next card
 const REPLY_MIN_MS = 800      // a reply must come after the card was on screen this long
@@ -94,13 +96,19 @@ function saveOutToday(ids) {
 // Per-customer hot-key state (see upsellEngine.js ctx.hot). `blocked` starts as today's
 // out-of-stock list, so a new customer is never offered those either.
 const newHot = (outToday) => ({
-  effects: new Map(), blocked: new Set(outToday || []), outOfStock: [], interest: [], disliked: [],
+  effects: new Map(), blocked: new Set(outToday || []), outOfStock: [], interest: [], disliked: [], temperature: [],
   constraints: new Set(), pausedUntil: 0, fired: [],
 })
 const HAS_SOUVENIR = INDEX.entries.some((e) => /merch|souvenir|gift/i.test(e.category))
 // Ordering an item that is out today is a rule, not a phrase (like "not patient"): it is
 // recorded with the hot keys and answered with the item's closest substitute.
 const ORDERED_OUT = { key: "ordered_out", effect: "ordered_out", asked: "" }
+// Temperature hot keys: feeling hot or cold, or wanting something cold or hot. Each line that
+// says one adds a record the upsell engine answers once (Something cold / Something warm).
+const TEMPERATURE = {
+  weather_hot: { cold: true, wanted: false }, want_cold: { cold: true, wanted: true },
+  weather_cold: { cold: false, wanted: false }, want_hot: { cold: false, wanted: true },
+}
 
 function createEngine(set, posRef) {
   const st = {
@@ -462,6 +470,13 @@ function createEngine(set, posRef) {
         }
       }
       if (h.effect === "ordered_out") for (const e of h.items) hot.outOfStock.push({ entry: e, at: t })
+      if (TEMPERATURE[h.effect]) {
+        // One record per temperature per line; "I'm so hot, something cold please" is one want.
+        const { cold, wanted } = TEMPERATURE[h.effect]
+        const same = hot.temperature.find((r) => r.at === t && r.cold === cold)
+        if (same) same.wanted = same.wanted || wanted
+        else hot.temperature.push({ cold, wanted, at: t })
+      }
       if (h.effect === "interest_item") {
         for (const e of h.items) hot.interest.push({ entry: e, asked: "", at: t })
         if (!h.items.length && h.asked) hot.interest.push({ entry: null, asked: h.asked, at: t })

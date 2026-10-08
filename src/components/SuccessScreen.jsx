@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { BRAND } from "../data/catalog.js"
 
 const C = {
   navyCard: "#1A2130",
@@ -74,10 +75,10 @@ export default function SuccessScreen({ method, total, orderId, onNew, onPrint, 
         minWidth: 260,
       }}>
         <div style={{ fontSize: 12, color: C.textMuted }}>
-          Gregory's Coffee · Old Bridge Drive-Thru
+          {BRAND.name} · {BRAND.location}
         </div>
         <div style={{ fontSize: 11, color: C.textMuted, marginTop: 4 }}>
-          Thank you — have a great day! ☕
+          Thank you — {BRAND.thankYou.charAt(0).toLowerCase() + BRAND.thankYou.slice(1)}
         </div>
       </div>
 
