@@ -68,6 +68,13 @@
 //   • VOICE PRINT: each finished line is marked as the customer's or the employee's
 //     (voiceLine), so the bridge can send the customer's speech to ECAPA on the GPU box. A
 //     returning voice (`voice_match`) brings its visits and last order; no name is stored.
+//   • HOW IT'S DECIDING (reasoning.js): every step above also writes a plain sentence for the
+//     full bar, for investors: the hot word and what it means, the voice print trying to remember
+//     the customer (remembered / new / added to memory), screen taps and behaviours, the ticket's
+//     calories and ingredients, how previous orders weigh, why each card went up, each answer, and
+//     a plan for how many upsells suit the visit (shown, not enforced). Built from the engine's own
+//     numbers as they happen: no model call, and no card waits for it. The last visit's stays on
+//     screen after payment.
 //   • RECEIPT: at payment the visit is captured (receiptRecord) and sent to the brain's store,
 //     tagged by voice print: the order, the conversation with who said each line, and every
 //     upsell with why it was shown, whether the employee said it and its outcome. The same
@@ -88,6 +95,7 @@ import { detectHotkeys, TIMING_RULES, HOTKEYS } from "./hotkeys.js"
 import { INDEX, findEntry, defaultSize } from "./menuIndex.js"
 import { startAssistPublisher } from "./assistSync.js"
 import { setAssistReceipt } from "./assistReceipt.js"
+import { healthNote, historyNote, memoryNote, openSlots, pickNote, savedNote, upsellPlan } from "./reasoning.js"
 
 // The tenant whisper and the brain know this menu as (its `restaurant` context, never shown).
 // The burger menu is its own tenant, `demopos`: whisper only transcribes for it (MEAL_LADDER_TENANTS,
@@ -104,6 +112,7 @@ const SOURCE_RANK = { hotkey: 4, brain: 3.5, basket: 3, upsize: 3, ai: 2, behavi
 // Which hot keys are the customer talking (hotkeys.json `family`), for marking whose line it was.
 const CUSTOMER_KEYS = new Set(HOTKEYS.filter((h) => h.family === "customer").map((h) => h.key))
 const HOTKEY_BY_KEY = new Map(HOTKEYS.map((h) => [h.key, h]))
+const lowerFirst = (t) => (t ? t.charAt(0).toLowerCase() + t.slice(1) : t)
 // A meaning answer older than this is for a line long gone and is dropped.
 const MEANING_STALE_MS = 10000
 const BRAIN_DEBOUNCE_MS = 150
@@ -171,10 +180,37 @@ export function createEngine(set, posRef) {
     visit: 0,           // counts customers, so a meaning answer for an earlier one is dropped
     meaningSeq: 0,
     meaningReqs: new Map(), // req_id → { t, text, ids rung up from that line, visit, convo entry }
+    // How it's deciding (reasoning.js): what it weighs now, what happened this visit, and the last visit's.
+    reasonNow: { memory: "", health: "", history: "", plan: "" },
+    timeline: [],
+    lastReasoning: null,
+    brainMeta: null,      // the brain's latest trace, read and framer, for the pick notes
+    screenSeen: new Set(), // behaviours already explained this visit
+    saidEffects: new Set(), // every hot-key effect this visit (the plan reads them after cards consume them)
+    listening: false,
   }
   st.hot = newHot(st.outToday)
   const now = () => Date.now()
   const log = (text) => set.events((prev) => [{ at: now(), text }, ...prev].slice(0, 40))
+  const publishReasoning = () => set.reasoning?.({ now: { ...st.reasonNow }, timeline: st.timeline.slice(), last: st.lastReasoning })
+  /** One step of how it's deciding, for the full bar's timeline. */
+  function explain(kind, text) {
+    if (!text) return
+    st.timeline.push({ at: now(), kind, text })
+    if (st.timeline.length > 80) st.timeline.shift()
+    publishReasoning()
+  }
+  /** What it is weighing at this moment: memory, health, previous orders, the upsell plan. */
+  function refreshReasoning() {
+    const brainHealth = st.brainMeta?.trace?.health ?? null
+    const next = {
+      memory: memoryNote(st.voice, { listening: st.listening }),
+      health: healthNote(cart(), { constraints: [...st.hot.constraints], brainHealth }) || "",
+      history: historyNote(st.voice, st.brainMeta),
+      plan: upsellPlan({ cart: cart(), effects: st.saidEffects, constraints: [...st.hot.constraints], offers: st.offers, voice: st.voice, brainHealth }).text,
+    }
+    if (Object.keys(next).some((k) => next[k] !== st.reasonNow[k])) { st.reasonNow = next; publishReasoning() }
+  }
   const cart = () => posRef.current?.cart || []
   const countOf = (id, size) => cart().filter((e) => e.item.id === id && (!size || e.size === size)).reduce((s, e) => s + e.count, 0)
   const publishHeard = () => set.heard([...st.heard.values()].map((h) => ({
@@ -203,6 +239,13 @@ export function createEngine(set, posRef) {
     st.brain = null
     st.visit += 1
     st.meaningReqs.clear()
+    st.timeline = []
+    st.reasonNow = { memory: "", health: "", history: "", plan: "" }
+    st.brainMeta = null
+    st.screenSeen = new Set()
+    st.saidEffects = new Set()
+    st.listening = false
+    publishReasoning()
     clearTimeout(st.brainTimer)
     set.voice?.(null)
     set.brain?.(null)
@@ -222,6 +265,8 @@ export function createEngine(set, posRef) {
     set.phase("active")
     set.trigger(trigger)
     log(`Customer session started — ${trigger}`)
+    explain("visit", `New customer at the counter (${trigger}).`)
+    refreshReasoning()
     // Replay what was said just before the session opened (the first words count).
     const replay = st.standbyLines.filter((l) => now() - l.at < STANDBY_REPLAY_MS)
     st.standbyLines = []
@@ -232,6 +277,8 @@ export function createEngine(set, posRef) {
     if (st.phase !== "active") return
     const accepted = st.offers.filter((o) => o.outcome === "accepted").length
     log(`Session ended — ${reason} · ${st.offers.length} upsell(s) offered, ${accepted} accepted`)
+    explain("visit", `Visit ended (${reason}): ${st.offers.length} upsell${st.offers.length === 1 ? "" : "s"} shown, ${accepted} accepted.`)
+    st.lastReasoning = { endedAt: now(), now: { ...st.reasonNow }, timeline: st.timeline.slice() }
     st.phase = "standby"
     st.tracker.reset()
     resetCustomer()
@@ -304,6 +351,7 @@ export function createEngine(set, posRef) {
       h.cartAtAdd = c
       for (let n = 0; n < toAdd; n++) p.addToCart(h.entry.item, size, price, h.entry.category, "voice")
       log(`Added from what was said: ${toAdd}× ${size !== "each" ? `${size} ` : ""}${h.entry.name}`)
+      explain("order", `Heard the order: rang up ${toAdd}× ${size !== "each" ? `${size} ` : ""}${h.entry.name} from what the customer said.`)
     }
     publishHeard()
   }
@@ -324,6 +372,7 @@ export function createEngine(set, posRef) {
     const o = st.offers.find((x) => x.key === c.key && !x.outcome)
     if (o) { o.outcome = outcome; o.via = via; o.pitched = !!c.pitched }
     log(`Upsell ${outcome}: ${c.title}${via ? ` (${via})` : ""}`)
+    explain("outcome", `Customer ${{ accepted: "said yes to", declined: "turned down", lapsed: "let pass" }[outcome] || outcome} “${c.title}”${via ? ` (${via})` : ""}.`)
     publishCard(); publishOffers()
     clearTimeout(st.resultTimer)
     st.resultTimer = setTimeout(() => recompute(), CARD_RESULT_MS + 50)
@@ -390,6 +439,7 @@ export function createEngine(set, posRef) {
     st.busy = true
     try { recomputeNow() } finally { st.busy = false }
     if (st.again) { st.again = false; queueMicrotask(recompute) }
+    if (st.phase === "active") refreshReasoning()
   }
 
   function recomputeNow() {
@@ -403,6 +453,14 @@ export function createEngine(set, posRef) {
       sessionAge: t - st.sessionStart, recentlyHeard,
     })
     set.behaviours(behaviours)
+    if (st.phase === "active") {
+      for (const b of behaviours) {
+        const k = `${b.key}|${b.category || ""}`
+        if (st.screenSeen.has(k)) continue
+        st.screenSeen.add(k)
+        explain("screen", `Screen: ${b.label}. ${b.meaning}${b.action ? `. So: ${lowerFirst(b.action)}` : ""}.`)
+      }
+    }
     // What was said counts like screen behaviour for the engine's gates.
     const fx = st.hot.effects
     const spoken = []
@@ -451,6 +509,7 @@ export function createEngine(set, posRef) {
       // block that item from being offered again later.
       st.offers = offers
       log(`Upsell replaced (${next.source}): ${cur.title}`)
+      explain("pick", `Took down “${cur.title}”: ${allergyFirst ? "an allergy answer comes first" : `the ${next.source} pick ranks higher`}.`)
     }
     st.card = { ...next, key, shownAt: t, state: "pending", baseCount: countOf(next.entry.id, next.kind === "upsize" || next.kind === "swap" ? next.size : undefined) }
     st.offers.push({ key, entryId: next.entry.id, kind: next.kind, again: !!next.again, source: next.source, title: next.title, outcome: null, atCheckout: !!next.atCheckout, at: t,
@@ -463,6 +522,7 @@ export function createEngine(set, posRef) {
       else next.origin.offered = true
     }
     log(`Upsell shown (${next.source}): ${next.title} — ${next.reason}`)
+    explain("pick", pickNote(next, next.source === "brain" ? st.brainMeta : null))
     publishCard(); publishOffers()
   }
 
@@ -536,6 +596,10 @@ export function createEngine(set, posRef) {
     const said = { at: t, text, role }
     st.convo.push(said)
     if (role) set.voiceLine?.(role)
+    if (role === "customer" && !st.voice && !st.listening && set.voiceLine) {
+      st.listening = true
+      explain("voice", memoryNote(null, { listening: true }))
+    }
     recompute()
     scheduleBrain()
     // The meaning layer reads the same line on the GPU box (handleMeaning applies its answer).
@@ -568,7 +632,7 @@ export function createEngine(set, posRef) {
         if (undo.length) mergeHeard(undo.map((e) => ({ entry: e, qty: 1, size: null, negated: true, more: false })), "speech")
       }
       fired.push({ key: h.key, label: `${h.label} — by meaning (${Number(m.score).toFixed(2)})`, effect: h.effect,
-        action: h.action, meaning: h.meaning, phrase: m.clause, items, asked: "" })
+        action: h.action, meaning: h.meaning, phrase: m.clause, items, asked: "", via: "meaning", score: m.score, baseLabel: h.label })
     }
     if (!fired.length) return
     // The line said something about the customer, so it was the customer's.
@@ -611,6 +675,7 @@ export function createEngine(set, posRef) {
     if (!msg || msg.req_id !== st.brainSeq) return // an answer to an older ticket
     if (msg.error) { log(`Upsell brain unavailable: ${msg.error}`); return }
     set.brain?.({ ...msg, at: now() })
+    st.brainMeta = { trace: msg.trace || null, read: msg.read || "", framer: msg.framer || "" }
     if (!msg.name) { st.brain = null; return }
     const entry = findEntry(msg.name)
     if (!entry) { log(`Upsell brain suggested "${msg.name}" — not on this POS menu, skipped`); return }
@@ -629,6 +694,9 @@ export function createEngine(set, posRef) {
   function handleVoice(msg) {
     if (!msg || msg.error) { if (msg?.error) log(`Voice print unavailable: ${msg.error}`); return }
     st.voice = msg
+    st.listening = true
+    explain("voice", memoryNote(msg, { listening: true }))
+    refreshReasoning()
     set.voice?.({ ...msg })
     const last = (msg.last_order || []).map((x) => x.name).join(", ")
     log(msg.matched
@@ -692,6 +760,11 @@ export function createEngine(set, posRef) {
         const named = h.items.length ? ` (${h.items.map((e) => e.name).join(", ")})` : h.asked ? ` (“${h.asked}”)` : ""
         hot.fired.unshift({ at: t, key: h.key, label: h.label, phrase: h.phrase, items: h.items.length ? h.items.map((e) => e.name) : h.asked ? [`“${h.asked}”`] : [], action: h.action })
         log(`Hot key — ${h.label}: “${h.phrase}”${named} → ${h.action}`)
+        st.saidEffects.add(h.effect)
+        const plan = String(h.action || "").replace(/[.\s]+$/, "")
+        explain(h.via === "meaning" ? "meaning" : "hotkey", h.via === "meaning"
+          ? `Heard “${h.phrase}”: no exact hot word, but it means ${lowerFirst(h.meaning || h.baseLabel)} (similarity ${Number(h.score).toFixed(2)} to how customers say that), so it counts as “${h.baseLabel}”. ${plan}.`
+          : `Heard “${h.phrase}”: hot word “${h.label}”${h.meaning ? `, which means ${lowerFirst(h.meaning)}` : ""}${named}. ${plan}.`)
       }
     } finally {
       st.applying = false
@@ -734,6 +807,10 @@ export function createEngine(set, posRef) {
 
   function onActivityEvent(e) {
     st.tracker.record(e)
+    if (e.type === "item_added" && e.source === "cashier" && st.phase === "active") {
+      const slots = openSlots([...cart(), { item: e.item, category: e.category, size: e.size, count: 1 }])
+      explain("screen", `Cashier tapped ${e.item.name}${e.size && e.size !== "each" ? ` (${e.size})` : ""}.${slots === null ? "" : slots.length ? ` Still open in the meal: ${slots.join(", ")}.` : " The meal is complete."}`)
+    }
     if (e.type === "item_added") {
       st.lastAdded = { item: e.item, category: e.category, size: e.size, price: e.price }
       st.lastAddedAt = e.at
@@ -756,8 +833,19 @@ export function createEngine(set, posRef) {
     recompute()
   }
 
+  /** Payment: the visit going into memory (called before endCustomer). */
+  function noteSaving(record) { explain("memory", savedNote(record)) }
+  /** The brain's store confirmed the visit (arrives after the session ended): onto the last visit's reasoning. */
+  function noteSaved(msg) {
+    if (!st.lastReasoning) return
+    st.lastReasoning.timeline.push({ at: now(), kind: "memory", text: msg.error
+      ? `The visit was not saved to memory: ${msg.error}.`
+      : `Saved to memory${msg.voice_id ? `: visit ${msg.visits} for voice ${msg.voice_id}` : " (not linked to a voice)"}.` })
+    publishReasoning()
+  }
+
   return { st, beginCustomer, endCustomer, handleFinal, handleWhisperOrder, handleAi, handleBrain, handleVoice, handleMeaning, receiptRecord,
-    acceptCard, declineCard, addPair, clearOutToday, recompute, onActivityEvent, log }
+    acceptCard, declineCard, addPair, clearOutToday, recompute, onActivityEvent, log, noteSaving, noteSaved }
 }
 
 export function useAssist(pos) {
@@ -787,6 +875,8 @@ export function useAssist(pos) {
   // The voice print of this visit and the brain's latest answer (full bar, upsell square).
   const [voice, setVoice] = useState(null)
   const [brain, setBrain] = useState(null)
+  // How it's deciding (reasoning.js): { now, timeline, last } for the full bar.
+  const [reasoning, setReasoning] = useState(null)
 
   const posRef = useRef(pos)
   posRef.current = pos
@@ -796,7 +886,7 @@ export function useAssist(pos) {
     engineRef.current = createEngine({
       events: setEvents, heard: setHeard, card: setCard, offers: setOffers, phase: setPhase,
       trigger: setTrigger, lines: setLines, behaviours: setBehaviours, aiNote: setAiNote, customerName: setCustomerName,
-      hot: setHot, voice: setVoice, brain: setBrain,
+      hot: setHot, voice: setVoice, brain: setBrain, reasoning: setReasoning,
       voiceLine: (role) => sttRef.current?.voiceLine(role),
       requestBrain: (req) => sttRef.current?.requestUpsell(req),
       // The meaning layer's examples and menu masking are the burger menu's (tenant demopos).
@@ -819,6 +909,7 @@ export function useAssist(pos) {
         const record = E.receiptRecord()
         setAssistReceipt(record)
         sttRef.current?.sendReceipt(record)
+        E.noteSaving(record)
         E.endCustomer("paid", sttRef.current)
       }
     })
@@ -858,7 +949,10 @@ export function useAssist(pos) {
           case "brain_upsell": E.handleBrain(msg); break
           case "voice_match": E.handleVoice(msg); break
           case "meaning": E.handleMeaning(msg); break
-          case "receipt_saved": E.log(msg.error ? `Receipt not saved to the brain's store: ${msg.error}` : `Receipt saved to the brain's store${msg.voice_id ? ` (voice ${msg.voice_id}, visit ${msg.visits})` : ""}`); break
+          case "receipt_saved":
+            E.log(msg.error ? `Receipt not saved to the brain's store: ${msg.error}` : `Receipt saved to the brain's store${msg.voice_id ? ` (voice ${msg.voice_id}, visit ${msg.visits})` : ""}`)
+            E.noteSaved(msg)
+            break
           case "voice_forgotten": E.log(msg.error ? `Forget voices failed: ${msg.error}` : `Voice prints forgotten: ${msg.voices} voice(s), ${msg.receipts} receipt(s)`); break
           case "state_transition":
             if (msg.transition === "NAME_CAPTURED" && msg.data?.name) setCustomerName(msg.data.name)
@@ -939,7 +1033,7 @@ export function useAssist(pos) {
   const snapshot = enabled ? {
     demoId: getDemoId(), brand: BRAND.name, restaurant: RESTAURANT, signedIn: !!auth?.ticket, operator: auth?.name || "",
     status, level, phase, trigger, partial, lines, heard, offers, behaviours, customerName, events, aiNote,
-    presenceOn, present, backend, hot, voice, brain: brain && {
+    presenceOn, present, backend, hot, voice, reasoning, brain: brain && {
       item: brain.item, framing: brain.framing, tag: brain.tag, step: brain.step, kind: brain.kind, framer: brain.framer,
       latency_ms: brain.latency_ms, round_trip_ms: brain.round_trip_ms, error: brain.error || "", trace: brain.trace || null,
     },
@@ -965,7 +1059,7 @@ export function useAssist(pos) {
 
   return {
     enabled, auth, status, level, phase, trigger, partial, lines, heard, card, offers, behaviours,
-    customerName, events, aiNote, presenceOn, present, camStream, backend, hot, voice, brain,
+    customerName, events, aiNote, presenceOn, present, camStream, backend, hot, voice, brain, reasoning,
     ...actions,
   }
 }

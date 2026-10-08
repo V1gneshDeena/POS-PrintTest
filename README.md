@@ -1,6 +1,6 @@
 # Vavoom demo POS
 
-A point-of-sale system for Vavoom demos, built on the Vavoom design system. It opens on a burger menu under generic "Demo Restaurant" branding (the default, or `?menu=burgers`; the older `?menu=fiveguys` still works). `?menu=gregorys` loads the Gregory's Coffee menu, built for the Gregory's Coffee pilot at Old Bridge Drive-Thru.
+A point-of-sale system for Vavoom demos, in vavoom.io's design (General Sans, the dark page with a lime glow, white pill buttons with a lime arrow; `src/components/posTheme.js` and `ui.jsx`), with a photo on every burger-menu item. It opens on a burger menu under generic "Demo Restaurant" branding (the default, or `?menu=burgers`; the older `?menu=fiveguys` still works). `?menu=gregorys` loads the Gregory's Coffee menu, built for the Gregory's Coffee pilot at Old Bridge Drive-Thru.
 
 ---
 
@@ -122,6 +122,7 @@ gregory-pos/
         ├── activity.js     # POS screen actions as events
         ├── behaviour.js    # What the screen activity says about the customer
         ├── upsellEngine.js # The one upsell to show
+        ├── reasoning.js    # "How it's deciding": the engine's reasoning in plain sentences (full bar)
         ├── orderParser.js  # Spoken lines → POS menu items
         ├── acceptance.js   # Spoken yes / no to the upsell
         ├── hotkeys.json    # Upsell hot keys (shared list; whisper can load it too)
@@ -144,6 +145,7 @@ In a demo room the console created as **In-Store** (`?demo=<id>`, config `produc
 - **Meaning layer** (burger menu): each finished line also goes, through the speech bridge, to the `demopos` gateway on the GPU box, which reads what it means (BGE sentence embeddings against written examples of 21 hot keys, with rules for negation, offers, questions and speech fragments). Hot keys the exact words missed come back in about 0.05 s and fire the same way, labelled "by meaning" in the full bar ("it's like an oven out there" → Feeling hot → Something cold). Tested on existing transcripts before going live: `deploy/gpu-vllm/demopos/eval/RESULTS-2026-10-08.md` in the monorepo.
 - **Voice print**: each line is marked as the customer's or the employee's; the customer's speech goes to ECAPA on the GPU box once there are 2.5 s of it. A returning voice (matched in tiers from 1.0 down to 0.5) shows "Returning voice · visit n · last time: …" on the upsell square; no name is ever stored. The full bar shows the match and has "Forget voices in this room".
 - **Receipt**: at payment the visit is saved to the brain's store under the voice print and printed on the receipt: the order, the conversation with who said each line, and every upsell with why it was shown, whether the employee said it, and whether it was accepted, declined or let lapse (`src/assist/assistReceipt.js`).
+- **How it's deciding** (top of the full bar; `src/assist/reasoning.js`): what the engine is weighing now and why it did each thing, for investors. Memory: trying to remember the customer, customer remembered (with their last order), or a new anonymous voice and the visit added to memory at payment. Health and ingredients: the ticket's calories and allergens from the menu knowledge base, and the brain's health score. Previous orders: which options rank higher because the customer had them before. How many upsells: a plan from the open parts of the meal, raised for a group, a receptive or a returning full-meal customer, cut to one for a hurry, price, health or a closing order, ended by two no's in a row (shown, not enforced). The timeline: each hot word and what it means, meaning-layer readings with their similarity, the heard order, screen taps and behaviours, every card shown with its source and reasons (for the brain's cards, the ranked options with their history / fit / bestseller / price scores and the model's own read), and every answer. Built from the engine's own numbers as they happen: no model call, and no card waits for it. After payment it shows the last visit.
 - **Tests**: `npm run test:transcripts` runs 25 full counter transactions through the engine (`test/transcripts.js`) and writes `test/transcript-results.md`. `npm run test:transcripts -- --meaning test/meaning-demo.json` runs them again with the meaning layer's real answers for those lines (from the GPU box) and writes `test/transcript-results-meaning.md`.
 - **Hot keys** are the upsell's guidelines: words that force it to be re-picked the moment they are heard. An item the operator says is out is never offered again that day, its menu tile says "Out today", and its closest substitute pops up tagged "Closest substitute" (also when a customer orders it, when it is not rung up, and when the cashier taps it, when Add swaps the substitute in); "too sweet" / "too bitter" get a counter; "I don't like it" gets an alternative; "took forever" gets a free souvenir if the menu has merchandise; "do you have X?" pitches X with a complementary item below it, or the closest substitute; feeling hot or cold, or asking for something cold or hot, gets the most-ordered item of that temperature tagged "Something cold" / "Something warm"; ordering within 3 s of arriving marks the customer as not patient. The list, its evidence from real Starbucks speech, and what each one does: [`docs/HOT-KEYS.md`](docs/HOT-KEYS.md). The full bar shows each one as it fires, and today's out-of-stock list with a Clear button.
 - **Counter presence**: "Camera on" runs an on-device face detector; a close face for 1.5 s opens the customer, 6 s without one closes it if the ticket is empty. Frames never leave the device.
@@ -156,6 +158,8 @@ Local test without production speech: run `demo-config-service/dev/mockWhisper.j
 ---
 
 ## Menu Data
+
+Every burger-menu item, topping and mix-in has a photo: `public/menu/<item id>.jpg`, 480×360 crops from Unsplash (free licence, no brand in any photo; photographers in `public/menu/CREDITS.md`), listed in `src/data/menuPhotos.js`. Gregory's menu has none yet; its tiles show the item's initials.
 
 The burger menu (the default, `src/data/menu-fiveguys.js`) is the Canadian line-up with Canadian prices (2026-10-08): burgers (Little / Regular), dogs, sandwiches, fries and poutine, the shake, drinks, plus the 15 free toppings, the lettuce wrap and the shake mix-ins as $0 items. Its knowledge base, `src/data/menu-kb.json` (descriptions, parts, calories, allergens, ingredients, prices), is built by `scripts/build-menu-kb.py` from the Five Guys Canada nutrition, ingredient and allergen guide; keep the two in step.
 
@@ -175,12 +179,15 @@ The burger menu (the default, `src/data/menu-fiveguys.js`) is the Canadian line-
 
 ## Design System
 
+vavoom.io's, shared with the TV and the brand pages (`src/components/posTheme.js`):
+
 | Token         | Value       |
 |---------------|-------------|
-| Base navy     | `#0B0E14`   |
-| Card surface  | `#1A2130`   |
-| Lime accent   | `#CFFF2F`   |
-| Font          | Plus Jakarta Sans |
+| Page          | `#0b0e14` with a soft lime glow |
+| Card surface  | `#12161f`, hairline border `rgba(255,255,255,0.086)` |
+| Accent        | `#cfff2f` (lime) |
+| Font          | General Sans (Fontshare), weights 400–600, tight tracking |
+| Main action   | white pill with a lime arrow (`ui.jsx` ArrowPill) |
 | Tax rate      | 13%         |
 
 ---

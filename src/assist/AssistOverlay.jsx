@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react"
 import { C, fmt } from "../components/posTheme.js"
 import { useDraggable } from "./useDraggable.js"
 import { fullBarUrl } from "./assistSync.js"
+import { VavoomMark } from "../components/ui.jsx"
 
 const SOURCE_LABEL = {
   ai: "Vavoom AI · from the conversation",
@@ -100,7 +101,7 @@ function UpsellSquare({ a }) {
   return (
     <div ref={boxRef} style={{ ...box, left: pos.x, top: pos.y, width: 300 }}>
       <div {...handleProps} style={{ ...handleProps.style, display: "flex", alignItems: "center", gap: 8, padding: "9px 12px", borderBottom: `1px solid ${C.navyBorder}`, userSelect: "none" }}>
-        <span style={{ background: C.lime, color: C.limeText, fontWeight: 900, fontSize: 9, padding: "2px 6px", borderRadius: 5 }}>VAVOOM</span>
+        <VavoomMark size={18} />
         <span style={{ fontSize: 11, fontWeight: 700, color: a.phase === "active" ? C.lime : C.textSec, flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
           {a.phase === "active" ? (a.customerName ? `${a.customerName} · at the counter` : "At the counter") : "Standby"}
         </span>

@@ -19,6 +19,8 @@
 //   ticket: what was on the ticket when it was paid ["2× Cheeseburger (Regular)", ...].
 //   receipt: the visit's record (voice, transcript with roles, upsells with why / said / outcome);
 //   roles: whose each line was, as marked for the voice print; brainRequests: how many were sent.
+//   reasoning: how it decided (reasoning.js), the steps [{ kind, text }]; reasoningNow: { memory,
+//   health, history, plan } as weighed at payment.
 
 const card = (c, title, outcome) => c.cards.find((x) => x.title === title && (!outcome || x.outcome === outcome))
 const tagged = (c, tag) => c.cards.find((x) => x.tag === tag)
@@ -44,6 +46,8 @@ export const TRANSCRIPTS = [
       ["the upsize to a Regular is offered first and accepted", (r) => card(r.c, "Regular Cheeseburger", "accepted")],
       ["the ticket has one Regular Cheeseburger, no Little", (r) => has(r.c, "1× Cheeseburger (Regular)") && !r.c.ticket.some((l) => /Little/.test(l))],
       ["fries are offered next and declined", (r) => card(r.c, "Fries", "declined")],
+      ["how it decided: a plan for how many upsells, each card explained, the visit added to memory", (r) => /^Plan: about \d upsell/.test(r.c.reasoningNow.plan)
+        && r.c.reasoning.filter((x) => x.kind === "pick").length >= 2 && r.c.reasoning.some((x) => x.kind === "memory" && /Adding this transaction to memory/.test(x.text))],
       ["\"No thanks, that's it\" ends the upselling: no card after it", (r) => !r.c.cards.some((x) => x.atSec >= 22)],
     ],
   },
@@ -334,6 +338,8 @@ export const TRANSCRIPTS = [
     ],
     checks: [
       ["a Something cold card is shown and accepted", (r) => tagged(r.c, "Something cold")?.outcome === "accepted"],
+      ["how it decided: the hot words are explained with what they mean, and the meal's calories are weighed", (r) => r.c.reasoning.some((x) => x.kind === "hotkey" && /which means the customer feels hot/i.test(x.text))
+        && /Looked at calories and ingredients: .*Patty Melt/.test(r.c.reasoningNow.health)],
       ["the hot-weather / wants-cold hot keys fired", (r) => fired(r.c, "weather_hot") && fired(r.c, "want_cold")],
     ],
   },
@@ -368,6 +374,8 @@ export const TRANSCRIPTS = [
       ["the brain's card is shown tagged Last time and accepted", (r) => tagged(r.c, "Last time")?.outcome === "accepted" && tagged(r.c, "Last time")?.source === "brain"],
       ["Cajun Fries are on the ticket", (r) => r.c.ticket.some((l) => /Cajun Fries/.test(l))],
       ["the receipt carries the voice print", (r) => r.c.receipt.voice?.voice_id === "V1dabbd0c" && r.c.receipt.voice.matched],
+      ["how it decided: the customer was remembered and their last order looked at", (r) => r.c.reasoning.some((x) => x.kind === "voice" && /Customer remembered/.test(x.text) && /Bacon Cheeseburger/.test(x.text))
+        && /Previous orders: Bacon Cheeseburger/.test(r.c.reasoningNow.history)],
       ["the brain was asked after the lines", (r) => r.c.brainRequests >= 2],
     ],
   },

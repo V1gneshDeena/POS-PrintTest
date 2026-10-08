@@ -2,7 +2,10 @@
 //
 // Opened from the "Full bar" link on the POS's upsell square, or from the demo console
 // as its own surface for a second screen. It renders the snapshot the POS publishes
-// (assistSync.js) and never runs Assist itself: session and inputs, the upsell and the
+// (assistSync.js) and never runs Assist itself. Across the top, HOW IT'S DECIDING (reasoning.js):
+// what the engine is weighing now (memory, health and ingredients, previous orders, the upsell plan)
+// and the timeline of why it did each thing, for investors; after payment it shows the last visit.
+// Below: session and inputs, the upsell and the
 // history of every card shown, what the screen activity says about the customer, the
 // heard order, the live ticket, the transcript, the HOT KEYS that fired (hotkeys.json:
 // the words that force the upsell to be re-evaluated) with what each one did, and BEHIND
@@ -21,6 +24,7 @@ import { C, fmt } from "../components/posTheme.js"
 import { startAssistViewer, posUrl } from "./assistSync.js"
 import { CardTag } from "./AssistOverlay.jsx"
 import { getDemoId } from "./demoContext.js"
+import { VavoomMark } from "../components/ui.jsx"
 
 const SOURCE_LABEL = { ai: "Vavoom AI · from the conversation", basket: "Basket completion", upsize: "Upsize", behaviour: "From what the screen shows", hotkey: "Hot key · from what was just said", brain: "Vavoom brain · voice, history, calories, Qwen" }
 const SOURCE_SHORT = { ai: "AI", basket: "Basket", upsize: "Upsize", behaviour: "Behaviour", hotkey: "Hot key", brain: "Brain" }
@@ -56,6 +60,59 @@ function Row({ label, children }) {
 
 const Muted = ({ children }) => <div style={{ fontSize: 11, color: C.textMuted }}>{children}</div>
 
+// How it's deciding: the kinds of step in the timeline, with a label and a colour.
+const KIND = {
+  visit: ["Visit", C.soft], order: ["Heard order", C.text], hotkey: ["Hot word", C.accent], meaning: ["Meaning", C.accent],
+  voice: ["Voice print", "#7cb4ff"], memory: ["Memory", "#7cb4ff"], screen: ["Screen", "#fcd34d"],
+  pick: ["Upsell", C.accent], outcome: ["Answer", C.white],
+}
+const WEIGHING = [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "How many upsells"]]
+
+function Reasoning({ r, phase }) {
+  const live = phase === "active" && r?.timeline?.length
+  const view = live ? r : r?.last
+  const right = (
+    <span style={{ fontSize: 10, color: C.textMuted }}>
+      {live ? "this customer" : view ? `last visit, ended ${time(view.endedAt)}` : ""}
+      {view ? " · " : ""}written from the engine's own numbers: no AI text, and no card waits for it
+    </span>
+  )
+  return (
+    <Card title="How it's deciding" right={right}>
+      {!view ? (
+        <Muted>Starts when a customer arrives: what it hears and what that means, who it remembers, what the screen shows, what the meal adds up to, how many upsells suit the visit, and why each one goes up.</Muted>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: C.soft, marginBottom: 8 }}>Weighing now</div>
+            {WEIGHING.filter(([k]) => view.now?.[k]).map(([k, label]) => (
+              <div key={k} style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: k === "plan" ? C.accent : C.white, marginBottom: 2 }}>{label}</div>
+                <div style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.45 }}>{view.now[k]}</div>
+              </div>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: C.soft, marginBottom: 8 }}>What happened</div>
+            <div style={{ maxHeight: 360, overflowY: "auto", paddingRight: 4 }}>
+              {[...(view.timeline || [])].reverse().map((x, i) => {
+                const [label, color] = KIND[x.kind] || [x.kind, C.soft]
+                return (
+                  <div key={i} style={{ display: "flex", gap: 10, padding: "6px 0", borderBottom: `1px solid ${C.line}`, fontSize: 12.5, lineHeight: 1.45 }}>
+                    <span style={{ color: C.faint, fontSize: 11, flexShrink: 0, width: 62 }}>{time(x.at)}</span>
+                    <span style={{ flexShrink: 0, width: 78, fontSize: 9.5, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color, paddingTop: 2 }}>{label}</span>
+                    <span style={{ color: C.text }}>{x.text}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </Card>
+  )
+}
+
 export default function AssistFullBar() {
   const [s, setS] = useState(null)
   const [local, setLocal] = useState(false)
@@ -83,6 +140,7 @@ export default function AssistFullBar() {
 
   return (
     <Shell demoId={demoId} local={local} brand={s.brand}>
+      <div style={{ marginBottom: 12 }}><Reasoning r={s.reasoning} phase={s.phase} /></div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 12, alignItems: "start" }}>
         {/* ── Column 1: session, inputs, controls ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -310,7 +368,7 @@ function Shell({ children, demoId, local, brand }) {
     <div style={{ minHeight: "100vh", background: C.navy, color: C.text, padding: 16, boxSizing: "border-box", fontFamily: "inherit" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
         {!EMBEDDED ? <button type="button" onClick={backToPos} style={btn(false)} title="Back to the POS">← Back to POS</button> : null}
-        <span style={{ background: C.lime, color: C.limeText, fontWeight: 900, fontSize: 12, padding: "4px 9px", borderRadius: 7 }}>VAVOOM</span>
+        <VavoomMark size={24} />
         <span style={{ fontSize: 16, fontWeight: 800 }}>Assist — full bar</span>
         {brand ? <span style={{ fontSize: 12, color: C.textSec }}>{brand} · In-Store</span> : null}
         <span style={{ flex: 1 }} />

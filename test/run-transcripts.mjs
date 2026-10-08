@@ -17,6 +17,9 @@
 //   • the upsell brain and voice prints: a `brain` step answers the POS's latest request with a
 //     brain_upsell message and a `voice` step delivers a voice_match, exactly as the speech bridge
 //     would; the requests the POS sends and the line roles it marks are recorded.
+//   • how it decided (reasoning.js): each customer's reasoning (what it weighed at payment and the
+//     timeline of steps, including the visit going into memory) is recorded and printed under the
+//     transaction in the report.
 //   • the meaning layer, with --meaning FILE: every line's meaning_request is answered 120 ms
 //     later with the hits the GPU box's meaning layer actually gave for that line
 //     (deploy/gpu-vllm/demopos/eval/meaning_eval.py writes FILE as meaning-demo.json, keyed by
@@ -93,7 +96,7 @@ async function run(tr) {
       setTimeout(() => engineRef.E.handleMeaning({ req_id: req.req_id, hits, near: [], ms: 3, round_trip_ms: 120 }), 120)
     }
   }
-  for (const k of Object.keys(state).concat(["phase", "trigger", "aiNote", "customerName", "voice", "brain"])) {
+  for (const k of Object.keys(state).concat(["phase", "trigger", "aiNote", "customerName", "voice", "brain", "reasoning"])) {
     set[k] = (v) => {
       state[k] = typeof v === "function" ? v(state[k]) : v
       if (k === "card") recordCard(state.card)
@@ -188,11 +191,15 @@ async function run(tr) {
       await flush()
       const fired = (E.st.hot.fired || []).map((f) => f.key)
       for (const c of cards) if (c.outcome == null) c.outcome = "unanswered"
-      customers.push({ cards, ticket: pos.cart.map(lineText), fired, receipt: E.receiptRecord(), roles: roles.splice(0),
-        brainRequests: brainRequests.length })
+      const receipt = E.receiptRecord()
+      const reasoningNow = { ...E.st.reasonNow }
       note(`Paid — ticket: ${pos.cart.map(lineText).join(", ") || "(empty)"}`, "line")
       E.onActivityEvent({ type: "payment_complete", at: NOW })
+      E.noteSaving(receipt) // as useAssist does at payment
       E.endCustomer("paid", null)
+      customers.push({ cards, ticket: pos.cart.map(lineText), fired, receipt, roles: roles.splice(0),
+        brainRequests: brainRequests.length, reasoningNow,
+        reasoning: (E.st.lastReasoning?.timeline || []).map((x) => ({ ...x, atSec: (x.at - T0) / 1000 })) })
       pos.cart = []
       pending = null
       E.onActivityEvent({ type: "new_order", at: NOW })
@@ -229,7 +236,7 @@ for (const { tr, r, checks } of results) {
   out.push(`| ${tr.id} | ${tr.title} | ${ok === checks.length ? "✅" : "❌"} ${ok}/${checks.length} | ${cs} | ${tk} |`)
 }
 out.push("")
-for (const { tr, timeline, checks } of results) {
+for (const { tr, r, timeline, checks } of results) {
   out.push(`## ${tr.id}. ${tr.title}`, "")
   if (tr.setup?.outToday) out.push(`Before it starts: out of stock today — ${tr.setup.outToday.join(", ")}.`, "")
   out.push("```")
@@ -237,6 +244,15 @@ for (const { tr, timeline, checks } of results) {
   out.push("```", "")
   for (const c of checks) out.push(`- ${c.ok ? "✅" : "❌"} ${c.what}`)
   out.push("")
+  r.customers.forEach((c, i) => {
+    out.push(`**How it decided${r.customers.length > 1 ? ` (customer ${i + 1})` : ""}** — weighing at payment:`, "")
+    for (const [k, label] of [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "Upsell plan"]]) {
+      if (c.reasoningNow[k]) out.push(`- *${label}:* ${c.reasoningNow[k]}`)
+    }
+    out.push("", "Steps:", "")
+    for (const x of c.reasoning) out.push(`- ${fmtSec(x.atSec).trim()} · ${x.kind} · ${x.text}`)
+    out.push("")
+  })
 }
 writeFileSync(OUT, out.join("\n"))
 for (const { tr, checks } of results) {
