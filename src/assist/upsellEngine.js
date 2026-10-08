@@ -56,6 +56,7 @@
 
 import { INDEX, bestOf, MENU_ROLES, norm } from "./menuIndex.js"
 import KB from "../data/menu-kb.json"
+import { holdsAllergen } from "./allergens.js"
 
 // Basket completion order (see the header). Each step is "up:<role>" (upsize the line of
 // that role, if it has a bigger size) or "add:<role>" (add the most-ordered item of a role
@@ -207,12 +208,17 @@ export function pickUpsell(ctx) {
   const cands = []
   // Free toppings and mix-ins (role "other") are never pitched by the basket, behaviour or AI rules;
   // only a hot-key answer or the brain (an allergy lettuce wrap, last visit's toppings) offers one.
+  // An allergy the customer named (ctx.hot.allergens, allergens.js): no card holds it, a size-up and a swap
+  // included; the brain's lettuce-wrap swap (alsoEntry) is how it answers one, so it stays.
+  const allergic = (card) => !card.alsoEntry && holdsAllergen(card.entry.name, hot?.allergens)
   const consider = (card) => {
-    if (card && allowedBy(constraints, card.entry)
+    if (card && allowedBy(constraints, card.entry) && !allergic(card)
         && (card.entry.role !== "other" || card.source === "hotkey" || card.source === "brain")) cands.push(card)
   }
   const pickFrom = (opts) => bestOf(opts).find((e) => allowedBy(constraints, e))
-  const recent = (list, ms = 2 * 60000) => (list || []).filter((x) => now - x.at < ms)
+  // A hot key's pending response (a substitute, "you asked about it", the temperature) waits up to 10
+  // minutes: a card held until answered, or a demo with explanations, can keep it waiting for minutes.
+  const recent = (list, ms = 10 * 60000) => (list || []).filter((x) => now - x.at < ms)
 
   // 1. Hot keys — what was just said decides first. Each response is offered once per time
   // it is said: a card carries its `origin` (the hot-key record, or { effect }) and

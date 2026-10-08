@@ -55,13 +55,20 @@
 //     every setting a card comes down when the ticket already has what it offers (another
 //     side tapped while "Fries" is up) or the item it upsizes or swaps is taken off.
 //   • THE CONTEXT WINDOW (David, 2026-10-08): a card a hot word or a better pick replaced before it
-//     was answered is remembered for the visit (the last MEMORY_MAX), shown under the new card as
+//     was answered is remembered for the whole visit (the last MEMORY_MAX), shown under the new card as
 //     "Earlier", and comes back once the new card is answered, unless something that outranks it
 //     is up by then or it no longer fits the ticket. An allergy answer clears it (those cards were
 //     picked before the allergy was known). "Until accepted or declined" never replaces a card, so
 //     nothing is remembered there.
 //   • TAKEN OFF STAYS OFF: an item the customer had taken off ("take off the fries") is not pitched
 //     back that visit, nor, taken off outright, another item of its kind from the basket.
+//   • LONG DEMO VISITS (David, 2026-10-08: "there will be times i will be explaining the features so
+//     the transaction will be longer. it should."): nothing ends a visit but payment, End, Clear or
+//     the customer walking away; the context window lasts the whole visit; a hot word's response
+//     waits up to 10 minutes behind a held card; and a line that explains the system ("if a
+//     customer says…", "for example…", "as you can see…"; orderParser.js isExplaining) is shown in
+//     the transcript and never read as the conversation. A brain answer to an earlier request is
+//     used when the ticket has not changed since, so talking on does not hold the brain's card back.
 //   • BEST IN THIS SECTION: when the cashier opens a menu section, the upsell square says which
 //     item in it is best for this customer (upsellEngine.js bestInSection). A hint, not a card.
 //   • HOT KEYS (hotkeys.json) are the upsell's guidelines: a line that says an item is
@@ -131,7 +138,7 @@ import { SttClient } from "./sttClient.js"
 import { CounterPresence } from "./presence.js"
 import { onActivity } from "./activity.js"
 import { BehaviourTracker } from "./behaviour.js"
-import { parseUtterance, isGreeting, sizeAnswer } from "./orderParser.js"
+import { parseUtterance, isGreeting, sizeAnswer, isExplaining } from "./orderParser.js"
 import { classifyReply, pitches } from "./acceptance.js"
 import { pickUpsell, cardKey, allowedBy, bestInSection } from "./upsellEngine.js"
 import { detectHotkeys, TIMING_RULES, HOTKEYS } from "./hotkeys.js"
@@ -140,6 +147,7 @@ import { startAssistPublisher } from "./assistSync.js"
 import { setAssistReceipt } from "./assistReceipt.js"
 import { healthNote, historyNote, memoryNote, openSlots, pickNote, pitchNote, savedNote } from "./reasoning.js"
 import { detectOrderEdits } from "./orderEdits.js"
+import { allergiesSaid, holdsAllergen } from "./allergens.js"
 
 // The tenant whisper and the brain know this menu as (its `restaurant` context, never shown).
 // The burger menu is its own tenant, `demopos`: whisper only transcribes for it (MEAL_LADDER_TENANTS,
@@ -177,9 +185,12 @@ const TAP_CONFIRM_MS = 8000 // a cashier tap this soon after speech rang the ite
 const WHISPER_INTENT_MS = 10000
 // The line before counts as the question a reply answers only this soon before it.
 const PREV_LINE_MS = 20000
-// The context window: how many replaced cards a visit remembers, and for how long.
+// The context window: how many replaced cards a visit remembers (for the whole visit, however long:
+// a demo with explanations runs for minutes).
 const MEMORY_MAX = 3
-const MEMORY_MS = 3 * 60000
+// A brain answer to an earlier request is still used this long after it was asked, when the ticket has
+// not changed since (a customer talking on sends newer requests; their answers come later).
+const BRAIN_FRESH_MS = 4000
 // "No thanks, and take off the fries": a refusal that opens a line which also changes the order. It
 // declines the card only when the cashier has said it (David, 2026-10-08); the change is made too.
 // Not "No fries" or "I'm good on the fries": there the no belongs to the change.
@@ -217,6 +228,7 @@ function saveOutToday(ids) {
 const newHot = (outToday) => ({
   effects: new Map(), blocked: new Set(outToday || []), outOfStock: [], interest: [], disliked: [], temperature: [],
   constraints: new Set(), pausedUntil: 0, fired: [],
+  allergens: new Set(), // what the customer said they are allergic to (allergens.js): no card holds any of it
 })
 // Hot-key effects whose items are not an order: out, only asked about, disliked, complained about.
 const NOT_ORDER = new Set(["block_item", "interest_item", "alternative", "counter_sweet", "counter_bitter", "pause"])
@@ -256,6 +268,7 @@ export function createEngine(set, posRef) {
     brainSeq: 0,
     brainTimer: null,
     brainWaitUntil: 0,
+    brainReqs: new Map(), // req_id → { sig: the ticket it was asked about, at }
     memory: [], // the context window: replaced cards, oldest first
     removed: new Map(), // entry id → "remove" | "replace": what the customer had taken off this visit
     section: "", // the menu section the cashier last opened (kept across visits: it is the screen's)
@@ -488,7 +501,8 @@ export function createEngine(set, posRef) {
   /** Until accepted or declined: the card on screen stays until it is answered (resolveCard). */
   const cardHeld = () => st.cardMode === "hold"
   /** A card the customer's words have ruled out since it went up (a dietary need, out of stock). */
-  const cardStillValid = (c) => !c.entry || c.kind === "notice" || (allowedBy(st.hot.constraints, c.entry) && (!st.hot.blocked.has(c.entry.id) || c.kind === "upsize"))
+  const cardStillValid = (c) => !c.entry || c.kind === "notice" || (allowedBy(st.hot.constraints, c.entry) && (!st.hot.blocked.has(c.entry.id) || c.kind === "upsize")
+    && (c.alsoEntry || !holdsAllergen(c.entry.name, st.hot.allergens)))
 
   /** The operator's choice of when the card changes (CARD_MODES), kept on this device. */
   function setCardMode(mode) {
@@ -525,8 +539,7 @@ export function createEngine(set, posRef) {
 
   /** The newest remembered card that still fits: not answered since, still allowed, not overtaken. */
   function recall() {
-    const t = now()
-    st.memory = st.memory.filter((m) => t - m.rememberedAt < MEMORY_MS && cardStillValid(m) && !cardOvertaken(m)
+    st.memory = st.memory.filter((m) => cardStillValid(m) && !cardOvertaken(m)
       && !st.offers.some((o) => o.key === m.key && o.outcome)
       && (m.kind !== "add" || m.again || countOf(m.entry.id) === 0)
       && (m.kind !== "upsize" || countOf(m.entry.id, m.fromSize) > 0))
@@ -779,6 +792,15 @@ export function createEngine(set, posRef) {
   // ── Transcript ──────────────────────────────────────────────────────────────
   function handleFinal(text, { replay = false, typed = false } = {}) {
     const t = now()
+    // Someone explaining the system (orderParser.js isExplaining): shown, never read. No order, hot key,
+    // greeting, meaning or brain request comes from it, it is not the customer's voice, and it is not
+    // the line the next one answers.
+    if (isExplaining(text)) {
+      if (!replay) set.lines((prev) => [...prev, { text, kind: "explaining", at: t, typed }].slice(-12))
+      set.voiceLine?.("operator")
+      log(`Explaining — not read as the conversation: “${text.slice(0, 90)}”`)
+      return
+    }
     // The line before, as the question this one may answer ("What can I get you?" "Cheeseburger").
     const lineBefore = st.phase === "active" ? st.prevLine : st.standbyLines[st.standbyLines.length - 1]
     const parsed = parseUtterance(text, { prev: lineBefore && t - lineBefore.at < PREV_LINE_MS ? lineBefore.text : "" })
@@ -816,6 +838,14 @@ export function createEngine(set, posRef) {
       declined = cur
     }
     const hits = detectHotkeys(text)
+    // An allergy said ("I'm allergic to milk"): from now on no card holds it, whatever the GPU side does.
+    const allergyNamed = allergiesSaid(text)
+    const newly = [...allergyNamed].filter((a) => !st.hot.allergens.has(a))
+    if (newly.length) {
+      for (const a of newly) st.hot.allergens.add(a)
+      log(`Allergy heard: ${newly.join(", ")} — no card with it from now on`)
+      explain("health", `Heard an allergy (${newly.join(", ").replace(/_/g, " ")}): no upsell that contains it from now on.`)
+    }
     // "No thanks, that's it": the card just declined was the last chance, so no more cards
     // after it (upsellEngine.js stops once a checkout offer has been made).
     if (declined && hits.some((h) => h.key === "closing")) {
@@ -999,6 +1029,8 @@ export function createEngine(set, posRef) {
     st.brainTimer = setTimeout(() => {
       if (st.phase !== "active") return
       st.brainSeq += 1
+      st.brainReqs.set(st.brainSeq, { sig: ticketSig(cart()), at: now() })
+      for (const [id, r] of st.brainReqs) if (now() - r.at > BRAIN_FRESH_MS) st.brainReqs.delete(id)
       set.requestBrain({
         req_id: st.brainSeq,
         transcript: st.convo.length ? st.convo[st.convo.length - 1].text : "",
@@ -1020,7 +1052,12 @@ export function createEngine(set, posRef) {
 
   /** The brain's answer (brain_upsell): the newest request's pick becomes a candidate card. */
   function handleBrain(msg) {
-    if (!msg || msg.req_id !== st.brainSeq) return // an answer to an older ticket
+    if (!msg) return
+    // The newest request's answer, or an earlier one's while the ticket is as it was asked about: the
+    // customer talking on sends newer requests, and dropping every answer but the newest held the
+    // brain's card back until they stopped (David, 2026-10-08: "why is the brain taking 6 seconds?").
+    const asked = st.brainReqs.get(msg.req_id)
+    if (msg.req_id !== st.brainSeq && !(asked && asked.sig === ticketSig(cart()) && now() - asked.at < BRAIN_FRESH_MS)) return
     st.brainWaitUntil = 0 // answered (or failed): a card picked for an older ticket need not wait any longer
     if (msg.error) { log(`Upsell brain unavailable: ${msg.error}`); return }
     set.brain?.({ ...msg, at: now() })

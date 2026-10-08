@@ -1,4 +1,4 @@
-// 41 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 45 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -19,6 +19,7 @@
 //
 // checks: [description, (r) => boolean]. `r` is what happened (see run-transcripts.mjs):
 //   r.customers[i] = { cards, ticket, fired }, with r.c = r.customers[0] for one-customer runs.
+//   fired: the hot keys fired, in order (firedFull: with the phrase each fired on).
 //   cards: [{ title, tag, source, reason, outcome, via, back, memory, pitchedSec }] in the order shown;
 //   back = brought back by the context window, memory = the remembered titles shown under it,
 //   pitchedSec = when the cashier said it. sections: the "Best in <section>" hints shown.
@@ -522,6 +523,73 @@ export const TRANSCRIPTS = [
       ["the notice is on the square", (r) => tagged(r.c, "Allergy: no substitute")?.title === "No substitute for the Hand-Spun Milkshake"],
       ["Got it notes it, it is not declined", (r) => tagged(r.c, "Allergy: no substitute")?.outcome === "noted"],
       ["the milkshake stays on the ticket (the cashier decides)", (r) => r.c.ticket.some((l) => /Milkshake/.test(l))],
+    ],
+  },
+  // ── A long demo visit (David, 2026-10-08: "there will be times i will be explaining the features so the
+  // transaction will be longer. it should.") ──
+  {
+    id: 42, title: "A 5-minute demo visit with explanations: nothing explained is read, and the visit keeps working",
+    setup: { cardMode: "hold" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, who: "C", say: "Can I get a regular cheeseburger please" },
+      { at: 10, who: "O", say: "So what you're seeing here is the upsell engine reading the conversation." },
+      { at: 40, who: "O", say: "If a customer says it's so hot out today, it suggests something cold." },
+      { at: 90, who: "O", say: "For example, when someone says can I get a large fries, it waits for the order." },
+      { at: 120, who: "O", say: "As you can see, the card waits until the cashier says it." },
+      { at: 150, who: "C", say: "It's so hot out today" },
+      { at: 290, pitch: true },
+      { at: 292, who: "C", say: "No thanks" },
+      { at: 310, pay: true },
+    ],
+    checks: [
+      ["the explained \"large fries\" was not rung up", (r) => r.c.ticket.length === 1 && has(r.c, "1× Cheeseburger (Regular)")],
+      ["the explained \"it's so hot out today\" fired nothing; the customer's own line fired it once", (r) => r.c.fired.filter((k) => k === "weather_hot").length === 1],
+      ["the card was held for almost five minutes and then declined", (r) => r.c.cards[0]?.title === "Fries" && r.c.cards[0].outcome === "declined" && r.c.cards[0].endSec >= 292],
+      ["the hot word from 2½ minutes earlier still brings something cold after the answer", (r) => tagged(r.c, "Something cold")?.atSec >= 292],
+      ["explanations are not the customer's voice", (r) => r.c.roles.filter((x) => x === "customer").length <= 3],
+    ],
+  },
+  {
+    id: 43, title: "The brain's answer arrives after the customer said more: it is still used (the ticket did not change)",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 4.6, who: "C", say: "Oh and how has your day been?" },
+      { at: 5.2, brain: { name: "Bacon Cheeseburger", item: "Bacon Cheeseburger", kind: "upgrade", from: "Cheeseburger", size: "Regular", price: 17.21,
+        framing: "Make it a Bacon Cheeseburger for $1.11 more?", reason: "topping upgrade" }, answer: 2 }, // 1 = the greeting's, 2 = the order's
+      { at: 12, pay: true },
+    ],
+    checks: [
+      ["the answer to the first request shows at once, though a newer request was out", (r) => r.c.cards.some((x) => x.source === "brain" && x.atSec <= 5.3)],
+    ],
+  },
+  {
+    id: 44, title: "On new trigger: the card a hot word replaced comes back after four minutes",
+    setup: { cardMode: "trigger" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in!" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 8, who: "C", say: "It's so hot out today" },
+      { at: 250, press: "no" },
+      { at: 262, pay: true },
+    ],
+    checks: [
+      ["Fries comes back four minutes later", (r) => r.c.cards.some((x) => x.title === "Fries" && x.back && x.atSec >= 250)],
+    ],
+  },
+  {
+    id: 45, title: "Allergic to milk, with only the POS's own reading: no milkshake, no cheese, no milk size-up",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A little hamburger and a regular fries please" },
+      { at: 6, who: "C", say: "I'm allergic to milk" },
+      { at: 8, press: "no" },
+      { at: 10, press: "no" },
+      { at: 30, pay: true },
+    ],
+    checks: [
+      ["no card after the allergy holds milk", (r) => r.c.cards.filter((x) => x.atSec >= 6).every((x) => !/Milkshake|Cheese|Hamburger/.test(x.entry))],
     ],
   },
   // ── When the card changes: the operator's setting (useAssist.js CARD_MODES) ──

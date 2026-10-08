@@ -1,6 +1,7 @@
 // AssistOverlay.jsx — the only parts of Vavoom Assist on the POS screen itself.
 //
-// Two floating boxes the cashier can drag anywhere (positions are remembered):
+// Two floating boxes the cashier can drag anywhere (positions are remembered); the upsell square
+// can also be made bigger or smaller with its corner grip (useScale; remembered per device):
 //   • the UPSELL SQUARE — the upsell when one pops up, with Add / No thanks, the hot-key
 //     tag at the top when what was said decided it (Closest substitute, Counter: too
 //     sweet, Alternative, Complimentary, You asked about it) and, under an asked-about
@@ -23,7 +24,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { C, fmt } from "../components/posTheme.js"
-import { useDraggable } from "./useDraggable.js"
+import { useDraggable, useScale } from "./useDraggable.js"
 import { fullBarUrl } from "./assistSync.js"
 import { VavoomMark } from "../components/ui.jsx"
 import { CARD_MODES } from "./useAssist.js"
@@ -100,7 +101,9 @@ function SignIn({ onSignIn }) {
 }
 
 function UpsellSquare({ a }) {
-  const { pos, boxRef, handleProps } = useDraggable("upsell", () => ({ x: Math.max(16, window.innerWidth - 640), y: 76 }))
+  const { pos, boxRef, handleProps, reclamp } = useDraggable("upsell", () => ({ x: Math.max(16, window.innerWidth - 640), y: 76 }))
+  const { scale, gripProps } = useScale("upsell", 300)
+  useEffect(() => { reclamp() }, [scale, reclamp])
   const s = a.status
   const c = a.card
   const openFullBar = (e) => {
@@ -115,7 +118,9 @@ function UpsellSquare({ a }) {
     : c.price === 0 ? "Free" : fmt(c.price)) : ""
   const v = a.voice
   return (
-    <div ref={boxRef} style={{ ...box, left: pos.x, top: pos.y, width: 300 }}>
+    <div ref={boxRef} style={{ ...box, left: pos.x, top: pos.y, width: Math.round(300 * scale) }}>
+      {/* Everything inside is laid out at 300 px and zoomed, so text, buttons and spacing all grow together. */}
+      <div style={{ zoom: scale, width: 300 }}>
       <div {...handleProps} style={{ ...handleProps.style, display: "flex", alignItems: "center", gap: 8, padding: "9px 12px", borderBottom: `1px solid ${C.navyBorder}`, userSelect: "none" }}>
         <VavoomMark size={18} />
         <span style={{ fontSize: 11, fontWeight: 700, color: a.phase === "active" ? C.lime : C.textSec, flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
@@ -207,6 +212,21 @@ function UpsellSquare({ a }) {
           </span>
         </div>
       ) : null}
+      </div>
+      <ResizeGrip {...gripProps} />
+    </div>
+  )
+}
+
+/** The corner grip that makes the upsell square bigger or smaller (useScale), mouse or touch. */
+function ResizeGrip(props) {
+  return (
+    <div {...props} aria-label="Resize the upsell card" role="slider"
+      style={{ ...props.style, position: "absolute", right: 0, bottom: 0, width: 26, height: 26, display: "flex",
+        alignItems: "flex-end", justifyContent: "flex-end", padding: 5, boxSizing: "border-box", borderBottomRightRadius: 14 }}>
+      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+        <path d="M11 4 4 11M11 8 8 11" fill="none" stroke={C.faint} strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
     </div>
   )
 }
@@ -303,7 +323,8 @@ function TranscriptBox({ a }) {
       <div style={{ padding: "8px 12px", maxHeight: 96, overflowY: "auto", display: "flex", flexDirection: "column", gap: 3 }}>
         {recent.length === 0 && !a.partial ? <div style={{ fontSize: 12, color: C.textMuted }}>Waiting for speech…</div> : null}
         {recent.map((l, i) => (
-          <div key={`${l.at}-${i}`} style={{ fontSize: 13, lineHeight: 1.35, color: i === recent.length - 1 && !a.partial ? C.text : C.textSec }}>{l.text}</div>
+          <div key={`${l.at}-${i}`} style={{ fontSize: 13, lineHeight: 1.35, color: l.kind === "explaining" ? C.faint : i === recent.length - 1 && !a.partial ? C.text : C.textSec, fontStyle: l.kind === "explaining" ? "italic" : "normal" }}
+            title={l.kind === "explaining" ? "Explaining the system: shown, not read as the conversation" : undefined}>{l.text}</div>
         ))}
         {a.partial ? <div style={{ fontSize: 13, color: C.text, fontStyle: "italic" }}>{a.partial}…</div> : null}
         <div ref={end} />

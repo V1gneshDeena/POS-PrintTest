@@ -281,8 +281,9 @@ export default function AssistFullBar() {
               </>
             ) : <Muted>Waiting for about 2.5 s of the customer's speech. Lines are marked as the customer's or the employee's; only the customer's speech makes the voice print (ECAPA on the GPU box). Matches are searched in tiers from 1.0 down to 0.5; below 0.5 the voice is new.</Muted>}
             <div style={{ marginTop: 8 }}>
-              <button disabled={!local} onClick={() => cmd({ type: "forget_voices" })} style={{ ...btn(false, !local), padding: "2px 8px", fontSize: 10 }}
-                title="Delete the voice prints made in this demo room and its receipts (prints are matched across every room)">Forget voices in this room</button>
+              <button disabled={!local} onClick={() => { if (window.confirm("Forget every voice print and its receipts, in every demo room? The demo starts again with no returning customers.")) cmd({ type: "forget_voices" }) }}
+                style={{ ...btn(false, !local), padding: "2px 8px", fontSize: 10 }}
+                title="Delete every voice print and the receipts tagged by them, in every demo room, so the demo starts again">Forget all voices</button>
             </div>
           </Card>
           <Card title="Upsell brain" right={s.brain ? <span style={{ fontSize: 10, color: C.textSec }}>{s.brain.latency_ms} ms brain · {s.brain.round_trip_ms} ms round trip · {s.brain.framer}</span> : null}>

@@ -10,7 +10,8 @@
 // allergies (with and without a substitute), items taken off and swapped, the three card settings,
 // menu sections, a returning voice, Clear, "no thanks, and…", two-of-an-item, ordering for others,
 // closing, out of stock, two customers in a row, whisper's own order list, the cashier saying the card,
-// and two no's in a row. Instead of one expected outcome each, every transaction is held to the same
+// and two no's in a row; a quarter are demo visits where the presenter explains the system along the way
+// (lines that quote orders and hot words, which must never be read). Instead of one expected outcome each, every transaction is held to the same
 // rules (RULES below), each one a promise the system makes whatever the conversation; a broken rule is a
 // bug to fix. `meta` is what the generator knows the customer meant (ordered, tapped, mentioned only,
 // taken off, allergic to, which card setting), which the rules are judged against.
@@ -41,6 +42,18 @@ const rnd = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul
 const pick = (a) => a[Math.floor(rnd() * a.length)]
 const chance = (p) => rnd() < p
 
+// What the presenter says while explaining the system mid-visit (David, 2026-10-08): shown in the
+// transcript, never read. Several quote orders and hot words on purpose.
+const EXPLANATIONS = [
+  "So what you're seeing here is the upsell engine reading the conversation.",
+  "If a customer says it's so hot out today, it suggests something cold.",
+  "For example, when someone says I'm in a rush, it only pitches quick items.",
+  "Let's say the customer says they're starving, the engine knows they want food.",
+  "As you can see, if the customer says can I get a large fries, it waits for the size.",
+  "Notice how the card waits until the cashier says it.",
+  "If someone says I'm allergic to milk, the brain offers a lettuce wrap.",
+  "The brain reads the voice print and remembers what they had last time.",
+]
 const GREETINGS = ["Hi, welcome in! What can I get you?", "Hey there, what can I get started for you?", "Welcome! What would you like today?", "Hi, what can I get for you today?"]
 const CUES = ["Can I get {x}", "I'll have {x}", "I'd like {x} please", "{X} please", "Let me get {x}", "Could I get {x}", "I want {x}", "Can I have {x}", "I'll take {x}", "Lemme get {x}"]
 const NUMS = { 1: "a", 2: "two", 3: "three" }
@@ -57,7 +70,7 @@ const list = (parts) => (parts.length < 2 ? parts[0] : `${parts.slice(0, -1).joi
 function visit(id, title, opts = {}) {
   const v = {
     id, title, setup: { cardMode: opts.mode || pick(["dynamic", "dynamic", "trigger", "hold"]), ...(opts.setup || {}) }, steps: [], t: 0,
-    meta: { ordered: new Map(), tapped: new Map(), unsized: new Set(), mentioned: new Set(), removed: new Map(), allergens: new Map(), out: new Set(opts.setup?.outToday || []), cleared: [] },
+    meta: { ordered: new Map(), tapped: new Map(), unsized: new Set(), mentioned: new Set(), removed: new Map(), allergens: new Map(), out: new Set(opts.setup?.outToday || []), cleared: [], explained: [] },
   }
   v.meta.mode = v.setup.cardMode
   v.at = (dt = 2) => (v.t += dt)
@@ -95,6 +108,8 @@ function visit(id, title, opts = {}) {
     return v
   }
   v.allergy = (allergen, phraseText, dt) => { v.say("C", phraseText, dt); v.meta.allergens.set(allergen, v.t); return v }
+  // The presenter explains something, after a long pause: the visit gets longer, nothing explained is read.
+  v.explain = () => { const x = pick(EXPLANATIONS); v.say("O", x, 15 + Math.floor(rnd() * 45)); v.meta.explained.push(x); return v }
   v.push = (step, dt) => { v.steps.push({ at: v.at(dt), ...step }); return v }
   v.pay = (dt = 6) => { v.steps.push({ at: v.at(dt), pay: true }); return v }
   v.done = () => {
@@ -163,6 +178,8 @@ const RULES = [
     return true
   })],
   ["a size-up card was for an item on the ticket", (r) => r.customers.every((c) => c.cards.every((x) => x.kind !== "upsize" || x.ticketAtShow.includes(x.entry)))],
+  ["nothing an explanation said fired a hot key", (r, m) => r.customers.every((c) => (c.firedFull || []).every((f) => !f.phrase || !m.explained.some((x) => x.toLowerCase().includes(f.phrase.toLowerCase())) || !m.explained.length
+    || r.tr.steps.some((s) => s.who === "C" && s.say && s.say.toLowerCase().includes(f.phrase.toLowerCase()))))],
   ["no card called a cold item hot", (r) => r.customers.every((c) => c.cards.every((x) => !(COLD.test(x.entry) && /\b(hot|warm)\b(?! (dog|sauce))/i.test(x.reason || ""))))],
 ]
 
@@ -336,8 +353,12 @@ for (let round = 0; round < 5; round++) {
   for (const [title, build, opts] of KINDS) {
     n += 1
     const setup = opts?.outToday ? { outToday: opts.outToday() } : {}
-    const v = visit(n, `${title} (${round + 1})`, { setup })
+    // A quarter of the visits are demo visits: the presenter explains once or twice along the way.
+    const demo = chance(0.25)
+    const v = visit(n, `${title} (${round + 1})${demo ? " — with explanations" : ""}`, { setup })
+    if (demo) v.explain()
     build(v)
+    if (demo && chance(0.6)) v.explain()
     v.pay()
     TRANSCRIPTS.push(v.done())
   }

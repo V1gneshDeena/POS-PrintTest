@@ -1,4 +1,4 @@
-// Runs the counter transactions in transcripts.js (41) through the real Vavoom Assist engine
+// Runs the counter transactions in transcripts.js (45) through the real Vavoom Assist engine
 // (useAssist.js createEngine, with upsellEngine, the hot keys, the order parser and the reply
 // classifier), on the burger menu, and writes what happened to transcript-results.md.
 //
@@ -232,7 +232,8 @@ async function run(tr) {
       else if (step.press === "no") E.declineCard("No thanks")
       else E.addPair()
     } else if (step.brain) {
-      const req = brainRequests[brainRequests.length - 1]
+      // The latest request's answer, or, with `answer: n`, the n-th request's (an answer that arrives late).
+      const req = step.answer ? brainRequests[step.answer - 1] : brainRequests[brainRequests.length - 1]
       note(`Upsell brain answers: ${step.brain.item || step.brain.name} — ${step.brain.framing || ""}`, "line")
       E.handleBrain({ req_id: req ? req.req_id : -1, latency_ms: 480, round_trip_ms: 530, framer: "qwen3-14b", ...step.brain })
     } else if (step.pitch) {
@@ -268,6 +269,7 @@ async function run(tr) {
       await flush()
       const fired = (E.st.hot.fired || []).map((f) => f.key)
       const waiting = [...E.st.heard.values()].filter((h) => h.needsSize).map((h) => h.entry.name) // before the visit resets
+      const firedFull = (E.st.hot.fired || []).map((f) => ({ key: f.key, phrase: f.phrase || "" }))
       for (const c of cards) if (c.outcome == null) c.outcome = "unanswered"
       const receipt = E.receiptRecord()
       const reasoningNow = { ...E.st.reasonNow }
@@ -275,7 +277,7 @@ async function run(tr) {
       E.onActivityEvent({ type: "payment_complete", at: NOW })
       E.noteSaving(receipt) // as useAssist does at payment
       E.endCustomer("paid", null)
-      customers.push({ cards, sections: sections.splice(0), ticket: pos.cart.map(lineText), waiting, fired, receipt, roles: roles.splice(0),
+      customers.push({ cards, sections: sections.splice(0), ticket: pos.cart.map(lineText), waiting, fired, firedFull, receipt, roles: roles.splice(0),
         brainRequests: brainRequests.length, reasoningNow,
         reasoning: (E.st.lastReasoning?.timeline || []).map((x) => ({ ...x, atSec: (x.at - T0) / 1000 })) })
       pos.cart = []

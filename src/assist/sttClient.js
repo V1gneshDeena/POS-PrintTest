@@ -19,7 +19,7 @@
 //   requestUpsell(req)   one decision from the demopos brain on the GPU box -> brain_upsell
 //   requestMeaning(req)  what one finished line means, read on the GPU box -> meaning
 //   sendReceipt(r)       the paid order, its conversation and its upsells, tagged by voice
-//   forgetVoices()       deletes this demo room's voice prints and receipts
+//   forgetVoices()       deletes every voice print and receipt, in every demo room (the demo starts again)
 // and the bridge answers with voice_match, brain_upsell, meaning, receipt_saved, voice_forgotten.
 //
 // A dropped socket reconnects with backoff unless the bridge refused for a reason a

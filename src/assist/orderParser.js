@@ -190,6 +190,19 @@ export function sizeAnswer(text) {
   return words.length === 1 ? words[0] : null
 }
 
+// Someone explaining the system during a demo, not the conversation (David, 2026-10-08: "during the
+// demo, there will be times i will be explaining the features"): "if a customer says it's hot out, it
+// suggests something cold", "for example, when someone says can I get a large fries…", "as you can see",
+// "what you're seeing here", "the engine reads…". Such a line is shown in the transcript and never read:
+// no order, no hot key, no greeting, not the customer's voice (useAssist.js handleFinal).
+const EXPLAIN = new RegExp("\\b((if|when|whenever|once) (a|the|your|our|my) (customer|guest|cashier|operator|employee|person)"
+  + "|(if|when|whenever) (someone|somebody|they|you) (says?|asks?|orders?|tells?)"
+  + "|for example|for instance|let'?s say|say (a|the) customer|imagine (a|the|you|if)|as you can see|you can see (how|that|the|it)"
+  + "|what (you'?re|you are|we'?re|we are) (seeing|looking at)|this is (where|how|what|why)|here'?s (where|how|what|why)|notice (how|that)"
+  + "|the (system|engine|model|brain|card|modal|screen|upsell|upsell engine|pos|demo) (will|can|is|does|shows|picks|knows|reads|suggests|listens|sees|hears|remembers)"
+  + "|vavoom (will|can|is|does|shows|picks|knows|reads|suggests|listens|sees|hears|remembers))\\b", "i")
+export const isExplaining = (text) => EXPLAIN.test(String(text || ""))
+
 // Greeting that opens a customer session from standby — the same brand-agnostic words
 // the in-store tablet listens for ("welcome", "hello"), plus "hi there" and "good morning".
 const GREETING = /\b(welcome|hello|hi there|hey there|good (morning|afternoon|evening))\b/
