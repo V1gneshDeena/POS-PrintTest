@@ -1,4 +1,4 @@
-// 57 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 60 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -974,6 +974,56 @@ export const TRANSCRIPTS = [
       ["one spotlight for the four items", (r) => r.c.spots.length === 1 && r.c.spots[0].items.length === 4],
       ["no card", (r) => r.c.cards.length === 0],
       ["it says there is nothing to add, then closes by itself", (r) => r.c.spots[0].states.some((x) => x.state === "done") && r.c.spots[0].closedSec != null && r.c.spots[0].closedSec < 9],
+    ],
+  },
+  {
+    id: 58, title: "Spotlight answered by voice: a spoken yes adds it, a spoken no declines, and the chain carries on",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, tap: "Cheeseburger", size: "Regular" },
+      { at: 7, pitch: true },
+      { at: 9, who: "C", say: "Yes please" },
+      { at: 14, pitch: true },
+      { at: 16, who: "C", say: "No thanks" },
+      { at: 24, pay: true },
+    ],
+    checks: [
+      ["the Fries card was accepted by the spoken yes, inside the spotlight", (r) => r.c.cards.some((x) => x.title === "Fries" && x.outcome === "accepted" && x.via === "spoken yes" && x.inSpot)],
+      ["the next card was declined by the spoken no, in the same spotlight", (r) => r.c.cards.some((x) => x.outcome === "declined" && x.via === "spoken no" && x.inSpot && x.spot === 1)],
+      ["the spoken answers are in the spotlight's chain", (r) => r.c.spots.length === 1 && /Fries \(accepted\)/.test(r.c.spots[0].trail[0] || "") && r.c.spots[0].trail.some((t) => /declined/.test(t))],
+      ["the Fries are on the ticket", (r) => r.c.ticket.some((l) => /Fries/.test(l))],
+    ],
+  },
+  {
+    id: 59, title: "Spotlight open: another item said is rung up, joins the spotlight, and the card on screen follows it",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, tap: "Cheeseburger", size: "Regular" },
+      { at: 8, who: "C", say: "Can I also get a regular fries" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the Fries said are rung up", (r) => has(r.c, "1× Fries (Regular)")],
+      ["they joined the open spotlight as said", (r) => r.c.spots.length === 1 && r.c.spots[0].items.includes("Regular Fries (said)")],
+      ["the Fries card on screen counts as taken (rung up), and the next card stays in the spotlight", (r) => r.c.cards[0]?.title === "Fries" && r.c.cards[0].outcome === "accepted"
+        && /rung up/.test(r.c.cards[0].via) && r.c.cards.slice(1).every((x) => x.inSpot && x.spot === 1) && r.c.cards.length >= 2],
+    ],
+  },
+  {
+    id: 60, title: "Spotlight open: an order change said is made, and what came off is not pitched back",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, who: "C", say: "Can I get a regular cheeseburger and a regular fries" },
+      { at: 9, who: "C", say: "Actually take the fries off" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the fries came off", (r) => !r.c.ticket.some((l) => /Fries/.test(l))],
+      ["no side is pitched after it", (r) => !r.c.cards.some((x) => x.atSec >= 9 && /Fries|Poutine/.test(x.title))],
+      ["it all happened in one spotlight", (r) => r.c.spots.length === 1 && r.c.cards.every((x) => x.inSpot)],
     ],
   },
 ]

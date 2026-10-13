@@ -29,9 +29,11 @@
 //     in the chain with the chain so far below it. "Back to the order" (or Escape, or a tap on the
 //     blur) closes it; it also closes itself when there is nothing more to offer. A Card / Big text switch
 //     at its top right changes its look (useAssist.js SPOT_STYLES): the card above, or only the upsell in
-//     big text (the item, its price, Add and No thanks), so a customer can pick the one they prefer.
-//   • the TRANSCRIPT — the live partial line and the last few lines heard (above the Card style spotlight's
-//     blur; under the Big text style's, so nothing covers the upsell).
+//     big text (the item, its price, Add and No thanks), so a customer can pick the one they prefer. Both looks
+//     carry a Listening strip (the live words, or the last line heard) and say what speech did: an item said
+//     while it is open ("Heard and added: …") and an answer heard ("Added ✓ · heard yes").
+//   • the TRANSCRIPT — the live partial line and the last few lines heard (under the spotlight's blur: the
+//     spotlight's own Listening strip shows what is being heard, and nothing covers the upsell).
 // All state comes from useAssist().
 
 import { useEffect, useRef, useState } from "react"
@@ -333,6 +335,29 @@ const SPOT_CSS = `
 @media (prefers-reduced-motion: reduce) { .vv-spot-back, .vv-spot-panel, .vv-spot-dot { animation: none } }
 `
 const OUTCOME_MARK = { accepted: ["✓", C.success], declined: ["✗", C.danger], lapsed: ["–", C.faint], noted: ["✓", C.soft] }
+/** How an answer came in, when speech gave it: "heard yes", "heard no", "rung up from what was said". */
+const viaNote = (via) => (/spoken yes/.test(via || "") ? "heard yes" : /spoken no/.test(via || "") ? "heard no" : /^rung up/.test(via || "") ? "rung up" : "")
+/** Items said after the spotlight opened (rung up from speech while it covered the screen), newest last. */
+const saidSince = (sp) => (sp.items || []).filter((i) => i.how === "said" && i.at - sp.openedAt > 300)
+
+/**
+ * The spotlight's Listening strip: speech keeps working while the spotlight covers the screen, and this shows
+ * it (the microphone's level, the words as they come, or the last line heard). `big` is the Big text look.
+ */
+function HeardStrip({ a, big }) {
+  const on = a.status?.stt === "connected" && a.status?.mic === "on"
+  const last = (a.lines || []).filter((l) => l.kind !== "explaining").slice(-1)[0]
+  const text = a.partial ? `${a.partial}…` : last ? `“${last.text}”` : on ? "Say the upsell; the answer is heard" : "Speech is off: answer by tapping"
+  return (
+    <div onClick={(e) => e.stopPropagation()} style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: big ? "center" : "flex-start", minWidth: 0,
+      fontSize: big ? 15 : 12.5, color: C.muted, marginTop: big ? 28 : 0 }}>
+      <span aria-hidden="true" style={{ width: 9, height: 9, borderRadius: "50%", flexShrink: 0, background: on ? C.success : C.faint,
+        boxShadow: on ? `0 0 ${3 + Math.round((a.level || 0) * 14)}px ${C.success}` : "none", transition: "box-shadow 0.1s" }} />
+      <span style={{ fontSize: big ? 11 : 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: on ? C.success : C.faint, flexShrink: 0 }}>{on ? "Listening" : "Mic off"}</span>
+      <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontStyle: a.partial ? "italic" : "normal", color: a.partial ? C.text : C.muted }}>{text}</span>
+    </div>
+  )
+}
 const sizeOf = (i) => (i.size ? `${i.size} ` : "")
 
 /** What the spotlight lists while it works out the upsell: the inputs it is weighing right now. */
@@ -455,6 +480,7 @@ function Spotlight({ a }) {
               ) : (
                 <div style={{ fontSize: 16, fontWeight: 500, color: c.state === "accepted" ? C.success : C.muted }}>
                   {c.state === "accepted" ? "Added to the ticket ✓" : c.state === "declined" ? "Declined" : c.state === "noted" ? "Noted ✓" : "No answer — moving on"}
+                  {viaNote(c.via) ? <span style={{ fontSize: 12.5, color: C.soft, marginLeft: 8 }}>· {viaNote(c.via)}</span> : null}
                   <span style={{ fontSize: 12.5, color: C.faint, marginLeft: 10 }}>Next in the chain…</span>
                 </div>
               )}
@@ -489,13 +515,16 @@ function Spotlight({ a }) {
               <span style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: C.faint, marginRight: 4 }}>Chain</span>
               {sp.trail.map((x, k) => {
                 const [mark, col] = OUTCOME_MARK[x.outcome] || ["·", C.faint]
-                return <span key={k}><span style={{ color: col, fontWeight: 600 }}>{mark}</span> {x.title}{k < sp.trail.length - 1 || pending ? <span style={{ color: C.faint }}> → </span> : null}</span>
+                return <span key={k}><span style={{ color: col, fontWeight: 600 }}>{mark}</span> {x.title}{viaNote(x.via) ? <span style={{ color: C.faint }}> ({viaNote(x.via)})</span> : null}{k < sp.trail.length - 1 || pending ? <span style={{ color: C.faint }}> → </span> : null}</span>
               })}
               {pending ? <span style={{ color: C.accent }}>{c.title} (now)</span> : null}
             </div>
           ) : null}
         </div>
 
+        <div style={{ padding: "11px 20px", borderTop: `1px solid ${C.line}`, background: C.inset }}>
+          <HeardStrip a={a} />
+        </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "12px 20px", borderTop: `1px solid ${C.line}` }}>
           <span style={{ fontSize: 11, color: C.faint }}>{sp.trail.length ? `${sp.trail.length} answered · ${taken} taken` : "Answer by voice or tap"}</span>
           <button onClick={() => a.closeSpot()} style={{ height: 38, padding: "0 16px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500,
@@ -562,7 +591,9 @@ function BigText({ a, waiting, latest }) {
             </div>
           </>
         ) : (
-          <div style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", color: done?.[1] || C.muted, marginTop: 26 }}>{done?.[0] || ""}</div>
+          <div style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", color: done?.[1] || C.muted, marginTop: 26 }}>
+            {done?.[0] || ""}{viaNote(c.via) ? <span style={{ fontSize: "0.45em", color: C.soft, marginLeft: 12, letterSpacing: "-0.01em" }}>{viaNote(c.via)}</span> : null}
+          </div>
         )}
       </>
     )
@@ -589,11 +620,18 @@ function BigText({ a, waiting, latest }) {
       </div>
     )
   }
+  const joined = saidSince(sp).slice(-1)[0]
   return (
     <div className="vv-spot-panel" role="dialog" aria-modal="true" aria-label="Upsell" onClick={(e) => e.stopPropagation()}
       style={{ width: "100%", maxWidth: 1100, textAlign: "center", padding: "24px 8px", boxSizing: "border-box" }}>
+      {joined ? (
+        <div style={{ fontSize: "clamp(15px, 1.8vw, 20px)", color: C.success, marginBottom: 22, letterSpacing: "-0.01em" }}>
+          Heard and added: {joined.size ? `${joined.size} ` : ""}{joined.name} ✓
+        </div>
+      ) : null}
       {body}
-      <div style={{ marginTop: 40 }}>
+      <HeardStrip a={a} big />
+      <div style={{ marginTop: 28 }}>
         <button onClick={() => a.closeSpot()} style={{ height: 38, padding: "0 18px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500,
           border: `1px solid ${C.line2}`, background: "transparent", color: C.soft }}>Back to the order</button>
       </div>
@@ -656,8 +694,8 @@ export default function AssistOverlay({ assist }) {
     <>
       <UpsellSquare a={assist} />
       {spot ? <Spotlight a={assist} /> : null}
-      {/* Over the Card style's blur; under the Big text style's, which shows only the upsell. */}
-      <TranscriptBox a={assist} above={!!spot && assist.spotStyle !== "text"} />
+      {/* Under the spotlight's blur: the spotlight's Listening strip shows what is heard. */}
+      <TranscriptBox a={assist} />
     </>
   )
 }

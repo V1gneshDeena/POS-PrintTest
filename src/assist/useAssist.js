@@ -99,7 +99,11 @@
 //     cashier said lapses. Between spotlights no card goes up, so nothing is offered unseen; hot words,
 //     allergies and the voice print still count toward the next one. The card setting still decides
 //     when a card inside the spotlight changes. It comes in two looks (SPOT_STYLES): a card, or only the upsell
-//     in big text; the look is the screen's alone (AssistOverlay.jsx).
+//     in big text; the look is the screen's alone (AssistOverlay.jsx). Speech keeps working while it covers the
+//     screen (David, 2026-10-12: "the STT should also be working to know if another order was said and if the
+//     upsell was accepted or rejected"): every line is read exactly as without it, so a spoken yes or no answers
+//     the card, a size said answers the size question, an order change is made, and an item said is rung up and
+//     joins the open spotlight (its card follows the new ticket). The spotlight shows that it is listening.
 //   • QUANTITIES: an item said once is rung up once, however often speech-to-text repeats it ("can I
 //     get a cheeseburger? cheeseburger"). More than one sticks only when a number is said ("two
 //     burgers", "another fries"); whisper's own count is capped to that; whisper naming the same item
@@ -330,7 +334,7 @@ export function createEngine(set, posRef) {
     listening: false,
     cardMode: loadCardMode(),
     view: loadView(),   // UPSELL_VIEWS: "card" or "spotlight"
-    spot: null,         // the open spotlight: { items: [{ id, name, size, how }], state, trail: [{ title, outcome }], openedAt }
+    spot: null,         // the open spotlight: { items: [{ id, name, size, how, at }], state, trail: [{ title, outcome, via }], openedAt }
     spotTimer: null,
   }
   st.hot = newHot(st.outToday)
@@ -607,7 +611,7 @@ export function createEngine(set, posRef) {
    */
   function openSpot(entry, size, how) {
     if (st.view !== "spotlight" || st.phase !== "active" || !entry) return
-    const item = { id: entry.id, name: entry.name, size: size && size !== "each" ? size : "", how }
+    const item = { id: entry.id, name: entry.name, size: size && size !== "each" ? size : "", how, at: now() }
     const sp = st.spot
     if (sp) {
       const had = sp.items.find((i) => i.id === item.id)
@@ -713,7 +717,7 @@ export function createEngine(set, posRef) {
     c.resolvedAt = now()
     const o = st.offers.find((x) => x.key === c.key && !x.outcome)
     if (o) { o.outcome = outcome; o.via = via; o.pitched = !!c.pitched; o.answeredAt = now() }
-    if (st.spot) { st.spot.trail.push({ title: c.title, outcome }); publishSpot() } // the spotlight's chain so far
+    if (st.spot) { st.spot.trail.push({ title: c.title, outcome, via: via || "" }); publishSpot() } // the spotlight's chain so far
     log(`Upsell ${outcome}: ${c.title}${via ? ` (${via})` : ""}`)
     explain("outcome", `Customer ${{ accepted: "said yes to", declined: "turned down", lapsed: "let pass" }[outcome] || outcome} “${c.title}”${via ? ` (${via})` : ""}.`)
     publishCard(); publishOffers()
