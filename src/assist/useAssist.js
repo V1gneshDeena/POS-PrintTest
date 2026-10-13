@@ -19,10 +19,11 @@
 //                         open. Whisper gets a fresh visit each time.
 //
 // Where it shows: the POS keeps two small floating pieces on screen (AssistOverlay.jsx:
-// the upsell square and the transcript). The whole state is also published as a
-// snapshot (assistSync.js) for the FULL BAR page, which shows everything else and can
-// send commands back (start / end customer, Add / No thanks, the pairing's Add, a typed line,
-// camera, clear out-of-stock, forget voices).
+// the upsell square and the transcript). In the Spotlight view (UPSELL_VIEWS) the upsell itself
+// shows over the blurred POS instead of on the square (see THE SPOTLIGHT below). The whole state
+// is also published as a snapshot (assistSync.js) for the FULL BAR page, which shows everything
+// else and can send commands back (start / end customer, Add / No thanks, the pairing's Add, a
+// typed line, camera, the card setting, the upsell view, clear out-of-stock, forget voices).
 //
 // Outputs while a customer is active
 //   • STATED ORDER → TICKET: every item the customer orders (POS-side parser on each line,
@@ -86,6 +87,18 @@
 //     declined (key "hold": not replaced or timed out until the customer accepts or declines it,
 //     and until the cashier says it the upsell square asks "Please voice the upsell"). A card the customer's words rule out, or the
 //     ticket has overtaken, comes down in every mode, and an allergy answer still takes the screen.
+//   • THE SPOTLIGHT (UPSELL_VIEWS, the operator's other choice on this device; David, 2026-10-12): instead of
+//     the card on the square, the upsell comes up over the blurred POS when an item is said or tapped.
+//     It opens when an item reaches the ticket from speech or a tap, when an item is heard without its
+//     size (the spotlight asks for it), and when the customer orders an item that is out, asks about
+//     one, or says they don't like one. It first waits for the brain's answer about the new ticket (up
+//     to BRAIN_WAIT_MS), then shows the same pick the card would show, from the same inputs (hot words,
+//     voice print, the brain, allergies, the ladder), and after each answer the next one in the chain,
+//     until there is nothing left to offer (it says so and closes) or the cashier goes back to the
+//     order. Going back sets an unsaid card aside in the context window, for the next spotlight; one the
+//     cashier said lapses. Between spotlights no card goes up, so nothing is offered unseen; hot words,
+//     allergies and the voice print still count toward the next one. The card setting still decides
+//     when a card inside the spotlight changes.
 //   • QUANTITIES: an item said once is rung up once, however often speech-to-text repeats it ("can I
 //     get a cheeseburger? cheeseburger"). More than one sticks only when a number is said ("two
 //     burgers", "another fries"); whisper's own count is capped to that; whisper naming the same item
@@ -178,6 +191,22 @@ const CARD_MODE_KEY = "vavoom-assist-card-mode"
 function loadCardMode() {
   try { const m = localStorage.getItem(CARD_MODE_KEY); return CARD_MODES[m] ? m : "dynamic" } catch { return "dynamic" }
 }
+// How the upsell is shown (David, 2026-10-12: "an alternate version, it doesn't affect the current one
+// but you can choose this version"), chosen on the upsell square or the full bar and kept on this device.
+// The card is the default; the spotlight is opt-in (see THE SPOTLIGHT in the header).
+export const UPSELL_VIEWS = {
+  card: { label: "Upsell card", short: "Card", says: "the upsell shows on the floating card, whenever there is one" },
+  spotlight: { label: "Spotlight", short: "Spotlight", says: "when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done" },
+}
+const VIEW_KEY = "vavoom-assist-view"
+function loadView() {
+  try { const v = localStorage.getItem(VIEW_KEY); return UPSELL_VIEWS[v] ? v : "card" } catch { return "card" }
+}
+// A spotlight with nothing (more) to offer says so for this long, then closes by itself.
+const SPOT_DONE_MS = 1500
+// Hot keys that name an item the customer said (ordered while out, asked about, doesn't like): each
+// opens a spotlight for that item, like an item said or tapped.
+const SPOT_EFFECTS = new Set(["ordered_out", "interest_item", "alternative"])
 // Quantities (David, 2026-10-08: an order said once must not appear twice). Only a number said for
 // an item makes more than one stick; whisper's own count is capped to it.
 const NUMBER_SAID = /\b(two|three|four|five|six|seven|eight|nine|ten|couple|pair|\d+)\b/i
@@ -288,6 +317,9 @@ export function createEngine(set, posRef) {
     saidEffects: new Set(), // every hot-key effect this visit (the plan reads them after cards consume them)
     listening: false,
     cardMode: loadCardMode(),
+    view: loadView(),   // UPSELL_VIEWS: "card" or "spotlight"
+    spot: null,         // the open spotlight: { items: [{ id, name, size, how }], state, trail: [{ title, outcome }], openedAt }
+    spotTimer: null,
   }
   st.hot = newHot(st.outToday)
   const now = () => Date.now()
@@ -309,7 +341,8 @@ export function createEngine(set, posRef) {
       history: historyNote(st.voice, st.brainMeta),
       plan: pitchNote({ cart: cart(), offers: st.offers, effects: st.saidEffects, constraints: [...st.hot.constraints],
         lastOpeningAt: Math.max(st.lastAddedAt || 0, st.hot.fired[0]?.at || 0), pausedUntil: st.hot.pausedUntil, t: now(), brainHealth })
-        + ` Card setting: ${CARD_MODES[st.cardMode].label} (the card ${CARD_MODES[st.cardMode].says}).`,
+        + ` Card setting: ${CARD_MODES[st.cardMode].label} (the card ${CARD_MODES[st.cardMode].says}).`
+        + (st.view === "spotlight" ? ` Upsell view: Spotlight (${UPSELL_VIEWS.spotlight.says}).` : ""),
     }
     if (Object.keys(next).some((k) => next[k] !== st.reasonNow[k])) { st.reasonNow = next; publishReasoning() }
   }
@@ -325,7 +358,10 @@ export function createEngine(set, posRef) {
     fired: st.hot.fired.slice(), pausedUntil: st.hot.pausedUntil, constraints: [...st.hot.constraints],
     outToday: [...st.outToday].map((id) => BY_ID.get(id)?.name || id),
     outIds: [...st.outToday], // the POS marks these menu tiles "Out today"
+    allergens: [...st.hot.allergens], // what the spotlight lists while it works out the upsell
   })
+  // The spotlight is published as a copy (its items and trail change in place).
+  const publishSpot = () => set.spot?.(st.spot ? { ...st.spot, items: st.spot.items.map((i) => ({ ...i })), trail: st.spot.trail.slice() } : null)
 
   function resetCustomer() {
     st.heard = new Map()
@@ -351,6 +387,9 @@ export function createEngine(set, posRef) {
     st.removed = new Map()
     st.sectionSig = ""
     st.justSized = null
+    st.spot = null
+    clearTimeout(st.spotTimer)
+    publishSpot()
     publishReasoning()
     clearTimeout(st.brainTimer)
     set.voice?.(null)
@@ -482,6 +521,7 @@ export function createEngine(set, posRef) {
           h.needsSize = true
           log(`Heard ${h.entry.name} — waiting for its size (${h.entry.sizes.map(([l]) => l).join(" / ")})`)
           explain("order", `Heard ${h.entry.name}, but no size yet: it waits for the size (${h.entry.sizes.map(([l]) => l).join(" or ")}) before going on the ticket.`)
+          openSpot(h.entry, "", "said") // the spotlight asks for the size first
         }
         continue
       }
@@ -518,6 +558,91 @@ export function createEngine(set, posRef) {
     recompute()
   }
 
+  // ── The spotlight (UPSELL_VIEWS; see THE SPOTLIGHT in the header) ──────────
+  /** The operator's choice of how the upsell is shown, kept on this device. */
+  function setView(view) {
+    if (!UPSELL_VIEWS[view] || view === st.view) return
+    if (view === "spotlight") setAsideCard("the upsell view changed") // the card on the square waits for the first spotlight
+    st.view = view
+    if (view === "card" && st.spot) { st.spot = null; clearTimeout(st.spotTimer); publishSpot() } // a card in it carries on on the square
+    try { localStorage.setItem(VIEW_KEY, view) } catch { /* private mode: this session only */ }
+    set.view?.(view)
+    log(`Upsell view: ${UPSELL_VIEWS[view].label}`)
+    explain("visit", `Upsell view is now “${UPSELL_VIEWS[view].label}”: ${UPSELL_VIEWS[view].says}.`)
+    refreshReasoning()
+    recompute()
+  }
+
+  /**
+   * An unanswered card leaves the screen without an answer: one the cashier has not said goes into the
+   * context window (it comes back in the next spotlight, unless something outranks it by then), and one
+   * the cashier said lapses, so it is not pitched twice.
+   */
+  function setAsideCard(why) {
+    const c = st.card
+    if (!c || c.state !== "pending") return
+    if (c.pitched) { resolveCard("lapsed", why); return }
+    st.offers = st.offers.filter((x) => !(x.key === c.key && !x.outcome))
+    st.card = null
+    remember(c, null, `Set “${c.title}” aside (${why}): it comes back in the next spotlight.`)
+    publishCard(); publishOffers()
+  }
+
+  /**
+   * Open the spotlight for an item said or tapped (`how`: "said" or "tapped"), or add the item to the
+   * one already open. A new spotlight first works out the upsell: recomputeNow waits for the brain's
+   * answer about the new ticket, at most until this timer.
+   */
+  function openSpot(entry, size, how) {
+    if (st.view !== "spotlight" || st.phase !== "active" || !entry) return
+    const item = { id: entry.id, name: entry.name, size: size && size !== "each" ? size : "", how }
+    const sp = st.spot
+    if (sp) {
+      const had = sp.items.find((i) => i.id === item.id)
+      if (had) { if (item.size) had.size = item.size } else sp.items.push(item)
+      // Waiting for a size, or about to close: the item that just came in is worked out afresh.
+      if (sp.state === "size" || sp.state === "done") { sp.state = "computing"; armSpot() }
+      publishSpot()
+      return
+    }
+    st.spot = { items: [item], state: "computing", trail: [], openedAt: now() }
+    log(`Spotlight opened for the ${entry.name} (${how})`)
+    explain("pick", `Spotlight: the ${entry.name} was ${how}, so the screen blurs while it works out the upsell for it.`)
+    armSpot()
+    publishSpot()
+  }
+  /** Re-check the spotlight once the brain has had its time to answer. */
+  function armSpot() {
+    clearTimeout(st.spotTimer)
+    st.spotTimer = setTimeout(() => recompute(), BRAIN_DEBOUNCE_MS + BRAIN_WAIT_MS + 50)
+  }
+
+  /** Close the spotlight: the cashier went back to the order ("closed by the cashier"), or the chain is done. */
+  function closeSpot(reason = "closed by the cashier") {
+    const sp = st.spot
+    if (!sp) return
+    setAsideCard("back to the order")
+    st.spot = null
+    clearTimeout(st.spotTimer)
+    const taken = sp.trail.filter((x) => x.outcome === "accepted").length
+    log(`Spotlight closed — ${reason} · ${sp.trail.length} upsell(s) answered, ${taken} taken`)
+    explain("pick", `Spotlight closed (${reason})${sp.trail.length ? `: ${sp.trail.length} upsell${sp.trail.length === 1 ? "" : "s"} answered, ${taken} taken` : ""}.`)
+    publishSpot()
+  }
+
+  /** Nothing (more) to offer in the open spotlight: wait for a size, or say so and close shortly. */
+  function spotIdle() {
+    const sp = st.spot
+    if (!sp || sp.state === "done") return
+    const sizing = [...st.heard.values()].some((h) => h.needsSize)
+    const next = sizing ? "size" : "done"
+    if (sp.state === next) return
+    sp.state = next
+    clearTimeout(st.spotTimer)
+    if (next === "done") st.spotTimer = setTimeout(() => { if (st.spot === sp && sp.state === "done") closeSpot(sp.trail.length ? "the chain is done" : "nothing to add") }, SPOT_DONE_MS)
+    publishSpot()
+  }
+
   // The item whose size was just given, for 30 s: its size-up is pitched first.
   const justSizedId = () => (st.justSized && now() - st.justSized.at < 30000 ? st.justSized.id : null)
   // The ticket as a card saw it: which items, sizes and counts (a card follows changes to it).
@@ -532,11 +657,11 @@ export function createEngine(set, posRef) {
    * what was said or tapped (the substitute for an item that is out sits beside that item), so only
    * its own item leaving the ticket overtakes it.
    */
-  /** The context window: keep a card that is being replaced before it was answered. */
-  function remember(c, by) {
+  /** The context window: keep a card that is being replaced (by `by`) or set aside before it was answered. */
+  function remember(c, by, note) {
     if (!c?.entry) return
     st.memory = [...st.memory.filter((m) => m.key !== c.key), { ...c, state: "pending", pitched: false, back: false, rememberedAt: now() }].slice(-MEMORY_MAX)
-    explain("pick", `Remembered “${c.title}”: it comes back once “${by}” is answered.`)
+    explain("pick", note || `Remembered “${c.title}”: it comes back once “${by}” is answered.`)
   }
 
   /** The newest remembered card that still fits: not answered since, still allowed, not overtaken. */
@@ -576,6 +701,7 @@ export function createEngine(set, posRef) {
     c.resolvedAt = now()
     const o = st.offers.find((x) => x.key === c.key && !x.outcome)
     if (o) { o.outcome = outcome; o.via = via; o.pitched = !!c.pitched; o.answeredAt = now() }
+    if (st.spot) { st.spot.trail.push({ title: c.title, outcome }); publishSpot() } // the spotlight's chain so far
     log(`Upsell ${outcome}: ${c.title}${via ? ` (${via})` : ""}`)
     explain("outcome", `Customer ${{ accepted: "said yes to", declined: "turned down", lapsed: "let pass" }[outcome] || outcome} “${c.title}”${via ? ` (${via})` : ""}.`)
     publishCard(); publishOffers()
@@ -600,6 +726,9 @@ export function createEngine(set, posRef) {
         if (line) { p.decrementFromCart(line.key, "upsell"); log(`Swapped ${line.item.name} for the ${c.entry.name}`) }
       }
       p.addToCart(c.entry.item, c.size, c.price, c.entry.category, "upsell")
+      // The spotlight names the item at its new size ("Regular Cheeseburger", not the Little that was tapped).
+      const named = c.kind === "upsize" && st.spot?.items.find((i) => i.id === c.entry.id)
+      if (named) named.size = c.size
       // An allergy swap that needs the lettuce wrap too ("a Hamburger in a lettuce wrap").
       if (c.alsoEntry && !countOf(c.alsoEntry.id)) {
         const [size, price] = defaultSize(c.alsoEntry)
@@ -729,6 +858,15 @@ export function createEngine(set, posRef) {
     } else if (cur && t - cur.resolvedAt < CARD_RESULT_MS) {
       return
     }
+    // The spotlight view: a card goes up only inside an open spotlight, and a new spotlight first gives
+    // the brain its time to answer about the ticket that opened it (no POS pick flashing up before it).
+    if (st.view === "spotlight" && !pending) {
+      const sp = st.spot
+      if (!sp || (sp.state === "computing" && set.requestBrain && t < st.brainWaitUntil)) {
+        if (cur) { st.card = null; publishCard() }
+        return
+      }
+    }
     // Re-picking while a card is up: leave that card out of the offer log for the pick,
     // so the engine may choose it again (then nothing changes).
     const offers = pending ? st.offers.filter((x) => !(x.key === cur.key && !x.outcome)) : st.offers
@@ -751,6 +889,7 @@ export function createEngine(set, posRef) {
     }
     if (!next) {
       if (cur && !pending) { st.card = null; publishCard() }
+      if (!pending) spotIdle()
       return
     }
     const key = cardKey(next)
@@ -786,6 +925,7 @@ export function createEngine(set, posRef) {
       if (next.origin.effect) st.hot.effects.delete(next.origin.effect)
       else next.origin.offered = true
     }
+    if (st.spot) { st.spot.state = "open"; clearTimeout(st.spotTimer); publishSpot() }
     log(`Upsell shown (${next.source}${next.back ? ", back from earlier" : ""}): ${next.title} — ${next.reason}`)
     explain("pick", next.back ? `Back to “${next.title}”, the upsell from before the change.` : pickNote(next, next.source === "brain" ? st.brainMeta : null))
     publishCard(); publishOffers()
@@ -846,6 +986,7 @@ export function createEngine(set, posRef) {
     const newly = [...allergyNamed].filter((a) => !st.hot.allergens.has(a))
     if (newly.length) {
       for (const a of newly) st.hot.allergens.add(a)
+      publishHot()
       log(`Allergy heard: ${newly.join(", ")} — no card with it from now on`)
       explain("health", `Heard an allergy (${newly.join(", ").replace(/_/g, " ")}): no upsell that contains it from now on.`)
     }
@@ -1023,6 +1164,7 @@ export function createEngine(set, posRef) {
         action: h.action, meaning: h.meaning, phrase: m.clause, items, asked: "", via: "meaning", score: m.score, baseLabel: h.label })
     }
     if (heardAllergy.length) {
+      publishHot()
       log(`Allergy heard by meaning: ${heardAllergy.join("; ")} — no card with it from now on`)
       explain("health", `Heard an allergy in other words: ${heardAllergy.join("; ")}. No upsell that contains it from now on.`)
     }
@@ -1175,6 +1317,9 @@ export function createEngine(set, posRef) {
       st.applying = false
     }
     hot.fired = hot.fired.slice(0, 30)
+    // An item the customer said but that is not rung up (out today, only asked about, not liked): the
+    // spotlight opens for it all the same (its answer is the substitute, the item with its pairing, an alternative).
+    for (const h of hits) if (SPOT_EFFECTS.has(h.effect) && h.items[0]) openSpot(h.items[0], "", h.key === "ordered_out" && /tapped/.test(h.phrase) ? "tapped" : "said")
     // Force the re-evaluation: an unanswered card leaves the screen (and the offer log,
     // so it may be picked again if it is still the best answer) and recompute re-picks.
     const cur = st.card
@@ -1253,6 +1398,8 @@ export function createEngine(set, posRef) {
       st.lastAdded = other ? { item: other.item, category: other.category, size: other.size, price: other.price } : null
     }
     if (st.phase !== "active" && (e.type === "item_click" || (e.type === "item_added" && e.source === "cashier"))) beginCustomer("cashier started ringing")
+    // An item rung up from what was said, or tapped: the spotlight opens for it (an upsell added is part of the chain).
+    if (e.type === "item_added" && (e.source === "cashier" || e.source === "voice")) openSpot(BY_ID.get(e.item.id), e.size, e.source === "voice" ? "said" : "tapped")
     if (e.type === "item_added" || e.type === "item_removed") scheduleBrain()
     // The cashier tapped an item that is out today. The POS still rings it up; the
     // closest substitute pops up, and Add swaps it in (acceptCard).
@@ -1276,7 +1423,7 @@ export function createEngine(set, posRef) {
   }
 
   return { st, beginCustomer, endCustomer, handleFinal, handleWhisperOrder, handleAi, handleBrain, handleVoice, handleMeaning, receiptRecord,
-    acceptCard, declineCard, addPair, clearOutToday, recompute, onActivityEvent, log, noteSaving, noteSaved, setCardMode, chooseSize }
+    acceptCard, declineCard, addPair, clearOutToday, recompute, onActivityEvent, log, noteSaving, noteSaved, setCardMode, chooseSize, setView, closeSpot }
 }
 
 export function useAssist(pos) {
@@ -1311,6 +1458,9 @@ export function useAssist(pos) {
   const [cardMode, setCardModeState] = useState(() => loadCardMode())
   // Best in this section: the hint for the menu section the cashier has open.
   const [section, setSection] = useState(null)
+  // The upsell view (UPSELL_VIEWS) and the open spotlight, if any.
+  const [view, setViewState] = useState(() => loadView())
+  const [spot, setSpot] = useState(null)
 
   const posRef = useRef(pos)
   posRef.current = pos
@@ -1321,6 +1471,7 @@ export function useAssist(pos) {
       events: setEvents, heard: setHeard, card: setCard, offers: setOffers, phase: setPhase,
       trigger: setTrigger, lines: setLines, behaviours: setBehaviours, aiNote: setAiNote, customerName: setCustomerName,
       hot: setHot, voice: setVoice, brain: setBrain, reasoning: setReasoning, cardMode: setCardModeState, section: setSection,
+      view: setViewState, spot: setSpot,
       voiceLine: (role) => sttRef.current?.voiceLine(role),
       requestBrain: (req) => sttRef.current?.requestUpsell(req),
       // The meaning layer's examples and menu masking are the burger menu's (tenant demopos).
@@ -1440,6 +1591,8 @@ export function useAssist(pos) {
     forgetVoices: () => sttRef.current?.forgetVoices(),
     setCardMode: (mode) => E.setCardMode(mode),
     chooseSize: (entryId, label) => E.chooseSize(entryId, label),
+    setView: (v) => E.setView(v),
+    closeSpot: () => E.closeSpot(),
   }
   const actionsRef = useRef(actions)
   actionsRef.current = actions
@@ -1462,6 +1615,8 @@ export function useAssist(pos) {
         case "clear_out": a.clearOutToday(); break
         case "forget_voices": a.forgetVoices(); break
         case "card_mode": a.setCardMode(cmd.mode); break
+        case "view": a.setView(cmd.view); break
+        case "close_spot": a.closeSpot(); break
         default:
       }
     })
@@ -1472,7 +1627,7 @@ export function useAssist(pos) {
   const snapshot = enabled ? {
     demoId: getDemoId(), brand: BRAND.name, restaurant: RESTAURANT, signedIn: !!auth?.ticket, operator: auth?.name || "",
     status, level, phase, trigger, partial, lines, heard, offers, behaviours, customerName, events, aiNote,
-    presenceOn, present, backend, hot, voice, reasoning, cardMode, brain: brain && {
+    presenceOn, present, backend, hot, voice, reasoning, cardMode, view, spot, brain: brain && {
       item: brain.item, framing: brain.framing, tag: brain.tag, step: brain.step, kind: brain.kind, framer: brain.framer,
       latency_ms: brain.latency_ms, round_trip_ms: brain.round_trip_ms, error: brain.error || "", trace: brain.trace || null,
     },
@@ -1498,7 +1653,7 @@ export function useAssist(pos) {
 
   return {
     enabled, auth, status, level, phase, trigger, partial, lines, heard, card, offers, behaviours,
-    customerName, events, aiNote, presenceOn, present, camStream, backend, hot, voice, brain, reasoning, cardMode, section,
+    customerName, events, aiNote, presenceOn, present, camStream, backend, hot, voice, brain, reasoning, cardMode, section, view, spot,
     ...actions,
   }
 }

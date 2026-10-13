@@ -1,4 +1,4 @@
-// 49 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 57 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -17,6 +17,9 @@
 //   { at, clear: true }             the cashier presses Clear (the ticket empties; the visit ends)
 //   { at, section: "Drinks" }       the cashier opens a menu section (category_view)
 //   { at, meaning: [{ key, score }] }  the meaning layer's answer to the latest line (allergy keys, hot keys)
+//   { at, back: true }              the cashier taps "Back to the order" on the spotlight
+//   { at, view: "card" }            the cashier switches the upsell view (UPSELL_VIEWS)
+// setup: { cardMode, view: "spotlight", outToday: [names] } (the card setting, the upsell view, items out today).
 //
 // checks: [description, (r) => boolean]. `r` is what happened (see run-transcripts.mjs):
 //   r.customers[i] = { cards, ticket, fired }, with r.c = r.customers[0] for one-customer runs.
@@ -30,6 +33,9 @@
 //   roles: whose each line was, as marked for the voice print; brainRequests: how many were sent.
 //   reasoning: how it decided (reasoning.js), the steps [{ kind, text }]; reasoningNow: { memory,
 //   health, history, plan } as weighed at payment.
+//   spots: the spotlights opened [{ openedSec, items: ["Regular Cheeseburger (tapped)"], states: [{ state, atSec }],
+//   trail: ["Fries (declined)"], closedSec }]; each card also has inSpot (it went up inside one) and spot
+//   (how many spotlights had opened by then: 1 = the first).
 
 const card = (c, title, outcome) => c.cards.find((x) => x.title === title && (!outcome || x.outcome === outcome))
 const tagged = (c, tag) => c.cards.find((x) => x.tag === tag)
@@ -829,6 +835,145 @@ export const TRANSCRIPTS = [
     checks: [
       ["the first card is held through the hot word and answered", (r) => card(r.c, "Fries", "declined")],
       ["Something cold comes after the answer, not before", (r) => tagged(r.c, "Something cold")?.atSec >= 14],
+    ],
+  },
+  // ── The Spotlight view (David, 2026-10-12): the upsell over the blurred screen when an item is said or tapped ──
+  {
+    id: 50, title: "Spotlight: a tapped burger opens it, the brain is waited for, and the chain runs until two no's",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, tap: "Cheeseburger", size: "Little" },
+      { at: 3.8, brain: { name: "Cheeseburger", item: "Regular Cheeseburger", kind: "upsize", size: "Regular", price: 16.10, from_size: "Little",
+        framing: "Make it a Regular for $4.18 more?", reason: "main size-up first" } },
+      { at: 6, press: "add" },
+      { at: 10, press: "no" },
+      { at: 14, press: "no" },
+      { at: 22, pay: true },
+    ],
+    checks: [
+      ["no card before the tap", (r) => r.c.cards.every((x) => x.atSec >= 3)],
+      ["one spotlight, opened by the tapped Cheeseburger, named at its new size once the size-up is taken", (r) => r.c.spots.length === 1 && r.c.spots[0].items[0] === "Regular Cheeseburger (tapped)" && r.c.spots[0].openedSec === 3],
+      ["it waited for the brain: the first card is the brain's size-up, nothing before it", (r) => r.c.cards[0]?.source === "brain" && r.c.cards[0].kind === "upsize" && r.c.cards[0].atSec >= 3.8],
+      ["the chain: size-up taken, then a side and a drink (the ladder's order)", (r) => r.c.cards[0].outcome === "accepted"
+        && r.c.cards.slice(1, 3).some((x) => /Fries/.test(x.title)) && r.c.cards.slice(1, 3).some((x) => /Drink|Water/.test(x.title))],
+      ["every card went up inside the spotlight", (r) => r.c.cards.every((x) => x.inSpot && x.spot === 1)],
+      ["after two no's it says the chain is done and closes by itself", (r) => r.c.spots[0].states.at(-1).state === "done" && r.c.spots[0].closedSec != null && r.c.spots[0].closedSec < 20],
+      ["the chain is recorded in order", (r) => r.c.spots[0].trail.length === 3 && /accepted/.test(r.c.spots[0].trail[0]) && /declined/.test(r.c.spots[0].trail[2])],
+      ["the Regular Cheeseburger is on the ticket", (r) => has(r.c, "1× Cheeseburger (Regular)")],
+    ],
+  },
+  {
+    id: 51, title: "Spotlight: a hot word on its own puts nothing on screen; the next item said brings its answer",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, who: "C", say: "It's so hot out today" },
+      { at: 9, who: "C", say: "Can I get a regular cheeseburger please" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["nothing on screen after the hot word alone", (r) => r.c.cards.every((x) => x.atSec >= 9)],
+      ["the spotlight opened for the Cheeseburger said", (r) => r.c.spots[0]?.items[0] === "Regular Cheeseburger (said)" && r.c.spots[0].openedSec === 9],
+      ["its first card answers the hot word: Something cold", (r) => r.c.cards[0]?.tag === "Something cold" && r.c.cards[0].inSpot],
+    ],
+  },
+  {
+    id: 52, title: "Spotlight: an item said without a size asks for the size in the spotlight, then sizes it up first",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, who: "C", say: "Can I get a cheeseburger" },
+      { at: 7, who: "C", say: "Little" },
+      { at: 12, press: "add" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the spotlight opened at once for the Cheeseburger and waited for its size", (r) => r.c.spots[0]?.openedSec === 3 && r.c.spots[0].states.some((x) => x.state === "size" && x.atSec < 7)],
+      ["no card while the size was missing", (r) => r.c.cards.every((x) => x.atSec >= 7)],
+      ["once sized, the same spotlight's first card is the size-up", (r) => r.c.spots.length === 1 && r.c.cards[0]?.kind === "upsize" && r.c.cards[0].title === "Regular Cheeseburger" && r.c.cards[0].inSpot],
+      ["the size-up was taken", (r) => has(r.c, "1× Cheeseburger (Regular)")],
+    ],
+  },
+  {
+    id: 53, title: "Spotlight: Back to the order sets an unsaid card aside, and it comes back in the next spotlight",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, tap: "Cheeseburger", size: "Regular" },
+      { at: 7, back: true },
+      { at: 11, tap: "Hand-Spun Milkshake" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the first spotlight's card was Fries, set aside unanswered", (r) => r.c.cards[0]?.title === "Fries" && r.c.cards[0].outcome === "taken down" && r.c.cards[0].spot === 1],
+      ["nothing on screen between the two spotlights", (r) => !r.c.cards.some((x) => x.atSec > 7 && x.atSec < 11)],
+      ["the second spotlight brings the Fries back", (r) => r.c.spots.length === 2 && r.c.cards.some((x) => x.title === "Fries" && x.back && x.spot === 2)],
+    ],
+  },
+  {
+    id: 54, title: "Spotlight: a card the cashier said, then Back to the order: it lapses and is not pitched again",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, tap: "Cheeseburger", size: "Regular" },
+      { at: 6, pitch: true },
+      { at: 8, back: true },
+      { at: 11, tap: "Hand-Spun Milkshake" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the said card lapsed when the spotlight closed", (r) => r.c.cards[0]?.title === "Fries" && r.c.cards[0].outcome === "lapsed"],
+      ["the Fries are not pitched again", (r) => r.c.cards.filter((x) => x.title === "Fries").length === 1],
+      ["the next spotlight offers the next step instead", (r) => r.c.cards.some((x) => x.spot === 2 && x.title !== "Fries")],
+    ],
+  },
+  {
+    id: 55, title: "Spotlight: ordering an item that is out opens it with the closest substitute",
+    setup: { view: "spotlight", outToday: ["Cajun Fries"] },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, who: "C", say: "Can I get a regular cheeseburger and some cajun fries" },
+      { at: 12, pay: true },
+    ],
+    checks: [
+      ["one spotlight, for both items said", (r) => r.c.spots.length === 1 && r.c.spots[0].items.includes("Regular Cheeseburger (said)") && r.c.spots[0].items.includes("Cajun Fries (said)")],
+      ["its card is the closest substitute", (r) => r.c.cards[0]?.tag === "Closest substitute" && r.c.cards[0].inSpot],
+      ["the Cajun Fries are not rung up", (r) => !r.c.ticket.some((l) => /Cajun/.test(l))],
+    ],
+  },
+  {
+    id: 56, title: "Spotlight, then back to the Card view: the card carries on on the square and no spotlight opens",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, tap: "Cheeseburger", size: "Regular" },
+      { at: 7, view: "card" },
+      { at: 9, tap: "Fountain Drink", size: "Regular" },
+      { at: 14, pay: true },
+    ],
+    checks: [
+      ["switching to Card closed the spotlight", (r) => r.c.spots.length === 1 && r.c.spots[0].closedSec === 7],
+      ["the Fries card stayed up through the switch, until the drink tapped changed the ticket", (r) => r.c.cards[0]?.title === "Fries" && r.c.cards[0].outcome !== "taken down"
+        && (r.c.cards[1]?.atSec ?? 99) >= 9],
+      ["no spotlight for the drink tapped after it", (r) => r.c.spots.length === 1],
+    ],
+  },
+  {
+    id: 57, title: "Spotlight: a full meal tapped at once leaves nothing to add; it says so and closes",
+    setup: { view: "spotlight" },
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 3, tap: "Cheeseburger", size: "Regular" },
+      { at: 3, tap: "Fries", size: "Large" },
+      { at: 3, tap: "Fountain Drink", size: "Large" },
+      { at: 3, tap: "Hand-Spun Milkshake" },
+      { at: 12, pay: true },
+    ],
+    checks: [
+      ["one spotlight for the four items", (r) => r.c.spots.length === 1 && r.c.spots[0].items.length === 4],
+      ["no card", (r) => r.c.cards.length === 0],
+      ["it says there is nothing to add, then closes by itself", (r) => r.c.spots[0].states.some((x) => x.state === "done") && r.c.spots[0].closedSec != null && r.c.spots[0].closedSec < 9],
     ],
   },
 ]

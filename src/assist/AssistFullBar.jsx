@@ -11,8 +11,8 @@
 // the words that force the upsell to be re-evaluated) with what each one did, and BEHIND
 // THE SCENES — every message whisper and the speech bridge sent, and Assist's own log.
 //
-// Controls (start / end customer, Add / No thanks, camera, when the upsell card changes, a typed line,
-// clear out-of-stock, forget voices) work when this
+// Controls (start / end customer, Add / No thanks, camera, when the upsell card changes, the upsell view
+// (Card or Spotlight) and closing an open spotlight, a typed line, clear out-of-stock, forget voices) work when this
 // page is open in the same browser as the POS; on any other screen it is view only.
 //
 // "Back to POS" (top left) closes this window and brings the POS forward when the POS
@@ -24,7 +24,7 @@ import { C, fmt } from "../components/posTheme.js"
 import { startAssistViewer, posUrl } from "./assistSync.js"
 import { CardTag } from "./AssistOverlay.jsx"
 import { getDemoId } from "./demoContext.js"
-import { CARD_MODES } from "./useAssist.js"
+import { CARD_MODES, UPSELL_VIEWS } from "./useAssist.js"
 import { VavoomMark } from "../components/ui.jsx"
 
 const SOURCE_LABEL = { ai: "Vavoom AI · from the conversation", basket: "Basket completion", upsize: "Upsize", behaviour: "From what the screen shows", hotkey: "Hot key · from what was just said", brain: "Vavoom brain · voice, history, calories, Qwen" }
@@ -184,6 +184,14 @@ export default function AssistFullBar() {
               ))}
             </div>
             <Muted>{CARD_MODES[s.cardMode || "dynamic"]?.label}: the card {CARD_MODES[s.cardMode || "dynamic"]?.says}.</Muted>
+            <div style={{ fontSize: 11, color: C.textSec, margin: "8px 0 4px" }}>How the upsell is shown</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+              {Object.entries(UPSELL_VIEWS).map(([k, m]) => (
+                <button key={k} disabled={!local} onClick={() => cmd({ type: "view", view: k })} style={btn((s.view || "card") === k, !local)}>{m.label}</button>
+              ))}
+              {s.spot ? <button disabled={!local} onClick={() => cmd({ type: "close_spot" })} style={btn(false, !local)}>Close the spotlight</button> : null}
+            </div>
+            <Muted>{UPSELL_VIEWS[s.view || "card"]?.label}: {UPSELL_VIEWS[s.view || "card"]?.says}.</Muted>
             <div style={{ height: 8 }} />
             <form onSubmit={(e) => { e.preventDefault(); cmd({ type: "say", text: say }); setSay("") }} style={{ display: "flex", gap: 6 }}>
               <input disabled={!local} value={say} onChange={(e) => setSay(e.target.value)} placeholder="Type what the customer says…"
@@ -197,6 +205,13 @@ export default function AssistFullBar() {
         {/* ── Column 2: upsell, behaviour, heard order ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <Card title="Upsell" right={<span style={{ fontSize: 10, color: C.textSec }}>{(s.offers || []).length} shown · {accepted} taken</span>}>
+            {s.view === "spotlight" ? (
+              <Muted>
+                {s.spot
+                  ? `Spotlight open for ${s.spot.items.map((i) => `${i.size ? `${i.size} ` : ""}${i.name}`).join(", ")}: ${{ computing: "working out the upsell", size: "waiting for a size", open: "showing the upsell below", done: "nothing more to offer, closing" }[s.spot.state] || s.spot.state}${s.spot.trail.length ? ` · chain so far: ${s.spot.trail.map((x) => `${x.title} (${x.outcome})`).join(", ")}` : ""}.`
+                  : "Spotlight view: the next item said or tapped opens the spotlight on the POS."}
+              </Muted>
+            ) : null}
             {c ? (
               <div style={{ background: c.state === "pending" ? `${C.lime}12` : C.navyCard, border: `1px solid ${c.state === "pending" ? C.lime + "66" : C.navyBorder}`, borderRadius: 10, padding: 10, marginBottom: 10 }}>
                 <CardTag tag={c.tag} />

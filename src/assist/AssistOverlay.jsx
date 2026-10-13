@@ -1,7 +1,8 @@
 // AssistOverlay.jsx — the only parts of Vavoom Assist on the POS screen itself.
 //
-// Two floating boxes the cashier can drag anywhere (positions are remembered); the upsell square
-// can also be made bigger or smaller with its corner grip (useScale; remembered per device):
+// Two floating boxes the cashier can drag anywhere (positions are remembered), and, in the Spotlight
+// view, the spotlight over the whole screen. The upsell square can also be made bigger or smaller with
+// its corner grip (useScale; remembered per device):
 //   • the UPSELL SQUARE — the upsell when one pops up, with Add / No thanks, the hot-key
 //     tag at the top when what was said decided it (Closest substitute, Counter: too
 //     sweet, Alternative, Complimentary, You asked about it) and, under an asked-about
@@ -17,9 +18,17 @@
 //     carries "Please voice the upsell". Under the card: "Earlier", the upsells a hot word or a
 //     better pick replaced (they come back once this one is answered; useAssist.js context
 //     window), and "Best in <section>", the best item for this customer in the menu section the
-//     cashier has open. The footer's card setting (When the card changes) is a POS-styled menu. An
-//     allergy with no substitute (the brain's "notice") is shown as such, with one "Got it" button.
-//   • the TRANSCRIPT — the live partial line and the last few lines heard.
+//     cashier has open. The footer's card setting (When the card changes) and upsell view (Card or
+//     Spotlight) are POS-styled menus. An allergy with no substitute (the brain's "notice") is shown as
+//     such, with one "Got it" button. In the Spotlight view the square keeps everything but the card,
+//     and says that the upsell comes up over the screen.
+//   • the SPOTLIGHT (Spotlight view only; useAssist.js THE SPOTLIGHT) — when an item is said or tapped,
+//     the POS blurs and a panel over it names the item, lists what is being weighed while the upsell is
+//     worked out (voice print, hot words, allergies, the ticket, the brain), asks for the size when the
+//     item has none yet, then shows the upsell with Add / No thanks and, after each answer, the next one
+//     in the chain with the chain so far below it. "Back to the order" (or Escape, or a tap on the
+//     blur) closes it; it also closes itself when there is nothing more to offer.
+//   • the TRANSCRIPT — the live partial line and the last few lines heard (above the spotlight's blur).
 // All state comes from useAssist().
 
 import { useEffect, useRef, useState } from "react"
@@ -27,7 +36,7 @@ import { C, fmt } from "../components/posTheme.js"
 import { useDraggable, useScale } from "./useDraggable.js"
 import { fullBarUrl } from "./assistSync.js"
 import { VavoomMark } from "../components/ui.jsx"
-import { CARD_MODES } from "./useAssist.js"
+import { CARD_MODES, UPSELL_VIEWS } from "./useAssist.js"
 
 const SOURCE_LABEL = {
   ai: "Vavoom AI · from the conversation",
@@ -100,6 +109,14 @@ function SignIn({ onSignIn }) {
   )
 }
 
+/** The price a card shows: the extra cost of an upsize or a swap over the line it replaces, else its price. */
+function cardPrice(c) {
+  if (!c || c.kind === "notice") return ""
+  const from = c.kind === "upsize" ? c.entry : c.kind === "swap" ? c.fromEntry : null
+  const base = from ? (from.sizes.find(([l]) => l === c.fromSize) || from.sizes[0])?.[1] || 0 : 0
+  return c.kind === "upsize" || c.kind === "swap" ? `+${fmt(Math.max(0, c.price - base))}` : c.price === 0 ? "Free" : fmt(c.price)
+}
+
 function UpsellSquare({ a }) {
   const { pos, boxRef, handleProps, reclamp } = useDraggable("upsell", () => ({ x: Math.max(16, window.innerWidth - 640), y: 76 }))
   const { scale, gripProps } = useScale("upsell", 300)
@@ -111,11 +128,8 @@ function UpsellSquare({ a }) {
     window.open(fullBarUrl(), "vavoom-assist-full-bar", "width=1180,height=860")
   }
   // An upsize or a swap (cheese / bacon, an allergy swap) shows the extra cost over the line it replaces.
-  const fromPrice = c && (c.kind === "upsize" ? c.entry : c.kind === "swap" ? c.fromEntry : null)
-  const basePrice = fromPrice ? (fromPrice.sizes.find(([l]) => l === c.fromSize) || fromPrice.sizes[0])?.[1] || 0 : 0
-  const priceText = c ? (c.kind === "notice" ? "" : c.kind === "upsize" || c.kind === "swap"
-    ? `+${fmt(Math.max(0, c.price - basePrice))}`
-    : c.price === 0 ? "Free" : fmt(c.price)) : ""
+  const priceText = cardPrice(c)
+  const spotlight = a.view === "spotlight"
   const v = a.voice
   return (
     <div ref={boxRef} style={{ ...box, left: pos.x, top: pos.y, width: Math.round(300 * scale) }}>
@@ -142,10 +156,19 @@ function UpsellSquare({ a }) {
       ) : null}
       {a.auth && a.phase === "active" ? <SizePrompt heard={a.heard} onChoose={a.chooseSize} /> : null}
       <div style={{ padding: 12, minHeight: 120 }}>
-        {a.auth && c && c.state === "pending" && a.cardMode === "hold" && !c.pitched ? (
+        {a.auth && !spotlight && c && c.state === "pending" && a.cardMode === "hold" && !c.pitched ? (
           <div style={{ fontSize: 12, fontWeight: 800, color: "#FBBF24", marginBottom: 8 }}>Please voice the upsell</div>
         ) : null}
-        {!a.auth ? <SignIn onSignIn={a.signIn} /> : c ? (
+        {!a.auth ? <SignIn onSignIn={a.signIn} /> : spotlight ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start" }}>
+            <div style={{ fontSize: 12, color: C.textSec, lineHeight: 1.4 }}>
+              {a.phase === "active"
+                ? "Spotlight is on: when an item is said or tapped, its upsell comes up over the screen."
+                : "Spotlight is on. Waiting for a customer at the counter."}
+            </div>
+            {a.phase !== "active" ? <button onClick={a.startCustomer} style={btn(false)}>Start customer</button> : null}
+          </div>
+        ) : c ? (
           <>
             <CardTag tag={c.tag} />
             <div style={{ fontSize: 10, fontWeight: 700, color: c.source === "ai" || c.source === "brain" ? "#C084FC" : C.textSec, marginBottom: 4 }}>{SOURCE_LABEL[c.source] || c.source}</div>
@@ -207,7 +230,8 @@ function UpsellSquare({ a }) {
           <span style={{ whiteSpace: "nowrap", flex: "1 0 100%" }}>{a.offers.length ? `${a.offers.length} shown · ${a.offers.filter((o) => o.outcome === "accepted").length} taken` : "No upsells yet"}</span>
           <span style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             <button onClick={() => a.setPresenceOn(!a.presenceOn)} style={pill}>{a.presenceOn ? "Camera off" : "Camera on"}</button>
-            <CardModeMenu mode={a.cardMode} onChange={a.setCardMode} />
+            <PillMenu title="When the upsell on screen changes" heading="When the card changes" options={CARD_MODES} value={a.cardMode} fallback="dynamic" onChange={a.setCardMode} />
+            <PillMenu title="How the upsell is shown" heading="Upsell view" options={UPSELL_VIEWS} value={a.view} fallback="card" onChange={a.setView} />
             {a.phase === "active" ? <button onClick={a.endCustomer} style={pill}>End customer</button> : null}
           </span>
         </div>
@@ -232,11 +256,12 @@ function ResizeGrip(props) {
 }
 
 /**
- * When the card changes (useAssist.js CARD_MODES), as a POS-styled menu: a pill with the current
- * setting's short name that opens a panel above it (the square sits low on the screen), each setting
- * with its full name and what it does, the chosen one in lime. Closes on a choice, outside, or Escape.
+ * A setting as a POS-styled menu: a pill with the current choice's short name that opens a panel above it
+ * (the square sits low on the screen), each choice with its full name and what it does, the chosen one in
+ * lime. Closes on a choice, outside, or Escape. Used for when the card changes (useAssist.js CARD_MODES)
+ * and for the upsell view (UPSELL_VIEWS); `options` is either map, `fallback` its default key.
  */
-function CardModeMenu({ mode, onChange }) {
+function PillMenu({ title, heading, options, value: mode, fallback, onChange }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   useEffect(() => {
@@ -247,10 +272,10 @@ function CardModeMenu({ mode, onChange }) {
     document.addEventListener("keydown", esc)
     return () => { document.removeEventListener("pointerdown", away); document.removeEventListener("keydown", esc) }
   }, [open])
-  const cur = CARD_MODES[mode] || CARD_MODES.dynamic
+  const cur = options[mode] || options[fallback]
   return (
     <span ref={ref} style={{ position: "relative", display: "inline-flex" }}>
-      <button onClick={() => setOpen((o) => !o)} title="When the upsell on screen changes" aria-haspopup="listbox" aria-expanded={open}
+      <button onClick={() => setOpen((o) => !o)} title={title} aria-haspopup="listbox" aria-expanded={open}
         style={{ ...pill, borderColor: open ? C.accentLine : C.line2, color: open ? C.white : C.muted }}>
         <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent, flexShrink: 0 }} />
         {cur.short || cur.label}
@@ -263,8 +288,8 @@ function CardModeMenu({ mode, onChange }) {
           position: "absolute", bottom: "calc(100% + 8px)", right: 0, width: 248, padding: 6, zIndex: 2,
           background: C.raised, border: `1px solid ${C.line2}`, borderRadius: 14, boxShadow: "0 14px 40px rgba(0,0,0,0.5)",
         }}>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.faint, padding: "6px 8px 4px" }}>When the card changes</div>
-          {Object.entries(CARD_MODES).map(([k, m]) => {
+          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: C.faint, padding: "6px 8px 4px" }}>{heading}</div>
+          {Object.entries(options).map(([k, m]) => {
             const on = k === mode
             return (
               <button key={k} role="option" aria-selected={on} onClick={() => { onChange(k); setOpen(false) }}
@@ -282,6 +307,187 @@ function CardModeMenu({ mode, onChange }) {
         </div>
       ) : null}
     </span>
+  )
+}
+
+// The spotlight's entrance and the "working it out" pulse (none for people who turn motion off).
+const SPOT_CSS = `
+@keyframes vvSpotFade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes vvSpotRise { from { opacity: 0; transform: translateY(14px) scale(0.98) } to { opacity: 1; transform: none } }
+@keyframes vvSpotPulse { 0%, 100% { opacity: 0.25 } 50% { opacity: 1 } }
+.vv-spot-back { animation: vvSpotFade 0.18s ease-out }
+.vv-spot-panel { animation: vvSpotRise 0.22s ease-out }
+.vv-spot-dot { animation: vvSpotPulse 1s ease-in-out infinite }
+@media (prefers-reduced-motion: reduce) { .vv-spot-back, .vv-spot-panel, .vv-spot-dot { animation: none } }
+`
+const OUTCOME_MARK = { accepted: ["✓", C.success], declined: ["✗", C.danger], lapsed: ["–", C.faint], noted: ["✓", C.soft] }
+const sizeOf = (i) => (i.size ? `${i.size} ` : "")
+
+/** What the spotlight lists while it works out the upsell: the inputs it is weighing right now. */
+function weighing(a) {
+  const out = []
+  const v = a.voice
+  out.push(v?.voice_id ? (v.matched ? `Returning voice · heard ${v.seen || (v.visits || 0) + 1}× before` : "New voice · no history yet") : "Listening for the voice print")
+  const said = [...new Set((a.hot?.fired || []).map((f) => String(f.label || "").split(" — ")[0]).filter(Boolean))].slice(0, 3)
+  if (said.length) out.push(`Hot words: ${said.join(", ")}`)
+  if ((a.hot?.allergens || []).length) out.push(`Allergy: ${a.hot.allergens.join(", ").replace(/_/g, " ")}`)
+  if ((a.hot?.constraints || []).length) out.push(`Said: ${a.hot.constraints.join(", ").replace(/_/g, " ")}`)
+  out.push("The order so far", "Vavoom brain")
+  return out
+}
+
+/**
+ * The spotlight (Spotlight view; useAssist.js THE SPOTLIGHT): the POS blurred, and over it the upsell
+ * worked out for the item just said or tapped, then the next in the chain after each answer.
+ */
+function Spotlight({ a }) {
+  const sp = a.spot
+  const c = a.card
+  const close = useRef(a.closeSpot)
+  close.current = a.closeSpot
+  useEffect(() => {
+    const esc = (e) => { if (e.key === "Escape") close.current() }
+    document.addEventListener("keydown", esc)
+    return () => document.removeEventListener("keydown", esc)
+  }, [])
+  const waiting = (a.heard || []).filter((h) => h.needsSize)
+  const items = sp.items || []
+  const latest = items[items.length - 1]
+  const pending = c && c.state === "pending"
+  const taken = sp.trail.filter((x) => x.outcome === "accepted").length
+  return (
+    <div className="vv-spot-back" onClick={() => a.closeSpot()} style={{
+      position: "fixed", inset: 0, zIndex: 260, display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
+      background: "rgba(5,7,10,0.5)", backdropFilter: "blur(14px) saturate(0.85)", WebkitBackdropFilter: "blur(14px) saturate(0.85)",
+    }}>
+      <style>{SPOT_CSS}</style>
+      <div className="vv-spot-panel" role="dialog" aria-modal="true" aria-label="Upsell" onClick={(e) => e.stopPropagation()} style={{
+        width: "100%", maxWidth: 600, maxHeight: "calc(100vh - 32px)", overflowY: "auto", boxSizing: "border-box",
+        background: C.surface, border: `1px solid ${C.line}`, borderRadius: 24, boxShadow: "0 30px 90px rgba(0,0,0,0.6)", color: C.text,
+      }}>
+        {/* What opened it: the items said or tapped, newest in lime. */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "16px 20px", borderBottom: `1px solid ${C.line}`, flexWrap: "wrap" }}>
+          <VavoomMark size={22} />
+          <span style={{ fontSize: 10.5, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: C.soft }}>Upsell for</span>
+          {items.map((i) => {
+            const on = i === latest
+            return (
+              <span key={i.id} style={{ display: "inline-flex", alignItems: "baseline", gap: 6, height: 26, lineHeight: "26px", padding: "0 11px", borderRadius: 999,
+                border: `1px solid ${on ? C.accentLine : C.line2}`, background: on ? C.accentSoft : "transparent", fontSize: 12.5, fontWeight: 500, color: on ? C.accent : C.muted }}>
+                {sizeOf(i)}{i.name}<span style={{ fontSize: 10, color: on ? C.accent : C.faint, opacity: 0.8 }}>{i.how}</span>
+              </span>
+            )
+          })}
+        </div>
+
+        <div style={{ padding: "18px 20px 20px" }}>
+          {waiting.length ? (
+            <div style={{ marginBottom: c || sp.state === "computing" ? 18 : 0, padding: 14, borderRadius: 16, background: "#F59E0B14", border: "1px solid #F59E0B40" }}>
+              {waiting.map((h) => (
+                <div key={h.id} style={{ marginBottom: 4 }}>
+                  <div style={{ fontSize: 15, fontWeight: 500, color: "#FBBF24", marginBottom: 10, letterSpacing: "-0.01em" }}>
+                    Ask the size: {h.qty > 1 ? `${h.qty}× ` : ""}{h.name}, {h.sizes.join(" or ")}?
+                  </div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    {h.sizes.map((l) => (
+                      <button key={l} onClick={() => a.chooseSize(h.id, l)} style={{ height: 44, padding: "0 20px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit",
+                        fontSize: 14, fontWeight: 500, border: `1px solid ${C.line2}`, background: C.inset, color: C.white }}>{l}</button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {c ? (
+            <>
+              <CardTag tag={c.tag} />
+              <div style={{ fontSize: 11, fontWeight: 500, color: c.source === "ai" || c.source === "brain" ? "#C084FC" : C.soft, marginBottom: 6 }}>{SOURCE_LABEL[c.source] || c.source}</div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
+                <div style={{ fontSize: 30, fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.035em", color: C.white }}>{c.title}</div>
+                <div style={{ fontSize: 24, fontWeight: 500, color: C.accent, letterSpacing: "-0.02em", flexShrink: 0 }}>{cardPrice(c)}</div>
+              </div>
+              <div style={{ fontSize: 14, color: C.muted, margin: "10px 0 16px", lineHeight: 1.45 }}>{c.back ? "Back to the upsell from before. " : ""}{c.reason}</div>
+              {c.pair ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "-4px 0 16px", padding: "10px 12px", borderRadius: 14, background: C.inset, border: `1px solid ${C.line}` }}>
+                  <span style={{ fontSize: 11, color: C.faint, flexShrink: 0 }}>Goes with it</span>
+                  <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{c.pair.entry.name}</span>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: C.accent }}>{fmt(c.pair.price)}</span>
+                  {c.pairAdded
+                    ? <span style={{ fontSize: 13, fontWeight: 600, color: C.success }}>✓</span>
+                    : <button onClick={() => a.addPair()} style={{ ...btn(false), padding: "5px 12px" }}>+ Add</button>}
+                </div>
+              ) : null}
+              {pending && (c.memory || []).length ? (
+                <div style={{ margin: "-6px 0 16px", fontSize: 12, color: C.soft, lineHeight: 1.4 }}>
+                  Earlier: <span style={{ color: C.text }}>{c.memory.slice().reverse().join(", ")}</span> · comes back after this one
+                </div>
+              ) : null}
+              {pending && c.kind !== "notice" ? (
+                <div style={{ fontSize: 12.5, fontWeight: 500, marginBottom: 12, color: c.pitched ? C.success : "#FBBF24" }}>
+                  {c.pitched ? "Said ✓ — waiting for the customer's answer" : "Please voice the upsell"}
+                </div>
+              ) : null}
+              {pending && c.kind === "notice" ? (
+                <button onClick={() => a.decline("tapped Got it")} style={{ ...btn(false), width: "100%", height: 52, fontSize: 15 }}>Got it</button>
+              ) : pending ? (
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button onClick={() => a.accept()} style={{ ...btn(true), flex: 1, height: 54, fontSize: 16, borderRadius: 999 }}>
+                    {c.kind === "upsize" ? "Add upsize" : c.kind === "swap" ? "Swap" : "Add"}
+                  </button>
+                  <button onClick={() => a.decline()} style={{ ...btn(false), height: 54, padding: "0 22px", fontSize: 14, borderRadius: 999 }}>No thanks</button>
+                </div>
+              ) : (
+                <div style={{ fontSize: 16, fontWeight: 500, color: c.state === "accepted" ? C.success : C.muted }}>
+                  {c.state === "accepted" ? "Added to the ticket ✓" : c.state === "declined" ? "Declined" : c.state === "noted" ? "Noted ✓" : "No answer — moving on"}
+                  <span style={{ fontSize: 12.5, color: C.faint, marginLeft: 10 }}>Next in the chain…</span>
+                </div>
+              )}
+            </>
+          ) : sp.state === "done" ? (
+            <div style={{ padding: "8px 0" }}>
+              <div style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.03em", color: C.white }}>
+                {sp.trail.length ? `That's the chain for the ${latest?.name || "order"}` : `Nothing to add to the ${latest?.name || "order"} right now`}
+              </div>
+              <div style={{ fontSize: 13, color: C.soft, marginTop: 6 }}>
+                {sp.trail.length ? `${taken} of ${sp.trail.length} taken. ` : ""}Back to the order in a moment.
+              </div>
+            </div>
+          ) : !waiting.length || sp.state === "computing" ? (
+            <div style={{ padding: "6px 0" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 18, fontWeight: 500, letterSpacing: "-0.02em", color: C.white }}>
+                <span aria-hidden="true" style={{ display: "inline-flex", gap: 4 }}>
+                  {[0, 1, 2].map((k) => <span key={k} className="vv-spot-dot" style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, animationDelay: `${k * 0.18}s` }} />)}
+                </span>
+                Working out the best upsell for the {latest?.name || "order"}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14 }}>
+                {weighing(a).map((w) => (
+                  <span key={w} style={{ fontSize: 11.5, color: C.muted, padding: "5px 10px", borderRadius: 999, border: `1px solid ${C.line}`, background: C.inset }}>{w}</span>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {sp.trail.length ? (
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6, marginTop: 18, paddingTop: 14, borderTop: `1px solid ${C.line}`, fontSize: 12, color: C.soft }}>
+              <span style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: C.faint, marginRight: 4 }}>Chain</span>
+              {sp.trail.map((x, k) => {
+                const [mark, col] = OUTCOME_MARK[x.outcome] || ["·", C.faint]
+                return <span key={k}><span style={{ color: col, fontWeight: 600 }}>{mark}</span> {x.title}{k < sp.trail.length - 1 || pending ? <span style={{ color: C.faint }}> → </span> : null}</span>
+              })}
+              {pending ? <span style={{ color: C.accent }}>{c.title} (now)</span> : null}
+            </div>
+          ) : null}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "12px 20px", borderTop: `1px solid ${C.line}` }}>
+          <span style={{ fontSize: 11, color: C.faint }}>{sp.trail.length ? `${sp.trail.length} answered · ${taken} taken` : "Answer by voice or tap"}</span>
+          <button onClick={() => a.closeSpot()} style={{ height: 38, padding: "0 16px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500,
+            border: `1px solid ${C.line2}`, background: "transparent", color: C.muted }}>Back to the order</button>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -307,13 +513,14 @@ function SizePrompt({ heard, onChoose }) {
   )
 }
 
-function TranscriptBox({ a }) {
+/** The live transcript; `above` lifts it over the spotlight's blur so the conversation stays readable. */
+function TranscriptBox({ a, above }) {
   const { pos, boxRef, handleProps } = useDraggable("transcript", () => ({ x: 16, y: Math.max(80, window.innerHeight - 190) }))
   const end = useRef(null)
   useEffect(() => { end.current?.scrollIntoView({ block: "nearest" }) }, [a.lines, a.partial])
   const recent = a.lines.slice(-3)
   return (
-    <div ref={boxRef} style={{ ...box, left: pos.x, top: pos.y, width: 440 }}>
+    <div ref={boxRef} style={{ ...box, left: pos.x, top: pos.y, width: 440, zIndex: above ? 270 : box.zIndex }}>
       <div {...handleProps} style={{ ...handleProps.style, display: "flex", alignItems: "center", gap: 8, padding: "7px 12px", borderBottom: `1px solid ${C.navyBorder}`, userSelect: "none" }}>
         <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: C.textMuted }}>Transcript</span>
         <div style={{ flex: 1, height: 4, background: C.navy, borderRadius: 2, overflow: "hidden" }}>
@@ -334,10 +541,12 @@ function TranscriptBox({ a }) {
 }
 
 export default function AssistOverlay({ assist }) {
+  const spot = assist.view === "spotlight" && assist.auth && assist.phase === "active" && assist.spot
   return (
     <>
       <UpsellSquare a={assist} />
-      <TranscriptBox a={assist} />
+      {spot ? <Spotlight a={assist} /> : null}
+      <TranscriptBox a={assist} above={!!spot} />
     </>
   )
 }

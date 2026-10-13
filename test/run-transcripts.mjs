@@ -1,4 +1,4 @@
-// Runs the counter transactions in transcripts.js (49) through the real Vavoom Assist engine
+// Runs the counter transactions in transcripts.js (57) through the real Vavoom Assist engine
 // (useAssist.js createEngine, with upsellEngine, the hot keys, the order parser and the reply
 // classifier), on the burger menu, and writes what happened to transcript-results.md.
 //
@@ -35,6 +35,11 @@
 //   • --live URL sends the POS's brain and meaning requests to the real demopos gateway (an SSH tunnel to
 //     gpu-setup's :8024, e.g. ssh -N -L 18124:127.0.0.1:8024 …) with curl, and delivers each answer 550 ms
 //     (brain) or 60 ms (meaning) later in simulated time; the real round trips are reported.
+//   • the spotlight (useAssist.js THE SPOTLIGHT): each spotlight opened is recorded (its items, the states it
+//     went through with their times, its chain, when it closed), and each card notes whether it went up inside
+//     one. A transaction's setup.view picks the upsell view; --view spotlight runs a whole set in the Spotlight
+//     view and holds every transaction to the spotlight's own rules too (SPOT_RULES); its report gets
+//     "-spotlight" in its name.
 // Not simulated: the microphone, the speech bridge and whisper itself (lines arrive as text),
 // whisper's own AI pick, the GPU-box brain's own decision (tested on the box), and the screen.
 
@@ -52,9 +57,19 @@ const MEANING_FILE = ARGS.includes("--meaning") ? ARGS[ARGS.indexOf("--meaning")
 const MEANING = MEANING_FILE ? JSON.parse(readFileSync(MEANING_FILE, "utf8")) : null
 const SET = ARGS.includes("--set") ? ARGS[ARGS.indexOf("--set") + 1] : "main"
 const LIVE = ARGS.includes("--live") ? ARGS[ARGS.indexOf("--live") + 1].replace(/\/+$/, "") : ""
+const VIEW = ARGS.includes("--view") ? ARGS[ARGS.indexOf("--view") + 1] : ""
 const TRANSCRIPTS = SET === "edits" ? EDITS : SET === "pressure" ? PRESSURE : MAIN
-const OUT = ARGS.find((a, i) => !a.startsWith("--") && !["--meaning", "--set", "--live"].includes(ARGS[i - 1]))
-  || `test/${SET === "edits" ? "order-edits-results" : SET === "pressure" ? "pressure-results" : "transcript-results"}${MEANING ? "-meaning" : ""}${LIVE ? "-live" : ""}.md`
+const OUT = ARGS.find((a, i) => !a.startsWith("--") && !["--meaning", "--set", "--live", "--view"].includes(ARGS[i - 1]))
+  || `test/${SET === "edits" ? "order-edits-results" : SET === "pressure" ? "pressure-results" : "transcript-results"}${MEANING ? "-meaning" : ""}${LIVE ? "-live" : ""}${VIEW === "spotlight" ? "-spotlight" : ""}.md`
+// With --view spotlight, the promises the spotlight makes, on top of each transaction's own checks.
+const SPOT_RULES = [
+  ["spotlight: every card went up inside an open spotlight", (r) => r.customers.every((c) => c.cards.every((x) => x.inSpot))],
+  ["spotlight: every spotlight was opened by an item said or tapped", (r) => r.customers.every((c) => c.spots.every((s) => s.items.length > 0))],
+  ["spotlight: one with nothing more to offer closed by itself within 3 s", (r) => r.customers.every((c) => c.spots.every((s) => {
+    const done = s.states.filter((x) => x.state === "done").at(-1)
+    return !done || s.states.at(-1).state !== "done" || (s.closedSec != null && s.closedSec - done.atSec <= 3)
+  }))],
+]
 // The live gateway, synchronously (curl), so the simulated clock stays in charge; real milliseconds kept.
 const liveLatency = { brain: [], meaning: [] }
 function live(path, body, kind) {
@@ -109,7 +124,8 @@ async function run(tr) {
       if (lastCard && lastCard.outcome == null) lastCard.outcome = "replaced"
       rec = { key: c.key, shownAt: c.shownAt, atSec: sec(), title: c.title, tag: c.tag || "", source: c.source, reason: c.reason, pair: c.pair?.entry?.name || "", outcome: null, via: "",
         back: !!c.back, memory: [], entry: c.entry?.name || "", kind: c.kind, size: c.size || "", fromSize: c.fromSize || "",
-        from: c.fromEntry?.name || "", also: c.alsoEntry?.name || "", mode: E_ref.E?.st.cardMode || "", ticketAtShow: (base_ref.cart || []).map((l) => l.item.name) }
+        from: c.fromEntry?.name || "", also: c.alsoEntry?.name || "", mode: E_ref.E?.st.cardMode || "", ticketAtShow: (base_ref.cart || []).map((l) => l.item.name),
+        inSpot: !!E_ref.E?.st.spot, spot: spots.length }
       cards.push(rec)
     }
     if (c.pitched && !rec.pitchedSec) rec.pitchedSec = sec() // when the cashier said it (the square stops asking to voice it)
@@ -145,10 +161,24 @@ async function run(tr) {
     }
   }
   let sections = [] // the "Best in <section>" hints shown, in order
-  for (const k of Object.keys(state).concat(["phase", "trigger", "aiNote", "customerName", "voice", "brain", "reasoning", "section"])) {
+  // The spotlights opened: { openedSec, items: ["Little Cheeseburger (tapped)"], states: [{ state, atSec }], trail, closedSec }.
+  let spots = []
+  const recordSpot = (v) => {
+    let last = spots.at(-1)
+    if (!v) { if (last && last.closedSec == null) last.closedSec = sec(); return }
+    if (!last || last.closedSec != null || last.openedAt !== v.openedAt) {
+      last = { openedAt: v.openedAt, openedSec: sec(), items: [], states: [], trail: [], closedSec: null }
+      spots.push(last)
+    }
+    last.items = v.items.map((i) => `${i.size ? `${i.size} ` : ""}${i.name} (${i.how})`)
+    if (last.states.at(-1)?.state !== v.state) last.states.push({ state: v.state, atSec: sec() })
+    last.trail = v.trail.map((x) => `${x.title} (${x.outcome})`)
+  }
+  for (const k of Object.keys(state).concat(["phase", "trigger", "aiNote", "customerName", "voice", "brain", "reasoning", "section", "view", "spot"])) {
     set[k] = (v) => {
       state[k] = typeof v === "function" ? v(state[k]) : v
       if (k === "section" && state.section) sections.push({ ...state.section, atSec: sec() })
+      if (k === "spot") recordSpot(state.spot)
       if (k === "card") recordCard(state.card)
       if (k === "events") note(state.events[0].text)
     }
@@ -201,6 +231,7 @@ async function run(tr) {
   const E = createEngine(set, posRef)
   engineRef.E = E
   if (tr.setup?.cardMode) E.setCardMode(tr.setup.cardMode)
+  if (tr.setup?.view || VIEW) E.setView(tr.setup?.view || VIEW)
 
   async function advanceTo(ms) {
     while (NOW < ms) {
@@ -250,6 +281,12 @@ async function run(tr) {
       const req = meaningRequests.at(-1)
       note(`Meaning layer: ${step.meaning.map((h) => `${h.key} ${h.score}`).join(", ")}`, "line")
       if (req) E.handleMeaning({ req_id: req.req_id, hits: step.meaning.map((h) => ({ need: 0.82, neg: 0.5, kind: "clause", clause: req.text, ...h })), near: [], ms: 3, round_trip_ms: 60 })
+    } else if (step.back) {
+      note("Cashier taps Back to the order (closes the spotlight)", "line")
+      E.closeSpot()
+    } else if (step.view) {
+      note(`Cashier switches the upsell view to ${step.view}`, "line")
+      E.setView(step.view)
     } else if (step.section) {
       note(`Cashier opens ${step.section}`, "line")
       E.onActivityEvent({ type: "category_view", category: step.section, at: NOW })
@@ -286,7 +323,7 @@ async function run(tr) {
       E.noteSaving(receipt) // as useAssist does at payment
       E.endCustomer("paid", null)
       const brainAllergens = brainRequests.at(-1)?.context?.allergens || []
-      customers.push({ cards, sections: sections.splice(0), ticket: pos.cart.map(lineText), waiting, fired, firedFull, brainAllergens, receipt, roles: roles.splice(0),
+      customers.push({ cards, sections: sections.splice(0), spots: spots.splice(0), ticket: pos.cart.map(lineText), waiting, fired, firedFull, brainAllergens, receipt, roles: roles.splice(0),
         brainRequests: brainRequests.length, reasoningNow,
         reasoning: (E.st.lastReasoning?.timeline || []).map((x) => ({ ...x, atSec: (x.at - T0) / 1000 })) })
       pos.cart = []
@@ -298,7 +335,7 @@ async function run(tr) {
     await flush()
   }
   const r = { customers, c: customers[0], errors, tr, live: !!LIVE }
-  const checks = tr.checks.map(([what, fn]) => {
+  const checks = [...tr.checks, ...(VIEW === "spotlight" ? SPOT_RULES : [])].map(([what, fn]) => {
     let ok = false
     try { ok = !!fn(r) } catch { ok = false }
     return { what, ok }
@@ -316,6 +353,7 @@ const passed = results.reduce((n, x) => n + x.checks.filter((c) => c.ok).length,
 const total = results.reduce((n, x) => n + x.checks.length, 0)
 out.push(`# Vavoom Assist — ${results.length} counter transactions`, "")
 out.push(`Generated by \`npm run test:transcripts\` (test/run-transcripts.mjs) from test/transcripts.js, on the burger menu. Each line is fed to the real Assist engine as a whisper final, at its time, with a simulated POS and clock. **${passed} of ${total} checks passed.**`, "")
+if (VIEW === "spotlight") out.push("Run in the Spotlight view (--view spotlight): every transaction is also held to the spotlight's own rules.", "")
 if (MEANING) out.push(`With the meaning layer on: each line's meaning request is answered 120 ms later with what the GPU box's meaning layer gave for that line (${MEANING_FILE}, ${Object.keys(MEANING).length} lines with a hit).`, "")
 out.push("| # | Transaction | Checks | Cards shown (outcome) | Ticket at payment |", "|---|---|---|---|---|")
 for (const { tr, r, checks } of results) {
@@ -334,6 +372,10 @@ for (const { tr, r, timeline, checks } of results) {
   for (const c of checks) out.push(`- ${c.ok ? "✅" : "❌"} ${c.what}`)
   out.push("")
   r.customers.forEach((c, i) => {
+    for (const s of c.spots || []) {
+      out.push(`- Spotlight at ${s.openedSec.toFixed(1)} s for ${s.items.join(", ")}: ${s.states.map((x) => `${x.state} (${x.atSec.toFixed(1)} s)`).join(" → ")}${s.trail.length ? `; chain: ${s.trail.join(" → ")}` : ""}; closed ${s.closedSec != null ? `at ${s.closedSec.toFixed(1)} s` : "—"}`)
+    }
+    if ((c.spots || []).length) out.push("")
     out.push(`**How it decided${r.customers.length > 1 ? ` (customer ${i + 1})` : ""}** — weighing at payment:`, "")
     for (const [k, label] of [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "When it pitches"]]) {
       if (c.reasoningNow[k]) out.push(`- *${label}:* ${c.reasoningNow[k]}`)
