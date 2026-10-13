@@ -2,7 +2,7 @@
 
 Item photos for the burger menu's tiles, one per item, named by the item's id in `src/data/menu-fiveguys.js`.
 All from Unsplash (https://unsplash.com/license: free for commercial use, no permission or credit needed; credited
-here anyway). Downloaded 2026-10-08 as 480x360 JPEG crops. None shows a brand: product names such as Oreo or
+here anyway). Downloaded 2026-10-08 as 480x360 JPEG crops; the demo's own items (dmprod_*) on 2026-10-12. None shows a brand: product names such as Oreo or
 Reese's are the menu's, not the photos'.
 
 | File | Item | Photo | Photographer |
@@ -26,6 +26,17 @@ Reese's are the menu's, not the photos'.
 | fgprod_0041.jpg | Hand-Spun Milkshake | https://unsplash.com/photos/7TeR1A1MUpM | Jonathan Borba |
 | fgprod_0051.jpg | Fountain Drink | https://unsplash.com/photos/h7a8RsZFzgc | David Foodphototasty |
 | fgprod_0052.jpg | Bottled Water | https://unsplash.com/photos/edBR3b2JAuA | charlesdeluvio |
+| dmprod_0081.jpg | Chicken Sandwich | https://unsplash.com/photos/So-jSM-B9uI | Crunch |
+| dmprod_0082.jpg | Chicken Tenders | https://unsplash.com/photos/iGQRdE2WSVI | Samuel Isaacs |
+| dmprod_0061.jpg | Onion Rings | https://unsplash.com/photos/HU_ubYnwElc | Farhad Ibrahimzade |
+| dmprod_0062.jpg | Sweet Potato Fries | https://unsplash.com/photos/C8oDYfOzaPE | Edward Hagenauer |
+| dmprod_0063.jpg | Side Salad | https://unsplash.com/photos/LQLIS9AHLZw | Peter Bravo de los Rios |
+| dmprod_0071.jpg | Sundae | https://unsplash.com/photos/g65SMAYRZJQ | Sebastian Coman Photography |
+| dmprod_0072.jpg | Chocolate Chip Cookie | https://unsplash.com/photos/OfdDiqx8Cz8 | Jennifer Pallian |
+| dmprod_0073.jpg | Apple Pie | https://unsplash.com/photos/D7X-GMeTV7U | Diliara Garifullina |
+| dmprod_0053.jpg | Lemonade | https://unsplash.com/photos/BHkjZ7vkQe0 | Hogir saeed |
+| dmprod_0054.jpg | Iced Tea | https://unsplash.com/photos/kbch-i63YTg | Mae Mu |
+| dmprod_0055.jpg | Coffee | https://unsplash.com/photos/tNALoIZhqVM | Mike Kenneally |
 | fgtop_01.jpg | Mayo | https://unsplash.com/photos/4caIPcmVDII | Sara Cervera |
 | fgtop_02.jpg | Lettuce | https://unsplash.com/photos/YLeRHRiRgts | Petr |
 | fgtop_03.jpg | Pickles | https://unsplash.com/photos/BzSMVu_aicI | Solstice Hannan |

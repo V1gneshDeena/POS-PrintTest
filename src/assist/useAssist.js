@@ -31,7 +31,8 @@
 //     never above it. Only an intentional order counts (orderParser.js: "can I get", "a
 //     cheeseburger please", a bare item list, an answer to "what can I get you"); asking
 //     whether an item is there, what it costs, or praising it rings nothing up, and whisper's
-//     order adds a new item only within 10 s of such a line. An item that comes in sizes
+//     order adds a new item only within 10 s of such a line, and never one the customer has only asked
+//     about since ("What can I get you?" "How much is the poutine?"). An item that comes in sizes
 //     waits in the heard order until a size is said ("a regular cheeseburger", or "Regular."
 //     after it) or the cashier taps it with its size; it is never rung up at a guessed size.
 //     Items the cashier already rang count; an item the cashier removes is not re-added
@@ -131,7 +132,7 @@
 //     (hotkeys.json timing_rules) fires the "quick" effect: no upsizes, cheap items.
 //   • THE UPSELL BRAIN (the demopos tenant on the GPU box, reached through the speech bridge):
 //     after every finished line and every ticket change the POS asks it for one decision
-//     (scheduleBrain), sending the ticket, the last lines, constraints, hot-word effects,
+//     (scheduleBrain), sending the ticket, the last lines (and the customer's own, for its cues), constraints, hot-word effects,
 //     behaviours, this visit's offers and today's out-of-stock list; the bridge adds the
 //     voice print. Its pick arrives as `brain_upsell` (~0.5 s) and becomes a card ranked
 //     above basket completion (upsellEngine.js ctx.brain).
@@ -318,6 +319,7 @@ export function createEngine(set, posRef) {
     brainReqs: new Map(), // req_id → { sig: the ticket it was asked about, at }
     memory: [], // the context window: replaced cards, oldest first
     removed: new Map(), // entry id → "remove" | "replace": what the customer had taken off this visit
+    askedOnly: new Map(), // entry id → when a line last only named it (asked about, praised): whisper does not ring it up
     section: "", // the menu section the cashier last opened (kept across visits: it is the screen's)
     sectionSig: "",
     behavioursNow: [],
@@ -403,6 +405,7 @@ export function createEngine(set, posRef) {
     st.removed = new Map()
     st.sectionSig = ""
     st.justSized = null
+    st.askedOnly = new Map()
     st.spot = null
     clearTimeout(st.spotTimer)
     publishSpot()
@@ -671,7 +674,8 @@ export function createEngine(set, posRef) {
    * place in the meal now holds another item (Cajun Fries tapped while "Fries" is up), "gone" when
    * the item an upsize or swap card is about is off the ticket. Null otherwise. A hot-key card answers
    * what was said or tapped (the substitute for an item that is out sits beside that item), so only
-   * its own item leaving the ticket overtakes it.
+   * its own item leaving the ticket overtakes it; except one that fills an empty part of the meal (`fills`:
+   * "wants food" with no main yet), which a main reaching the ticket fills like a basket card.
    */
   /** The context window: keep a card that is being replaced (by `by`) or set aside before it was answered. */
   function remember(c, by, note) {
@@ -691,7 +695,7 @@ export function createEngine(set, posRef) {
 
   function cardOvertaken(c) {
     if (!c.entry) return null
-    if (c.source === "hotkey") return c.kind !== "add" && countOf((c.fromEntry || c.entry).id) === 0 ? "gone" : null
+    if (c.source === "hotkey" && !c.fills) return c.kind !== "add" && countOf((c.fromEntry || c.entry).id) === 0 ? "gone" : null
     if (c.kind === "add" && !c.again) {
       const role = BY_ID.get(c.entry.id)?.role
       if (MEAL_ROLES.has(role) && c.baseRole != null && roleCount(role) > c.baseRole) return "filled"
@@ -888,7 +892,11 @@ export function createEngine(set, posRef) {
     const offers = pending ? st.offers.filter((x) => !(x.key === cur.key && !x.outcome)) : st.offers
     st.behavioursNow = behaviours
     let next = pickUpsell({ cart: c, lastAdded: st.lastAdded, behaviours: [...behaviours, ...spoken], ai: st.ai, brain: st.brain, offers, hot: { ...st.hot, now: t },
-      lastOpeningAt: Math.max(st.lastAddedAt || 0, st.hot.fired[0]?.at || 0), justSized: justSizedId(), removed: st.removed })
+      lastOpeningAt: Math.max(st.lastAddedAt || 0, st.hot.fired[0]?.at || 0), justSized: justSizedId(), removed: st.removed,
+      // What the customer said this visit, for the cues that pick the side, drink or treat (the employee's lines left out).
+      said: st.convo.filter((l) => l.role !== "operator").slice(-8).map((l) => l.text).join(". "),
+      // Rung up from speech a moment ago but not on the ticket yet (it redraws after this pick).
+      inFlight: [...st.heard.values()].filter((h) => h.added > countOf(h.entry.id)).map((h) => h.entry) })
     // The context window: with no card up, the card a hot word or a better pick replaced comes back,
     // unless the fresh pick outranks it (a hot key over a basket card, an allergy answer).
     if (!pending) {
@@ -977,6 +985,9 @@ export function createEngine(set, posRef) {
     const prev = st.prevLine
     st.prevLine = { text, at: t }
     if (parsed.intent) st.lastIntentAt = t
+    // Items a line only names (a price question, praise): whisper's list must not ring them up on the strength
+    // of an earlier ordering line ("What can I get you?" … "How much is the poutine?").
+    if (!parsed.intent) for (const i of parsed.items) if (!i.ordered) st.askedOnly.set(i.entry.id, t)
     // The customer changing the order (orderEdits.js): "I don't want the fries anymore" is not an
     // answer to the card on screen unless it names the card's own item.
     const before = new Set(cart().map((l) => l.item.id))
@@ -1212,6 +1223,8 @@ export function createEngine(set, posRef) {
         context: {
           ticket: cart().map((l) => ({ name: l.item.name, size: l.size, qty: l.count, price: l.price, upsold: (l.via?.upsell || 0) >= l.count })),
           lines: st.convo.slice(-6).map((l) => l.text),
+          // The customer's lines alone (the employee's left out), for the cues that steer the side, drink and treat.
+          said: st.convo.filter((l) => l.role !== "operator").slice(-8).map((l) => l.text),
           constraints: [...st.hot.constraints],
           effects: [...st.hot.effects.keys()],
           behaviours: st.behavioursNow.map((b) => ({ key: b.key, category: b.category })),
@@ -1359,6 +1372,11 @@ export function createEngine(set, posRef) {
       // customer only asked about ("do you have veggie sandwiches?").
       if (!st.heard.has(entry.id) && t - (st.lastIntentAt || -Infinity) > WHISPER_INTENT_MS) {
         log(`Whisper's “${it.name}” not rung up — nobody ordered it in the last ${WHISPER_INTENT_MS / 1000} s`)
+        continue
+      }
+      // Only asked about since the last line that ordered: not an order.
+      if (!st.heard.has(entry.id) && (st.askedOnly.get(entry.id) ?? -Infinity) > (st.lastIntentAt ?? -Infinity)) {
+        log(`Whisper's “${it.name}” not rung up — the customer only asked about it`)
         continue
       }
       // Whisper naming an item speech just rang up by another name is the same item, not a second one.

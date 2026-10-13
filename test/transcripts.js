@@ -1,4 +1,4 @@
-// 60 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 68 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -140,17 +140,17 @@ export const TRANSCRIPTS = [
     ],
   },
   {
-    id: 6, title: "\"Do you have onion rings?\": not on the menu, closest substitute",
+    id: 6, title: "\"Do you have tater tots?\": not on the menu, closest substitute",
     steps: [
       { at: 0, who: "O", say: "Welcome, what can I get for you today?" },
-      { at: 4, who: "C", say: "Do you have onion rings?" },
+      { at: 4, who: "C", say: "Do you have tater tots?" },
       { at: 8, who: "O", say: "We don't, sorry" },
       { at: 11, who: "C", say: "Hmm okay, then a regular cheeseburger" },
       { at: 20, who: "C", say: "No thanks" },
       { at: 30, pay: true },
     ],
     checks: [
-      ["a Closest substitute card for onion rings (a side) is shown", (r) => r.c.cards.some((x) => x.tag === "Closest substitute" && /onion rings/i.test(x.reason))],
+      ["a Closest substitute card for tater tots (a side) is shown", (r) => r.c.cards.some((x) => x.tag === "Closest substitute" && /tater tots/i.test(x.reason))],
       ["the cheeseburger is rung up", (r) => has(r.c, "1× Cheeseburger (Regular)")],
       ["\"Hmm okay\" (to \"We don't\") does not take the substitute", (r) => r.c.ticket.length === 1],
     ],
@@ -204,7 +204,7 @@ export const TRANSCRIPTS = [
     ],
   },
   {
-    id: 10, title: "\"I don't like the cajun fries\": an alternative",
+    id: 10, title: "\"I don't like the cajun fries\": an alternative of another kind (Onion Rings), not more fries",
     steps: [
       { at: 0, who: "O", say: "Hey, welcome, what can I get you?" },
       { at: 4, who: "C", say: "Regular cheeseburger please" },
@@ -214,7 +214,7 @@ export const TRANSCRIPTS = [
       { at: 28, pay: true },
     ],
     checks: [
-      ["an Alternative card from the fries is shown", (r) => { const x = tagged(r.c, "Alternative"); return x && /fries/i.test(x.title) && x.title !== "Cajun Fries" }],
+      ["an Alternative card is shown: another kind of side, not a fries variant", (r) => tagged(r.c, "Alternative")?.title === "Onion Rings"],
       ["cajun fries are never rung up", (r) => !r.c.ticket.some((l) => /Cajun/.test(l))],
       ["\"That'll be it\" declines the card on screen", (r) => card(r.c, "Fountain Drink", "declined")],
     ],
@@ -1024,6 +1024,105 @@ export const TRANSCRIPTS = [
       ["the fries came off", (r) => !r.c.ticket.some((l) => /Fries/.test(l))],
       ["no side is pitched after it", (r) => !r.c.cards.some((x) => x.atSec >= 9 && /Fries|Poutine/.test(x.title))],
       ["it all happened in one spotlight", (r) => r.c.spots.length === 1 && r.c.cards.every((x) => x.inSpot)],
+    ],
+  },
+  // ── The bigger menu and what was said (David, 2026-10-12: "it always put fries first … sometimes it doesn't
+  // get the alternative correctly"): the side, drink and treat follow the conversation; an alternative is another kind ──
+  {
+    id: 61, title: "Likes it spicy: the side offered is the Cajun Fries, with why",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "I love spicy food. Can I get a regular cheeseburger" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the first side card is the Cajun Fries", (r) => r.c.cards.find((x) => /Fries|Rings|Salad|Poutine/.test(x.title))?.title === "Cajun Fries"],
+      ["it says why", (r) => /spicy/.test(r.c.cards.find((x) => x.title === "Cajun Fries")?.reason || "")],
+    ],
+  },
+  {
+    id: 62, title: "Starving: a hearty side (Onion Rings), not the Fries",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "I'm starving. A regular cheeseburger please" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the side card is a hearty one", (r) => /Onion Rings|Poutine|Chicken Tenders/.test(r.c.cards[0]?.title || "")],
+    ],
+  },
+  {
+    id: 63, title: "\"Not that hungry\": no hearty side; the most-ordered one",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "I'm not that hungry, just a regular cheeseburger" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["no Poutine, Onion Rings or Tenders is offered", (r) => !r.c.cards.some((x) => /Onion Rings|Poutine|Chicken Tenders/.test(x.title))],
+    ],
+  },
+  {
+    id: 64, title: "Thirsty: the drink comes before the side, and a cold one",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "I'm so thirsty. Can I get a regular cheeseburger" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the first card is a drink", (r) => /Fountain Drink|Lemonade|Iced Tea|Bottled Water/.test(r.c.cards[0]?.title || "")],
+    ],
+  },
+  {
+    id: 65, title: "\"I don't like milkshakes\": a Sundae instead, not Fries",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "A regular cheeseburger please" },
+      { at: 9, who: "C", say: "I don't like milkshakes" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the Alternative is a dessert", (r) => tagged(r.c, "Alternative")?.title === "Sundae"],
+    ],
+  },
+  {
+    id: 66, title: "\"I don't like the cheeseburger\": another kind of main, never the Bacon Cheeseburger",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "I don't like the cheeseburger here" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the Alternative is a main that is not a burger", (r) => { const t = tagged(r.c, "Alternative")?.title || ""; return !!t && !/burger/i.test(t) }],
+    ],
+  },
+  {
+    id: 67, title: "The new items by voice: onion rings and a lemonade wait for their sizes, a cookie and a coffee",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "Can I get a chicken sandwich, onion rings and a lemonade" },
+      { at: 8, who: "O", say: "Regular or large for the rings and the lemonade?" },
+      { at: 10, who: "C", say: "Large onion rings and a regular lemonade" },
+      { at: 14, who: "C", say: "And a chocolate chip cookie" },
+      { at: 30, pay: true },
+    ],
+    checks: [
+      ["the chicken sandwich is rung up", (r) => has(r.c, "1× Chicken Sandwich")],
+      ["the onion rings at the size said", (r) => has(r.c, "1× Onion Rings (Large)")],
+      ["the lemonade at the size said", (r) => has(r.c, "1× Lemonade (Regular)")],
+      ["the cookie", (r) => has(r.c, "1× Chocolate Chip Cookie")],
+      ["nothing left waiting for a size", (r) => r.c.waiting.length === 0],
+    ],
+  },
+  {
+    id: 68, title: "Allergic to milk: no Sundae, cookie, pie or onion rings is offered (the new items' allergens count)",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "I'm allergic to milk. Can I get a hot dog" },
+      { at: 30, pay: true },
+    ],
+    checks: [
+      ["no card holds milk", (r) => !r.c.cards.some((x) => /Sundae|Cookie|Apple Pie|Onion Rings|Shake|Chicken|Salad|Poutine/.test(x.title))],
     ],
   },
 ]

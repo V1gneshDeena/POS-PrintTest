@@ -6,122 +6,365 @@ Run in the Spotlight view (--view spotlight): every transaction is also held to 
 
 | # | Transaction | Checks | Cards shown (outcome) | Ticket at payment |
 |---|---|---|---|---|
-| 1 | spoken order with sizes (1) | ✅ 17/17 | Regular Hamburger (declined); Fries (unanswered) | 1× Hamburger (Little), 1× Fountain Drink (Regular) |
-| 2 | spoken order without a size, then the size (1) | ✅ 17/17 | Fries (unanswered) | 1× Cheeseburger (Regular) |
-| 3 | tapped order only (1) | ✅ 17/17 | Fries (taken down); Fountain Drink (accepted); Hand-Spun Milkshake (unanswered) | 1× Grilled Cheese, 1× Poutine, 1× Fountain Drink (Regular) |
-| 4 | questions and praise that are not orders, then an order (1) | ✅ 17/17 | Fries (unanswered) | 1× BLT |
-| 5 | hot words (1) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hot Dog, 1× Fries (Regular) |
-| 6 | an allergy (1) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hand-Spun Milkshake, 1× Fries (Regular) |
+| 1 | spoken order with sizes (1) | ✅ 17/17 | Regular Hamburger (accepted); Fries (unanswered) | 1× Bottled Water, 1× Hamburger (Regular) |
+| 2 | spoken order without a size, then the size (1) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
+| 3 | tapped order only (1) — with explanations | ✅ 17/17 | Fries (taken down); Regular Sweet Potato Fries (accepted); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Veggie Sandwich, 1× Sweet Potato Fries (Regular) |
+| 4 | questions and praise that are not orders, then an order (1) | ✅ 17/17 | Fries (unanswered) | 1× Hot Dog |
+| 5 | hot words (1) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Cheeseburger (Regular) |
+| 6 | an allergy (1) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Hamburger (Regular) |
 | 7 | taken off or swapped (1) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular), 1× Poutine |
-| 8 | card setting held through silence (1) | ✅ 17/17 | Fries (lapsed); Cajun Fries (taken down); [Something warm] Cajun Fries (accepted); Fountain Drink (unanswered) | 1× Veggie Sandwich, 1× Cajun Fries (Regular) |
+| 8 | card setting held through silence (1) — with explanations | ✅ 17/17 | Fries (taken down); [Something cold] Fountain Drink (declined); Fries (unanswered) | 1× Cheeseburger (Regular) |
 | 9 | menu sections opened (1) | ✅ 17/17 | Fries (unanswered) | 1× Cheese Dog |
-| 10 | a returning voice (1) | ✅ 17/17 | Fries (unanswered) | 1× Bacon Burger (Regular) |
-| 11 | Clear, then a new order (1) — with explanations | ✅ 17/17 | Regular Bacon Cheeseburger (taken down); Fries (unanswered) | 1× Grilled Cheese |
-| 12 | "no thanks, and take off…" (1) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular) |
-| 13 | two of an item (1) | ✅ 17/17 | Fries (unanswered) | 2× Bacon Cheeseburger (Regular) |
-| 14 | ordering for someone else too (1) | ✅ 17/17 | Fries (taken down); Another Grilled Cheese (accepted); Fries (unanswered) | 2× Grilled Cheese |
-| 15 | closing while a card is up (1) | ✅ 17/17 | Fries (declined) | 1× Bacon Cheeseburger (Regular) |
-| 16 | an item that is out today (1) | ✅ 17/17 | [Closest substitute] Fries (accepted); Fountain Drink (unanswered) | 1× Cheese Dog, 1× Fries (Regular) |
-| 17 | whisper's order list (1) | ✅ 17/17 | Fries (unanswered) | 1× Veggie Sandwich |
-| 18 | the cashier says the card (1) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Grilled Cheese, 1× Fries (Regular) |
-| 19 | two no's in a row, then more ordering (1) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Veggie Sandwich, 1× Bottled Water |
-| 20 | a mixed visit (1) — with explanations | ✅ 17/17 | [You asked about it] Poutine (taken down); Fries (declined) | 1× Hamburger (Regular), 1× Bottled Water |
-| 21 | spoken order with sizes (2) | ✅ 17/17 | Regular Hamburger (declined); Fountain Drink (unanswered) | 1× Hamburger (Little), 1× Fries (Large) |
-| 22 | spoken order without a size, then the size (2) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
-| 23 | tapped order only (2) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hot Dog, 1× Fries (Regular) |
-| 24 | questions and praise that are not orders, then an order (2) | ✅ 17/17 | Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
-| 25 | hot words (2) | ✅ 17/17 | Fries (accepted); [Something warm] Cajun Fries (unanswered) | 1× BLT, 1× Fries (Regular) |
-| 26 | an allergy (2) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Hamburger (Regular) |
-| 27 | taken off or swapped (2) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular), 1× Poutine |
-| 28 | card setting held through silence (2) | ✅ 17/17 | Fries (declined); [Something warm] Cajun Fries (unanswered) | 1× Veggie Sandwich |
-| 29 | menu sections opened (2) | ✅ 17/17 | Fries (unanswered) | 1× Veggie Sandwich |
-| 30 | a returning voice (2) | ✅ 17/17 | Fries (unanswered) | 1× Cheese Dog |
-| 31 | Clear, then a new order (2) — with explanations | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× BLT |
-| 32 | "no thanks, and take off…" (2) | ✅ 17/17 | Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Bacon Burger (Regular) |
-| 33 | two of an item (2) | ✅ 17/17 | Fries (unanswered) | 2× Cheeseburger (Regular) |
-| 34 | ordering for someone else too (2) | ✅ 17/17 | Fries (taken down); Another Veggie Sandwich (declined); Fries (unanswered) | 1× Veggie Sandwich |
-| 35 | closing while a card is up (2) | ✅ 17/17 | Fries (declined) | 1× Bacon Burger (Regular) |
-| 36 | an item that is out today (2) | ✅ 17/17 | [Closest substitute] Fries (accepted); Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular), 1× Fries (Regular) |
-| 37 | whisper's order list (2) | ✅ 17/17 | Fries (unanswered) | 1× Hot Dog |
-| 38 | the cashier says the card (2) | ✅ 17/17 | Regular Hamburger (accepted); Fries (unanswered) | 1× Hamburger (Regular) |
-| 39 | two no's in a row, then more ordering (2) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Patty Melt, 1× Bottled Water |
-| 40 | a mixed visit (2) | ✅ 17/17 | Fries (taken down); Fries (declined); Hand-Spun Milkshake (unanswered) | 1× Hamburger (Regular), 1× Fountain Drink (Large) |
-| 41 | spoken order with sizes (3) | ✅ 17/17 | Hand-Spun Milkshake (accepted) | 1× BLT, 1× Poutine, 1× Bottled Water, 1× Hand-Spun Milkshake |
-| 42 | spoken order without a size, then the size (3) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
-| 43 | tapped order only (3) | ✅ 17/17 | Fries (taken down); Fountain Drink (declined); Large Cajun Fries (unanswered) | 1× Veggie Sandwich, 1× Cajun Fries (Regular) |
-| 44 | questions and praise that are not orders, then an order (3) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
-| 45 | hot words (3) — with explanations | ✅ 17/17 | Fries (taken down); [Something warm] Fries (declined); Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular) |
-| 46 | an allergy (3) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Bacon Burger (Regular), 1× Fries (Regular) |
-| 47 | taken off or swapped (3) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Burger (Regular) |
-| 48 | card setting held through silence (3) | ✅ 17/17 | Fries (taken down); [Something warm] Fries (declined); Fountain Drink (unanswered) | 1× Veggie Sandwich |
-| 49 | menu sections opened (3) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Bacon Burger (Regular) |
-| 50 | a returning voice (3) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Grilled Cheese |
-| 51 | Clear, then a new order (3) — with explanations | ✅ 17/17 | Regular Bacon Cheeseburger (taken down); Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
-| 52 | "no thanks, and take off…" (3) | ✅ 17/17 | Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Bacon Burger (Regular) |
-| 53 | two of an item (3) | ✅ 17/17 | Fries (unanswered) | 2× Cheeseburger (Regular) |
-| 54 | ordering for someone else too (3) | ✅ 17/17 | Fries (taken down); Another BLT (declined); Fries (unanswered) | 1× BLT |
-| 55 | closing while a card is up (3) | ✅ 17/17 | Fries (declined) | 1× Veggie Sandwich |
-| 56 | an item that is out today (3) | ✅ 17/17 | [Closest substitute] Fries (accepted); Fountain Drink (unanswered) | 1× Hamburger (Regular), 1× Fries (Regular) |
-| 57 | whisper's order list (3) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Patty Melt |
-| 58 | the cashier says the card (3) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Patty Melt, 1× Fries (Regular) |
-| 59 | two no's in a row, then more ordering (3) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Patty Melt, 1× Bottled Water |
-| 60 | a mixed visit (3) — with explanations | ✅ 17/17 | Fries (declined) | 1× Bacon Cheeseburger (Regular), 1× Bottled Water |
-| 61 | spoken order with sizes (4) | ✅ 17/17 | Regular Bacon Cheeseburger (accepted); Fountain Drink (unanswered) | 1× Poutine, 1× Bacon Cheeseburger (Regular) |
-| 62 | spoken order without a size, then the size (4) | ✅ 17/17 | Regular Hamburger (unanswered) | 1× Hamburger (Little) |
-| 63 | tapped order only (4) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× BLT, 1× Fries (Regular) |
-| 64 | questions and praise that are not orders, then an order (4) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
-| 65 | hot words (4) | ✅ 17/17 | Fries (taken down); [Something cold] Fountain Drink (declined); Fries (unanswered) | 1× Hot Dog |
-| 66 | an allergy (4) — with explanations | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hot Dog, 1× Fries (Regular) |
-| 67 | taken off or swapped (4) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Cheeseburger (Regular), 1× Poutine |
-| 68 | card setting held through silence (4) — with explanations | ✅ 17/17 | Fries (declined); [Something cold] Fountain Drink (unanswered) | 1× BLT |
-| 69 | menu sections opened (4) — with explanations | ✅ 17/17 | Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
-| 70 | a returning voice (4) | ✅ 17/17 | Fries (unanswered) | 1× Veggie Sandwich |
-| 71 | Clear, then a new order (4) | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× Veggie Sandwich |
-| 72 | "no thanks, and take off…" (4) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular) |
-| 73 | two of an item (4) | ✅ 17/17 | Fries (unanswered) | 2× Bacon Burger (Regular) |
-| 74 | ordering for someone else too (4) — with explanations | ✅ 17/17 | Fries (declined); Another Grilled Cheese (unanswered) | 1× Grilled Cheese |
-| 75 | closing while a card is up (4) — with explanations | ✅ 17/17 | Fries (declined) | 1× BLT |
-| 76 | an item that is out today (4) | ✅ 17/17 | [Closest substitute] Fries (accepted); Fountain Drink (unanswered) | 1× Cheeseburger (Regular), 1× Fries (Regular) |
-| 77 | whisper's order list (4) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
-| 78 | the cashier says the card (4) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Hot Dog |
-| 79 | two no's in a row, then more ordering (4) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Patty Melt, 1× Bottled Water |
-| 80 | a mixed visit (4) | ✅ 17/17 | Regular Bacon Burger (taken down); Regular Bacon Burger (declined); Fries (unanswered) | 1× Bacon Burger (Little), 1× Bottled Water |
-| 81 | spoken order with sizes (5) — with explanations | ✅ 17/17 | Hand-Spun Milkshake (accepted) | 1× Hot Dog, 1× Fries (Large), 1× Bottled Water, 1× Hand-Spun Milkshake |
+| 10 | a returning voice (1) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
+| 11 | Clear, then a new order (1) — with explanations | ✅ 17/17 | Fries (taken down); Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
+| 12 | "no thanks, and take off…" (1) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular) |
+| 13 | two of an item (1) | ✅ 17/17 | Fries (unanswered) | 2× Hamburger (Regular) |
+| 14 | ordering for someone else too (1) | ✅ 17/17 | Fries (declined); Another Chicken Tenders (unanswered) | 1× Chicken Tenders (Large) |
+| 15 | closing while a card is up (1) | ✅ 17/17 | Fries (declined) | 1× Patty Melt |
+| 16 | an item that is out today (1) | ✅ 17/17 | [Closest substitute] Sundae (declined); Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
+| 17 | whisper's order list (1) | ✅ 17/17 | Fries (unanswered) | 1× Patty Melt |
+| 18 | the cashier says the card (1) — with explanations | ✅ 17/17 | Regular Bacon Burger (accepted); Fries (unanswered) | 1× Bacon Burger (Regular) |
+| 19 | two no's in a row, then more ordering (1) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Iced Tea (unanswered) | 1× Chicken Sandwich, 1× Iced Tea (Regular) |
+| 20 | a mixed visit (1) | ✅ 17/17 | Fries (accepted); Large Lemonade (unanswered) | 1× Cheeseburger (Regular), 1× Lemonade (Regular), 1× Fries (Regular) |
+| 21 | spoken order with sizes (2) | ✅ 17/17 | Fries (accepted); Hand-Spun Milkshake (unanswered) | 1× Grilled Cheese, 1× Iced Tea (Large), 1× Fries (Regular) |
+| 22 | spoken order without a size, then the size (2) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
+| 23 | tapped order only (2) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Chicken Tenders (Large) |
+| 24 | questions and praise that are not orders, then an order (2) | ✅ 17/17 | [You asked about it] Fries (unanswered) | 1× Hot Dog |
+| 25 | hot words (2) — with explanations | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× BLT, 1× Fries (Regular) |
+| 26 | an allergy (2) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Hot Dog |
+| 27 | taken off or swapped (2) — with explanations | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular) |
+| 28 | card setting held through silence (2) | ✅ 17/17 | Fries (lapsed); Onion Rings (taken down); [Something warm] Coffee (accepted); Onion Rings (unanswered) | 1× BLT, 1× Coffee (Regular) |
+| 29 | menu sections opened (2) — with explanations | ✅ 17/17 | Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
+| 30 | a returning voice (2) | ✅ 17/17 | Fries (unanswered) | 1× Veggie Sandwich |
+| 31 | Clear, then a new order (2) | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× BLT |
+| 32 | "no thanks, and take off…" (2) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular) |
+| 33 | two of an item (2) | ✅ 17/17 | Fries (unanswered) | 2× Bacon Burger (Regular) |
+| 34 | ordering for someone else too (2) | ✅ 17/17 | Fries (taken down); Another Chicken Sandwich (declined); Fries (unanswered) | 1× Chicken Sandwich |
+| 35 | closing while a card is up (2) — with explanations | ✅ 17/17 | Regular Cheeseburger (declined) | 1× Cheeseburger (Little) |
+| 36 | an item that is out today (2) | ✅ 17/17 | [Closest substitute] Sundae (accepted); Fries (unanswered) | 1× Hamburger (Regular), 1× Sundae |
+| 37 | whisper's order list (2) | ✅ 17/17 | Fries (unanswered) | 1× BLT |
+| 38 | the cashier says the card (2) | ✅ 17/17 | Fries (unanswered) | 1× Patty Melt |
+| 39 | two no's in a row, then more ordering (2) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Coffee (unanswered) | 1× Grilled Cheese, 1× Coffee (Regular) |
+| 40 | a mixed visit (2) | ✅ 17/17 | Fries (declined) | 1× Bacon Cheeseburger (Regular), 1× Coffee (Large) |
+| 41 | spoken order with sizes (3) — with explanations | ✅ 17/17 | Fries (accepted); Hand-Spun Milkshake (unanswered) | 1× Veggie Sandwich, 1× Bottled Water, 1× Fries (Regular) |
+| 42 | spoken order without a size, then the size (3) | ✅ 17/17 | Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
+| 43 | tapped order only (3) — with explanations | ✅ 17/17 | Fries (taken down); Regular Sweet Potato Fries (accepted); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Chicken Sandwich, 1× Sweet Potato Fries (Regular) |
+| 44 | questions and praise that are not orders, then an order (3) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hot Dog |
+| 45 | hot words (3) | ✅ 17/17 | Fries (taken down); [Something cold] Fountain Drink (accepted); Fries (unanswered) | 1× Bacon Cheeseburger (Regular), 1× Fountain Drink (Regular) |
+| 46 | an allergy (3) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Hamburger (Regular) |
+| 47 | taken off or swapped (3) — with explanations | ✅ 17/17 | Fountain Drink (lapsed); Bottled Water (lapsed); Lemonade (unanswered) | 1× Cheeseburger (Regular), 1× Poutine |
+| 48 | card setting held through silence (3) — with explanations | ✅ 17/17 | Fries (lapsed); Onion Rings (taken down); [Something cold] Fountain Drink (declined); Onion Rings (lapsed); Hand-Spun Milkshake (unanswered) | 1× Bacon Burger (Regular) |
+| 49 | menu sections opened (3) | ✅ 17/17 | Fries (unanswered) | 1× Cheese Dog |
+| 50 | a returning voice (3) | ✅ 17/17 | Fries (unanswered) | 1× Cheese Dog |
+| 51 | Clear, then a new order (3) | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× Cheeseburger (Regular) |
+| 52 | "no thanks, and take off…" (3) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Burger (Regular) |
+| 53 | two of an item (3) | ✅ 17/17 | Fries (unanswered) | 2× Bacon Cheeseburger (Regular) |
+| 54 | ordering for someone else too (3) — with explanations | ✅ 17/17 | Regular Hamburger (taken down); Another Hamburger (declined); Regular Hamburger (unanswered) | 1× Hamburger (Little) |
+| 55 | closing while a card is up (3) — with explanations | ✅ 17/17 | Fries (declined) | 1× Chicken Tenders (Large) |
+| 56 | an item that is out today (3) | ✅ 17/17 | [Closest substitute] Cajun Fries (declined); Fountain Drink (unanswered) | 1× Grilled Cheese |
+| 57 | whisper's order list (3) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Chicken Tenders (Large) |
+| 58 | the cashier says the card (3) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Grilled Cheese, 1× Fries (Regular) |
+| 59 | two no's in a row, then more ordering (3) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Coffee (unanswered) | 1× Cheese Dog, 1× Coffee (Regular) |
+| 60 | a mixed visit (3) — with explanations | ✅ 17/17 | Regular Cheeseburger (taken down); Fries (declined) | 1× Cheeseburger (Little), 1× Iced Tea (Large) |
+| 61 | spoken order with sizes (4) | ✅ 17/17 | Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Bacon Burger (Regular), 1× Cajun Fries (Large) |
+| 62 | spoken order without a size, then the size (4) | ✅ 17/17 | Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
+| 63 | tapped order only (4) | ✅ 17/17 | Fries (taken down); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Grilled Cheese, 1× Onion Rings (Large) |
+| 64 | questions and praise that are not orders, then an order (4) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
+| 65 | hot words (4) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Chicken Sandwich, 1× Fries (Regular) |
+| 66 | an allergy (4) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Cheeseburger (Regular) |
+| 67 | taken off or swapped (4) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular) |
+| 68 | card setting held through silence (4) | ✅ 17/17 | Fries (accepted); [Something warm] Coffee (unanswered) | 1× BLT, 1× Fries (Regular) |
+| 69 | menu sections opened (4) | ✅ 17/17 | Fries (unanswered) | 1× Chicken Sandwich |
+| 70 | a returning voice (4) | ✅ 17/17 | Regular Hamburger (unanswered) | 1× Hamburger (Little) |
+| 71 | Clear, then a new order (4) | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× Patty Melt |
+| 72 | "no thanks, and take off…" (4) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular) |
+| 73 | two of an item (4) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 2× Bacon Cheeseburger (Little) |
+| 74 | ordering for someone else too (4) | ✅ 17/17 | Fries (declined); Another Grilled Cheese (unanswered) | 1× Grilled Cheese |
+| 75 | closing while a card is up (4) | ✅ 17/17 | Fries (declined) | 1× Cheese Dog |
+| 76 | an item that is out today (4) — with explanations | ✅ 17/17 | [Closest substitute] Fries (declined); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× BLT |
+| 77 | whisper's order list (4) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Bacon Burger (Regular) |
+| 78 | the cashier says the card (4) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
+| 79 | two no's in a row, then more ordering (4) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Lemonade (unanswered) | 1× Chicken Sandwich, 1× Lemonade (Regular) |
+| 80 | a mixed visit (4) | ✅ 17/17 | [You asked about it] Side Salad (taken down); [You asked about it] Side Salad (accepted); Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little), 1× Lemonade (Regular), 1× Side Salad |
+| 81 | spoken order with sizes (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Grilled Cheese, 1× Fries (Regular) |
 | 82 | spoken order without a size, then the size (5) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
-| 83 | tapped order only (5) | ✅ 17/17 | Fries (taken down); Fountain Drink (accepted); Hand-Spun Milkshake (unanswered) | 1× Patty Melt, 1× Poutine, 1× Fountain Drink (Regular) |
-| 84 | questions and praise that are not orders, then an order (5) — with explanations | ✅ 17/17 | [You asked about it] Hamburger (taken down); [You asked about it] Hamburger (unanswered) | 1× Cheese Dog |
-| 85 | hot words (5) | ✅ 17/17 | Fries (taken down); [Something warm] Fries (declined); Fountain Drink (unanswered) | 1× Grilled Cheese |
-| 86 | an allergy (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hamburger (Regular), 1× Fries (Regular) |
-| 87 | taken off or swapped (5) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular) |
-| 88 | card setting held through silence (5) — with explanations | ✅ 17/17 | Regular Hamburger (taken down); [Something cold] Fountain Drink (declined); Regular Hamburger (unanswered) | 1× Hamburger (Little) |
-| 89 | menu sections opened (5) | ✅ 17/17 | Fries (unanswered) | 1× Hot Dog |
-| 90 | a returning voice (5) | ✅ 17/17 | Fries (unanswered) | 1× Grilled Cheese |
-| 91 | Clear, then a new order (5) — with explanations | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× Grilled Cheese |
-| 92 | "no thanks, and take off…" (5) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Burger (Regular) |
-| 93 | two of an item (5) — with explanations | ✅ 17/17 | Fries (lapsed); Cajun Fries (unanswered) | 2× Cheeseburger (Regular) |
-| 94 | ordering for someone else too (5) | ✅ 17/17 | Regular Bacon Burger (taken down); Another Bacon Burger (accepted); Regular Bacon Burger (unanswered) | 2× Bacon Burger (Little) |
-| 95 | closing while a card is up (5) | ✅ 17/17 | Fries (declined) | 1× Bacon Cheeseburger (Regular) |
-| 96 | an item that is out today (5) | ✅ 17/17 | [Closest substitute] Fries (accepted); Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular), 1× Fries (Regular) |
-| 97 | whisper's order list (5) | ✅ 17/17 | Fries (unanswered) | 1× Hot Dog |
-| 98 | the cashier says the card (5) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Cheese Dog |
-| 99 | two no's in a row, then more ordering (5) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Hamburger (Regular), 1× Bottled Water |
-| 100 | a mixed visit (5) | ✅ 17/17 | Fries (declined) | 1× Hamburger (Regular), 1× Bottled Water |
+| 83 | tapped order only (5) — with explanations | ✅ 17/17 | Regular Cheeseburger (declined); Fountain Drink (unanswered) | 1× Cheeseburger (Little), 1× Onion Rings (Regular) |
+| 84 | questions and praise that are not orders, then an order (5) — with explanations | ✅ 17/17 | Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
+| 85 | hot words (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hot Dog, 1× Fries (Regular) |
+| 86 | an allergy (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hand-Spun Milkshake, 1× Fries (Regular) |
+| 87 | taken off or swapped (5) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Cheeseburger (Regular), 1× Poutine |
+| 88 | card setting held through silence (5) | ✅ 17/17 | Fries (lapsed); Onion Rings (taken down); [Something warm] Coffee (declined); Onion Rings (unanswered) | 1× Cheeseburger (Regular) |
+| 89 | menu sections opened (5) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Grilled Cheese |
+| 90 | a returning voice (5) | ✅ 17/17 | Fries (unanswered) | 1× Cheese Dog |
+| 91 | Clear, then a new order (5) | ✅ 17/17 | Fries (taken down); Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
+| 92 | "no thanks, and take off…" (5) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Cheeseburger (Regular) |
+| 93 | two of an item (5) | ✅ 17/17 | Regular Cheeseburger (unanswered) | 2× Cheeseburger (Little) |
+| 94 | ordering for someone else too (5) | ✅ 17/17 | Regular Bacon Cheeseburger (taken down); Another Bacon Cheeseburger (declined); Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
+| 95 | closing while a card is up (5) | ✅ 17/17 | Fries (declined) | 1× Grilled Cheese |
+| 96 | an item that is out today (5) | ✅ 17/17 | [Closest substitute] Cajun Fries (accepted); Fountain Drink (unanswered) | 1× Hot Dog, 1× Cajun Fries (Regular) |
+| 97 | whisper's order list (5) | ✅ 17/17 | Fries (unanswered) | 1× Chicken Tenders (Large) |
+| 98 | the cashier says the card (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Veggie Sandwich, 1× Fries (Regular) |
+| 99 | two no's in a row, then more ordering (5) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Iced Tea (unanswered) | 1× BLT, 1× Iced Tea (Regular) |
+| 100 | a mixed visit (5) — with explanations | ✅ 17/17 | Regular Cheeseburger (taken down); Regular Cheeseburger (declined); Fries (lapsed); Onion Rings (lapsed) | 1× Cheeseburger (Little), 1× Iced Tea (Regular) |
 
 ## 1. spoken order with sizes (1)
 
 ```
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  4.0 s  Customer: “A little burger and a regular drink please”
-         → Customer session started — order heard
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “A little burger and a bottled water please”
          → Spotlight opened for the Hamburger (said)
          → Added from what was said: 1× Little Hamburger
-         → Added from what was said: 1× Regular Fountain Drink
+         → Added from what was said: 1× Bottled Water
          → Upsell shown (upsize): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
- 10.0 s  Cashier presses No thanks
-         → Upsell declined: Regular Hamburger (No thanks)
+ 10.0 s  Cashier presses Add
+         → Upsell accepted: Regular Hamburger (Add)
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 16.0 s  Paid — ticket: 1× Hamburger (Little), 1× Fountain Drink (Regular)
+ 16.0 s  Paid — ticket: 1× Bottled Water, 1× Hamburger (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Regular Hamburger (said), Bottled Water (said): computing (4.0 s) → open (6.2 s); chain: Regular Hamburger (accepted); closed at 16.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bottled Water 0 cal and Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 4.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
+- 4.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
+- 6.2 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
+- 10.0 s · outcome · Customer said yes to “Regular Hamburger” (Add).
+- 11.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bottled Water and Hamburger ($16.93), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 2. spoken order without a size, then the size (1)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “Could I get a hamburger”
+         → Heard Hamburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Hamburger (said)
+  7.0 s  Cashier taps Hamburger (Regular)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 13.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Regular Hamburger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · order · Heard Hamburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 4.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 7.0 s · screen · Cashier tapped Hamburger (Regular). Still open in the meal: a side, a drink, a shake.
+- 7.0 s · screen · Screen: Finding what was said. The cashier is looking for the item the customer just named. So: add the heard item for them.
+- 7.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 3. tapped order only (1) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 49.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 50.0 s  Cashier taps Veggie Sandwich
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Veggie Sandwich (tapped)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 53.0 s  Cashier taps Sweet Potato Fries (Little)
+         → Upsell shown (upsize): Regular Sweet Potato Fries — Only $1.50 more to make the Sweet Potato Fries a Regular
+ 56.0 s  Cashier presses Add
+         → Upsell accepted: Regular Sweet Potato Fries (Add)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+         → Upsell lapsed: Fountain Drink (no answer)
+         → Upsell shown (basket): Bottled Water — Completes the basket — no drink on the ticket yet
+ 90.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 96.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Sweet Potato Fries (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 50.0 s for Veggie Sandwich (tapped), Regular Sweet Potato Fries (tapped): computing (50.0 s) → open (52.2 s); chain: Regular Sweet Potato Fries (accepted) → Fountain Drink (lapsed); closed at 96.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal and Sweet Potato Fries (Regular) 430 cal, 701 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 50.0 s · visit · New customer at the counter (cashier started ringing).
+- 50.0 s · screen · Cashier tapped Veggie Sandwich. Still open in the meal: a side, a drink, a shake.
+- 50.0 s · pick · Spotlight: the Veggie Sandwich was tapped, so the screen blurs while it works out the upsell for it.
+- 50.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 52.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 53.0 s · screen · Cashier tapped Sweet Potato Fries (Little). Still open in the meal: a drink, a shake.
+- 53.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 53.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 53.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 53.0 s · pick · Took down “Fries”: the ticket has a side now.
+- 53.0 s · pick · Showing “Regular Sweet Potato Fries” (a size up). Why: only $1.50 more to make the Sweet Potato Fries a Regular.
+- 56.0 s · outcome · Customer said yes to “Regular Sweet Potato Fries” (Add).
+- 57.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 66.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 83.0 s · outcome · Customer let pass “Fountain Drink” (no answer).
+- 84.9 s · pick · Showing “Bottled Water” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 96.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich and Sweet Potato Fries ($15.36), 0 lines of conversation, 3 upsells (1 accepted, 0 declined).
+- 96.0 s · visit · Visit ended (paid): 3 upsells shown, 1 accepted.
+
+## 4. questions and praise that are not orders, then an order (1)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “I might get a bacon cheeseburger later”
+  8.0 s  Customer: “Could I get a hot dog”
+         → Spotlight opened for the Hot Dog (said)
+         → Added from what was said: 1× Hot Dog
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 14.0 s  Paid — ticket: 1× Hot Dog
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 8.0 s for Hot Dog (said): computing (8.0 s) → open (10.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 8.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 8.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
+- 8.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
+- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 5. hot words (1)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Can I get a regular cheeseburger”
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Regular Cheeseburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  7.0 s  Customer: “I'm not that hungry”
+         → Hot key — Wants food: “hungry” → Pitch food before drink add-ons
+ 11.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 17.0 s  Paid — ticket: 1× Cheeseburger (Regular)
          → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
 
@@ -143,283 +386,51 @@ Run in the Spotlight view (--view spotlight): every transaction is also held to 
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 4.0 s for Little Hamburger (said), Regular Fountain Drink (said): computing (4.0 s) → open (6.2 s); chain: Regular Hamburger (declined); closed at 16.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Little) 542 cal, 542 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side and a shake (no more size-ups: one was turned down). Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 4.0 s · visit · New customer at the counter (order heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 4.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
-- 4.0 s · order · Heard the order: rang up 1× Regular Fountain Drink from what the customer said.
-- 6.2 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
-- 10.0 s · outcome · Customer turned down “Regular Hamburger” (No thanks).
-- 11.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Fountain Drink ($13.79), 2 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 2. spoken order without a size, then the size (1)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “Could I get a cheeseburger”
-         → Heard Cheeseburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Cheeseburger (said)
-  7.0 s  Customer: “Regular”
-         → Size for Cheeseburger: Regular
-         → Added from what was said: 1× Regular Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 13.0 s  Paid — ticket: 1× Cheeseburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 4.0 s for Regular Cheeseburger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
+- Spotlight at 3.0 s for Regular Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 17.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal, 984 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 4.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 7.0 s · order · The size for Cheeseburger: Regular, so it goes on the ticket.
-- 7.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
-- 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($16.10), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 3. tapped order only (1)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  1.0 s  Cashier taps Grilled Cheese
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Grilled Cheese (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  4.0 s  Cashier taps Poutine
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  7.0 s  Cashier presses Add
-         → Upsell accepted: Fountain Drink (Add)
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 13.0 s  Paid — ticket: 1× Grilled Cheese, 1× Poutine, 1× Fountain Drink (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for Grilled Cheese (tapped), Poutine (tapped): computing (1.0 s) → open (3.2 s); chain: Fountain Drink (accepted); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Poutine 1,373 cal, 1,753 cal in all, a heavy meal. Contains eggs, milk, sesame, soy, sulphites and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 1.0 s · visit · New customer at the counter (cashier started ringing).
-- 1.0 s · screen · Cashier tapped Grilled Cheese. Still open in the meal: a side, a drink, a shake.
-- 1.0 s · pick · Spotlight: the Grilled Cheese was tapped, so the screen blurs while it works out the upsell for it.
-- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 4.0 s · screen · Cashier tapped Poutine. Still open in the meal: a drink, a shake.
-- 4.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 4.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 4.0 s · pick · Took down “Fries”: the ticket has a side now.
-- 4.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 7.0 s · outcome · Customer said yes to “Fountain Drink” (Add).
-- 8.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese, Poutine and Fountain Drink ($23.99), 0 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 4. questions and praise that are not orders, then an order (1)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “The grilled cheese here is amazing”
-  5.0 s  Whisper's order: 1× Grilled Cheese
-         → Whisper's “Grilled Cheese” not rung up — nobody ordered it in the last 10 s
-  8.0 s  Customer: “The poutine here is amazing”
- 12.0 s  Customer: “Can I have a BLT”
-         → Spotlight opened for the BLT (said)
-         → Added from what was said: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 18.0 s  Paid — ticket: 1× BLT
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 12.0 s for BLT (said): computing (12.0 s) → open (14.2 s); closed at 18.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 12.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 12.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
-- 12.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 14.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 18.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 18.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 5. hot words (1)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'll take a hot dog”
-         → Customer session started — order heard
-         → Spotlight opened for the Hot Dog (said)
-         → Added from what was said: 1× Hot Dog
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “I'm in a bit of a rush”
- 11.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 17.0 s  Paid — ticket: 1× Hot Dog, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Hot Dog (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 17.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal and Fries (Regular) 953 cal, 1,473 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
+- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
 - 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · outcome · Customer said yes to “Fries” (Add).
+- 7.0 s · hotkey · Heard “hungry”: hot word “Wants food”, which means open to food. Pitch food before drink add-ons.
+- 11.0 s · outcome · Customer turned down “Fries” (No thanks).
 - 12.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 17.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog and Fries ($15.72), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($16.10), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
 
-## 6. an allergy (1)
+## 6. an allergy (1) — with explanations
 
 ```
          → Upsell card setting: On new trigger
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+ 53.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
+         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
+ 53.0 s  Operator: “Hey there, what can I get started for you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “I'll take a milkshake”
-         → Spotlight opened for the Hand-Spun Milkshake (said)
-         → Added from what was said: 1× Hand-Spun Milkshake
+ 56.0 s  Customer: “I'll take a regular burger”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Regular Hamburger
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Customer: “But I'm allergic to dairy”
-         → Allergy heard: milk — no card with it from now on
- 10.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
+ 59.0 s  Customer: “I can't have gluten by the way”
+         → Allergy heard: wheat — no card with it from now on
+ 63.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 16.0 s  Paid — ticket: 1× Hand-Spun Milkshake, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+100.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
+         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
+106.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
 
 - ✅ the engine raised no error
@@ -440,37 +451,37 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Hand-Spun Milkshake (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 16.0 s
+- Spotlight at 56.0 s for Regular Hamburger (said): computing (56.0 s) → open (58.2 s); chain: Fries (declined); closed at 106.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hand-Spun Milkshake 690 cal and Fries (Regular) 953 cal, 1,643 cal in all, a heavy meal. Contains milk. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is the order itself, once the customer names a main. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hand-Spun Milkshake was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Hand-Spun Milkshake from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
-- 10.0 s · outcome · Customer said yes to “Fries” (Add).
-- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hand-Spun Milkshake and Fries ($17.00), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+- 53.0 s · visit · New customer at the counter (greeting heard).
+- 56.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 56.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 56.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 58.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 59.0 s · health · Heard an allergy (wheat): no upsell that contains it from now on.
+- 63.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 64.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 66.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 106.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 106.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
 
 ## 7. taken off or swapped (1)
 
 ```
          → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'd like a regular bacon cheeseburger and a regular fries please”
-         → Customer session started — order heard
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “A regular bacon cheeseburger and a regular fries please”
          → Spotlight opened for the Bacon Cheeseburger (said)
          → Added from what was said: 1× Regular Bacon Cheeseburger
          → Added from what was said: 1× Regular Fries
@@ -511,7 +522,7 @@ Steps:
 
 Steps:
 
-- 3.0 s · visit · New customer at the counter (order heard).
+- 0.0 s · visit · New customer at the counter (greeting heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
@@ -523,27 +534,30 @@ Steps:
 - 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger and Poutine ($30.24), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 8. card setting held through silence (1)
+## 8. card setting held through silence (1) — with explanations
 
 ```
+         → Upsell card setting: On new trigger
          → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
+ 39.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
+         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
+ 39.0 s  Operator: “Hey there, what can I get started for you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “I'll take a veggie sandwich”
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
+ 42.0 s  Customer: “A regular cheeseburger please”
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Regular Cheeseburger
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-         → Upsell lapsed: Fries (no answer)
-         → Upsell shown (basket): Cajun Fries — Completes the basket — no side on the ticket yet
- 34.0 s  Customer: “I'm freezing”
-         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
-         → Upsell shown (hotkey): Cajun Fries — Feeling the cold — something warm
- 37.0 s  Operator: “Would you like the Cajun Fries?”
- 39.0 s  Customer: “Sure”
-         → Upsell accepted: Cajun Fries (spoken yes)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 45.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Cajun Fries (Regular)
-         → Session ended — paid · 3 upsell(s) offered, 1 accepted
+ 73.0 s  Customer: “It's so hot out today”
+         → Hot key — Feeling hot / hot weather: “hot out” → Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher
+         → Upsell shown (hotkey): Fountain Drink — Feeling the heat — something cold to cool down
+ 76.0 s  Operator: “Would you like the Fountain Drink?”
+ 78.0 s  Customer: “I'm good”
+         → Upsell declined: Fountain Drink (spoken no)
+         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
+137.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
+         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
+143.0 s  Paid — ticket: 1× Cheeseburger (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
 
 - ✅ the engine raised no error
@@ -564,32 +578,30 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Fries (lapsed) → Cajun Fries (accepted); closed at 45.0 s
+- Spotlight at 42.0 s for Regular Cheeseburger (said): computing (42.0 s) → open (44.2 s); chain: Fountain Drink (declined); closed at 143.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal and Cajun Fries (Regular) 967 cal, 1,238 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal, 984 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 31.0 s · outcome · Customer let pass “Fries” (no answer).
-- 32.9 s · pick · Showing “Cajun Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 34.0 s · pick · Remembered “Cajun Fries”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
-- 34.0 s · pick · Showing “Cajun Fries” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
-- 39.0 s · outcome · Customer said yes to “Cajun Fries” (spoken yes).
-- 40.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich and Cajun Fries ($15.11), 5 lines of conversation, 3 upsells (1 accepted, 0 declined).
-- 45.0 s · visit · Visit ended (paid): 3 upsells shown, 1 accepted.
+- 39.0 s · visit · New customer at the counter (greeting heard).
+- 42.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 42.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 42.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
+- 44.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 52.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 73.0 s · hotkey · Heard “hot out”: hot word “Feeling hot / hot weather”, which means the customer feels hot, or says it is hot out. Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher.
+- 73.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Feeling hot / hot weather)” is answered.
+- 73.0 s · pick · Showing “Fountain Drink” [Something cold] (answering what the customer said). Why: feeling the heat — something cold to cool down.
+- 78.0 s · outcome · Customer turned down “Fountain Drink” (spoken no).
+- 79.9 s · pick · Back to “Fries”, the upsell from before the change.
+- 143.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($16.10), 5 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 143.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
 
 ## 9. menu sections opened (1)
 
@@ -598,9 +610,9 @@ Steps:
   1.0 s  Cashier taps Cheese Dog
          → Customer session started — cashier started ringing
          → Spotlight opened for the Cheese Dog (tapped)
-  3.0 s  Cashier opens Burgers
+  3.0 s  Cashier opens Drinks
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  5.0 s  Cashier opens Shakes
+  5.0 s  Cashier opens Fries
  11.0 s  Paid — ticket: 1× Cheese Dog
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
@@ -639,12 +651,10 @@ Steps:
 - 1.0 s · pick · Spotlight: the Cheese Dog was tapped, so the screen blurs while it works out the upsell for it.
 - 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
 - 3.0 s · screen · Screen: Hot Dogs settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 3.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
-- 3.0 s · screen · Opened Burgers: the best one for this customer is the Bacon Cheeseburger (Regular) (the most ordered here).
+- 3.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
 - 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 5.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
-- 5.0 s · screen · Opened Shakes: the best one for this customer is the Hand-Spun Milkshake (the most ordered here).
-- 9.0 s · screen · Screen: Browsing Shakes. The customer is choosing a treat and hasn't settled on one. So: suggest the most-ordered item in Shakes.
+- 5.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
+- 9.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
 - 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheese Dog ($9.09), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
@@ -653,1978 +663,14 @@ Steps:
 
 ```
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Lemme get a regular bacon burger”
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Regular Bacon Burger
-  5.0 s  Voice print: returning Vpress10 (score 0.88)
-         → Voice print: returning voice Vpress10 (score 0.88, tier 0.8, 2 visit(s)) — last time: Hand-Spun Milkshake
-  7.0 s  Cashier opens Shakes
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 13.0 s  Paid — ticket: 1× Bacon Burger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Burger (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Hand-Spun Milkshake.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* Previous orders: Hand-Spun Milkshake. The upsell brain weighs them once it ranks the next option.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
-- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Hand-Spun Milkshake.
-- 7.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
-- 7.0 s · screen · Opened Shakes: the best one for this customer is the Hand-Spun Milkshake (what they had last time).
-- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · screen · Screen: Browsing Shakes. The customer is choosing a treat and hasn't settled on one. So: suggest the most-ordered item in Shakes.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory under voice Vpress10: Bacon Burger ($15.98), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 11. Clear, then a new order (1) — with explanations
-
-```
-         → Upsell view: Spotlight
- 36.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
-         → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
- 37.0 s  Cashier taps Bacon Cheeseburger (Little)
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Bacon Cheeseburger (tapped)
- 39.0 s  Cashier presses No thanks
-         → Upsell shown (upsize): Regular Bacon Cheeseburger — Only $3.57 more to make the Bacon Cheeseburger a Regular
- 42.0 s  Cashier presses Clear
-         → Session ended — ticket cleared · 0 upsell(s) offered, 0 accepted
- 44.0 s  Cashier taps Grilled Cheese
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Grilled Cheese (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 65.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
-         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
- 71.0 s  Paid — ticket: 1× Grilled Cheese
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 37.0 s for Little Bacon Cheeseburger (tapped): computing (37.0 s) → open (39.2 s) → done (42.0 s); closed at 42.0 s
-- Spotlight at 44.0 s for Grilled Cheese (tapped): computing (44.0 s) → open (46.2 s); closed at 71.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 44.0 s · visit · New customer at the counter (cashier started ringing).
-- 44.0 s · screen · Cashier tapped Grilled Cheese. Still open in the meal: a side, a drink, a shake.
-- 44.0 s · pick · Spotlight: the Grilled Cheese was tapped, so the screen blurs while it works out the upsell for it.
-- 44.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 46.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 54.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 71.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 71.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 12. "no thanks, and take off…" (1)
-
-```
-         → Upsell view: Spotlight
   0.0 s  Operator: “Welcome! What would you like today?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “I'll have a regular burger and a regular fries”
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Regular Hamburger
-         → Added from what was said: 1× Regular Fries
-  5.0 s  Customer: “No thanks, and take off the fries”
-         → Order change: took Regular Fries off the ticket
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 11.0 s  Paid — ticket: 1× Hamburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Hamburger (said), Regular Fries (said): computing (3.0 s) → open (8.0 s); closed at 11.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
-- 5.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
-- 8.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 13. two of an item (1)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Let me get two bacon cheeseburgers”
-         → Heard Bacon Cheeseburger — waiting for its size (Little / Regular)
+  3.0 s  Customer: “Let me get a little bacon cheeseburger”
          → Spotlight opened for the Bacon Cheeseburger (said)
-  6.0 s  Customer: “The regular one”
-         → Size for Bacon Cheeseburger: Regular
-         → Added from what was said: 2× Regular Bacon Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 12.0 s  Paid — ticket: 2× Bacon Cheeseburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Cheeseburger (said): computing (3.0 s) → size (3.0 s) → computing (6.0 s) → open (8.2 s); closed at 12.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: 2× Bacon Cheeseburger (Regular) 2,108 cal, 2,108 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard Bacon Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 6.0 s · order · The size for Bacon Cheeseburger: Regular, so it goes on the ticket.
-- 6.0 s · order · Heard the order: rang up 2× Regular Bacon Cheeseburger from what the customer said.
-- 8.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Bacon Cheeseburger ($34.42), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 14. ordering for someone else too (1)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'll have a grilled cheese”
-         → Customer session started — order heard
-         → Spotlight opened for the Grilled Cheese (said)
-         → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Customer: “And it's for my wife too”
-         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
-         → Upsell shown (hotkey): Another Grilled Cheese — Ordering for someone else too — a second one for them?
-  9.0 s  Cashier presses Add
-         → Upsell accepted: Another Grilled Cheese (Add)
-         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
- 15.0 s  Paid — ticket: 2× Grilled Cheese
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Another Grilled Cheese (accepted); closed at 15.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: 2× Grilled Cheese 760 cal, 760 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
-- 6.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Ordering for others)” is answered.
-- 6.0 s · pick · Showing “Another Grilled Cheese” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
-- 9.0 s · outcome · Customer said yes to “Another Grilled Cheese” (Add).
-- 10.9 s · pick · Back to “Fries”, the upsell from before the change.
-- 15.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Grilled Cheese ($14.74), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 15. closing while a card is up (1)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Lemme get a regular bacon cheeseburger”
-         → Spotlight opened for the Bacon Cheeseburger (said)
-         → Added from what was said: 1× Regular Bacon Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “That's everything”
-         → Upsell declined: Fries (spoken no)
-         → Hot key — Order closing: “That's everything” → One last small add-on now, then stop
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 13.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal, 1,054 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 7.0 s · hotkey · Heard “That's everything”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
-- 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($17.21), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 16. an item that is out today (1)
-
-Before it starts: out of stock today — Hand-Spun Milkshake.
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'll take a cheese dog and a milkshake”
-         → Customer session started — order heard
-         → Hot key — Ordered an item that's out: “I'll take a cheese dog and a milkshake” (Hand-Spun Milkshake) → Not rung up (out today) — the closest substitute instead
-         → Spotlight opened for the Hand-Spun Milkshake (said)
-         → Added from what was said: 1× Cheese Dog
-         → Upsell shown (hotkey): Fries — Hand-Spun Milkshake is out today — the closest is the Fries
-  6.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 12.0 s  Paid — ticket: 1× Cheese Dog, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Hand-Spun Milkshake (said), Cheese Dog (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 12.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal and Fries (Regular) 953 cal, 1,543 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · hotkey · Heard “I'll take a cheese dog and a milkshake”: hot word “Ordered an item that's out” (Hand-Spun Milkshake). Not rung up (out today) — the closest substitute instead.
-- 3.0 s · pick · Spotlight: the Hand-Spun Milkshake was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
-- 5.2 s · pick · Showing “Fries” [Closest substitute] (answering what the customer said). Why: hand-Spun Milkshake is out today — the closest is the Fries.
-- 6.0 s · outcome · Customer said yes to “Fries” (Add).
-- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheese Dog and Fries ($16.83), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 17. whisper's order list (1)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “Let me get a veggie sandwich”
-         → Customer session started — order heard
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
-  4.0 s  Whisper's order: 1× Veggie Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 24.0 s  Whisper's order: 1× Veggie Sandwich, 1× Poutine
-         → Whisper's “Poutine” not rung up — nobody ordered it in the last 10 s
- 30.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); closed at 30.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 30.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 30.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 18. the cashier says the card (1)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “Can I get a grilled cheese”
-         → Customer session started — order heard
-         → Spotlight opened for the Grilled Cheese (said)
-         → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Operator: “Would you like the Fries?”
-  8.0 s  Customer: “Okay sure”
-         → Upsell accepted: Fries (spoken yes)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 14.0 s  Paid — ticket: 1× Grilled Cheese, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 14.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Fries (Regular) 953 cal, 1,333 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 8.0 s · outcome · Customer said yes to “Fries” (spoken yes).
-- 9.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Fries ($15.11), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 19. two no's in a row, then more ordering (1)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “Could I get a veggie sandwich”
-         → Customer session started — order heard
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  9.0 s  Cashier presses No thanks
-         → Upsell declined: Fountain Drink (No thanks)
-         → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
- 13.0 s  Customer: “I'll have a water”
-         → Spotlight opened for the Bottled Water (said)
-         → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 19.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Bottled Water
-         → Session ended — paid · 3 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
-- Spotlight at 13.0 s for Bottled Water (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal and Bottled Water 0 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
-- 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · pick · Spotlight: the Bottled Water was said, so the screen blurs while it works out the upsell for it.
-- 13.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 15.2 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich and Bottled Water ($10.66), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
-- 19.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
-
-## 20. a mixed visit (1) — with explanations
-
-```
-         → Upsell view: Spotlight
- 51.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
- 51.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
- 54.0 s  Customer: “A burger please”
-         → Heard Hamburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Hamburger (said)
- 56.0 s  Customer: “Do you have poutine?”
-         → Hot key — Asked if we have something: “Do you have” (Poutine) → Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute
- 58.0 s  Cashier picks Regular for Hamburger on the size prompt
-         → Size for Hamburger: Regular
-         → Added from what was said: 1× Regular Hamburger
- 60.0 s  Cashier opens Drinks
-         → Upsell shown (hotkey): Poutine — Asked whether we have the Poutine — it goes well with the Fountain Drink
- 62.0 s  Cashier taps Bottled Water
- 64.0 s  Customer: “I'm allergic to milk”
-         → Allergy heard: milk — no card with it from now on
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 67.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 99.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-105.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Bottled Water
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 54.0 s for Regular Hamburger (said), Poutine (said), Bottled Water (tapped): computing (54.0 s) → size (54.0 s) → computing (56.0 s) → open (61.0 s) → done (68.9 s); chain: Fries (declined); closed at 70.4 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal and Bottled Water 0 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 51.0 s · visit · New customer at the counter (greeting heard).
-- 54.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 54.0 s · order · Heard Hamburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 54.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 56.0 s · hotkey · Heard “Do you have”: hot word “Asked if we have something”, which means interest in a specific item, often one they can't see on the menu board (Poutine). Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute.
-- 58.0 s · order · The size for Hamburger: Regular, so it goes on the ticket.
-- 58.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 60.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
-- 61.0 s · pick · Showing “Poutine” [You asked about it] (answering what the customer said). Why: asked whether we have the Poutine — it goes well with the Fountain Drink.
-- 62.0 s · screen · Cashier tapped Bottled Water. Still open in the meal: a side, a shake.
-- 62.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 64.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
-- 64.0 s · pick · Took down “Poutine”: what the customer said rules it out now.
-- 64.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 67.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 70.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
-- 72.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 105.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Bottled Water ($16.93), 4 lines of conversation, 1 upsell (0 accepted, 1 declined).
-- 105.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 21. spoken order with sizes (2)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “A little burger and a large fries please”
-         → Hot key — Going large: “large” → Premium add-ons welcome
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Little Hamburger
-         → Added from what was said: 1× Large Fries
-         → Upsell shown (upsize): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
- 10.0 s  Cashier presses No thanks
-         → Upsell declined: Regular Hamburger (No thanks)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 16.0 s  Paid — ticket: 1× Hamburger (Little), 1× Fries (Large)
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 4.0 s for Little Hamburger (said), Large Fries (said): computing (4.0 s) → open (6.2 s); chain: Regular Hamburger (declined); closed at 16.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Little) 542 cal and Fries (Large) 1,314 cal, 1,856 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a drink and a shake (no more size-ups: one was turned down). Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 4.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
-- 4.0 s · order · Heard the order: rang up 1× Large Fries from what the customer said.
-- 6.2 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
-- 10.0 s · outcome · Customer turned down “Regular Hamburger” (No thanks).
-- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Fries ($19.29), 2 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 22. spoken order without a size, then the size (2)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “I'd like a burger please”
-         → Heard Hamburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Hamburger (said)
-  7.0 s  Cashier taps Hamburger (Regular)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 13.0 s  Paid — ticket: 1× Hamburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 4.0 s for Regular Hamburger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · order · Heard Hamburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 4.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 7.0 s · screen · Cashier tapped Hamburger (Regular). Still open in the meal: a side, a drink, a shake.
-- 7.0 s · screen · Screen: Finding what was said. The cashier is looking for the item the customer just named. So: add the heard item for them.
-- 7.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 23. tapped order only (2)
-
-```
-         → Upsell view: Spotlight
-  1.0 s  Cashier taps Hot Dog
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Hot Dog (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  4.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 10.0 s  Paid — ticket: 1× Hot Dog, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for Hot Dog (tapped): computing (1.0 s) → open (3.2 s); chain: Fries (accepted); closed at 10.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal and Fries (Regular) 953 cal, 1,473 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 1.0 s · visit · New customer at the counter (cashier started ringing).
-- 1.0 s · screen · Cashier tapped Hot Dog. Still open in the meal: a side, a drink, a shake.
-- 1.0 s · pick · Spotlight: the Hot Dog was tapped, so the screen blurs while it works out the upsell for it.
-- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 4.0 s · outcome · Customer said yes to “Fries” (Add).
-- 5.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog and Fries ($15.72), 0 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 10.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 24. questions and praise that are not orders, then an order (2)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  4.0 s  Customer: “How much is the bacon cheeseburger?”
-  5.0 s  Whisper's order: 1× Bacon Cheeseburger
-  9.0 s  Customer: “I'd like a little bacon burger please”
-         → Customer session started — order heard
-         → Hot key — Price-conscious: “How much” → A size-up said as "only $X more"; low-priced add-ons framed as value
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Little Bacon Burger
-         → Upsell shown (upsize): Regular Bacon Burger — Only $4.06 more to make the Bacon Burger a Regular
- 15.0 s  Paid — ticket: 1× Bacon Burger (Little)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 9.0 s for Little Bacon Burger (said): computing (9.0 s) → open (11.2 s); closed at 15.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Burger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 9.0 s · visit · New customer at the counter (order heard).
-- 9.0 s · hotkey · Heard “How much”: hot word “Price-conscious”, which means price matters. A size-up said as "only $X more"; low-priced add-ons framed as value.
-- 9.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 9.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 9.0 s · order · Heard the order: rang up 1× Little Bacon Burger from what the customer said.
-- 11.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: only $4.06 more to make the Bacon Burger a Regular.
-- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($11.92), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 15.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 25. hot words (2)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I want a BLT”
-         → Customer session started — order heard
-         → Spotlight opened for the BLT (said)
-         → Added from what was said: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “I'm freezing out there”
-         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
- 11.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (hotkey): Cajun Fries — Feeling the cold — something warm
- 17.0 s  Paid — ticket: 1× BLT, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 17.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Fries (Regular) 953 cal, 1,455 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 11.0 s · outcome · Customer said yes to “Fries” (Add).
-- 12.9 s · pick · Showing “Cajun Fries” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
-- 17.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Fries ($15.11), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 26. an allergy (2) — with explanations
-
-```
-         → Upsell view: Spotlight
- 48.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
-         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
- 48.0 s  Operator: “Hi, what can I get for you today?”
- 51.0 s  Customer: “Can I get a regular hamburger”
-         → Customer session started — order heard
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Regular Hamburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 54.0 s  Customer: “Spicy food upsets my stomach”
- 58.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-         → Upsell lapsed: Fountain Drink (no answer)
-         → Upsell shown (basket): Bottled Water — Completes the basket — no drink on the ticket yet
-101.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
-         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
-107.0 s  Paid — ticket: 1× Hamburger (Regular)
-         → Session ended — paid · 3 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 51.0 s for Regular Hamburger (said): computing (51.0 s) → open (53.2 s); chain: Fries (declined) → Fountain Drink (lapsed); closed at 107.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 51.0 s · visit · New customer at the counter (order heard).
-- 51.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 51.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 51.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 53.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 58.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 59.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 61.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 85.0 s · outcome · Customer let pass “Fountain Drink” (no answer).
-- 86.9 s · pick · Showing “Bottled Water” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 107.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 3 upsells (0 accepted, 1 declined).
-- 107.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
-
-## 27. taken off or swapped (2)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Let me get a regular hamburger and a regular cajun fries”
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Regular Hamburger
-         → Added from what was said: 1× Regular Cajun Fries
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  7.0 s  Customer: “Actually swap the cajun fries for a poutine”
-         → Order change: swapped Regular Cajun Fries for Poutine
-         → Added from what was said: 1× Poutine
- 13.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Poutine
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Hamburger (said), Regular Cajun Fries (said), Poutine (said): computing (3.0 s) → open (5.2 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal and Poutine 1,373 cal, 2,217 cal in all, a heavy meal. Contains eggs, milk, sesame, soy, sulphites and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 3.0 s · order · Heard the order: rang up 1× Regular Cajun Fries from what the customer said.
-- 5.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 7.0 s · order · Heard “Actually swap the cajun fries for a poutine”: the customer is changing the order, so it swapped the Regular Cajun Fries for a Poutine.
-- 7.0 s · order · Heard the order: rang up 1× Poutine from what the customer said.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Poutine ($26.67), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 28. card setting held through silence (2)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I'll have a veggie sandwich”
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 34.0 s  Customer: “I'm freezing”
-         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
- 37.0 s  Operator: “Would you like the Fries?”
- 39.0 s  Customer: “I'm good”
-         → Upsell declined: Fries (spoken no)
-         → Upsell shown (hotkey): Cajun Fries — Feeling the cold — something warm
- 45.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 45.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 39.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 40.9 s · pick · Showing “Cajun Fries” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
-- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich ($7.37), 5 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 45.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 29. menu sections opened (2)
-
-```
-         → Upsell view: Spotlight
-  1.0 s  Cashier taps Veggie Sandwich
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Veggie Sandwich (tapped)
-  3.0 s  Cashier opens Burgers
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  5.0 s  Cashier opens Shakes
- 11.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for Veggie Sandwich (tapped): computing (1.0 s) → open (3.2 s); closed at 11.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 1.0 s · visit · New customer at the counter (cashier started ringing).
-- 1.0 s · screen · Cashier tapped Veggie Sandwich. Still open in the meal: a side, a drink, a shake.
-- 1.0 s · pick · Spotlight: the Veggie Sandwich was tapped, so the screen blurs while it works out the upsell for it.
-- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 3.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
-- 3.0 s · screen · Opened Burgers: the best one for this customer is the Bacon Cheeseburger (Regular) (the most ordered here).
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 5.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
-- 5.0 s · screen · Opened Shakes: the best one for this customer is the Hand-Spun Milkshake (the most ordered here).
-- 9.0 s · screen · Screen: Browsing Shakes. The customer is choosing a treat and hasn't settled on one. So: suggest the most-ordered item in Shakes.
-- 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 30. a returning voice (2)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “Can I get a cheese dog”
-         → Customer session started — order heard
-         → Spotlight opened for the Cheese Dog (said)
-         → Added from what was said: 1× Cheese Dog
-  5.0 s  Voice print: returning Vpress30 (score 0.88)
-         → Voice print: returning voice Vpress30 (score 0.88, tier 0.8, 2 visit(s)) — last time: Fries
-  7.0 s  Cashier opens Fries
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 13.0 s  Paid — ticket: 1× Cheese Dog
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Cheese Dog (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fries.
-- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal, 590 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* Previous orders: Fries. The upsell brain weighs them once it ranks the next option.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Cheese Dog was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
-- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fries.
-- 7.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (what they had last time).
-- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory under voice Vpress30: Cheese Dog ($9.09), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 31. Clear, then a new order (2) — with explanations
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
- 15.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
-         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
- 16.0 s  Cashier taps Veggie Sandwich
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Veggie Sandwich (tapped)
- 18.0 s  Cashier presses No thanks
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 21.0 s  Cashier presses Clear
-         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
- 23.0 s  Cashier taps BLT
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the BLT (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 67.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
-         → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
- 73.0 s  Paid — ticket: 1× BLT
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 16.0 s for Veggie Sandwich (tapped): computing (16.0 s) → open (18.2 s); closed at 21.0 s
-- Spotlight at 23.0 s for BLT (tapped): computing (23.0 s) → open (25.2 s); closed at 73.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 23.0 s · visit · New customer at the counter (cashier started ringing).
-- 23.0 s · screen · Cashier tapped BLT. Still open in the meal: a side, a drink, a shake.
-- 23.0 s · pick · Spotlight: the BLT was tapped, so the screen blurs while it works out the upsell for it.
-- 23.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 25.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 33.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 73.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 73.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 32. "no thanks, and take off…" (2)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Can I get a regular bacon burger and a regular fries”
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Regular Bacon Burger
-         → Added from what was said: 1× Regular Fries
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  6.0 s  Operator: “Would you like the Fountain Drink?”
-  8.0 s  Customer: “No thanks, and take off the fries”
-         → Upsell declined: Fountain Drink (spoken no)
-         → Order change: took Regular Fries off the ticket
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 14.0 s  Paid — ticket: 1× Bacon Burger (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Burger (said), Regular Fries (said): computing (3.0 s) → open (5.2 s); chain: Fountain Drink (declined); closed at 14.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
-- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
-- 5.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 8.0 s · outcome · Customer turned down “Fountain Drink” (spoken no).
-- 8.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
-- 9.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 4 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 33. two of an item (2)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Let me get two cheeseburgers”
-         → Heard Cheeseburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Cheeseburger (said)
-  6.0 s  Customer: “The regular one”
-         → Size for Cheeseburger: Regular
-         → Added from what was said: 2× Regular Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 12.0 s  Paid — ticket: 2× Cheeseburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Cheeseburger (said): computing (3.0 s) → size (3.0 s) → computing (6.0 s) → open (8.2 s); closed at 12.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: 2× Cheeseburger (Regular) 1,968 cal, 1,968 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 6.0 s · order · The size for Cheeseburger: Regular, so it goes on the ticket.
-- 6.0 s · order · Heard the order: rang up 2× Regular Cheeseburger from what the customer said.
-- 8.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Cheeseburger ($32.20), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 34. ordering for someone else too (2)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “A veggie sandwich please”
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Customer: “I'm getting food for my kids as well”
-         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
-         → Upsell shown (hotkey): Another Veggie Sandwich — Ordering for someone else too — a second one for them?
-  9.0 s  Cashier presses No thanks
-         → Upsell declined: Another Veggie Sandwich (No thanks)
-         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
- 15.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Another Veggie Sandwich (declined); closed at 15.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
-- 6.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Ordering for others)” is answered.
-- 6.0 s · pick · Showing “Another Veggie Sandwich” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
-- 9.0 s · outcome · Customer turned down “Another Veggie Sandwich” (No thanks).
-- 10.9 s · pick · Back to “Fries”, the upsell from before the change.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich ($7.37), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 35. closing while a card is up (2)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I'd like a regular bacon burger please”
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Regular Bacon Burger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “That's everything”
-         → Upsell declined: Fries (spoken no)
-         → Hot key — Order closing: “That's everything” → One last small add-on now, then stop
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 13.0 s  Paid — ticket: 1× Bacon Burger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Burger (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 7.0 s · hotkey · Heard “That's everything”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
-- 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 36. an item that is out today (2)
-
-Before it starts: out of stock today — Poutine.
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I'd like a regular bacon cheeseburger and a poutine please”
-         → Hot key — Ordered an item that's out: “I'd like a regular bacon cheeseburger and a poutine please” (Poutine) → Not rung up (out today) — the closest substitute instead
-         → Spotlight opened for the Poutine (said)
-         → Added from what was said: 1× Regular Bacon Cheeseburger
-         → Upsell shown (hotkey): Fries — Poutine is out today — the closest is the Fries
-  6.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 12.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular), 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Poutine (said), Regular Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 12.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal and Fries (Regular) 953 cal, 2,007 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · hotkey · Heard “I'd like a regular bacon cheeseburger and a poutine please”: hot word “Ordered an item that's out” (Poutine). Not rung up (out today) — the closest substitute instead.
-- 3.0 s · pick · Spotlight: the Poutine was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
-- 5.2 s · pick · Showing “Fries” [Closest substitute] (answering what the customer said). Why: poutine is out today — the closest is the Fries.
-- 6.0 s · outcome · Customer said yes to “Fries” (Add).
-- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger and Fries ($24.95), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 37. whisper's order list (2)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Lemme get a hot dog”
-         → Spotlight opened for the Hot Dog (said)
-         → Added from what was said: 1× Hot Dog
-  4.0 s  Whisper's order: 1× Hot Dog
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 10.0 s  Paid — ticket: 1× Hot Dog
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Hot Dog (said): computing (3.0 s) → open (5.2 s); closed at 10.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 10.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 38. the cashier says the card (2)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Could I get a little burger”
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Little Hamburger
-         → Upsell shown (upsize): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
-  6.0 s  Operator: “Would you like to make it a Regular?”
-  8.0 s  Customer: “Sure”
-         → Upsell accepted: Regular Hamburger (spoken yes)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 14.0 s  Paid — ticket: 1× Hamburger (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Hamburger (said): computing (3.0 s) → open (5.2 s); chain: Regular Hamburger (accepted); closed at 14.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
-- 5.2 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
-- 8.0 s · outcome · Customer said yes to “Regular Hamburger” (spoken yes).
-- 9.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 39. two no's in a row, then more ordering (2)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'll take a patty melt”
-         → Customer session started — order heard
-         → Spotlight opened for the Patty Melt (said)
-         → Added from what was said: 1× Patty Melt
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  9.0 s  Cashier presses No thanks
-         → Upsell declined: Fountain Drink (No thanks)
-         → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
- 13.0 s  Customer: “Can I have a water”
-         → Spotlight opened for the Bottled Water (said)
-         → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 19.0 s  Paid — ticket: 1× Patty Melt, 1× Bottled Water
-         → Session ended — paid · 3 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
-- Spotlight at 13.0 s for Bottled Water (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal and Bottled Water 0 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
-- 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · pick · Spotlight: the Bottled Water was said, so the screen blurs while it works out the upsell for it.
-- 13.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 15.2 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt and Bottled Water ($15.58), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
-- 19.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
-
-## 40. a mixed visit (2)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “A burger please”
-         → Heard Hamburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Hamburger (said)
-  5.0 s  Customer: “Could I come in and get a cajun fries tomorrow?”
-  7.0 s  Cashier picks Regular for Hamburger on the size prompt
-         → Size for Hamburger: Regular
-         → Added from what was said: 1× Regular Hamburger
-  9.0 s  Cashier opens Drinks
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 11.0 s  Cashier taps Fountain Drink (Large)
- 13.0 s  Customer: “I'm in a rush”
-         → Hot key — In a hurry: “in a rush” → Shorten or skip the pitch; only something ready to hand
-         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
- 16.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 22.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Fountain Drink (Large)
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Hamburger (said), Large Fountain Drink (tapped): computing (3.0 s) → size (3.0 s) → computing (7.0 s) → open (9.2 s); chain: Fries (declined); closed at 22.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard Hamburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 7.0 s · order · The size for Hamburger: Regular, so it goes on the ticket.
-- 7.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 9.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
-- 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · screen · Cashier tapped Fountain Drink (Large). Still open in the meal: a side, a shake.
-- 11.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 11.0 s · screen · Screen: Going large. Not price-led; a big appetite. So: a premium add-on (shake, dessert) is welcome.
-- 13.0 s · hotkey · Heard “in a rush”: hot word “In a hurry”, which means in a hurry. Shorten or skip the pitch; only something ready to hand.
-- 13.0 s · pick · Remembered “Fries”: it comes back once “the hot word (In a hurry)” is answered.
-- 13.0 s · pick · Back to “Fries”, the upsell from before the change.
-- 16.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 17.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 21.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 22.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Fountain Drink ($17.93), 4 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 22.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 41. spoken order with sizes (3)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “Let me get a BLT, a poutine and a bottled water”
-         → Spotlight opened for the BLT (said)
-         → Added from what was said: 1× BLT
-         → Added from what was said: 1× Poutine
-         → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 10.0 s  Cashier presses Add
-         → Upsell accepted: Hand-Spun Milkshake (Add)
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 1 taken
- 16.0 s  Paid — ticket: 1× BLT, 1× Poutine, 1× Bottled Water, 1× Hand-Spun Milkshake
-         → Session ended — paid · 1 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 4.0 s for BLT (said), Poutine (said), Bottled Water (said): computing (4.0 s) → open (6.2 s) → done (11.9 s); chain: Hand-Spun Milkshake (accepted); closed at 13.4 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, Poutine 1,373 cal, Bottled Water 0 cal and Hand-Spun Milkshake 690 cal, 2,565 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy, sulphites and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 1 accepted. Open: next is nothing on the ladder; only something the customer says opens a new pitch. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
-- 4.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 4.0 s · order · Heard the order: rang up 1× Poutine from what the customer said.
-- 4.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 6.2 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 10.0 s · outcome · Customer said yes to “Hand-Spun Milkshake” (Add).
-- 13.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 1 taken.
-- 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT, Poutine, Bottled Water and Hand-Spun Milkshake ($32.95), 2 lines of conversation, 1 upsell (1 accepted, 0 declined).
-- 16.0 s · visit · Visit ended (paid): 1 upsell shown, 1 accepted.
-
-## 42. spoken order without a size, then the size (3)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “Can I have a bacon cheeseburger”
-         → Heard Bacon Cheeseburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Bacon Cheeseburger (said)
-  7.0 s  Cashier picks Little for Bacon Cheeseburger on the size prompt
-         → Size for Bacon Cheeseburger: Little
          → Added from what was said: 1× Little Bacon Cheeseburger
+  5.0 s  Voice print: returning Vpress10 (score 0.88)
+         → Voice print: returning voice Vpress10 (score 0.88, tier 0.8, 2 visit(s)) — last time: Fries
+  7.0 s  Cashier opens Sides
          → Upsell shown (upsize): Regular Bacon Cheeseburger — Make the Bacon Cheeseburger a Regular for $3.57 more
  13.0 s  Paid — ticket: 1× Bacon Cheeseburger (Little)
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
@@ -2648,411 +694,48 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 4.0 s for Little Bacon Cheeseburger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
+- Spotlight at 3.0 s for Little Bacon Cheeseburger (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
 
 **How it decided** — weighing at payment:
 
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fries.
 - *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Little) 682 cal, 682 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *Previous orders:* Previous orders: Fries. The upsell brain weighs them once it ranks the next option.
 - *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Cheeseburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · order · Heard Bacon Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 4.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 7.0 s · order · The size for Bacon Cheeseburger: Little, so it goes on the ticket.
-- 7.0 s · order · Heard the order: rang up 1× Little Bacon Cheeseburger from what the customer said.
-- 9.2 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: make the Bacon Cheeseburger a Regular for $3.57 more.
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Little Bacon Cheeseburger from what the customer said.
+- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fries.
+- 7.0 s · screen · Opened Sides: the best one for this customer is the Onion Rings (Regular) (the most ordered here).
+- 8.0 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: make the Bacon Cheeseburger a Regular for $3.57 more.
+- 11.0 s · screen · Screen: Browsing Sides. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Sides.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($13.64), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · memory · Adding this transaction to memory under voice Vpress10: Bacon Cheeseburger ($13.64), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 43. tapped order only (3)
+## 11. Clear, then a new order (1) — with explanations
 
 ```
+         → Upsell card setting: On new trigger
          → Upsell view: Spotlight
-  1.0 s  Cashier taps Veggie Sandwich
+ 19.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
+         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
+ 20.0 s  Cashier taps Chicken Tenders (Large)
          → Customer session started — cashier started ringing
-         → Spotlight opened for the Veggie Sandwich (tapped)
+         → Spotlight opened for the Chicken Tenders (tapped)
+ 22.0 s  Cashier presses No thanks
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  4.0 s  Cashier taps Cajun Fries (Regular)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  7.0 s  Cashier presses No thanks
-         → Upsell declined: Fountain Drink (No thanks)
-         → Upsell shown (upsize): Large Cajun Fries — Make the Cajun Fries a Large for $1.35 more
- 13.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Cajun Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for Veggie Sandwich (tapped), Regular Cajun Fries (tapped): computing (1.0 s) → open (3.2 s); chain: Fountain Drink (declined); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal and Cajun Fries (Regular) 967 cal, 1,238 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is the size-up of the Regular Cajun Fries, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 1.0 s · visit · New customer at the counter (cashier started ringing).
-- 1.0 s · screen · Cashier tapped Veggie Sandwich. Still open in the meal: a side, a drink, a shake.
-- 1.0 s · pick · Spotlight: the Veggie Sandwich was tapped, so the screen blurs while it works out the upsell for it.
-- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 4.0 s · screen · Cashier tapped Cajun Fries (Regular). Still open in the meal: a drink, a shake.
-- 4.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 4.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 4.0 s · pick · Took down “Fries”: the ticket has a side now.
-- 4.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 7.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
-- 8.9 s · pick · Showing “Large Cajun Fries” (a size up). Why: make the Cajun Fries a Large for $1.35 more.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich and Cajun Fries ($15.11), 0 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 13.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 44. questions and praise that are not orders, then an order (3)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  4.0 s  Customer: “The patty melt here is amazing”
-  5.0 s  Whisper's order: 1× Patty Melt
-  8.0 s  Customer: “Is the poutine any good?”
- 12.0 s  Customer: “I'll take a little bacon cheeseburger”
-         → Customer session started — order heard
-         → Spotlight opened for the Bacon Cheeseburger (said)
-         → Added from what was said: 1× Little Bacon Cheeseburger
-         → Upsell shown (upsize): Regular Bacon Cheeseburger — Make the Bacon Cheeseburger a Regular for $3.57 more
- 18.0 s  Paid — ticket: 1× Bacon Cheeseburger (Little)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 12.0 s for Little Bacon Cheeseburger (said): computing (12.0 s) → open (14.2 s); closed at 18.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Little) 682 cal, 682 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Cheeseburger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 12.0 s · visit · New customer at the counter (order heard).
-- 12.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 12.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 12.0 s · order · Heard the order: rang up 1× Little Bacon Cheeseburger from what the customer said.
-- 14.2 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: make the Bacon Cheeseburger a Regular for $3.57 more.
-- 18.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($13.64), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 18.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 45. hot words (3) — with explanations
-
-```
-         → Upsell view: Spotlight
- 30.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
- 30.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
- 33.0 s  Customer: “I'd like a regular bacon cheeseburger please”
-         → Spotlight opened for the Bacon Cheeseburger (said)
-         → Added from what was said: 1× Regular Bacon Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 37.0 s  Customer: “I'm freezing out there”
-         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
-         → Upsell shown (hotkey): Fries — Feeling the cold — something warm
- 41.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 57.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
-         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
- 63.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 33.0 s for Regular Bacon Cheeseburger (said): computing (33.0 s) → open (35.2 s); chain: Fries (declined); closed at 63.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal, 1,054 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 30.0 s · visit · New customer at the counter (greeting heard).
-- 33.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 33.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 33.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
-- 35.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 37.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 37.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
-- 37.0 s · pick · Showing “Fries” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
-- 41.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 42.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 43.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 63.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($17.21), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 63.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 46. an allergy (3)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Let me get a regular bacon burger”
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Regular Bacon Burger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Customer: “I'm allergic to sesame”
-         → Allergy heard: sesame — no card with it from now on
- 10.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 16.0 s  Paid — ticket: 1× Bacon Burger (Regular), 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Burger (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 16.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal and Fries (Regular) 953 cal, 1,867 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · health · Heard an allergy (sesame): no upsell that contains it from now on.
-- 10.0 s · outcome · Customer said yes to “Fries” (Add).
-- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger and Fries ($23.72), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 47. taken off or swapped (3)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I'd like a regular bacon burger and a regular fries please”
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Regular Bacon Burger
-         → Added from what was said: 1× Regular Fries
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  7.0 s  Customer: “Never mind the fries”
-         → Order change: took Regular Fries off the ticket
- 13.0 s  Paid — ticket: 1× Bacon Burger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Burger (said), Regular Fries (said): computing (3.0 s) → open (5.2 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
-- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
-- 5.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 7.0 s · order · Heard “Never mind the fries”: the customer is changing the order, so it took the Regular Fries off.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 48. card setting held through silence (3)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “A veggie sandwich please”
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 34.0 s  Customer: “I'm freezing”
-         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
-         → Upsell shown (hotkey): Fries — Feeling the cold — something warm
- 37.0 s  Operator: “Would you like the Fries?”
- 39.0 s  Customer: “No thanks”
-         → Upsell declined: Fries (spoken no)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 45.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 45.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 34.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
-- 34.0 s · pick · Showing “Fries” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
-- 39.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 40.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich ($7.37), 5 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 45.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 49. menu sections opened (3) — with explanations
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
- 50.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
-         → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
- 51.0 s  Cashier taps Bacon Burger (Regular)
+ 25.0 s  Cashier presses Clear
+         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
+ 27.0 s  Cashier taps Bacon Burger (Little)
          → Customer session started — cashier started ringing
          → Spotlight opened for the Bacon Burger (tapped)
- 53.0 s  Cashier opens Drinks
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 55.0 s  Cashier opens Fries
- 73.0 s  Operator: “Notice how the card waits until the cashier says it.”
-         → Explaining — not read as the conversation: “Notice how the card waits until the cashier says it.”
- 79.0 s  Paid — ticket: 1× Bacon Burger (Regular)
+         → Upsell shown (upsize): Regular Bacon Burger — Only $4.06 more to make the Bacon Burger a Regular
+ 33.0 s  Paid — ticket: 1× Bacon Burger (Little)
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
 
@@ -3074,1383 +757,35 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 51.0 s for Regular Bacon Burger (tapped): computing (51.0 s) → open (53.2 s); closed at 79.0 s
+- Spotlight at 20.0 s for Large Chicken Tenders (tapped): computing (20.0 s) → open (22.2 s); closed at 25.0 s
+- Spotlight at 27.0 s for Little Bacon Burger (tapped): computing (27.0 s) → open (29.2 s); closed at 33.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Burger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 51.0 s · visit · New customer at the counter (cashier started ringing).
-- 51.0 s · screen · Cashier tapped Bacon Burger (Regular). Still open in the meal: a side, a drink, a shake.
-- 51.0 s · pick · Spotlight: the Bacon Burger was tapped, so the screen blurs while it works out the upsell for it.
-- 51.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 53.0 s · screen · Screen: Burgers settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 53.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
-- 53.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 55.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
-- 59.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
-- 65.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 79.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 79.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+- 27.0 s · visit · New customer at the counter (cashier started ringing).
+- 27.0 s · screen · Cashier tapped Bacon Burger (Little). Still open in the meal: a side, a drink, a shake.
+- 27.0 s · pick · Spotlight: the Bacon Burger was tapped, so the screen blurs while it works out the upsell for it.
+- 27.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 27.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 29.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: only $4.06 more to make the Bacon Burger a Regular.
+- 33.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($11.92), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 33.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 50. a returning voice (3) — with explanations
+## 12. "no thanks, and take off…" (1)
 
 ```
          → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
- 33.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
-         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
- 33.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
- 36.0 s  Customer: “I'll have a grilled cheese”
-         → Spotlight opened for the Grilled Cheese (said)
-         → Added from what was said: 1× Grilled Cheese
- 38.0 s  Voice print: returning Vpress50 (score 0.88)
-         → Voice print: returning voice Vpress50 (score 0.88, tier 0.8, 2 visit(s)) — last time: Cajun Fries
- 40.0 s  Cashier opens Sandwiches
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 46.0 s  Paid — ticket: 1× Grilled Cheese
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 36.0 s for Grilled Cheese (said): computing (36.0 s) → open (41.0 s); closed at 46.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Cajun Fries.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* Previous orders: Cajun Fries. The upsell brain weighs them once it ranks the next option.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 33.0 s · visit · New customer at the counter (greeting heard).
-- 36.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 36.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
-- 36.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 38.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Cajun Fries.
-- 40.0 s · screen · Screen: Finding what was said. The cashier is looking for the item the customer just named. So: add the heard item for them.
-- 40.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
-- 40.0 s · screen · Opened Sandwiches: the best one for this customer is the Patty Melt (the most ordered here).
-- 41.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 44.0 s · screen · Screen: Browsing Sandwiches. The customer is choosing a main and hasn't settled on one. So: suggest the most-ordered item in Sandwiches.
-- 46.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 46.0 s · memory · Adding this transaction to memory under voice Vpress50: Grilled Cheese ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 46.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 51. Clear, then a new order (3) — with explanations
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
- 16.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
-         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
- 17.0 s  Cashier taps Bacon Cheeseburger (Little)
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Bacon Cheeseburger (tapped)
- 19.0 s  Cashier presses No thanks
-         → Upsell shown (upsize): Regular Bacon Cheeseburger — Only $3.57 more to make the Bacon Cheeseburger a Regular
- 22.0 s  Cashier presses Clear
-         → Session ended — ticket cleared · 0 upsell(s) offered, 0 accepted
- 24.0 s  Cashier taps Cheeseburger (Little)
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Cheeseburger (tapped)
-         → Upsell shown (upsize): Regular Cheeseburger — Only $4.18 more to make the Cheeseburger a Regular
- 74.0 s  Operator: “Notice how the card waits until the cashier says it.”
-         → Explaining — not read as the conversation: “Notice how the card waits until the cashier says it.”
- 80.0 s  Paid — ticket: 1× Cheeseburger (Little)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 17.0 s for Little Bacon Cheeseburger (tapped): computing (17.0 s) → open (19.2 s) → done (22.0 s); closed at 22.0 s
-- Spotlight at 24.0 s for Little Cheeseburger (tapped): computing (24.0 s) → open (26.2 s); closed at 80.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Cheeseburger, the lowest-hanging fruit. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 24.0 s · visit · New customer at the counter (cashier started ringing).
-- 24.0 s · screen · Cashier tapped Cheeseburger (Little). Still open in the meal: a side, a drink, a shake.
-- 24.0 s · pick · Spotlight: the Cheeseburger was tapped, so the screen blurs while it works out the upsell for it.
-- 24.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 24.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
-- 26.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: only $4.18 more to make the Cheeseburger a Regular.
-- 34.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 80.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($11.92), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 80.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 52. "no thanks, and take off…" (3)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “Could I get a regular bacon burger and a regular fries”
-         → Customer session started — order heard
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Regular Bacon Burger
-         → Added from what was said: 1× Regular Fries
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  6.0 s  Operator: “Would you like the Fountain Drink?”
-  8.0 s  Customer: “No thanks, and take off the fries”
-         → Upsell declined: Fountain Drink (spoken no)
-         → Order change: took Regular Fries off the ticket
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 14.0 s  Paid — ticket: 1× Bacon Burger (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Burger (said), Regular Fries (said): computing (3.0 s) → open (5.2 s); chain: Fountain Drink (declined); closed at 14.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
-- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
-- 5.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 8.0 s · outcome · Customer turned down “Fountain Drink” (spoken no).
-- 8.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
-- 9.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 4 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 53. two of an item (3)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “Let me get two cheeseburgers”
-         → Customer session started — order heard
-         → Heard Cheeseburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Cheeseburger (said)
-  6.0 s  Customer: “Make it a regular”
-         → Size for Cheeseburger: Regular
-         → Added from what was said: 2× Regular Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 12.0 s  Paid — ticket: 2× Cheeseburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Cheeseburger (said): computing (3.0 s) → size (5.2 s) → computing (6.0 s) → open (8.2 s); closed at 12.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: 2× Cheeseburger (Regular) 1,968 cal, 1,968 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 6.0 s · order · The size for Cheeseburger: Regular, so it goes on the ticket.
-- 6.0 s · order · Heard the order: rang up 2× Regular Cheeseburger from what the customer said.
-- 8.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Cheeseburger ($32.20), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 54. ordering for someone else too (3)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I'll have a BLT”
-         → Spotlight opened for the BLT (said)
-         → Added from what was said: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Customer: “I'm getting food for my kids as well”
-         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
-         → Upsell shown (hotkey): Another BLT — Ordering for someone else too — a second one for them?
-  9.0 s  Cashier presses No thanks
-         → Upsell declined: Another BLT (No thanks)
-         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
- 15.0 s  Paid — ticket: 1× BLT
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Another BLT (declined); closed at 15.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
-- 6.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Ordering for others)” is answered.
-- 6.0 s · pick · Showing “Another BLT” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
-- 9.0 s · outcome · Customer turned down “Another BLT” (No thanks).
-- 10.9 s · pick · Back to “Fries”, the upsell from before the change.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 55. closing while a card is up (3)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Can I get a veggie sandwich”
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “That'll be all”
-         → Upsell declined: Fries (spoken no)
-         → Hot key — Order closing: “That'll be all” → One last small add-on now, then stop
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 13.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 7.0 s · hotkey · Heard “That'll be all”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
-- 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich ($7.37), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 56. an item that is out today (3)
-
-Before it starts: out of stock today — Hand-Spun Milkshake.
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'll have a regular burger and a milkshake”
-         → Customer session started — order heard
-         → Hot key — Ordered an item that's out: “I'll have a regular burger and a milkshake” (Hand-Spun Milkshake) → Not rung up (out today) — the closest substitute instead
-         → Spotlight opened for the Hand-Spun Milkshake (said)
-         → Added from what was said: 1× Regular Hamburger
-         → Upsell shown (hotkey): Fries — Hand-Spun Milkshake is out today — the closest is the Fries
-  6.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 12.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Hand-Spun Milkshake (said), Regular Hamburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 12.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal and Fries (Regular) 953 cal, 1,797 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · hotkey · Heard “I'll have a regular burger and a milkshake”: hot word “Ordered an item that's out” (Hand-Spun Milkshake). Not rung up (out today) — the closest substitute instead.
-- 3.0 s · pick · Spotlight: the Hand-Spun Milkshake was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 5.2 s · pick · Showing “Fries” [Closest substitute] (answering what the customer said). Why: hand-Spun Milkshake is out today — the closest is the Fries.
-- 6.0 s · outcome · Customer said yes to “Fries” (Add).
-- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Fries ($21.38), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 57. whisper's order list (3) — with explanations
-
-```
-         → Upsell view: Spotlight
- 16.0 s  Operator: “Notice how the card waits until the cashier says it.”
-         → Explaining — not read as the conversation: “Notice how the card waits until the cashier says it.”
- 16.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
- 19.0 s  Customer: “I'd like a patty melt please”
-         → Spotlight opened for the Patty Melt (said)
-         → Added from what was said: 1× Patty Melt
- 20.0 s  Whisper's order: 2× Patty Melt
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 36.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
-         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
- 42.0 s  Paid — ticket: 1× Patty Melt
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 19.0 s for Patty Melt (said): computing (19.0 s) → open (21.2 s); closed at 42.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 16.0 s · visit · New customer at the counter (greeting heard).
-- 19.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 19.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
-- 19.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
-- 21.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 29.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 42.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 42.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 58. the cashier says the card (3)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'd like a patty melt please”
-         → Customer session started — order heard
-         → Spotlight opened for the Patty Melt (said)
-         → Added from what was said: 1× Patty Melt
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Operator: “Would you like the Fries?”
-  8.0 s  Customer: “Sure”
-         → Upsell accepted: Fries (spoken yes)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 14.0 s  Paid — ticket: 1× Patty Melt, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 14.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal and Fries (Regular) 953 cal, 1,948 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 8.0 s · outcome · Customer said yes to “Fries” (spoken yes).
-- 9.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt and Fries ($20.03), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 59. two no's in a row, then more ordering (3) — with explanations
-
-```
-         → Upsell view: Spotlight
- 18.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
- 18.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
- 21.0 s  Customer: “Could I get a patty melt”
-         → Spotlight opened for the Patty Melt (said)
-         → Added from what was said: 1× Patty Melt
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 24.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 27.0 s  Cashier presses No thanks
-         → Upsell declined: Fountain Drink (No thanks)
-         → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
- 31.0 s  Customer: “Can I have a bottled water”
-         → Spotlight opened for the Bottled Water (said)
-         → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 37.0 s  Paid — ticket: 1× Patty Melt, 1× Bottled Water
-         → Session ended — paid · 3 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 21.0 s for Patty Melt (said): computing (21.0 s) → open (23.2 s) → done (28.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 30.4 s
-- Spotlight at 31.0 s for Bottled Water (said): computing (31.0 s) → open (33.2 s); closed at 37.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal and Bottled Water 0 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 18.0 s · visit · New customer at the counter (greeting heard).
-- 21.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 21.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
-- 21.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
-- 23.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 24.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 25.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 27.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
-- 30.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
-- 31.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 31.0 s · pick · Spotlight: the Bottled Water was said, so the screen blurs while it works out the upsell for it.
-- 31.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 33.2 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 37.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt and Bottled Water ($15.58), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
-- 37.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
-
-## 60. a mixed visit (3) — with explanations
-
-```
-         → Upsell view: Spotlight
- 21.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
-         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
- 21.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
- 24.0 s  Customer: “I want a bacon cheeseburger”
-         → Heard Bacon Cheeseburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Bacon Cheeseburger (said)
- 26.0 s  Customer: “Is the fries any good?”
- 28.0 s  Cashier picks Regular for Bacon Cheeseburger on the size prompt
-         → Size for Bacon Cheeseburger: Regular
-         → Added from what was said: 1× Regular Bacon Cheeseburger
- 30.0 s  Cashier opens Drinks
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 32.0 s  Cashier taps Bottled Water
- 34.0 s  Customer: “I'm allergic to milk”
-         → Allergy heard: milk — no card with it from now on
- 37.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 43.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular), 1× Bottled Water
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 24.0 s for Regular Bacon Cheeseburger (said), Bottled Water (tapped): computing (24.0 s) → size (24.0 s) → computing (28.0 s) → open (30.2 s) → done (38.9 s); chain: Fries (declined); closed at 40.4 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal and Bottled Water 0 cal, 1,054 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 21.0 s · visit · New customer at the counter (greeting heard).
-- 24.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 24.0 s · order · Heard Bacon Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 24.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 28.0 s · order · The size for Bacon Cheeseburger: Regular, so it goes on the ticket.
-- 28.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
-- 30.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
-- 30.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 32.0 s · screen · Cashier tapped Bottled Water. Still open in the meal: a side, a shake.
-- 32.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 34.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
-- 37.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 40.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
-- 42.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 43.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger and Bottled Water ($20.50), 4 lines of conversation, 1 upsell (0 accepted, 1 declined).
-- 43.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 61. spoken order with sizes (4)
-
-```
-         → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
   0.0 s  Operator: “Hey there, what can I get started for you?”
          → Customer session started — greeting heard
-  4.0 s  Customer: “Lemme get a little bacon cheeseburger and a poutine”
-         → Spotlight opened for the Bacon Cheeseburger (said)
-         → Added from what was said: 1× Little Bacon Cheeseburger
-         → Added from what was said: 1× Poutine
-         → Upsell shown (upsize): Regular Bacon Cheeseburger — Make the Bacon Cheeseburger a Regular for $3.57 more
- 10.0 s  Cashier presses Add
-         → Upsell accepted: Regular Bacon Cheeseburger (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 16.0 s  Paid — ticket: 1× Poutine, 1× Bacon Cheeseburger (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 4.0 s for Regular Bacon Cheeseburger (said), Poutine (said): computing (4.0 s) → open (6.2 s); chain: Regular Bacon Cheeseburger (accepted); closed at 16.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Poutine 1,373 cal and Bacon Cheeseburger (Regular) 1,054 cal, 2,427 cal in all, a heavy meal. Contains eggs, milk, sesame, soy, sulphites and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 4.0 s · order · Heard the order: rang up 1× Little Bacon Cheeseburger from what the customer said.
-- 4.0 s · order · Heard the order: rang up 1× Poutine from what the customer said.
-- 6.2 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: make the Bacon Cheeseburger a Regular for $3.57 more.
-- 10.0 s · outcome · Customer said yes to “Regular Bacon Cheeseburger” (Add).
-- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Poutine and Bacon Cheeseburger ($30.24), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 62. spoken order without a size, then the size (4)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “Let me get a hamburger”
-         → Heard Hamburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Hamburger (said)
-  7.0 s  Customer: “Little please”
-         → Size for Hamburger: Little
-         → Added from what was said: 1× Little Hamburger
-         → Upsell shown (upsize): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
- 13.0 s  Paid — ticket: 1× Hamburger (Little)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 4.0 s for Little Hamburger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Little) 542 cal, 542 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Hamburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 4.0 s · order · Heard Hamburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 4.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 7.0 s · order · The size for Hamburger: Little, so it goes on the ticket.
-- 7.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
-- 9.2 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($10.20), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 63. tapped order only (4)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  1.0 s  Cashier taps BLT
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the BLT (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  4.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 10.0 s  Paid — ticket: 1× BLT, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for BLT (tapped): computing (1.0 s) → open (3.2 s); chain: Fries (accepted); closed at 10.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Fries (Regular) 953 cal, 1,455 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 1.0 s · visit · New customer at the counter (cashier started ringing).
-- 1.0 s · screen · Cashier tapped BLT. Still open in the meal: a side, a drink, a shake.
-- 1.0 s · pick · Spotlight: the BLT was tapped, so the screen blurs while it works out the upsell for it.
-- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 4.0 s · outcome · Customer said yes to “Fries” (Add).
-- 5.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Fries ($15.11), 0 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 10.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 64. questions and praise that are not orders, then an order (4)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  4.0 s  Customer: “Could I come in and get a cajun fries tomorrow?”
-  7.0 s  Customer: “The fries here is amazing”
- 11.0 s  Customer: “Can I have a little bacon cheeseburger”
-         → Spotlight opened for the Bacon Cheeseburger (said)
-         → Added from what was said: 1× Little Bacon Cheeseburger
-         → Upsell shown (upsize): Regular Bacon Cheeseburger — Make the Bacon Cheeseburger a Regular for $3.57 more
- 17.0 s  Paid — ticket: 1× Bacon Cheeseburger (Little)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 11.0 s for Little Bacon Cheeseburger (said): computing (11.0 s) → open (13.2 s); closed at 17.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Little) 682 cal, 682 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Cheeseburger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 11.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 11.0 s · order · Heard the order: rang up 1× Little Bacon Cheeseburger from what the customer said.
-- 13.2 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: make the Bacon Cheeseburger a Regular for $3.57 more.
-- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($13.64), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 17.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 65. hot words (4)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I want a hot dog”
-         → Spotlight opened for the Hot Dog (said)
-         → Added from what was said: 1× Hot Dog
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “It's so hot out today”
-         → Hot key — Feeling hot / hot weather: “hot out” → Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher
-         → Upsell shown (hotkey): Fountain Drink — Feeling the heat — something cold to cool down
- 11.0 s  Cashier presses No thanks
-         → Upsell declined: Fountain Drink (No thanks)
-         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
- 17.0 s  Paid — ticket: 1× Hot Dog
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Hot Dog (said): computing (3.0 s) → open (5.2 s); chain: Fountain Drink (declined); closed at 17.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · hotkey · Heard “hot out”: hot word “Feeling hot / hot weather”, which means the customer feels hot, or says it is hot out. Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher.
-- 7.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Feeling hot / hot weather)” is answered.
-- 7.0 s · pick · Showing “Fountain Drink” [Something cold] (answering what the customer said). Why: feeling the heat — something cold to cool down.
-- 11.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
-- 12.9 s · pick · Back to “Fries”, the upsell from before the change.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 66. an allergy (4) — with explanations
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
- 33.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
-         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
- 33.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
- 36.0 s  Customer: “Could I get a hot dog”
-         → Spotlight opened for the Hot Dog (said)
-         → Added from what was said: 1× Hot Dog
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 39.0 s  Customer: “Gluten and I don't get along”
-         → Allergy heard: wheat — no card with it from now on
- 43.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 49.0 s  Paid — ticket: 1× Hot Dog, 1× Fries (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 36.0 s for Hot Dog (said): computing (36.0 s) → open (38.2 s); chain: Fries (accepted); closed at 49.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal and Fries (Regular) 953 cal, 1,473 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 33.0 s · visit · New customer at the counter (greeting heard).
-- 36.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 36.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
-- 36.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
-- 38.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 39.0 s · health · Heard an allergy (wheat): no upsell that contains it from now on.
-- 43.0 s · outcome · Customer said yes to “Fries” (Add).
-- 44.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 49.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 49.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog and Fries ($15.72), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 49.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 67. taken off or swapped (4)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Lemme get a regular cheeseburger and a regular fries”
-         → Spotlight opened for the Cheeseburger (said)
-         → Added from what was said: 1× Regular Cheeseburger
-         → Added from what was said: 1× Regular Fries
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  7.0 s  Customer: “Actually swap the fries for a poutine”
-         → Order change: swapped Regular Fries for Poutine
-         → Added from what was said: 1× Poutine
- 13.0 s  Paid — ticket: 1× Cheeseburger (Regular), 1× Poutine
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Cheeseburger (said), Regular Fries (said), Poutine (said): computing (3.0 s) → open (5.2 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal and Poutine 1,373 cal, 2,357 cal in all, a heavy meal. Contains eggs, milk, sesame, soy, sulphites and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
-- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
-- 5.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 7.0 s · order · Heard “Actually swap the fries for a poutine”: the customer is changing the order, so it swapped the Regular Fries for a Poutine.
-- 7.0 s · order · Heard the order: rang up 1× Poutine from what the customer said.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger and Poutine ($29.13), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 68. card setting held through silence (4) — with explanations
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
- 23.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
-         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
- 23.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
- 26.0 s  Customer: “Lemme get a BLT”
-         → Spotlight opened for the BLT (said)
-         → Added from what was said: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 57.0 s  Customer: “It's so hot out today”
-         → Hot key — Feeling hot / hot weather: “hot out” → Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher
- 60.0 s  Operator: “Would you like the Fries?”
- 62.0 s  Customer: “No thanks”
-         → Upsell declined: Fries (spoken no)
-         → Upsell shown (hotkey): Fountain Drink — Feeling the heat — something cold to cool down
- 68.0 s  Paid — ticket: 1× BLT
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 26.0 s for BLT (said): computing (26.0 s) → open (28.2 s); chain: Fries (declined); closed at 68.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 23.0 s · visit · New customer at the counter (greeting heard).
-- 26.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 26.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
-- 26.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 28.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 36.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 57.0 s · hotkey · Heard “hot out”: hot word “Feeling hot / hot weather”, which means the customer feels hot, or says it is hot out. Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher.
-- 62.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 63.9 s · pick · Showing “Fountain Drink” [Something cold] (answering what the customer said). Why: feeling the heat — something cold to cool down.
-- 68.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 5 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 68.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 69. menu sections opened (4) — with explanations
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
- 33.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
-         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
- 34.0 s  Cashier taps Cheeseburger (Little)
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Cheeseburger (tapped)
- 36.0 s  Cashier opens Shakes
-         → Upsell shown (upsize): Regular Cheeseburger — Only $4.18 more to make the Cheeseburger a Regular
- 38.0 s  Cashier opens Fries
- 44.0 s  Paid — ticket: 1× Cheeseburger (Little)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 34.0 s for Little Cheeseburger (tapped): computing (34.0 s) → open (36.2 s); closed at 44.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Cheeseburger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 34.0 s · visit · New customer at the counter (cashier started ringing).
-- 34.0 s · screen · Cashier tapped Cheeseburger (Little). Still open in the meal: a side, a drink, a shake.
-- 34.0 s · pick · Spotlight: the Cheeseburger was tapped, so the screen blurs while it works out the upsell for it.
-- 34.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 34.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
-- 36.0 s · screen · Screen: Burgers settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 36.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
-- 36.0 s · screen · Opened Shakes: the best one for this customer is the Hand-Spun Milkshake (the most ordered here).
-- 36.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: only $4.18 more to make the Cheeseburger a Regular.
-- 38.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
-- 42.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
-- 44.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 44.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($11.92), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 44.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 70. a returning voice (4)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Could I get a veggie sandwich”
-         → Spotlight opened for the Veggie Sandwich (said)
-         → Added from what was said: 1× Veggie Sandwich
-  5.0 s  Voice print: returning Vpress70 (score 0.88)
-         → Voice print: returning voice Vpress70 (score 0.88, tier 0.8, 2 visit(s)) — last time: Fries
-  7.0 s  Cashier opens Burgers
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 13.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fries.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* Previous orders: Fries. The upsell brain weighs them once it ranks the next option.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fries.
-- 7.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
-- 7.0 s · screen · Opened Burgers: the best one for this customer is the Bacon Cheeseburger (Regular) (the most ordered here).
-- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · screen · Screen: Browsing Burgers. The customer is choosing a main and hasn't settled on one. So: suggest the most-ordered item in Burgers.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory under voice Vpress70: Veggie Sandwich ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 71. Clear, then a new order (4)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  1.0 s  Cashier taps Bacon Cheeseburger (Regular)
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Bacon Cheeseburger (tapped)
-  3.0 s  Cashier presses No thanks
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Cashier presses Clear
-         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
-  8.0 s  Cashier taps Veggie Sandwich
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Veggie Sandwich (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 14.0 s  Paid — ticket: 1× Veggie Sandwich
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for Regular Bacon Cheeseburger (tapped): computing (1.0 s) → open (3.2 s); closed at 6.0 s
-- Spotlight at 8.0 s for Veggie Sandwich (tapped): computing (8.0 s) → open (10.2 s); closed at 14.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 8.0 s · visit · New customer at the counter (cashier started ringing).
-- 8.0 s · screen · Cashier tapped Veggie Sandwich. Still open in the meal: a side, a drink, a shake.
-- 8.0 s · pick · Spotlight: the Veggie Sandwich was tapped, so the screen blurs while it works out the upsell for it.
-- 8.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 72. "no thanks, and take off…" (4)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I want a regular bacon cheeseburger and a regular fries”
+  3.0 s  Customer: “Could I get a regular bacon cheeseburger and a regular fries”
          → Spotlight opened for the Bacon Cheeseburger (said)
          → Added from what was said: 1× Regular Bacon Cheeseburger
          → Added from what was said: 1× Regular Fries
@@ -4501,21 +836,17 @@ Steps:
 - 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($17.21), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 73. two of an item (4)
+## 13. two of an item (1)
 
 ```
-         → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “Two bacon burgers please”
-         → Heard Bacon Burger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Bacon Burger (said)
-  6.0 s  Customer: “Regular please”
-         → Size for Bacon Burger: Regular
-         → Added from what was said: 2× Regular Bacon Burger
+  3.0 s  Customer: “Could I get two regular burgers”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 2× Regular Hamburger
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 12.0 s  Paid — ticket: 2× Bacon Burger (Regular)
+  9.0 s  Paid — ticket: 2× Hamburger (Regular)
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
 
@@ -4537,49 +868,43 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Regular Bacon Burger (said): computing (3.0 s) → size (3.0 s) → computing (6.0 s) → open (8.2 s); closed at 12.0 s
+- Spotlight at 3.0 s for Regular Hamburger (said): computing (3.0 s) → open (5.2 s); closed at 9.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: 2× Bacon Burger (Regular) 1,828 cal, 1,828 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: 2× Hamburger (Regular) 1,688 cal, 1,688 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard Bacon Burger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 6.0 s · order · The size for Bacon Burger: Regular, so it goes on the ticket.
-- 6.0 s · order · Heard the order: rang up 2× Regular Bacon Burger from what the customer said.
-- 8.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Bacon Burger ($31.96), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 2× Regular Hamburger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 9.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Hamburger ($27.28), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 9.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 74. ordering for someone else too (4) — with explanations
+## 14. ordering for someone else too (1)
 
 ```
          → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
- 21.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
- 21.0 s  Operator: “Hi, welcome in! What can I get you?”
+  0.0 s  Operator: “Hey there, what can I get started for you?”
          → Customer session started — greeting heard
- 24.0 s  Customer: “Let me get a grilled cheese”
-         → Spotlight opened for the Grilled Cheese (said)
-         → Added from what was said: 1× Grilled Cheese
+  3.0 s  Customer: “I'll take a large tenders”
+         → Hot key — Going large: “large” → Premium add-ons welcome
+         → Spotlight opened for the Chicken Tenders (said)
+         → Added from what was said: 1× Large Chicken Tenders
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 27.0 s  Customer: “I'm getting food for my kids as well”
+  6.0 s  Customer: “And it's for my wife too”
          → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
- 30.0 s  Cashier presses No thanks
+  9.0 s  Cashier presses No thanks
          → Upsell declined: Fries (No thanks)
-         → Upsell shown (hotkey): Another Grilled Cheese — Ordering for someone else too — a second one for them?
- 78.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
-         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
- 84.0 s  Paid — ticket: 1× Grilled Cheese
+         → Upsell shown (hotkey): Another Chicken Tenders — Ordering for someone else too — a second one for them?
+ 15.0 s  Paid — ticket: 1× Chicken Tenders (Large)
          → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
 
@@ -4601,49 +926,46 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 24.0 s for Grilled Cheese (said): computing (24.0 s) → open (26.2 s); chain: Fries (declined); closed at 84.0 s
+- Spotlight at 3.0 s for Large Chicken Tenders (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 15.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Tenders (Large) 700 cal, 700 cal in all, a moderate meal. Contains eggs, milk, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 21.0 s · visit · New customer at the counter (greeting heard).
-- 24.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 24.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
-- 24.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 26.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 27.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
-- 30.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 31.9 s · pick · Showing “Another Grilled Cheese” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
-- 34.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 84.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 84.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Chicken Tenders was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Large Chicken Tenders from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
+- 9.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 10.9 s · pick · Showing “Another Chicken Tenders” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Tenders ($13.29), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
 
-## 75. closing while a card is up (4) — with explanations
+## 15. closing while a card is up (1)
 
 ```
-         → Upsell card setting: Until accepted or declined
+         → Upsell card setting: On new trigger
          → Upsell view: Spotlight
- 29.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
-         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
- 29.0 s  Operator: “Welcome! What would you like today?”
+  0.0 s  Operator: “Hey there, what can I get started for you?”
          → Customer session started — greeting heard
- 32.0 s  Customer: “Let me get a BLT”
-         → Spotlight opened for the BLT (said)
-         → Added from what was said: 1× BLT
+  3.0 s  Customer: “Could I get a patty melt”
+         → Spotlight opened for the Patty Melt (said)
+         → Added from what was said: 1× Patty Melt
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 36.0 s  Customer: “That'll be all”
+  7.0 s  Customer: “That'll be all”
          → Upsell declined: Fries (spoken no)
          → Hot key — Order closing: “That'll be all” → One last small add-on now, then stop
          → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 91.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
-         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
- 97.0 s  Paid — ticket: 1× BLT
+ 13.0 s  Paid — ticket: 1× Patty Melt
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
 
@@ -4665,46 +987,165 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 32.0 s for BLT (said): computing (32.0 s) → open (34.2 s) → done (37.9 s); chain: Fries (declined); closed at 39.4 s
+- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 29.0 s · visit · New customer at the counter (greeting heard).
-- 32.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 32.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
-- 32.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 34.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 36.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 36.0 s · hotkey · Heard “That'll be all”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
-- 39.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
-- 42.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 97.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
-- 97.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 7.0 s · outcome · Customer turned down “Fries” (spoken no).
+- 7.0 s · hotkey · Heard “That'll be all”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
+- 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 76. an item that is out today (4)
+## 16. an item that is out today (1)
 
 Before it starts: out of stock today — Hand-Spun Milkshake.
 
 ```
+         → Upsell card setting: On new trigger
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I want a regular cheeseburger and a milkshake”
-         → Customer session started — order heard
-         → Hot key — Ordered an item that's out: “I want a regular cheeseburger and a milkshake” (Hand-Spun Milkshake) → Not rung up (out today) — the closest substitute instead
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I want a little cheeseburger and a milkshake”
+         → Hot key — Ordered an item that's out: “I want a little cheeseburger and a milkshake” (Hand-Spun Milkshake) → Not rung up (out today) — the closest substitute instead
          → Spotlight opened for the Hand-Spun Milkshake (said)
-         → Added from what was said: 1× Regular Cheeseburger
-         → Upsell shown (hotkey): Fries — Hand-Spun Milkshake is out today — the closest is the Fries
-  6.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 12.0 s  Paid — ticket: 1× Cheeseburger (Regular), 1× Fries (Regular)
+         → Added from what was said: 1× Little Cheeseburger
+         → Upsell shown (hotkey): Sundae — Hand-Spun Milkshake is out today — the closest is the Sundae
+  6.0 s  Cashier presses No thanks
+         → Upsell declined: Sundae (No thanks)
+         → Upsell shown (upsize): Regular Cheeseburger — Make the Cheeseburger a Regular for $4.18 more
+ 12.0 s  Paid — ticket: 1× Cheeseburger (Little)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Hand-Spun Milkshake (said), Little Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Sundae (declined); closed at 12.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is the size-up of the Little Cheeseburger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · hotkey · Heard “I want a little cheeseburger and a milkshake”: hot word “Ordered an item that's out” (Hand-Spun Milkshake). Not rung up (out today) — the closest substitute instead.
+- 3.0 s · pick · Spotlight: the Hand-Spun Milkshake was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · order · Heard the order: rang up 1× Little Cheeseburger from what the customer said.
+- 5.2 s · pick · Showing “Sundae” [Closest substitute] (answering what the customer said). Why: hand-Spun Milkshake is out today — the closest is the Sundae.
+- 6.0 s · outcome · Customer turned down “Sundae” (No thanks).
+- 7.9 s · pick · Showing “Regular Cheeseburger” (a size up). Why: make the Cheeseburger a Regular for $4.18 more.
+- 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($11.92), 2 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 12.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 17. whisper's order list (1)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “A patty melt please”
+         → Spotlight opened for the Patty Melt (said)
+         → Added from what was said: 1× Patty Melt
+  4.0 s  Whisper's order: 2× Patty Melt
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 10.0 s  Paid — ticket: 1× Patty Melt
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s); closed at 10.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 10.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 18. the cashier says the card (1) — with explanations
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+ 18.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 18.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+ 21.0 s  Customer: “I'll take a little bacon burger”
+         → Spotlight opened for the Bacon Burger (said)
+         → Added from what was said: 1× Little Bacon Burger
+         → Upsell shown (upsize): Regular Bacon Burger — Make the Bacon Burger a Regular for $4.06 more
+ 24.0 s  Operator: “Would you like to make it a Regular?”
+ 26.0 s  Customer: “Sure”
+         → Upsell accepted: Regular Bacon Burger (spoken yes)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 57.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 63.0 s  Paid — ticket: 1× Bacon Burger (Regular)
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -4726,153 +1167,38 @@ Before it starts: out of stock today — Hand-Spun Milkshake.
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Hand-Spun Milkshake (said), Regular Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 12.0 s
+- Spotlight at 21.0 s for Regular Bacon Burger (said): computing (21.0 s) → open (23.2 s); chain: Regular Bacon Burger (accepted); closed at 63.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal and Fries (Regular) 953 cal, 1,937 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · hotkey · Heard “I want a regular cheeseburger and a milkshake”: hot word “Ordered an item that's out” (Hand-Spun Milkshake). Not rung up (out today) — the closest substitute instead.
-- 3.0 s · pick · Spotlight: the Hand-Spun Milkshake was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
-- 5.2 s · pick · Showing “Fries” [Closest substitute] (answering what the customer said). Why: hand-Spun Milkshake is out today — the closest is the Fries.
-- 6.0 s · outcome · Customer said yes to “Fries” (Add).
-- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger and Fries ($23.84), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 12.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+- 18.0 s · visit · New customer at the counter (greeting heard).
+- 21.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 21.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 21.0 s · order · Heard the order: rang up 1× Little Bacon Burger from what the customer said.
+- 23.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: make the Bacon Burger a Regular for $4.06 more.
+- 26.0 s · outcome · Customer said yes to “Regular Bacon Burger” (spoken yes).
+- 27.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 36.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 63.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 63.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
-## 77. whisper's order list (4) — with explanations
-
-```
-         → Upsell view: Spotlight
- 36.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
-         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
- 36.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
- 39.0 s  Customer: “Can I get a regular burger”
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Regular Hamburger
- 40.0 s  Whisper's order: 2× Hamburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 60.0 s  Whisper's order: 1× Hamburger, 1× Fries
-         → Whisper's “Fries” not rung up — nobody ordered it in the last 10 s
- 66.0 s  Paid — ticket: 1× Hamburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 39.0 s for Regular Hamburger (said): computing (39.0 s) → open (41.2 s); closed at 66.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 36.0 s · visit · New customer at the counter (greeting heard).
-- 39.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 39.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 39.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 41.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 49.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 66.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 66.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 78. the cashier says the card (4)
+## 19. two no's in a row, then more ordering (1)
 
 ```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'll take a hot dog”
-         → Customer session started — order heard
-         → Spotlight opened for the Hot Dog (said)
-         → Added from what was said: 1× Hot Dog
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Operator: “Would you like the Fries?”
-  8.0 s  Customer: “No thanks”
-         → Upsell declined: Fries (spoken no)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 14.0 s  Paid — ticket: 1× Hot Dog
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Hot Dog (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 14.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 3.0 s · visit · New customer at the counter (order heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 8.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 9.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 4 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 79. two no's in a row, then more ordering (4)
-
-```
-         → Upsell card setting: On new trigger
+         → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
   0.0 s  Operator: “Hi, welcome in! What can I get you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “Could I get a patty melt”
-         → Spotlight opened for the Patty Melt (said)
-         → Added from what was said: 1× Patty Melt
+  3.0 s  Customer: “Can I have a chicken sandwich”
+         → Spotlight opened for the Chicken Sandwich (said)
+         → Added from what was said: 1× Chicken Sandwich
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
   6.0 s  Cashier presses No thanks
          → Upsell declined: Fries (No thanks)
@@ -4880,11 +1206,11 @@ Steps:
   9.0 s  Cashier presses No thanks
          → Upsell declined: Fountain Drink (No thanks)
          → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
- 13.0 s  Customer: “Can I get a water”
-         → Spotlight opened for the Bottled Water (said)
-         → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 19.0 s  Paid — ticket: 1× Patty Melt, 1× Bottled Water
+ 13.0 s  Customer: “A regular iced tea please”
+         → Spotlight opened for the Iced Tea (said)
+         → Added from what was said: 1× Regular Iced Tea
+         → Upsell shown (upsize): Large Iced Tea — Make the Iced Tea a Large for $0.70 more
+ 19.0 s  Paid — ticket: 1× Chicken Sandwich, 1× Iced Tea (Regular)
          → Session ended — paid · 3 upsell(s) offered, 0 accepted
 ```
 
@@ -4906,57 +1232,422 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
-- Spotlight at 13.0 s for Bottled Water (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
+- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
+- Spotlight at 13.0 s for Regular Iced Tea (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal and Bottled Water 0 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal and Iced Tea (Regular) 120 cal, 760 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is the size-up of the Regular Iced Tea, the lowest-hanging fruit. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
+- 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
 - 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
 - 6.0 s · outcome · Customer turned down “Fries” (No thanks).
 - 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
 - 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · pick · Spotlight: the Bottled Water was said, so the screen blurs while it works out the upsell for it.
-- 13.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 15.2 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt and Bottled Water ($15.58), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
+- 13.0 s · pick · Spotlight: the Iced Tea was said, so the screen blurs while it works out the upsell for it.
+- 13.0 s · order · Heard the order: rang up 1× Regular Iced Tea from what the customer said.
+- 15.2 s · pick · Showing “Large Iced Tea” (a size up). Why: make the Iced Tea a Large for $0.70 more.
+- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Iced Tea ($15.28), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
 - 19.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
 
-## 80. a mixed visit (4)
+## 20. a mixed visit (1)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I'll have a cheeseburger”
+         → Heard Cheeseburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Cheeseburger (said)
+  5.0 s  Customer: “The sweet potato fries here is amazing”
+  7.0 s  Cashier picks Regular for Cheeseburger on the size prompt
+         → Size for Cheeseburger: Regular
+         → Added from what was said: 1× Regular Cheeseburger
+  9.0 s  Cashier opens Drinks
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 11.0 s  Cashier taps Lemonade (Regular)
+ 13.0 s  Customer: “Dairy and me are not friends”
+         → Allergy heard: milk — no card with it from now on
+ 16.0 s  Cashier presses Add
+         → Upsell accepted: Fries (Add)
+         → Upsell shown (upsize): Large Lemonade — Only $0.80 more to make the Lemonade a Large
+ 22.0 s  Paid — ticket: 1× Cheeseburger (Regular), 1× Lemonade (Regular), 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Cheeseburger (said), Regular Lemonade (tapped): computing (3.0 s) → size (3.0 s) → computing (7.0 s) → open (9.2 s); chain: Fries (accepted); closed at 22.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal, Lemonade (Regular) 220 cal and Fries (Regular) 953 cal, 2,157 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is the size-up of the Regular Lemonade, the lowest-hanging fruit. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 7.0 s · order · The size for Cheeseburger: Regular, so it goes on the ticket.
+- 7.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
+- 9.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
+- 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 11.0 s · screen · Cashier tapped Lemonade (Regular). Still open in the meal: a side, a shake.
+- 11.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 11.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 13.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
+- 16.0 s · outcome · Customer said yes to “Fries” (Add).
+- 17.9 s · pick · Showing “Large Lemonade” (a size up). Why: only $0.80 more to make the Lemonade a Large.
+- 22.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 22.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger, Lemonade and Fries ($27.83), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 22.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 21. spoken order with sizes (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  4.0 s  Customer: “I'll take a grilled cheese and a large iced tea”
+         → Customer session started — order heard
+         → Hot key — Going large: “large” → Premium add-ons welcome
+         → Spotlight opened for the Grilled Cheese (said)
+         → Added from what was said: 1× Grilled Cheese
+         → Added from what was said: 1× Large Iced Tea
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 10.0 s  Cashier presses Add
+         → Upsell accepted: Fries (Add)
+         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
+ 16.0 s  Paid — ticket: 1× Grilled Cheese, 1× Iced Tea (Large), 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Grilled Cheese (said), Large Iced Tea (said): computing (4.0 s) → open (6.2 s); chain: Fries (accepted); closed at 16.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, Iced Tea (Large) 170 cal and Fries (Regular) 953 cal, 1,503 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 4.0 s · visit · New customer at the counter (order heard).
+- 4.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
+- 4.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
+- 4.0 s · order · Heard the order: rang up 1× Large Iced Tea from what the customer said.
+- 6.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 10.0 s · outcome · Customer said yes to “Fries” (Add).
+- 11.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
+- 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese, Iced Tea and Fries ($19.60), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 22. spoken order without a size, then the size (2)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “I'll have a bacon cheeseburger”
+         → Heard Bacon Cheeseburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Bacon Cheeseburger (said)
+  7.0 s  Cashier taps Bacon Cheeseburger (Little)
+         → Upsell shown (upsize): Regular Bacon Cheeseburger — Only $3.57 more to make the Bacon Cheeseburger a Regular
+ 13.0 s  Paid — ticket: 1× Bacon Cheeseburger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Little Bacon Cheeseburger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Little) 682 cal, 682 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Cheeseburger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · order · Heard Bacon Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 4.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 7.0 s · screen · Cashier tapped Bacon Cheeseburger (Little). Still open in the meal: a side, a drink, a shake.
+- 7.0 s · screen · Screen: Finding what was said. The cashier is looking for the item the customer just named. So: add the heard item for them.
+- 7.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 7.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 9.2 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: only $3.57 more to make the Bacon Cheeseburger a Regular.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($13.64), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 23. tapped order only (2) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 27.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 28.0 s  Cashier taps Chicken Tenders (Large)
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Chicken Tenders (tapped)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 31.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+         → Upsell lapsed: Fountain Drink (no answer)
+ 59.0 s  Operator: “Notice how the card waits until the cashier says it.”
+         → Explaining — not read as the conversation: “Notice how the card waits until the cashier says it.”
+         → Upsell shown (basket): Bottled Water — Completes the basket — no drink on the ticket yet
+ 65.0 s  Paid — ticket: 1× Chicken Tenders (Large)
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 28.0 s for Large Chicken Tenders (tapped): computing (28.0 s) → open (30.2 s); chain: Fries (declined) → Fountain Drink (lapsed); closed at 65.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Tenders (Large) 700 cal, 700 cal in all, a moderate meal. Contains eggs, milk, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 28.0 s · visit · New customer at the counter (cashier started ringing).
+- 28.0 s · screen · Cashier tapped Chicken Tenders (Large). Still open in the meal: a side, a drink, a shake.
+- 28.0 s · pick · Spotlight: the Chicken Tenders was tapped, so the screen blurs while it works out the upsell for it.
+- 28.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 28.0 s · screen · Screen: Going large. Not price-led; a big appetite. So: a premium add-on (shake, dessert) is welcome.
+- 30.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 31.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 32.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 38.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 58.0 s · outcome · Customer let pass “Fountain Drink” (no answer).
+- 59.9 s · pick · Showing “Bottled Water” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 65.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Tenders ($13.29), 0 lines of conversation, 3 upsells (0 accepted, 1 declined).
+- 65.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
+
+## 24. questions and praise that are not orders, then an order (2)
 
 ```
          → Upsell view: Spotlight
   0.0 s  Operator: “Hi, welcome in! What can I get you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “Can I get a bacon burger”
-         → Heard Bacon Burger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Bacon Burger (said)
-  5.0 s  Customer: “Is the fries any good?”
-  7.0 s  Cashier picks Little for Bacon Burger on the size prompt
-         → Size for Bacon Burger: Little
-         → Added from what was said: 1× Little Bacon Burger
-  9.0 s  Cashier opens Drinks
-         → Upsell shown (upsize): Regular Bacon Burger — Make the Bacon Burger a Regular for $4.06 more
- 11.0 s  Cashier taps Bottled Water
- 13.0 s  Customer: “I'm in a rush”
-         → Hot key — In a hurry: “in a rush” → Shorten or skip the pitch; only something ready to hand
-         → Upsell shown (upsize, back from earlier): Regular Bacon Burger — Make the Bacon Burger a Regular for $4.06 more
- 16.0 s  Cashier presses No thanks
-         → Upsell declined: Regular Bacon Burger (No thanks)
+  4.0 s  Customer: “Could I come in and get a grilled cheese tomorrow?”
+  7.0 s  Customer: “Do you have fries?”
+         → Hot key — Asked if we have something: “Do you have” (Fries) → Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute
+         → Spotlight opened for the Fries (said)
+         → Upsell shown (hotkey): Fries — Asked whether we have the Fries — it goes well with the Fountain Drink
+ 11.0 s  Customer: “I'd like a hot dog please”
+         → Added from what was said: 1× Hot Dog
+ 17.0 s  Paid — ticket: 1× Hot Dog
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 7.0 s for Fries (said), Hot Dog (said): computing (7.0 s) → open (7.0 s); closed at 17.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 7.0 s · hotkey · Heard “Do you have”: hot word “Asked if we have something”, which means interest in a specific item, often one they can't see on the menu board (Fries). Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute.
+- 7.0 s · pick · Spotlight: the Fries was said, so the screen blurs while it works out the upsell for it.
+- 7.0 s · pick · Showing “Fries” [You asked about it] (answering what the customer said). Why: asked whether we have the Fries — it goes well with the Fountain Drink.
+- 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 11.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
+- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 17.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 25. hot words (2) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 49.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
+         → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
+ 49.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+ 52.0 s  Customer: “I want a BLT”
+         → Spotlight opened for the BLT (said)
+         → Added from what was said: 1× BLT
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 22.0 s  Paid — ticket: 1× Bacon Burger (Little), 1× Bottled Water
+ 56.0 s  Customer: “It's my cheat day”
+ 60.0 s  Cashier presses Add
+         → Upsell accepted: Fries (Add)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 66.0 s  Paid — ticket: 1× BLT, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 52.0 s for BLT (said): computing (52.0 s) → open (54.2 s); chain: Fries (accepted); closed at 66.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Fries (Regular) 953 cal, 1,455 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 49.0 s · visit · New customer at the counter (greeting heard).
+- 52.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 52.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
+- 52.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
+- 54.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 60.0 s · outcome · Customer said yes to “Fries” (Add).
+- 61.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 66.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 66.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Fries ($15.11), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 66.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 26. an allergy (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “I'll take a hot dog”
+         → Customer session started — order heard
+         → Spotlight opened for the Hot Dog (said)
+         → Added from what was said: 1× Hot Dog
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Customer: “Gluten and I don't get along”
+         → Allergy heard: wheat — no card with it from now on
+ 10.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 16.0 s  Paid — ticket: 1× Hot Dog
          → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
 
@@ -4978,59 +1669,47 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Little Bacon Burger (said), Bottled Water (tapped): computing (3.0 s) → size (3.0 s) → computing (7.0 s) → open (9.2 s); chain: Regular Bacon Burger (declined); closed at 22.0 s
+- Spotlight at 3.0 s for Hot Dog (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 16.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Little) 612 cal and Bottled Water 0 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket and a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side and a shake (no more size-ups: one was turned down). Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · visit · New customer at the counter (order heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard Bacon Burger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 7.0 s · order · The size for Bacon Burger: Little, so it goes on the ticket.
-- 7.0 s · order · Heard the order: rang up 1× Little Bacon Burger from what the customer said.
-- 9.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
-- 9.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: make the Bacon Burger a Regular for $4.06 more.
-- 11.0 s · screen · Cashier tapped Bottled Water. Still open in the meal: a side, a shake.
-- 11.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 13.0 s · hotkey · Heard “in a rush”: hot word “In a hurry”, which means in a hurry. Shorten or skip the pitch; only something ready to hand.
-- 13.0 s · pick · Remembered “Regular Bacon Burger”: it comes back once “the hot word (In a hurry)” is answered.
-- 13.0 s · pick · Back to “Regular Bacon Burger”, the upsell from before the change.
-- 16.0 s · outcome · Customer turned down “Regular Bacon Burger” (No thanks).
-- 17.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 21.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 22.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger and Bottled Water ($15.21), 4 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 22.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+- 3.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 6.0 s · health · Heard an allergy (wheat): no upsell that contains it from now on.
+- 10.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
 
-## 81. spoken order with sizes (5) — with explanations
+## 27. taken off or swapped (2) — with explanations
 
 ```
          → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
- 51.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
- 51.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
- 55.0 s  Customer: “I'll take a hot dog, a large fries and a bottled water”
-         → Hot key — Going large: “large” → Premium add-ons welcome
-         → Spotlight opened for the Hot Dog (said)
-         → Added from what was said: 1× Hot Dog
-         → Added from what was said: 1× Large Fries
-         → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 61.0 s  Cashier presses Add
-         → Upsell accepted: Hand-Spun Milkshake (Add)
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 1 taken
-101.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
+ 38.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
          → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
-107.0 s  Paid — ticket: 1× Hot Dog, 1× Fries (Large), 1× Bottled Water, 1× Hand-Spun Milkshake
-         → Session ended — paid · 1 upsell(s) offered, 1 accepted
+ 38.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+ 41.0 s  Customer: “Can I get a regular bacon cheeseburger and a regular cajun fries”
+         → Spotlight opened for the Bacon Cheeseburger (said)
+         → Added from what was said: 1× Regular Bacon Cheeseburger
+         → Added from what was said: 1× Regular Cajun Fries
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 45.0 s  Customer: “Actually, take off the cajun fries”
+         → Order change: took Regular Cajun Fries off the ticket
+ 51.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
 
 - ✅ the engine raised no error
@@ -5051,41 +1730,3357 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 55.0 s for Hot Dog (said), Large Fries (said), Bottled Water (said): computing (55.0 s) → open (57.2 s) → done (62.9 s); chain: Hand-Spun Milkshake (accepted); closed at 64.4 s
+- Spotlight at 41.0 s for Regular Bacon Cheeseburger (said), Regular Cajun Fries (said): computing (41.0 s) → open (43.2 s); closed at 51.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, Fries (Large) 1,314 cal, Bottled Water 0 cal and Hand-Spun Milkshake 690 cal, 2,524 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal, 1,054 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 1 accepted. Open: next is nothing on the ladder; only something the customer says opens a new pitch. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 51.0 s · visit · New customer at the counter (greeting heard).
-- 55.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
-- 55.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 55.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
-- 55.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
-- 55.0 s · order · Heard the order: rang up 1× Large Fries from what the customer said.
-- 55.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 57.2 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 61.0 s · outcome · Customer said yes to “Hand-Spun Milkshake” (Add).
-- 64.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 1 taken.
-- 71.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 107.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog, Fries, Bottled Water and Hand-Spun Milkshake ($29.62), 2 lines of conversation, 1 upsell (1 accepted, 0 declined).
-- 107.0 s · visit · Visit ended (paid): 1 upsell shown, 1 accepted.
+- 38.0 s · visit · New customer at the counter (greeting heard).
+- 41.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 41.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 41.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
+- 41.0 s · order · Heard the order: rang up 1× Regular Cajun Fries from what the customer said.
+- 43.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 45.0 s · order · Heard “Actually, take off the cajun fries”: the customer is changing the order, so it took the Regular Cajun Fries off.
+- 51.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 51.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($17.21), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 51.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 82. spoken order without a size, then the size (5)
+## 28. card setting held through silence (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “I'd like a BLT please”
+         → Customer session started — order heard
+         → Spotlight opened for the BLT (said)
+         → Added from what was said: 1× BLT
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell lapsed: Fries (no answer)
+         → Upsell shown (basket): Onion Rings — Completes the basket — no side on the ticket yet
+ 34.0 s  Customer: “I'm freezing”
+         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
+         → Upsell shown (hotkey): Coffee — Feeling the cold — something warm
+ 37.0 s  Operator: “Would you like the Coffee?”
+ 39.0 s  Customer: “Yes please”
+         → Upsell accepted: Coffee (spoken yes)
+         → Upsell shown (basket, back from earlier): Onion Rings — Completes the basket — no side on the ticket yet
+ 45.0 s  Paid — ticket: 1× BLT, 1× Coffee (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Fries (lapsed) → Coffee (accepted); closed at 45.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Coffee (Regular) 5 cal, 507 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 1 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 31.0 s · outcome · Customer let pass “Fries” (no answer).
+- 32.9 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
+- 34.0 s · pick · Remembered “Onion Rings”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
+- 34.0 s · pick · Showing “Coffee” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
+- 39.0 s · outcome · Customer said yes to “Coffee” (spoken yes).
+- 40.9 s · pick · Back to “Onion Rings”, the upsell from before the change.
+- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Coffee ($9.86), 5 lines of conversation, 3 upsells (1 accepted, 0 declined).
+- 45.0 s · visit · Visit ended (paid): 3 upsells shown, 1 accepted.
+
+## 29. menu sections opened (2) — with explanations
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+ 55.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 56.0 s  Cashier taps Bacon Burger (Little)
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Bacon Burger (tapped)
+ 58.0 s  Cashier opens Burgers
+         → Upsell shown (upsize): Regular Bacon Burger — Only $4.06 more to make the Bacon Burger a Regular
+ 60.0 s  Cashier opens Sides
+ 87.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
+         → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
+ 93.0 s  Paid — ticket: 1× Bacon Burger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 56.0 s for Little Bacon Burger (tapped): computing (56.0 s) → open (58.2 s); closed at 93.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Burger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 56.0 s · visit · New customer at the counter (cashier started ringing).
+- 56.0 s · screen · Cashier tapped Bacon Burger (Little). Still open in the meal: a side, a drink, a shake.
+- 56.0 s · pick · Spotlight: the Bacon Burger was tapped, so the screen blurs while it works out the upsell for it.
+- 56.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 56.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 58.0 s · screen · Opened Burgers: the best one for this customer is the Bacon Cheeseburger (Regular) (the most ordered here).
+- 58.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: only $4.06 more to make the Bacon Burger a Regular.
+- 60.0 s · screen · Screen: Burgers settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 60.0 s · screen · Opened Sides: the best one for this customer is the Onion Rings (Regular) (the most ordered here).
+- 64.0 s · screen · Screen: Browsing Sides. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Sides.
+- 70.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 93.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($11.92), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 93.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 30. a returning voice (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I want a veggie sandwich”
+         → Spotlight opened for the Veggie Sandwich (said)
+         → Added from what was said: 1× Veggie Sandwich
+  5.0 s  Voice print: returning Vpress30 (score 0.88)
+         → Voice print: returning voice Vpress30 (score 0.88, tier 0.8, 2 visit(s)) — last time: Fountain Drink
+  7.0 s  Cashier opens Fries
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 13.0 s  Paid — ticket: 1× Veggie Sandwich
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fountain Drink.
+- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, 271 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* Previous orders: Fountain Drink. The upsell brain weighs them once it ranks the next option.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
+- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fountain Drink.
+- 7.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
+- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 11.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory under voice Vpress30: Veggie Sandwich ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 31. Clear, then a new order (2)
+
+```
+         → Upsell view: Spotlight
+  1.0 s  Cashier taps Bacon Cheeseburger (Regular)
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Bacon Cheeseburger (tapped)
+  3.0 s  Cashier presses No thanks
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Cashier presses Clear
+         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
+  8.0 s  Cashier taps BLT
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the BLT (tapped)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 14.0 s  Paid — ticket: 1× BLT
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 1.0 s for Regular Bacon Cheeseburger (tapped): computing (1.0 s) → open (3.2 s); closed at 6.0 s
+- Spotlight at 8.0 s for BLT (tapped): computing (8.0 s) → open (10.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 8.0 s · visit · New customer at the counter (cashier started ringing).
+- 8.0 s · screen · Cashier tapped BLT. Still open in the meal: a side, a drink, a shake.
+- 8.0 s · pick · Spotlight: the BLT was tapped, so the screen blurs while it works out the upsell for it.
+- 8.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 32. "no thanks, and take off…" (2)
 
 ```
          → Upsell view: Spotlight
   0.0 s  Operator: “Welcome! What would you like today?”
          → Customer session started — greeting heard
-  4.0 s  Customer: “Could I get a burger”
+  3.0 s  Customer: “I'd like a regular burger and a regular fries please”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Regular Hamburger
+         → Added from what was said: 1× Regular Fries
+  5.0 s  Customer: “No thanks, and take off the fries”
+         → Order change: took Regular Fries off the ticket
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 11.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Hamburger (said), Regular Fries (said): computing (3.0 s) → open (8.0 s); closed at 11.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
+- 5.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
+- 8.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 33. two of an item (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I'll have two regular bacon burgers”
+         → Spotlight opened for the Bacon Burger (said)
+         → Added from what was said: 2× Regular Bacon Burger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  9.0 s  Paid — ticket: 2× Bacon Burger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Bacon Burger (said): computing (3.0 s) → open (5.2 s); closed at 9.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: 2× Bacon Burger (Regular) 1,828 cal, 1,828 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 2× Regular Bacon Burger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 9.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Bacon Burger ($31.96), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 9.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 34. ordering for someone else too (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Let me get a chicken sandwich”
+         → Spotlight opened for the Chicken Sandwich (said)
+         → Added from what was said: 1× Chicken Sandwich
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Customer: “And it's for my wife too”
+         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
+         → Upsell shown (hotkey): Another Chicken Sandwich — Ordering for someone else too — a second one for them?
+  9.0 s  Cashier presses No thanks
+         → Upsell declined: Another Chicken Sandwich (No thanks)
+         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
+ 15.0 s  Paid — ticket: 1× Chicken Sandwich
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Another Chicken Sandwich (declined); closed at 15.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal, 640 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
+- 6.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Ordering for others)” is answered.
+- 6.0 s · pick · Showing “Another Chicken Sandwich” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
+- 9.0 s · outcome · Customer turned down “Another Chicken Sandwich” (No thanks).
+- 10.9 s · pick · Back to “Fries”, the upsell from before the change.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich ($11.49), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 35. closing while a card is up (2) — with explanations
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+ 35.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
+         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
+ 35.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+ 38.0 s  Customer: “Could I get a little cheeseburger”
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Little Cheeseburger
+         → Upsell shown (upsize): Regular Cheeseburger — Make the Cheeseburger a Regular for $4.18 more
+ 42.0 s  Customer: “No thanks, that's it”
+         → Upsell declined: Regular Cheeseburger (spoken no)
+         → Hot key — Order closing: “that's it” → One last small add-on now, then stop
+         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
+ 92.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 98.0 s  Paid — ticket: 1× Cheeseburger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 38.0 s for Little Cheeseburger (said): computing (38.0 s) → open (40.2 s) → done (43.9 s); chain: Regular Cheeseburger (declined); closed at 45.4 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 35.0 s · visit · New customer at the counter (greeting heard).
+- 38.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 38.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 38.0 s · order · Heard the order: rang up 1× Little Cheeseburger from what the customer said.
+- 40.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: make the Cheeseburger a Regular for $4.18 more.
+- 42.0 s · outcome · Customer turned down “Regular Cheeseburger” (spoken no).
+- 42.0 s · hotkey · Heard “that's it”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
+- 45.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
+- 48.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 98.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($11.92), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
+- 98.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 36. an item that is out today (2)
+
+Before it starts: out of stock today — Hand-Spun Milkshake.
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Can I have a regular hamburger and a milkshake”
+         → Customer session started — order heard
+         → Hot key — Ordered an item that's out: “Can I have a regular hamburger and a milkshake” (Hand-Spun Milkshake) → Not rung up (out today) — the closest substitute instead
+         → Spotlight opened for the Hand-Spun Milkshake (said)
+         → Added from what was said: 1× Regular Hamburger
+         → Upsell shown (hotkey): Sundae — Hand-Spun Milkshake is out today — the closest is the Sundae
+  6.0 s  Cashier presses Add
+         → Upsell accepted: Sundae (Add)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 12.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Sundae
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Hand-Spun Milkshake (said), Regular Hamburger (said): computing (3.0 s) → open (5.2 s); chain: Sundae (accepted); closed at 12.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal and Sundae 380 cal, 1,224 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a side and a drink. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · hotkey · Heard “Can I have a regular hamburger and a milkshake”: hot word “Ordered an item that's out” (Hand-Spun Milkshake). Not rung up (out today) — the closest substitute instead.
+- 3.0 s · pick · Spotlight: the Hand-Spun Milkshake was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 5.2 s · pick · Showing “Sundae” [Closest substitute] (answering what the customer said). Why: hand-Spun Milkshake is out today — the closest is the Sundae.
+- 6.0 s · outcome · Customer said yes to “Sundae” (Add).
+- 7.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Sundae ($19.63), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 12.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 37. whisper's order list (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Can I have a BLT”
+         → Spotlight opened for the BLT (said)
+         → Added from what was said: 1× BLT
+  4.0 s  Whisper's order: 1× BLT
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 10.0 s  Paid — ticket: 1× BLT
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); closed at 10.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 10.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 38. the cashier says the card (2)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Let me get a patty melt”
+         → Spotlight opened for the Patty Melt (said)
+         → Added from what was said: 1× Patty Melt
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Operator: “Would you like the Fries?”
+  8.0 s  Customer: “Make sure it's hot”
+ 14.0 s  Paid — ticket: 1× Patty Melt
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 39. two no's in a row, then more ordering (2) — with explanations
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+ 49.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
+         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
+ 49.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+ 52.0 s  Customer: “I'll have a grilled cheese”
+         → Spotlight opened for the Grilled Cheese (said)
+         → Added from what was said: 1× Grilled Cheese
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 55.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 58.0 s  Cashier presses No thanks
+         → Upsell declined: Fountain Drink (No thanks)
+         → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
+ 62.0 s  Customer: “A regular coffee please”
+         → Spotlight opened for the Coffee (said)
+         → Added from what was said: 1× Regular Coffee
+         → Upsell shown (upsize): Large Coffee — Make the Coffee a Large for $0.50 more
+ 68.0 s  Paid — ticket: 1× Grilled Cheese, 1× Coffee (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 52.0 s for Grilled Cheese (said): computing (52.0 s) → open (54.2 s) → done (59.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 61.4 s
+- Spotlight at 62.0 s for Regular Coffee (said): computing (62.0 s) → open (64.2 s); closed at 68.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Coffee (Regular) 5 cal, 385 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is the size-up of the Regular Coffee, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 49.0 s · visit · New customer at the counter (greeting heard).
+- 52.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 52.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
+- 52.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
+- 54.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 55.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 56.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 58.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
+- 61.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
+- 62.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 62.0 s · pick · Spotlight: the Coffee was said, so the screen blurs while it works out the upsell for it.
+- 62.0 s · order · Heard the order: rang up 1× Regular Coffee from what the customer said.
+- 64.2 s · pick · Showing “Large Coffee” (a size up). Why: make the Coffee a Large for $0.50 more.
+- 68.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Coffee ($9.86), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
+- 68.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
+
+## 40. a mixed visit (2)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Can I have a bacon cheeseburger”
+         → Heard Bacon Cheeseburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Bacon Cheeseburger (said)
+  5.0 s  Customer: “Is the poutine any good?”
+  7.0 s  Cashier picks Regular for Bacon Cheeseburger on the size prompt
+         → Size for Bacon Cheeseburger: Regular
+         → Added from what was said: 1× Regular Bacon Cheeseburger
+  9.0 s  Cashier opens Drinks
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 11.0 s  Cashier taps Coffee (Large)
+ 13.0 s  Customer: “Dairy and me are not friends”
+         → Allergy heard: milk — no card with it from now on
+ 16.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
+ 22.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular), 1× Coffee (Large)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Bacon Cheeseburger (said), Large Coffee (tapped): computing (3.0 s) → size (3.0 s) → computing (7.0 s) → open (9.2 s) → done (17.9 s); chain: Fries (declined); closed at 19.4 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal and Coffee (Large) 10 cal, 1,064 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · order · Heard Bacon Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 7.0 s · order · The size for Bacon Cheeseburger: Regular, so it goes on the ticket.
+- 7.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
+- 9.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
+- 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 11.0 s · screen · Cashier tapped Coffee (Large). Still open in the meal: a side, a shake.
+- 11.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 11.0 s · screen · Screen: Going large. Not price-led; a big appetite. So: a premium add-on (shake, dessert) is welcome.
+- 13.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
+- 16.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 19.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
+- 21.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 22.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger and Coffee ($20.20), 4 lines of conversation, 1 upsell (0 accepted, 1 declined).
+- 22.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 41. spoken order with sizes (3) — with explanations
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+ 25.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
+         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
+ 25.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+ 29.0 s  Customer: “I'd like a veggie sandwich and a bottled water please”
+         → Spotlight opened for the Veggie Sandwich (said)
+         → Added from what was said: 1× Veggie Sandwich
+         → Added from what was said: 1× Bottled Water
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 35.0 s  Cashier presses Add
+         → Upsell accepted: Fries (Add)
+         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
+ 41.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Bottled Water, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 29.0 s for Veggie Sandwich (said), Bottled Water (said): computing (29.0 s) → open (31.2 s); chain: Fries (accepted); closed at 41.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, Bottled Water 0 cal and Fries (Regular) 953 cal, 1,224 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 25.0 s · visit · New customer at the counter (greeting heard).
+- 29.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 29.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
+- 29.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
+- 29.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
+- 31.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 35.0 s · outcome · Customer said yes to “Fries” (Add).
+- 36.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
+- 41.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 41.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich, Bottled Water and Fries ($18.40), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 41.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 42. spoken order without a size, then the size (3)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “I'd like a cheeseburger please”
+         → Heard Cheeseburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Cheeseburger (said)
+  7.0 s  Cashier taps Cheeseburger (Little)
+         → Upsell shown (upsize): Regular Cheeseburger — Only $4.18 more to make the Cheeseburger a Regular
+ 13.0 s  Paid — ticket: 1× Cheeseburger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Little Cheeseburger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Cheeseburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 4.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 7.0 s · screen · Cashier tapped Cheeseburger (Little). Still open in the meal: a side, a drink, a shake.
+- 7.0 s · screen · Screen: Finding what was said. The cashier is looking for the item the customer just named. So: add the heard item for them.
+- 7.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 7.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 9.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: only $4.18 more to make the Cheeseburger a Regular.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($11.92), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 43. tapped order only (3) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 38.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
+         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
+ 39.0 s  Cashier taps Chicken Sandwich
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Chicken Sandwich (tapped)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 42.0 s  Cashier taps Sweet Potato Fries (Little)
+         → Upsell shown (upsize): Regular Sweet Potato Fries — Only $1.50 more to make the Sweet Potato Fries a Regular
+ 45.0 s  Cashier presses Add
+         → Upsell accepted: Regular Sweet Potato Fries (Add)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+         → Upsell lapsed: Fountain Drink (no answer)
+         → Upsell shown (basket): Bottled Water — Completes the basket — no drink on the ticket yet
+ 77.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
+         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
+ 83.0 s  Paid — ticket: 1× Chicken Sandwich, 1× Sweet Potato Fries (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 39.0 s for Chicken Sandwich (tapped), Regular Sweet Potato Fries (tapped): computing (39.0 s) → open (41.2 s); chain: Regular Sweet Potato Fries (accepted) → Fountain Drink (lapsed); closed at 83.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal and Sweet Potato Fries (Regular) 430 cal, 1,070 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 39.0 s · visit · New customer at the counter (cashier started ringing).
+- 39.0 s · screen · Cashier tapped Chicken Sandwich. Still open in the meal: a side, a drink, a shake.
+- 39.0 s · pick · Spotlight: the Chicken Sandwich was tapped, so the screen blurs while it works out the upsell for it.
+- 39.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 41.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 42.0 s · screen · Cashier tapped Sweet Potato Fries (Little). Still open in the meal: a drink, a shake.
+- 42.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 42.0 s · screen · Screen: Chicken settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 42.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 42.0 s · pick · Took down “Fries”: the ticket has a side now.
+- 42.0 s · pick · Showing “Regular Sweet Potato Fries” (a size up). Why: only $1.50 more to make the Sweet Potato Fries a Regular.
+- 45.0 s · outcome · Customer said yes to “Regular Sweet Potato Fries” (Add).
+- 46.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 55.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 72.0 s · outcome · Customer let pass “Fountain Drink” (no answer).
+- 73.9 s · pick · Showing “Bottled Water” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 83.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Sweet Potato Fries ($19.48), 0 lines of conversation, 3 upsells (1 accepted, 0 declined).
+- 83.0 s · visit · Visit ended (paid): 3 upsells shown, 1 accepted.
+
+## 44. questions and praise that are not orders, then an order (3)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “How much is the poutine?”
+         → Hot key — Price-conscious: “How much” → A size-up said as "only $X more"; low-priced add-ons framed as value
+  5.0 s  Whisper's order: 1× Poutine
+         → Whisper's “Poutine” not rung up — the customer only asked about it
+  9.0 s  Customer: “Could I get a hot dog”
+         → Spotlight opened for the Hot Dog (said)
+         → Added from what was said: 1× Hot Dog
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 15.0 s  Paid — ticket: 1× Hot Dog
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 9.0 s for Hot Dog (said): computing (9.0 s) → open (11.2 s); closed at 15.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · hotkey · Heard “How much”: hot word “Price-conscious”, which means price matters. A size-up said as "only $X more"; low-priced add-ons framed as value.
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 9.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
+- 9.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
+- 11.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 15.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 15.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 45. hot words (3)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I'll have a regular bacon cheeseburger”
+         → Spotlight opened for the Bacon Cheeseburger (said)
+         → Added from what was said: 1× Regular Bacon Cheeseburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  7.0 s  Customer: “I'm so thirsty”
+         → Hot key — Wants something cold: “thirsty” → Pop up the most-ordered cold item (a drink first), tagged Something cold, unless a cold drink or shake is already on the ticket; cold items rank well above hot ones
+         → Upsell shown (hotkey): Fountain Drink — Asked for something cold — our most-ordered cold one
+ 11.0 s  Cashier presses Add
+         → Upsell accepted: Fountain Drink (Add)
+         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
+ 17.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular), 1× Fountain Drink (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Fountain Drink (accepted); closed at 17.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal, 1,054 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 7.0 s · hotkey · Heard “thirsty”: hot word “Wants something cold”, which means the customer asks for something cold or refreshing. Pop up the most-ordered cold item (a drink first), tagged Something cold, unless a cold drink or shake is already on the ticket; cold items rank well above hot ones.
+- 7.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Wants something cold)” is answered.
+- 7.0 s · pick · Showing “Fountain Drink” [Something cold] (answering what the customer said). Why: asked for something cold — our most-ordered cold one.
+- 11.0 s · outcome · Customer said yes to “Fountain Drink” (Add).
+- 12.9 s · pick · Back to “Fries”, the upsell from before the change.
+- 17.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger and Fountain Drink ($20.80), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 46. an allergy (3)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Can I get a regular burger”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Regular Hamburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Customer: “I can't have gluten by the way”
+         → Allergy heard: wheat — no card with it from now on
+ 10.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 16.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Hamburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 16.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 6.0 s · health · Heard an allergy (wheat): no upsell that contains it from now on.
+- 10.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 47. taken off or swapped (3) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 28.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 28.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+ 31.0 s  Customer: “I'll have a regular cheeseburger and a regular cajun fries”
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Regular Cheeseburger
+         → Added from what was said: 1× Regular Cajun Fries
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 35.0 s  Customer: “Actually swap the cajun fries for a poutine”
+         → Order change: swapped Regular Cajun Fries for Poutine
+         → Added from what was said: 1× Poutine
+         → Upsell lapsed: Fountain Drink (no answer)
+         → Upsell shown (basket): Bottled Water — Completes the basket — no drink on the ticket yet
+         → Upsell lapsed: Bottled Water (no answer)
+         → Upsell shown (basket): Lemonade — Completes the basket — no drink on the ticket yet
+ 91.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
+         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
+ 97.0 s  Paid — ticket: 1× Cheeseburger (Regular), 1× Poutine
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 31.0 s for Regular Cheeseburger (said), Regular Cajun Fries (said), Poutine (said): computing (31.0 s) → open (33.2 s); chain: Fountain Drink (lapsed) → Bottled Water (lapsed); closed at 97.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal and Poutine 1,373 cal, 2,357 cal in all, a heavy meal. Contains eggs, milk, sesame, soy, sulphites and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 28.0 s · visit · New customer at the counter (greeting heard).
+- 31.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 31.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 31.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
+- 31.0 s · order · Heard the order: rang up 1× Regular Cajun Fries from what the customer said.
+- 33.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 35.0 s · order · Heard “Actually swap the cajun fries for a poutine”: the customer is changing the order, so it swapped the Regular Cajun Fries for a Poutine.
+- 35.0 s · order · Heard the order: rang up 1× Poutine from what the customer said.
+- 45.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 59.0 s · outcome · Customer let pass “Fountain Drink” (no answer).
+- 60.9 s · pick · Showing “Bottled Water” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 86.0 s · outcome · Customer let pass “Bottled Water” (no answer).
+- 87.9 s · pick · Showing “Lemonade” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 97.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger and Poutine ($29.13), 3 lines of conversation, 3 upsells (0 accepted, 0 declined).
+- 97.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
+
+## 48. card setting held through silence (3) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 24.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
+         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
+ 24.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+ 27.0 s  Customer: “Can I have a regular bacon burger”
+         → Spotlight opened for the Bacon Burger (said)
+         → Added from what was said: 1× Regular Bacon Burger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell lapsed: Fries (no answer)
+         → Upsell shown (basket): Onion Rings — Completes the basket — no side on the ticket yet
+ 58.0 s  Customer: “It's so hot out today”
+         → Hot key — Feeling hot / hot weather: “hot out” → Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher
+         → Upsell shown (hotkey): Fountain Drink — Feeling the heat — something cold to cool down
+ 61.0 s  Operator: “Would you like the Fountain Drink?”
+ 63.0 s  Customer: “I'm good”
+         → Upsell declined: Fountain Drink (spoken no)
+         → Upsell shown (basket, back from earlier): Onion Rings — Completes the basket — no side on the ticket yet
+ 89.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
+         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
+         → Upsell lapsed: Onion Rings (no answer)
+         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
+ 95.0 s  Paid — ticket: 1× Bacon Burger (Regular)
+         → Session ended — paid · 4 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 27.0 s for Regular Bacon Burger (said): computing (27.0 s) → open (29.2 s); chain: Fries (lapsed) → Fountain Drink (declined) → Onion Rings (lapsed); closed at 95.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 4 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 24.0 s · visit · New customer at the counter (greeting heard).
+- 27.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 27.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 27.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
+- 29.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 37.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 55.0 s · outcome · Customer let pass “Fries” (no answer).
+- 56.9 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 58.0 s · hotkey · Heard “hot out”: hot word “Feeling hot / hot weather”, which means the customer feels hot, or says it is hot out. Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher.
+- 58.0 s · pick · Remembered “Onion Rings”: it comes back once “the hot word (Feeling hot / hot weather)” is answered.
+- 58.0 s · pick · Showing “Fountain Drink” [Something cold] (answering what the customer said). Why: feeling the heat — something cold to cool down.
+- 63.0 s · outcome · Customer turned down “Fountain Drink” (spoken no).
+- 64.9 s · pick · Back to “Onion Rings”, the upsell from before the change.
+- 90.0 s · outcome · Customer let pass “Onion Rings” (no answer).
+- 91.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
+- 95.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 5 lines of conversation, 4 upsells (0 accepted, 1 declined).
+- 95.0 s · visit · Visit ended (paid): 4 upsells shown, 0 accepted.
+
+## 49. menu sections opened (3)
+
+```
+         → Upsell view: Spotlight
+  1.0 s  Cashier taps Cheese Dog
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Cheese Dog (tapped)
+  3.0 s  Cashier opens Sandwiches
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  5.0 s  Cashier opens Desserts
+ 11.0 s  Paid — ticket: 1× Cheese Dog
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 1.0 s for Cheese Dog (tapped): computing (1.0 s) → open (3.2 s); closed at 11.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal, 590 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 1.0 s · visit · New customer at the counter (cashier started ringing).
+- 1.0 s · screen · Cashier tapped Cheese Dog. Still open in the meal: a side, a drink, a shake.
+- 1.0 s · pick · Spotlight: the Cheese Dog was tapped, so the screen blurs while it works out the upsell for it.
+- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 3.0 s · screen · Screen: Hot Dogs settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 3.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
+- 3.0 s · screen · Opened Sandwiches: the best one for this customer is the Patty Melt (the most ordered here).
+- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
+- 5.0 s · screen · Opened Desserts: the best one for this customer is the Sundae (the most ordered here).
+- 9.0 s · screen · Screen: Browsing Desserts. The customer is choosing a treat and hasn't settled on one. So: suggest the most-ordered item in Desserts.
+- 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheese Dog ($9.09), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 50. a returning voice (3)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Could I get a cheese dog”
+         → Spotlight opened for the Cheese Dog (said)
+         → Added from what was said: 1× Cheese Dog
+  5.0 s  Voice print: returning Vpress50 (score 0.88)
+         → Voice print: returning voice Vpress50 (score 0.88, tier 0.8, 2 visit(s)) — last time: Bottled Water
+  7.0 s  Cashier opens Fries
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 13.0 s  Paid — ticket: 1× Cheese Dog
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Cheese Dog (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Bottled Water.
+- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal, 590 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* Previous orders: Bottled Water. The upsell brain weighs them once it ranks the next option.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Cheese Dog was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
+- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Bottled Water.
+- 7.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
+- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 11.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory under voice Vpress50: Cheese Dog ($9.09), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 51. Clear, then a new order (3)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  1.0 s  Cashier taps Hot Dog
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Hot Dog (tapped)
+  3.0 s  Cashier presses No thanks
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Cashier presses Clear
+         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
+  8.0 s  Cashier taps Cheeseburger (Regular)
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Cheeseburger (tapped)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 14.0 s  Paid — ticket: 1× Cheeseburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 1.0 s for Hot Dog (tapped): computing (1.0 s) → open (3.2 s); closed at 6.0 s
+- Spotlight at 8.0 s for Regular Cheeseburger (tapped): computing (8.0 s) → open (10.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal, 984 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 8.0 s · visit · New customer at the counter (cashier started ringing).
+- 8.0 s · screen · Cashier tapped Cheeseburger (Regular). Still open in the meal: a side, a drink, a shake.
+- 8.0 s · pick · Spotlight: the Cheeseburger was tapped, so the screen blurs while it works out the upsell for it.
+- 8.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($16.10), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 52. "no thanks, and take off…" (3)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Can I get a regular bacon burger and a regular fries”
+         → Customer session started — order heard
+         → Spotlight opened for the Bacon Burger (said)
+         → Added from what was said: 1× Regular Bacon Burger
+         → Added from what was said: 1× Regular Fries
+  5.0 s  Customer: “No thanks, and take off the fries”
+         → Order change: took Regular Fries off the ticket
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 11.0 s  Paid — ticket: 1× Bacon Burger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Bacon Burger (said), Regular Fries (said): computing (3.0 s) → open (8.0 s); closed at 11.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
+- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
+- 5.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
+- 8.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 53. two of an item (3)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Let me get two regular bacon cheeseburgers”
+         → Spotlight opened for the Bacon Cheeseburger (said)
+         → Added from what was said: 2× Regular Bacon Cheeseburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  9.0 s  Paid — ticket: 2× Bacon Cheeseburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s); closed at 9.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: 2× Bacon Cheeseburger (Regular) 2,108 cal, 2,108 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 2× Regular Bacon Cheeseburger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 9.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Bacon Cheeseburger ($34.42), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 9.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 54. ordering for someone else too (3) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 18.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
+         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
+ 18.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+ 21.0 s  Customer: “Lemme get a little burger”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Little Hamburger
+         → Upsell shown (upsize): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
+ 24.0 s  Customer: “And it's for my wife too”
+         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
+         → Upsell shown (hotkey): Another Hamburger — Ordering for someone else too — a second one for them?
+ 27.0 s  Cashier presses No thanks
+         → Upsell declined: Another Hamburger (No thanks)
+         → Upsell shown (upsize, back from earlier): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
+ 33.0 s  Paid — ticket: 1× Hamburger (Little)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 21.0 s for Little Hamburger (said): computing (21.0 s) → open (23.2 s); chain: Another Hamburger (declined); closed at 33.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Little) 542 cal, 542 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is the size-up of the Little Hamburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 18.0 s · visit · New customer at the counter (greeting heard).
+- 21.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 21.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 21.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
+- 23.2 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
+- 24.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
+- 24.0 s · pick · Remembered “Regular Hamburger”: it comes back once “the hot word (Ordering for others)” is answered.
+- 24.0 s · pick · Showing “Another Hamburger” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
+- 27.0 s · outcome · Customer turned down “Another Hamburger” (No thanks).
+- 28.9 s · pick · Back to “Regular Hamburger”, the upsell from before the change.
+- 31.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 33.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($10.20), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 33.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 55. closing while a card is up (3) — with explanations
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+ 30.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
+         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
+ 30.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+ 33.0 s  Customer: “I'd like a large chicken tenders please”
+         → Hot key — Going large: “large” → Premium add-ons welcome
+         → Spotlight opened for the Chicken Tenders (said)
+         → Added from what was said: 1× Large Chicken Tenders
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 37.0 s  Customer: “No thanks, that's it”
+         → Upsell declined: Fries (spoken no)
+         → Hot key — Order closing: “that's it” → One last small add-on now, then stop
+         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
+ 90.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
+         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
+ 96.0 s  Paid — ticket: 1× Chicken Tenders (Large)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 33.0 s for Large Chicken Tenders (said): computing (33.0 s) → open (35.2 s) → done (38.9 s); chain: Fries (declined); closed at 40.4 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Tenders (Large) 700 cal, 700 cal in all, a moderate meal. Contains eggs, milk, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 30.0 s · visit · New customer at the counter (greeting heard).
+- 33.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
+- 33.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 33.0 s · pick · Spotlight: the Chicken Tenders was said, so the screen blurs while it works out the upsell for it.
+- 33.0 s · order · Heard the order: rang up 1× Large Chicken Tenders from what the customer said.
+- 35.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 37.0 s · outcome · Customer turned down “Fries” (spoken no).
+- 37.0 s · hotkey · Heard “that's it”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
+- 40.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
+- 43.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 96.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Tenders ($13.29), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
+- 96.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 56. an item that is out today (3)
+
+Before it starts: out of stock today — Fries.
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Can I have a grilled cheese and a regular fries”
+         → Hot key — Ordered an item that's out: “Can I have a grilled cheese and a regular fries” (Fries) → Not rung up (out today) — the closest substitute instead
+         → Spotlight opened for the Fries (said)
+         → Added from what was said: 1× Grilled Cheese
+         → Upsell shown (hotkey): Cajun Fries — Fries is out today — the closest is the Cajun Fries
+  6.0 s  Cashier presses No thanks
+         → Upsell declined: Cajun Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 12.0 s  Paid — ticket: 1× Grilled Cheese
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Fries (said), Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Cajun Fries (declined); closed at 12.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · hotkey · Heard “Can I have a grilled cheese and a regular fries”: hot word “Ordered an item that's out” (Fries). Not rung up (out today) — the closest substitute instead.
+- 3.0 s · pick · Spotlight: the Fries was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
+- 5.2 s · pick · Showing “Cajun Fries” [Closest substitute] (answering what the customer said). Why: fries is out today — the closest is the Cajun Fries.
+- 6.0 s · outcome · Customer turned down “Cajun Fries” (No thanks).
+- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 2 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 12.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 57. whisper's order list (3) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 21.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 21.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+ 24.0 s  Customer: “I'd like a large tenders please”
+         → Hot key — Going large: “large” → Premium add-ons welcome
+         → Spotlight opened for the Chicken Tenders (said)
+         → Added from what was said: 1× Large Chicken Tenders
+ 25.0 s  Whisper's order: 2× Chicken Tenders
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 45.0 s  Whisper's order: 1× Chicken Tenders, 1× Sweet Potato Fries
+         → Whisper's “Sweet Potato Fries” not rung up — nobody ordered it in the last 10 s
+ 51.0 s  Paid — ticket: 1× Chicken Tenders (Large)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 24.0 s for Large Chicken Tenders (said): computing (24.0 s) → open (26.2 s); closed at 51.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Tenders (Large) 700 cal, 700 cal in all, a moderate meal. Contains eggs, milk, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 21.0 s · visit · New customer at the counter (greeting heard).
+- 24.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
+- 24.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 24.0 s · pick · Spotlight: the Chicken Tenders was said, so the screen blurs while it works out the upsell for it.
+- 24.0 s · order · Heard the order: rang up 1× Large Chicken Tenders from what the customer said.
+- 26.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 34.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 51.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Tenders ($13.29), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 51.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 58. the cashier says the card (3)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “A grilled cheese please”
+         → Spotlight opened for the Grilled Cheese (said)
+         → Added from what was said: 1× Grilled Cheese
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Operator: “Would you like the Fries?”
+  8.0 s  Customer: “Yes please”
+         → Upsell accepted: Fries (spoken yes)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 14.0 s  Paid — ticket: 1× Grilled Cheese, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Fries (Regular) 953 cal, 1,333 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 8.0 s · outcome · Customer said yes to “Fries” (spoken yes).
+- 9.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Fries ($15.11), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 59. two no's in a row, then more ordering (3)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Can I get a cheese dog”
+         → Spotlight opened for the Cheese Dog (said)
+         → Added from what was said: 1× Cheese Dog
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+  9.0 s  Cashier presses No thanks
+         → Upsell declined: Fountain Drink (No thanks)
+         → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
+ 13.0 s  Customer: “Let me get a regular coffee”
+         → Spotlight opened for the Coffee (said)
+         → Added from what was said: 1× Regular Coffee
+         → Upsell shown (upsize): Large Coffee — Make the Coffee a Large for $0.50 more
+ 19.0 s  Paid — ticket: 1× Cheese Dog, 1× Coffee (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Cheese Dog (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
+- Spotlight at 13.0 s for Regular Coffee (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal and Coffee (Regular) 5 cal, 595 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is the size-up of the Regular Coffee, the lowest-hanging fruit. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Cheese Dog was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 6.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
+- 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · pick · Spotlight: the Coffee was said, so the screen blurs while it works out the upsell for it.
+- 13.0 s · order · Heard the order: rang up 1× Regular Coffee from what the customer said.
+- 15.2 s · pick · Showing “Large Coffee” (a size up). Why: make the Coffee a Large for $0.50 more.
+- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheese Dog and Coffee ($11.58), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
+- 19.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
+
+## 60. a mixed visit (3) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 37.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
+         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
+ 37.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+ 40.0 s  Customer: “Could I get a cheeseburger”
+         → Heard Cheeseburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Cheeseburger (said)
+ 42.0 s  Customer: “I might get a onion rings later”
+ 44.0 s  Cashier picks Little for Cheeseburger on the size prompt
+         → Size for Cheeseburger: Little
+         → Added from what was said: 1× Little Cheeseburger
+ 46.0 s  Cashier opens Drinks
+         → Upsell shown (upsize): Regular Cheeseburger — Make the Cheeseburger a Regular for $4.18 more
+ 48.0 s  Cashier taps Iced Tea (Large)
+ 50.0 s  Customer: “I'm allergic to milk”
+         → Allergy heard: milk — no card with it from now on
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 53.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
+ 99.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
+         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
+105.0 s  Paid — ticket: 1× Cheeseburger (Little), 1× Iced Tea (Large)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 40.0 s for Little Cheeseburger (said), Large Iced Tea (tapped): computing (40.0 s) → size (40.0 s) → computing (44.0 s) → open (46.2 s) → done (54.9 s); chain: Fries (declined); closed at 56.4 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal and Iced Tea (Large) 170 cal, 782 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Cheeseburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 37.0 s · visit · New customer at the counter (greeting heard).
+- 40.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 40.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 40.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 44.0 s · order · The size for Cheeseburger: Little, so it goes on the ticket.
+- 44.0 s · order · Heard the order: rang up 1× Little Cheeseburger from what the customer said.
+- 46.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
+- 46.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: make the Cheeseburger a Regular for $4.18 more.
+- 48.0 s · screen · Cashier tapped Iced Tea (Large). Still open in the meal: a side, a shake.
+- 48.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 48.0 s · screen · Screen: Going large. Not price-led; a big appetite. So: a premium add-on (shake, dessert) is welcome.
+- 50.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
+- 50.0 s · pick · Took down “Regular Cheeseburger”: what the customer said rules it out now.
+- 50.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 53.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 56.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
+- 58.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 105.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger and Iced Tea ($16.41), 4 lines of conversation, 1 upsell (0 accepted, 1 declined).
+- 105.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 61. spoken order with sizes (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  4.0 s  Customer: “Let me get a regular bacon burger and a large cajun fries”
+         → Customer session started — order heard
+         → Hot key — Going large: “large” → Premium add-ons welcome
+         → Spotlight opened for the Bacon Burger (said)
+         → Added from what was said: 1× Regular Bacon Burger
+         → Added from what was said: 1× Large Cajun Fries
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 10.0 s  Cashier presses No thanks
+         → Upsell declined: Fountain Drink (No thanks)
+         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
+ 16.0 s  Paid — ticket: 1× Bacon Burger (Regular), 1× Cajun Fries (Large)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Regular Bacon Burger (said), Large Cajun Fries (said): computing (4.0 s) → open (6.2 s); chain: Fountain Drink (declined); closed at 16.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal and Cajun Fries (Large) 1,328 cal, 2,242 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 4.0 s · visit · New customer at the counter (order heard).
+- 4.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 4.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
+- 4.0 s · order · Heard the order: rang up 1× Large Cajun Fries from what the customer said.
+- 6.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 10.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
+- 11.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
+- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger and Cajun Fries ($25.07), 2 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 62. spoken order without a size, then the size (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “I'd like a bacon burger please”
+         → Heard Bacon Burger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Bacon Burger (said)
+  7.0 s  Cashier picks Little for Bacon Burger on the size prompt
+         → Size for Bacon Burger: Little
+         → Added from what was said: 1× Little Bacon Burger
+         → Upsell shown (upsize): Regular Bacon Burger — Make the Bacon Burger a Regular for $4.06 more
+ 13.0 s  Paid — ticket: 1× Bacon Burger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Little Bacon Burger (said): computing (4.0 s) → size (4.0 s) → computing (7.0 s) → open (9.2 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Burger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · order · Heard Bacon Burger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 4.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 7.0 s · order · The size for Bacon Burger: Little, so it goes on the ticket.
+- 7.0 s · order · Heard the order: rang up 1× Little Bacon Burger from what the customer said.
+- 9.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: make the Bacon Burger a Regular for $4.06 more.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($11.92), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 63. tapped order only (4)
+
+```
+         → Upsell view: Spotlight
+  1.0 s  Cashier taps Grilled Cheese
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Grilled Cheese (tapped)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  4.0 s  Cashier taps Onion Rings (Large)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+  7.0 s  Cashier presses No thanks
+         → Upsell declined: Fountain Drink (No thanks)
+         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
+ 13.0 s  Paid — ticket: 1× Grilled Cheese, 1× Onion Rings (Large)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 1.0 s for Grilled Cheese (tapped), Large Onion Rings (tapped): computing (1.0 s) → open (3.2 s); chain: Fountain Drink (declined); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Onion Rings (Large) 720 cal, 1,100 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 1.0 s · visit · New customer at the counter (cashier started ringing).
+- 1.0 s · screen · Cashier tapped Grilled Cheese. Still open in the meal: a side, a drink, a shake.
+- 1.0 s · pick · Spotlight: the Grilled Cheese was tapped, so the screen blurs while it works out the upsell for it.
+- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 4.0 s · screen · Cashier tapped Onion Rings (Large). Still open in the meal: a drink, a shake.
+- 4.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 4.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 4.0 s · screen · Screen: Going large. Not price-led; a big appetite. So: a premium add-on (shake, dessert) is welcome.
+- 4.0 s · pick · Took down “Fries”: the ticket has a side now.
+- 4.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 7.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
+- 8.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Onion Rings ($15.86), 0 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 13.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 64. questions and praise that are not orders, then an order (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “Could I come in and get a cheeseburger tomorrow?”
+  8.0 s  Customer: “I'll have a regular hamburger”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Regular Hamburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 14.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 8.0 s for Regular Hamburger (said): computing (8.0 s) → open (10.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 8.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 8.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 65. hot words (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I'd like a chicken sandwich please”
+         → Spotlight opened for the Chicken Sandwich (said)
+         → Added from what was said: 1× Chicken Sandwich
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  7.0 s  Customer: “I've got a sweet tooth today”
+ 11.0 s  Cashier presses Add
+         → Upsell accepted: Fries (Add)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 17.0 s  Paid — ticket: 1× Chicken Sandwich, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 17.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal and Fries (Regular) 953 cal, 1,593 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 11.0 s · outcome · Customer said yes to “Fries” (Add).
+- 12.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 17.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Fries ($19.23), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 66. an allergy (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Let me get a regular cheeseburger”
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Regular Cheeseburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Customer: “Dairy really doesn't agree with me”
+ 10.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 16.0 s  Paid — ticket: 1× Cheeseburger (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 16.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal, 984 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 10.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($16.10), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 67. taken off or swapped (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I'll have a regular burger and a regular cajun fries”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Regular Hamburger
+         → Added from what was said: 1× Regular Cajun Fries
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+  7.0 s  Customer: “Can you take the cajun fries off?”
+         → Order change: took Regular Cajun Fries off the ticket
+ 13.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Hamburger (said), Regular Cajun Fries (said): computing (3.0 s) → open (5.2 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 3.0 s · order · Heard the order: rang up 1× Regular Cajun Fries from what the customer said.
+- 5.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 7.0 s · order · Heard “Can you take the cajun fries off?”: the customer is changing the order, so it took the Regular Cajun Fries off.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 68. card setting held through silence (4)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “I'll have a BLT”
+         → Customer session started — order heard
+         → Spotlight opened for the BLT (said)
+         → Added from what was said: 1× BLT
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 34.0 s  Customer: “I'm freezing”
+         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
+ 37.0 s  Operator: “Would you like the Fries?”
+ 39.0 s  Customer: “Sure”
+         → Upsell accepted: Fries (spoken yes)
+         → Upsell shown (hotkey): Coffee — Feeling the cold — something warm
+ 45.0 s  Paid — ticket: 1× BLT, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 45.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Fries (Regular) 953 cal, 1,455 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
+- 39.0 s · outcome · Customer said yes to “Fries” (spoken yes).
+- 40.9 s · pick · Showing “Coffee” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
+- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Fries ($15.11), 5 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 45.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 69. menu sections opened (4)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  1.0 s  Cashier taps Chicken Sandwich
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Chicken Sandwich (tapped)
+  3.0 s  Cashier opens Fries
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  5.0 s  Cashier opens Desserts
+ 11.0 s  Paid — ticket: 1× Chicken Sandwich
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 1.0 s for Chicken Sandwich (tapped): computing (1.0 s) → open (3.2 s); closed at 11.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal, 640 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 1.0 s · visit · New customer at the counter (cashier started ringing).
+- 1.0 s · screen · Cashier tapped Chicken Sandwich. Still open in the meal: a side, a drink, a shake.
+- 1.0 s · pick · Spotlight: the Chicken Sandwich was tapped, so the screen blurs while it works out the upsell for it.
+- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 3.0 s · screen · Screen: Chicken settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 3.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
+- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
+- 5.0 s · screen · Opened Desserts: the best one for this customer is the Sundae (the most ordered here).
+- 9.0 s · screen · Screen: Browsing Desserts. The customer is choosing a treat and hasn't settled on one. So: suggest the most-ordered item in Desserts.
+- 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich ($11.49), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 70. a returning voice (4)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Let me get a little burger”
+         → Customer session started — order heard
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Little Hamburger
+  5.0 s  Voice print: returning Vpress70 (score 0.88)
+         → Voice print: returning voice Vpress70 (score 0.88, tier 0.8, 2 visit(s)) — last time: Cajun Fries
+  7.0 s  Cashier opens Chicken
+         → Upsell shown (upsize): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
+ 13.0 s  Paid — ticket: 1× Hamburger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Little Hamburger (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Cajun Fries.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Little) 542 cal, 542 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* Previous orders: Cajun Fries. The upsell brain weighs them once it ranks the next option.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Hamburger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
+- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Cajun Fries.
+- 7.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
+- 7.0 s · screen · Opened Chicken: the best one for this customer is the Chicken Sandwich (the most ordered here).
+- 8.0 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
+- 11.0 s · screen · Screen: Browsing Chicken. The customer is choosing a main and hasn't settled on one. So: suggest the most-ordered item in Chicken.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory under voice Vpress70: Hamburger ($10.20), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 71. Clear, then a new order (4)
+
+```
+         → Upsell view: Spotlight
+  1.0 s  Cashier taps Cheeseburger (Regular)
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Cheeseburger (tapped)
+  3.0 s  Cashier presses No thanks
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Cashier presses Clear
+         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
+  8.0 s  Cashier taps Patty Melt
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Patty Melt (tapped)
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 14.0 s  Paid — ticket: 1× Patty Melt
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 1.0 s for Regular Cheeseburger (tapped): computing (1.0 s) → open (3.2 s); closed at 6.0 s
+- Spotlight at 8.0 s for Patty Melt (tapped): computing (8.0 s) → open (10.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal, 995 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 8.0 s · visit · New customer at the counter (cashier started ringing).
+- 8.0 s · screen · Cashier tapped Patty Melt. Still open in the meal: a side, a drink, a shake.
+- 8.0 s · pick · Spotlight: the Patty Melt was tapped, so the screen blurs while it works out the upsell for it.
+- 8.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 72. "no thanks, and take off…" (4)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Can I get a regular burger and a regular fries”
+         → Customer session started — order heard
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Regular Hamburger
+         → Added from what was said: 1× Regular Fries
+  5.0 s  Customer: “No thanks, and take off the fries”
+         → Order change: took Regular Fries off the ticket
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 11.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Hamburger (said), Regular Fries (said): computing (3.0 s) → open (8.0 s); closed at 11.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
+- 5.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
+- 8.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 73. two of an item (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Let me get two little bacon cheeseburgers”
+         → Spotlight opened for the Bacon Cheeseburger (said)
+         → Added from what was said: 2× Little Bacon Cheeseburger
+         → Upsell shown (upsize): Regular Bacon Cheeseburger — Make the Bacon Cheeseburger a Regular for $3.57 more
+  9.0 s  Paid — ticket: 2× Bacon Cheeseburger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Little Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s); closed at 9.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: 2× Bacon Cheeseburger (Little) 1,364 cal, 1,364 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Cheeseburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 2× Little Bacon Cheeseburger from what the customer said.
+- 5.2 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: make the Bacon Cheeseburger a Regular for $3.57 more.
+- 9.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Bacon Cheeseburger ($27.28), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 9.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 74. ordering for someone else too (4)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Lemme get a grilled cheese”
+         → Customer session started — order heard
+         → Spotlight opened for the Grilled Cheese (said)
+         → Added from what was said: 1× Grilled Cheese
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Customer: “And it's for my wife too”
+         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
+  9.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (hotkey): Another Grilled Cheese — Ordering for someone else too — a second one for them?
+ 15.0 s  Paid — ticket: 1× Grilled Cheese
+         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 15.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
+- 9.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 10.9 s · pick · Showing “Another Grilled Cheese” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 75. closing while a card is up (4)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Can I get a cheese dog”
+         → Spotlight opened for the Cheese Dog (said)
+         → Added from what was said: 1× Cheese Dog
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  7.0 s  Customer: “No thanks, that's it”
+         → Upsell declined: Fries (spoken no)
+         → Hot key — Order closing: “that's it” → One last small add-on now, then stop
+         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
+ 13.0 s  Paid — ticket: 1× Cheese Dog
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Cheese Dog (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal, 590 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Cheese Dog was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 7.0 s · outcome · Customer turned down “Fries” (spoken no).
+- 7.0 s · hotkey · Heard “that's it”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
+- 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheese Dog ($9.09), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 76. an item that is out today (4) — with explanations
+
+Before it starts: out of stock today — Poutine.
+
+```
+         → Upsell view: Spotlight
+ 47.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
+         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
+ 47.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+ 50.0 s  Customer: “I'll take a BLT and a poutine”
+         → Hot key — Ordered an item that's out: “I'll take a BLT and a poutine” (Poutine) → Not rung up (out today) — the closest substitute instead
+         → Spotlight opened for the Poutine (said)
+         → Added from what was said: 1× BLT
+         → Upsell shown (hotkey): Fries — Poutine is out today — the closest is the Fries
+ 53.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+         → Upsell lapsed: Fountain Drink (no answer)
+         → Upsell shown (basket): Bottled Water — Completes the basket — no drink on the ticket yet
+ 90.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
+         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
+ 96.0 s  Paid — ticket: 1× BLT
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 50.0 s for Poutine (said), BLT (said): computing (50.0 s) → open (52.2 s); chain: Fries (declined) → Fountain Drink (lapsed); closed at 96.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal, 502 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 47.0 s · visit · New customer at the counter (greeting heard).
+- 50.0 s · hotkey · Heard “I'll take a BLT and a poutine”: hot word “Ordered an item that's out” (Poutine). Not rung up (out today) — the closest substitute instead.
+- 50.0 s · pick · Spotlight: the Poutine was said, so the screen blurs while it works out the upsell for it.
+- 50.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 50.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
+- 52.2 s · pick · Showing “Fries” [Closest substitute] (answering what the customer said). Why: poutine is out today — the closest is the Fries.
+- 53.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 54.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 60.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 80.0 s · outcome · Customer let pass “Fountain Drink” (no answer).
+- 81.9 s · pick · Showing “Bottled Water” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 96.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 2 lines of conversation, 3 upsells (0 accepted, 1 declined).
+- 96.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
+
+## 77. whisper's order list (4) — with explanations
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+ 40.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
+         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
+ 40.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+ 43.0 s  Customer: “Could I get a regular bacon burger”
+         → Spotlight opened for the Bacon Burger (said)
+         → Added from what was said: 1× Regular Bacon Burger
+ 44.0 s  Whisper's order: 2× Bacon Burger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 64.0 s  Whisper's order: 1× Bacon Burger, 1× Fries
+         → Whisper's “Fries” not rung up — nobody ordered it in the last 10 s
+ 85.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
+         → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
+ 91.0 s  Paid — ticket: 1× Bacon Burger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 43.0 s for Regular Bacon Burger (said): computing (43.0 s) → open (45.2 s); closed at 91.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 40.0 s · visit · New customer at the counter (greeting heard).
+- 43.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 43.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 43.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
+- 45.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 53.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 91.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 91.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 78. the cashier says the card (4)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “A regular hamburger please”
+         → Spotlight opened for the Hamburger (said)
+         → Added from what was said: 1× Regular Hamburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Operator: “Would you like the Fries?”
+  8.0 s  Customer: “Make sure it's hot”
+ 14.0 s  Paid — ticket: 1× Hamburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Hamburger (said): computing (3.0 s) → open (5.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 79. two no's in a row, then more ordering (4)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I'll take a chicken sandwich”
+         → Spotlight opened for the Chicken Sandwich (said)
+         → Added from what was said: 1× Chicken Sandwich
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Cashier presses No thanks
+         → Upsell declined: Fries (No thanks)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+  9.0 s  Cashier presses No thanks
+         → Upsell declined: Fountain Drink (No thanks)
+         → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
+ 13.0 s  Customer: “Lemme get a regular lemonade”
+         → Spotlight opened for the Lemonade (said)
+         → Added from what was said: 1× Regular Lemonade
+         → Upsell shown (upsize): Large Lemonade — Make the Lemonade a Large for $0.80 more
+ 19.0 s  Paid — ticket: 1× Chicken Sandwich, 1× Lemonade (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
+- Spotlight at 13.0 s for Regular Lemonade (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal and Lemonade (Regular) 220 cal, 860 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is the size-up of the Regular Lemonade, the lowest-hanging fruit. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 6.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
+- 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · pick · Spotlight: the Lemonade was said, so the screen blurs while it works out the upsell for it.
+- 13.0 s · order · Heard the order: rang up 1× Regular Lemonade from what the customer said.
+- 15.2 s · pick · Showing “Large Lemonade” (a size up). Why: make the Lemonade a Large for $0.80 more.
+- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Lemonade ($15.48), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
+- 19.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
+
+## 80. a mixed visit (4)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I want a bacon burger”
+         → Heard Bacon Burger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Bacon Burger (said)
+  5.0 s  Customer: “Do you have side salad?”
+         → Hot key — Asked if we have something: “Do you have” (Side Salad) → Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute
+  7.0 s  Cashier picks Little for Bacon Burger on the size prompt
+         → Size for Bacon Burger: Little
+         → Added from what was said: 1× Little Bacon Burger
+  9.0 s  Cashier opens Drinks
+         → Upsell shown (hotkey): Side Salad — Asked whether we have the Side Salad — it goes well with the Fountain Drink
+ 11.0 s  Cashier taps Lemonade (Regular)
+ 13.0 s  Customer: “I'm in a rush”
+         → Hot key — In a hurry: “in a rush” → Shorten or skip the pitch; only something ready to hand
+         → Upsell shown (hotkey, back from earlier): Side Salad — Asked whether we have the Side Salad — it goes well with the Fountain Drink
+ 16.0 s  Cashier presses Add
+         → Upsell accepted: Side Salad (Add)
+         → Upsell shown (upsize): Regular Bacon Burger — Only $4.06 more to make the Bacon Burger a Regular
+ 22.0 s  Paid — ticket: 1× Bacon Burger (Little), 1× Lemonade (Regular), 1× Side Salad
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Little Bacon Burger (said), Side Salad (said), Regular Lemonade (tapped): computing (3.0 s) → size (3.0 s) → computing (5.0 s) → open (10.0 s); chain: Side Salad (accepted); closed at 22.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Little) 612 cal, Lemonade (Regular) 220 cal and Side Salad 190 cal, 1,022 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is the size-up of the Little Bacon Burger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · order · Heard Bacon Burger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 5.0 s · hotkey · Heard “Do you have”: hot word “Asked if we have something”, which means interest in a specific item, often one they can't see on the menu board (Side Salad). Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute.
+- 7.0 s · order · The size for Bacon Burger: Little, so it goes on the ticket.
+- 7.0 s · order · Heard the order: rang up 1× Little Bacon Burger from what the customer said.
+- 9.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
+- 10.0 s · pick · Showing “Side Salad” [You asked about it] (answering what the customer said). Why: asked whether we have the Side Salad — it goes well with the Fountain Drink.
+- 11.0 s · screen · Cashier tapped Lemonade (Regular). Still open in the meal: a side, a shake.
+- 11.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 11.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 13.0 s · hotkey · Heard “in a rush”: hot word “In a hurry”, which means in a hurry. Shorten or skip the pitch; only something ready to hand.
+- 13.0 s · pick · Remembered “Side Salad”: it comes back once “the hot word (In a hurry)” is answered.
+- 13.0 s · pick · Back to “Side Salad”, the upsell from before the change.
+- 16.0 s · outcome · Customer said yes to “Side Salad” (Add).
+- 17.9 s · pick · Showing “Regular Bacon Burger” (a size up). Why: only $4.06 more to make the Bacon Burger a Regular.
+- 22.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 22.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger, Lemonade and Side Salad ($21.40), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 22.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 81. spoken order with sizes (5)
+
+```
+         → Upsell card setting: On new trigger
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  4.0 s  Customer: “Lemme get a grilled cheese”
+         → Customer session started — order heard
+         → Spotlight opened for the Grilled Cheese (said)
+         → Added from what was said: 1× Grilled Cheese
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 10.0 s  Cashier presses Add
+         → Upsell accepted: Fries (Add)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 16.0 s  Paid — ticket: 1× Grilled Cheese, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 4.0 s for Grilled Cheese (said): computing (4.0 s) → open (6.2 s); chain: Fries (accepted); closed at 16.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Fries (Regular) 953 cal, 1,333 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 4.0 s · visit · New customer at the counter (order heard).
+- 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 4.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
+- 4.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
+- 6.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 10.0 s · outcome · Customer said yes to “Fries” (Add).
+- 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Fries ($15.11), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
+
+## 82. spoken order without a size, then the size (5)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  4.0 s  Customer: “A burger please”
          → Heard Hamburger — waiting for its size (Little / Regular)
          → Spotlight opened for the Hamburger (said)
-  7.0 s  Cashier picks Regular for Hamburger on the size prompt
+  7.0 s  Customer: “Regular”
          → Size for Hamburger: Regular
          → Added from what was said: 1× Regular Hamburger
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
@@ -5130,151 +5125,25 @@ Steps:
 - 7.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
 - 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($13.64), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 83. tapped order only (5)
+## 83. tapped order only (5) — with explanations
 
 ```
+         → Upsell card setting: On new trigger
          → Upsell view: Spotlight
-  1.0 s  Cashier taps Patty Melt
+ 27.0 s  Operator: “If a customer says it's so hot out today, it suggests something cold.”
+         → Explaining — not read as the conversation: “If a customer says it's so hot out today, it suggests something cold.”
+ 28.0 s  Cashier taps Cheeseburger (Little)
          → Customer session started — cashier started ringing
-         → Spotlight opened for the Patty Melt (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  4.0 s  Cashier taps Poutine
+         → Spotlight opened for the Cheeseburger (tapped)
+         → Upsell shown (upsize): Regular Cheeseburger — Only $4.18 more to make the Cheeseburger a Regular
+ 31.0 s  Cashier taps Onion Rings (Regular)
+ 34.0 s  Cashier presses No thanks
+         → Upsell declined: Regular Cheeseburger (No thanks)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  7.0 s  Cashier presses Add
-         → Upsell accepted: Fountain Drink (Add)
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 13.0 s  Paid — ticket: 1× Patty Melt, 1× Poutine, 1× Fountain Drink (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for Patty Melt (tapped), Poutine (tapped): computing (1.0 s) → open (3.2 s); chain: Fountain Drink (accepted); closed at 13.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Patty Melt 995 cal and Poutine 1,373 cal, 2,368 cal in all, a heavy meal. Contains eggs, milk, sesame, soy, sulphites and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 1.0 s · visit · New customer at the counter (cashier started ringing).
-- 1.0 s · screen · Cashier tapped Patty Melt. Still open in the meal: a side, a drink, a shake.
-- 1.0 s · pick · Spotlight: the Patty Melt was tapped, so the screen blurs while it works out the upsell for it.
-- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 4.0 s · screen · Cashier tapped Poutine. Still open in the meal: a drink, a shake.
-- 4.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 4.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 4.0 s · pick · Took down “Fries”: the ticket has a side now.
-- 4.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 7.0 s · outcome · Customer said yes to “Fountain Drink” (Add).
-- 8.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt, Poutine and Fountain Drink ($28.91), 0 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 84. questions and praise that are not orders, then an order (5) — with explanations
-
-```
-         → Upsell view: Spotlight
- 31.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
-         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
- 31.0 s  Operator: “Welcome! What would you like today?”
-         → Customer session started — greeting heard
- 35.0 s  Customer: “Do you have hamburger?”
-         → Hot key — Asked if we have something: “Do you have” (Hamburger) → Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute
-         → Spotlight opened for the Hamburger (said)
-         → Upsell shown (hotkey): Hamburger — Asked whether we have the Hamburger — it goes well with the Fries
- 38.0 s  Customer: “How much is the cajun fries?”
-         → Hot key — Price-conscious: “How much” → A size-up said as "only $X more"; low-priced add-ons framed as value
-         → Upsell shown (hotkey, back from earlier): Hamburger — Asked whether we have the Hamburger — it goes well with the Fries
- 42.0 s  Customer: “Let me get a cheese dog”
-         → Added from what was said: 1× Cheese Dog
- 48.0 s  Paid — ticket: 1× Cheese Dog
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 35.0 s for Hamburger (said), Cheese Dog (said): computing (35.0 s) → open (35.0 s); closed at 48.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal, 590 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 31.0 s · visit · New customer at the counter (greeting heard).
-- 35.0 s · hotkey · Heard “Do you have”: hot word “Asked if we have something”, which means interest in a specific item, often one they can't see on the menu board (Hamburger). Pitch the item with a complementary item below it; if we're out of it or don't carry it, the closest substitute.
-- 35.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 35.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 35.0 s · pick · Showing “Hamburger” [You asked about it] (answering what the customer said). Why: asked whether we have the Hamburger — it goes well with the Fries.
-- 38.0 s · hotkey · Heard “How much”: hot word “Price-conscious”, which means price matters. A size-up said as "only $X more"; low-priced add-ons framed as value.
-- 38.0 s · pick · Remembered “Hamburger”: it comes back once “the hot word (Price-conscious)” is answered.
-- 38.0 s · pick · Back to “Hamburger”, the upsell from before the change.
-- 41.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 42.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
-- 48.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheese Dog ($9.09), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 48.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 85. hot words (5)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “A grilled cheese please”
-         → Spotlight opened for the Grilled Cheese (said)
-         → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “I'm freezing out there”
-         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
-         → Upsell shown (hotkey): Fries — Feeling the cold — something warm
- 11.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 17.0 s  Paid — ticket: 1× Grilled Cheese
+ 40.0 s  Paid — ticket: 1× Cheeseburger (Little), 1× Onion Rings (Regular)
          → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
 
@@ -5296,48 +5165,162 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 17.0 s
+- Spotlight at 28.0 s for Little Cheeseburger (tapped), Regular Onion Rings (tapped): computing (28.0 s) → open (30.2 s); chain: Regular Cheeseburger (declined); closed at 40.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal and Onion Rings (Regular) 480 cal, 1,092 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a drink and a shake (no more size-ups: one was turned down). Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 28.0 s · visit · New customer at the counter (cashier started ringing).
+- 28.0 s · screen · Cashier tapped Cheeseburger (Little). Still open in the meal: a side, a drink, a shake.
+- 28.0 s · pick · Spotlight: the Cheeseburger was tapped, so the screen blurs while it works out the upsell for it.
+- 28.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 28.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 30.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: only $4.18 more to make the Cheeseburger a Regular.
+- 31.0 s · screen · Cashier tapped Onion Rings (Regular). Still open in the meal: a drink, a shake.
+- 31.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 31.0 s · screen · Screen: Burgers settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 34.0 s · outcome · Customer turned down “Regular Cheeseburger” (No thanks).
+- 35.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 40.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 40.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger and Onion Rings ($18.91), 0 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 40.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+
+## 84. questions and praise that are not orders, then an order (5) — with explanations
+
+```
+         → Upsell view: Spotlight
+ 59.0 s  Operator: “Notice how the card waits until the cashier says it.”
+         → Explaining — not read as the conversation: “Notice how the card waits until the cashier says it.”
+ 59.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+ 63.0 s  Customer: “I might get a hot dog later”
+ 67.0 s  Customer: “I'll have a little bacon burger”
+         → Spotlight opened for the Bacon Burger (said)
+         → Added from what was said: 1× Little Bacon Burger
+         → Upsell shown (upsize): Regular Bacon Burger — Make the Bacon Burger a Regular for $4.06 more
+ 73.0 s  Paid — ticket: 1× Bacon Burger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 67.0 s for Little Bacon Burger (said): computing (67.0 s) → open (69.2 s); closed at 73.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Burger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 0.0 s · visit · New customer at the counter (greeting heard).
+- 59.0 s · visit · New customer at the counter (greeting heard).
+- 67.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 67.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
+- 67.0 s · order · Heard the order: rang up 1× Little Bacon Burger from what the customer said.
+- 69.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: make the Bacon Burger a Regular for $4.06 more.
+- 73.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 73.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($11.92), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 73.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 85. hot words (5)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Could I get a hot dog”
+         → Customer session started — order heard
+         → Spotlight opened for the Hot Dog (said)
+         → Added from what was said: 1× Hot Dog
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  7.0 s  Customer: “I'm in a bit of a rush”
+ 11.0 s  Cashier presses Add
+         → Upsell accepted: Fries (Add)
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 17.0 s  Paid — ticket: 1× Hot Dog, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Hot Dog (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 17.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal and Fries (Regular) 953 cal, 1,473 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
+- 3.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
 - 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 7.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
-- 7.0 s · pick · Showing “Fries” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
-- 11.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 11.0 s · outcome · Customer said yes to “Fries” (Add).
 - 12.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+- 17.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog and Fries ($15.72), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 17.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 86. an allergy (5)
 
 ```
          → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “Could I get a regular hamburger”
-         → Customer session started — order heard
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Regular Hamburger
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Let me get a milkshake”
+         → Spotlight opened for the Hand-Spun Milkshake (said)
+         → Added from what was said: 1× Hand-Spun Milkshake
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Customer: “I can't have gluten by the way”
-         → Allergy heard: wheat — no card with it from now on
+  6.0 s  Customer: “But I'm allergic to dairy”
+         → Allergy heard: milk — no card with it from now on
  10.0 s  Cashier presses Add
          → Upsell accepted: Fries (Add)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 16.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Fries (Regular)
+ 16.0 s  Paid — ticket: 1× Hand-Spun Milkshake, 1× Fries (Regular)
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -5359,44 +5342,44 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Regular Hamburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 16.0 s
+- Spotlight at 3.0 s for Hand-Spun Milkshake (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 16.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal and Fries (Regular) 953 cal, 1,797 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Hand-Spun Milkshake 690 cal and Fries (Regular) 953 cal, 1,643 cal in all, a heavy meal. Contains milk. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is the order itself, once the customer names a main. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 3.0 s · visit · New customer at the counter (order heard).
+- 0.0 s · visit · New customer at the counter (greeting heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 3.0 s · pick · Spotlight: the Hand-Spun Milkshake was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Hand-Spun Milkshake from what the customer said.
 - 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · health · Heard an allergy (wheat): no upsell that contains it from now on.
+- 6.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
 - 10.0 s · outcome · Customer said yes to “Fries” (Add).
 - 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Fries ($21.38), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hand-Spun Milkshake and Fries ($17.00), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 87. taken off or swapped (5)
 
 ```
-         → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
+  0.0 s  Operator: “Hey there, what can I get started for you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “I'll have a regular bacon cheeseburger and a regular fries”
-         → Spotlight opened for the Bacon Cheeseburger (said)
-         → Added from what was said: 1× Regular Bacon Cheeseburger
+  3.0 s  Customer: “Can I get a regular cheeseburger and a regular fries”
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Regular Cheeseburger
          → Added from what was said: 1× Regular Fries
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
-  7.0 s  Customer: “Scratch the fries”
-         → Order change: took Regular Fries off the ticket
- 13.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular)
+  7.0 s  Customer: “Actually swap the fries for a poutine”
+         → Order change: swapped Regular Fries for Poutine
+         → Added from what was said: 1× Poutine
+ 13.0 s  Paid — ticket: 1× Cheeseburger (Regular), 1× Poutine
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
 
@@ -5418,51 +5401,405 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Regular Bacon Cheeseburger (said), Regular Fries (said): computing (3.0 s) → open (5.2 s); closed at 13.0 s
+- Spotlight at 3.0 s for Regular Cheeseburger (said), Regular Fries (said), Poutine (said): computing (3.0 s) → open (5.2 s); closed at 13.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal, 1,054 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal and Poutine 1,373 cal, 2,357 cal in all, a heavy meal. Contains eggs, milk, sesame, soy, sulphites and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
+- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
 - 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
 - 5.2 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 7.0 s · order · Heard “Scratch the fries”: the customer is changing the order, so it took the Regular Fries off.
+- 7.0 s · order · Heard “Actually swap the fries for a poutine”: the customer is changing the order, so it swapped the Regular Fries for a Poutine.
+- 7.0 s · order · Heard the order: rang up 1× Poutine from what the customer said.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($17.21), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger and Poutine ($29.13), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 88. card setting held through silence (5) — with explanations
+## 88. card setting held through silence (5)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Welcome! What would you like today?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “I'll take a regular cheeseburger”
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Regular Cheeseburger
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell lapsed: Fries (no answer)
+         → Upsell shown (basket): Onion Rings — Completes the basket — no side on the ticket yet
+ 34.0 s  Customer: “I'm freezing”
+         → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
+         → Upsell shown (hotkey): Coffee — Feeling the cold — something warm
+ 37.0 s  Operator: “Would you like the Coffee?”
+ 39.0 s  Customer: “No thanks”
+         → Upsell declined: Coffee (spoken no)
+         → Upsell shown (basket, back from earlier): Onion Rings — Completes the basket — no side on the ticket yet
+ 45.0 s  Paid — ticket: 1× Cheeseburger (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (lapsed) → Coffee (declined); closed at 45.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal, 984 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 31.0 s · outcome · Customer let pass “Fries” (no answer).
+- 32.9 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
+- 34.0 s · pick · Remembered “Onion Rings”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
+- 34.0 s · pick · Showing “Coffee” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
+- 39.0 s · outcome · Customer turned down “Coffee” (spoken no).
+- 40.9 s · pick · Back to “Onion Rings”, the upsell from before the change.
+- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($16.10), 5 lines of conversation, 3 upsells (0 accepted, 1 declined).
+- 45.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
+
+## 89. menu sections opened (5) — with explanations
 
 ```
          → Upsell card setting: On new trigger
          → Upsell view: Spotlight
- 37.0 s  Operator: “For example, when someone says I'm in a rush, it only pitches quick items.”
-         → Explaining — not read as the conversation: “For example, when someone says I'm in a rush, it only pitches quick items.”
- 37.0 s  Operator: “Hey there, what can I get started for you?”
+ 24.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
+ 25.0 s  Cashier taps Grilled Cheese
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Grilled Cheese (tapped)
+ 27.0 s  Cashier opens Fries
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 29.0 s  Cashier opens Sandwiches
+ 35.0 s  Paid — ticket: 1× Grilled Cheese
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 25.0 s for Grilled Cheese (tapped): computing (25.0 s) → open (27.2 s); closed at 35.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 25.0 s · visit · New customer at the counter (cashier started ringing).
+- 25.0 s · screen · Cashier tapped Grilled Cheese. Still open in the meal: a side, a drink, a shake.
+- 25.0 s · pick · Spotlight: the Grilled Cheese was tapped, so the screen blurs while it works out the upsell for it.
+- 25.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 27.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
+- 27.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
+- 27.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 29.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
+- 29.0 s · screen · Opened Sandwiches: the best one for this customer is the Patty Melt (the most ordered here).
+- 33.0 s · screen · Screen: Browsing Sandwiches. The customer is choosing a main and hasn't settled on one. So: suggest the most-ordered item in Sandwiches.
+- 35.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 35.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 35.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 90. a returning voice (5)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
          → Customer session started — greeting heard
- 40.0 s  Customer: “I'd like a little hamburger please”
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Little Hamburger
-         → Upsell shown (upsize): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
- 71.0 s  Customer: “It's so hot out today”
-         → Hot key — Feeling hot / hot weather: “hot out” → Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher
-         → Upsell shown (hotkey): Fountain Drink — Feeling the heat — something cold to cool down
- 74.0 s  Operator: “Would you like the Fountain Drink?”
- 76.0 s  Customer: “I'm good”
-         → Upsell declined: Fountain Drink (spoken no)
-         → Upsell shown (upsize, back from earlier): Regular Hamburger — Make the Hamburger a Regular for $3.44 more
-131.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
-         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
-137.0 s  Paid — ticket: 1× Hamburger (Little)
+  3.0 s  Customer: “Can I have a cheese dog”
+         → Spotlight opened for the Cheese Dog (said)
+         → Added from what was said: 1× Cheese Dog
+  5.0 s  Voice print: returning Vpress90 (score 0.88)
+         → Voice print: returning voice Vpress90 (score 0.88, tier 0.8, 2 visit(s)) — last time: Sweet Potato Fries
+  7.0 s  Cashier opens Sandwiches
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+ 13.0 s  Paid — ticket: 1× Cheese Dog
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Cheese Dog (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Sweet Potato Fries.
+- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal, 590 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* Previous orders: Sweet Potato Fries. The upsell brain weighs them once it ranks the next option.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Cheese Dog was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
+- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Sweet Potato Fries.
+- 7.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
+- 7.0 s · screen · Opened Sandwiches: the best one for this customer is the Patty Melt (the most ordered here).
+- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 11.0 s · screen · Screen: Browsing Sandwiches. The customer is choosing a main and hasn't settled on one. So: suggest the most-ordered item in Sandwiches.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 13.0 s · memory · Adding this transaction to memory under voice Vpress90: Cheese Dog ($9.09), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 91. Clear, then a new order (5)
+
+```
+         → Upsell view: Spotlight
+  1.0 s  Cashier taps Hamburger (Regular)
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Hamburger (tapped)
+  3.0 s  Cashier presses No thanks
+         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  6.0 s  Cashier presses Clear
+         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
+  8.0 s  Cashier taps Cheeseburger (Little)
+         → Customer session started — cashier started ringing
+         → Spotlight opened for the Cheeseburger (tapped)
+         → Upsell shown (upsize): Regular Cheeseburger — Only $4.18 more to make the Cheeseburger a Regular
+ 14.0 s  Paid — ticket: 1× Cheeseburger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 1.0 s for Regular Hamburger (tapped): computing (1.0 s) → open (3.2 s); closed at 6.0 s
+- Spotlight at 8.0 s for Little Cheeseburger (tapped): computing (8.0 s) → open (10.2 s); closed at 14.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Waiting for the customer to speak before trying to recognise them.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal, 612 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Cheeseburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 8.0 s · visit · New customer at the counter (cashier started ringing).
+- 8.0 s · screen · Cashier tapped Cheeseburger (Little). Still open in the meal: a side, a drink, a shake.
+- 8.0 s · pick · Spotlight: the Cheeseburger was tapped, so the screen blurs while it works out the upsell for it.
+- 8.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 8.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 10.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: only $4.18 more to make the Cheeseburger a Regular.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($11.92), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 92. "no thanks, and take off…" (5)
+
+```
+         → Upsell card setting: Until accepted or declined
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Can I have a regular cheeseburger and a regular fries”
+         → Customer session started — order heard
+         → Spotlight opened for the Cheeseburger (said)
+         → Added from what was said: 1× Regular Cheeseburger
+         → Added from what was said: 1× Regular Fries
+  5.0 s  Customer: “No thanks, and take off the fries”
+         → Order change: took Regular Fries off the ticket
+         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
+ 11.0 s  Paid — ticket: 1× Cheeseburger (Regular)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Regular Cheeseburger (said), Regular Fries (said): computing (3.0 s) → open (8.0 s); closed at 11.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Regular) 984 cal, 984 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Regular Cheeseburger from what the customer said.
+- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
+- 5.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
+- 8.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger ($16.10), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 93. two of an item (5)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hey there, what can I get started for you?”
+         → Customer session started — greeting heard
+  3.0 s  Customer: “Two cheeseburgers please”
+         → Heard Cheeseburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Cheeseburger (said)
+  6.0 s  Customer: “Little”
+         → Size for Cheeseburger: Little
+         → Added from what was said: 2× Little Cheeseburger
+         → Upsell shown (upsize): Regular Cheeseburger — Make the Cheeseburger a Regular for $4.18 more
+ 12.0 s  Paid — ticket: 2× Cheeseburger (Little)
+         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+```
+
+- ✅ the engine raised no error
+- ✅ nothing was rung up that nobody ordered, tapped or accepted
+- ✅ an item only asked about or praised was never rung up
+- ✅ every order with a size is on the ticket (unless taken off or swapped)
+- ✅ an order without a size waits for it, and is not on the ticket
+- ✅ no card offered something already on the ticket
+- ✅ no card offered what the customer had taken off
+- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
+- ✅ no card offered an item that is out today
+- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
+- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
+- ✅ a size-up card was for an item on the ticket
+- ✅ nothing an explanation said fired a hot key
+- ✅ no card called a cold item hot
+- ✅ spotlight: every card went up inside an open spotlight
+- ✅ spotlight: every spotlight was opened by an item said or tapped
+- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
+
+- Spotlight at 3.0 s for Little Cheeseburger (said): computing (3.0 s) → size (3.0 s) → computing (6.0 s) → open (8.2 s); closed at 12.0 s
+
+**How it decided** — weighing at payment:
+
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- *Health and ingredients:* Looked at calories and ingredients: 2× Cheeseburger (Little) 1,224 cal, 1,224 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is the size-up of the Little Cheeseburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+
+Steps:
+
+- 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 3.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 6.0 s · order · The size for Cheeseburger: Little, so it goes on the ticket.
+- 6.0 s · order · Heard the order: rang up 2× Little Cheeseburger from what the customer said.
+- 8.2 s · pick · Showing “Regular Cheeseburger” (a size up). Why: make the Cheeseburger a Regular for $4.18 more.
+- 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Cheeseburger ($23.84), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 12.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+
+## 94. ordering for someone else too (5)
+
+```
+         → Upsell view: Spotlight
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Let me get a little bacon cheeseburger”
+         → Customer session started — order heard
+         → Spotlight opened for the Bacon Cheeseburger (said)
+         → Added from what was said: 1× Little Bacon Cheeseburger
+         → Upsell shown (upsize): Regular Bacon Cheeseburger — Make the Bacon Cheeseburger a Regular for $3.57 more
+  6.0 s  Customer: “And it's for my wife too”
+         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
+         → Upsell shown (hotkey): Another Bacon Cheeseburger — Ordering for someone else too — a second one for them?
+  9.0 s  Cashier presses No thanks
+         → Upsell declined: Another Bacon Cheeseburger (No thanks)
+         → Upsell shown (upsize, back from earlier): Regular Bacon Cheeseburger — Make the Bacon Cheeseburger a Regular for $3.57 more
+ 15.0 s  Paid — ticket: 1× Bacon Cheeseburger (Little)
          → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
 
@@ -5484,103 +5821,45 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 40.0 s for Little Hamburger (said): computing (40.0 s) → open (42.2 s); chain: Fountain Drink (declined); closed at 137.0 s
+- Spotlight at 3.0 s for Little Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Another Bacon Cheeseburger (declined); closed at 15.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Little) 542 cal, 542 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Little) 682 cal, 682 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is the size-up of the Little Hamburger, the lowest-hanging fruit. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is the size-up of the Little Bacon Cheeseburger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 37.0 s · visit · New customer at the counter (greeting heard).
-- 40.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 40.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 40.0 s · order · Heard the order: rang up 1× Little Hamburger from what the customer said.
-- 42.2 s · pick · Showing “Regular Hamburger” (a size up). Why: make the Hamburger a Regular for $3.44 more.
-- 50.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 71.0 s · hotkey · Heard “hot out”: hot word “Feeling hot / hot weather”, which means the customer feels hot, or says it is hot out. Pop up the most-ordered cold item, tagged Something cold, unless a cold drink or shake is already on the ticket; iced and cold items rank higher.
-- 71.0 s · pick · Remembered “Regular Hamburger”: it comes back once “the hot word (Feeling hot / hot weather)” is answered.
-- 71.0 s · pick · Showing “Fountain Drink” [Something cold] (answering what the customer said). Why: feeling the heat — something cold to cool down.
-- 76.0 s · outcome · Customer turned down “Fountain Drink” (spoken no).
-- 77.9 s · pick · Back to “Regular Hamburger”, the upsell from before the change.
-- 137.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger ($10.20), 5 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 137.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Little Bacon Cheeseburger from what the customer said.
+- 5.2 s · pick · Showing “Regular Bacon Cheeseburger” (a size up). Why: make the Bacon Cheeseburger a Regular for $3.57 more.
+- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
+- 6.0 s · pick · Remembered “Regular Bacon Cheeseburger”: it comes back once “the hot word (Ordering for others)” is answered.
+- 6.0 s · pick · Showing “Another Bacon Cheeseburger” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
+- 9.0 s · outcome · Customer turned down “Another Bacon Cheeseburger” (No thanks).
+- 10.9 s · pick · Back to “Regular Bacon Cheeseburger”, the upsell from before the change.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($13.64), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
+- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
 
-## 89. menu sections opened (5)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  1.0 s  Cashier taps Hot Dog
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Hot Dog (tapped)
-  3.0 s  Cashier opens Burgers
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  5.0 s  Cashier opens Fries
- 11.0 s  Paid — ticket: 1× Hot Dog
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 1.0 s for Hot Dog (tapped): computing (1.0 s) → open (3.2 s); closed at 11.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 1.0 s · visit · New customer at the counter (cashier started ringing).
-- 1.0 s · screen · Cashier tapped Hot Dog. Still open in the meal: a side, a drink, a shake.
-- 1.0 s · pick · Spotlight: the Hot Dog was tapped, so the screen blurs while it works out the upsell for it.
-- 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.0 s · screen · Screen: Hot Dogs settled. That part of the meal is done. So: move the pitch to the next part of the meal.
-- 3.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
-- 3.0 s · screen · Opened Burgers: the best one for this customer is the Bacon Cheeseburger (Regular) (the most ordered here).
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 5.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
-- 9.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
-- 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 90. a returning voice (5)
+## 95. closing while a card is up (5)
 
 ```
-         → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
   0.0 s  Operator: “Hi, what can I get for you today?”
-  3.0 s  Customer: “I'll have a grilled cheese”
+  3.0 s  Customer: “Lemme get a grilled cheese”
          → Customer session started — order heard
          → Spotlight opened for the Grilled Cheese (said)
          → Added from what was said: 1× Grilled Cheese
-  5.0 s  Voice print: returning Vpress90 (score 0.88)
-         → Voice print: returning voice Vpress90 (score 0.88, tier 0.8, 2 visit(s)) — last time: Fountain Drink
-  7.0 s  Cashier opens Shakes
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+  7.0 s  Customer: “That's everything”
+         → Upsell declined: Fries (spoken no)
+         → Hot key — Order closing: “That's everything” → One last small add-on now, then stop
+         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
  13.0 s  Paid — ticket: 1× Grilled Cheese
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
@@ -5603,14 +5882,14 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (8.0 s); closed at 13.0 s
+- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
 
 **How it decided** — weighing at payment:
 
-- *Memory:* Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fountain Drink.
+- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* Previous orders: Fountain Drink. The upsell brain weighs them once it ranks the next option.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
@@ -5618,342 +5897,32 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fountain Drink.
-- 7.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
-- 7.0 s · screen · Opened Shakes: the best one for this customer is the Hand-Spun Milkshake (the most ordered here).
-- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · screen · Screen: Browsing Shakes. The customer is choosing a treat and hasn't settled on one. So: suggest the most-ordered item in Shakes.
-- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory under voice Vpress90: Grilled Cheese ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 91. Clear, then a new order (5) — with explanations
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
- 44.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
-         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
- 45.0 s  Cashier taps BLT
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the BLT (tapped)
- 47.0 s  Cashier presses No thanks
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 50.0 s  Cashier presses Clear
-         → Session ended — ticket cleared · 1 upsell(s) offered, 0 accepted
- 52.0 s  Cashier taps Grilled Cheese
-         → Customer session started — cashier started ringing
-         → Spotlight opened for the Grilled Cheese (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 86.0 s  Operator: “So what you're seeing here is the upsell engine reading the conversation.”
-         → Explaining — not read as the conversation: “So what you're seeing here is the upsell engine reading the conversation.”
- 92.0 s  Paid — ticket: 1× Grilled Cheese
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 45.0 s for BLT (tapped): computing (45.0 s) → open (47.2 s); closed at 50.0 s
-- Spotlight at 52.0 s for Grilled Cheese (tapped): computing (52.0 s) → open (54.2 s); closed at 92.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Waiting for the customer to speak before trying to recognise them.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, 380 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 52.0 s · visit · New customer at the counter (cashier started ringing).
-- 52.0 s · screen · Cashier tapped Grilled Cheese. Still open in the meal: a side, a drink, a shake.
-- 52.0 s · pick · Spotlight: the Grilled Cheese was tapped, so the screen blurs while it works out the upsell for it.
-- 52.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 54.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 62.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 92.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 92.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 92. "no thanks, and take off…" (5)
-
-```
-         → Upsell card setting: On new trigger
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “Can I get a regular bacon burger and a regular fries”
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Regular Bacon Burger
-         → Added from what was said: 1× Regular Fries
-  5.0 s  Customer: “No thanks, and take off the fries”
-         → Order change: took Regular Fries off the ticket
-         → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 11.0 s  Paid — ticket: 1× Bacon Burger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Burger (said), Regular Fries (said): computing (3.0 s) → open (8.0 s); closed at 11.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Burger (Regular) 914 cal, 914 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Burger from what the customer said.
-- 3.0 s · order · Heard the order: rang up 1× Regular Fries from what the customer said.
-- 5.0 s · order · Heard “No thanks, and take off the fries”: the customer is changing the order, so it took the Regular Fries off.
-- 8.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 11.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 11.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Burger ($15.98), 3 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 11.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
-
-## 93. two of an item (5) — with explanations
-
-```
-         → Upsell view: Spotlight
- 51.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
-         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
- 51.0 s  Operator: “Hi, what can I get for you today?”
- 54.0 s  Customer: “Can I have two cheeseburgers”
-         → Customer session started — order heard
-         → Heard Cheeseburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Cheeseburger (said)
- 57.0 s  Customer: “The regular one”
-         → Size for Cheeseburger: Regular
-         → Added from what was said: 2× Regular Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-         → Upsell lapsed: Fries (no answer)
- 85.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
-         → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
-         → Upsell shown (basket): Cajun Fries — Completes the basket — no side on the ticket yet
- 91.0 s  Paid — ticket: 2× Cheeseburger (Regular)
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 54.0 s for Regular Cheeseburger (said): computing (54.0 s) → size (56.2 s) → computing (57.0 s) → open (59.2 s); chain: Fries (lapsed); closed at 91.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: 2× Cheeseburger (Regular) 1,968 cal, 1,968 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 54.0 s · visit · New customer at the counter (order heard).
-- 54.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 54.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 54.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 57.0 s · order · The size for Cheeseburger: Regular, so it goes on the ticket.
-- 57.0 s · order · Heard the order: rang up 2× Regular Cheeseburger from what the customer said.
-- 59.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 67.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 85.0 s · outcome · Customer let pass “Fries” (no answer).
-- 86.9 s · pick · Showing “Cajun Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 91.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Cheeseburger ($32.20), 3 lines of conversation, 2 upsells (0 accepted, 0 declined).
-- 91.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
-
-## 94. ordering for someone else too (5)
-
-```
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I'll have a little bacon burger”
-         → Spotlight opened for the Bacon Burger (said)
-         → Added from what was said: 1× Little Bacon Burger
-         → Upsell shown (upsize): Regular Bacon Burger — Make the Bacon Burger a Regular for $4.06 more
-  6.0 s  Customer: “I'm getting food for my kids as well”
-         → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
-         → Upsell shown (hotkey): Another Bacon Burger — Ordering for someone else too — a second one for them?
-  9.0 s  Cashier presses Add
-         → Upsell accepted: Another Bacon Burger (Add)
-         → Upsell shown (upsize, back from earlier): Regular Bacon Burger — Make the Bacon Burger a Regular for $4.06 more
- 15.0 s  Paid — ticket: 2× Bacon Burger (Little)
-         → Session ended — paid · 2 upsell(s) offered, 1 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Little Bacon Burger (said): computing (3.0 s) → open (5.2 s); chain: Another Bacon Burger (accepted); closed at 15.0 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: 2× Bacon Burger (Little) 1,224 cal, 1,224 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is the size-up of the Little Bacon Burger, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Burger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Little Bacon Burger from what the customer said.
-- 5.2 s · pick · Showing “Regular Bacon Burger” (a size up). Why: make the Bacon Burger a Regular for $4.06 more.
-- 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
-- 6.0 s · pick · Remembered “Regular Bacon Burger”: it comes back once “the hot word (Ordering for others)” is answered.
-- 6.0 s · pick · Showing “Another Bacon Burger” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
-- 9.0 s · outcome · Customer said yes to “Another Bacon Burger” (Add).
-- 10.9 s · pick · Back to “Regular Bacon Burger”, the upsell from before the change.
-- 15.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): 2× Bacon Burger ($23.84), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
-- 15.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
-
-## 95. closing while a card is up (5)
-
-```
-         → Upsell card setting: Until accepted or declined
-         → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “A regular bacon cheeseburger please”
-         → Spotlight opened for the Bacon Cheeseburger (said)
-         → Added from what was said: 1× Regular Bacon Cheeseburger
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  7.0 s  Customer: “That'll be all”
-         → Upsell declined: Fries (spoken no)
-         → Hot key — Order closing: “That'll be all” → One last small add-on now, then stop
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 13.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular)
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
-```
-
-- ✅ the engine raised no error
-- ✅ nothing was rung up that nobody ordered, tapped or accepted
-- ✅ an item only asked about or praised was never rung up
-- ✅ every order with a size is on the ticket (unless taken off or swapped)
-- ✅ an order without a size waits for it, and is not on the ticket
-- ✅ no card offered something already on the ticket
-- ✅ no card offered what the customer had taken off
-- ✅ no card offered an item with an allergen the customer named (said in other words: on --live runs)
-- ✅ no card offered an item that is out today
-- ✅ the card setting was obeyed (no silence timeout outside Dynamic; Until answered only gives way to an allergy)
-- ✅ a card answered once was not shown again (within one visit: Clear starts a new one)
-- ✅ a size-up card was for an item on the ticket
-- ✅ nothing an explanation said fired a hot key
-- ✅ no card called a cold item hot
-- ✅ spotlight: every card went up inside an open spotlight
-- ✅ spotlight: every spotlight was opened by an item said or tapped
-- ✅ spotlight: one with nothing more to offer closed by itself within 3 s
-
-- Spotlight at 3.0 s for Regular Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
-
-**How it decided** — weighing at payment:
-
-- *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal, 1,054 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
-- *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Done: the customer closed the order and answered the last small offer. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
-
-Steps:
-
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Bacon Cheeseburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
 - 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
 - 7.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 7.0 s · hotkey · Heard “That'll be all”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
+- 7.0 s · hotkey · Heard “That's everything”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
 - 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger ($17.21), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
+- 13.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 3 lines of conversation, 1 upsell (0 accepted, 1 declined).
 - 13.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
 ## 96. an item that is out today (5)
 
-Before it starts: out of stock today — Poutine.
+Before it starts: out of stock today — Fries.
 
 ```
-         → Upsell card setting: Until accepted or declined
+         → Upsell card setting: On new trigger
          → Upsell view: Spotlight
   0.0 s  Operator: “Hey there, what can I get started for you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “A regular bacon cheeseburger and a poutine please”
-         → Hot key — Ordered an item that's out: “A regular bacon cheeseburger and a poutine please” (Poutine) → Not rung up (out today) — the closest substitute instead
-         → Spotlight opened for the Poutine (said)
-         → Added from what was said: 1× Regular Bacon Cheeseburger
-         → Upsell shown (hotkey): Fries — Poutine is out today — the closest is the Fries
+  3.0 s  Customer: “I'll have a hot dog and a regular fries”
+         → Hot key — Ordered an item that's out: “I'll have a hot dog and a regular fries” (Fries) → Not rung up (out today) — the closest substitute instead
+         → Spotlight opened for the Fries (said)
+         → Added from what was said: 1× Hot Dog
+         → Upsell shown (hotkey): Cajun Fries — Fries is out today — the closest is the Cajun Fries
   6.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
+         → Upsell accepted: Cajun Fries (Add)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 12.0 s  Paid — ticket: 1× Bacon Cheeseburger (Regular), 1× Fries (Regular)
+ 12.0 s  Paid — ticket: 1× Hot Dog, 1× Cajun Fries (Regular)
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -5975,41 +5944,45 @@ Before it starts: out of stock today — Poutine.
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Poutine (said), Regular Bacon Cheeseburger (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 12.0 s
+- Spotlight at 3.0 s for Fries (said), Hot Dog (said): computing (3.0 s) → open (5.2 s); chain: Cajun Fries (accepted); closed at 12.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Bacon Cheeseburger (Regular) 1,054 cal and Fries (Regular) 953 cal, 2,007 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal and Cajun Fries (Regular) 967 cal, 1,487 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · hotkey · Heard “A regular bacon cheeseburger and a poutine please”: hot word “Ordered an item that's out” (Poutine). Not rung up (out today) — the closest substitute instead.
-- 3.0 s · pick · Spotlight: the Poutine was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · hotkey · Heard “I'll have a hot dog and a regular fries”: hot word “Ordered an item that's out” (Fries). Not rung up (out today) — the closest substitute instead.
+- 3.0 s · pick · Spotlight: the Fries was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard the order: rang up 1× Regular Bacon Cheeseburger from what the customer said.
-- 5.2 s · pick · Showing “Fries” [Closest substitute] (answering what the customer said). Why: poutine is out today — the closest is the Fries.
-- 6.0 s · outcome · Customer said yes to “Fries” (Add).
+- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
+- 5.2 s · pick · Showing “Cajun Fries” [Closest substitute] (answering what the customer said). Why: fries is out today — the closest is the Cajun Fries.
+- 6.0 s · outcome · Customer said yes to “Cajun Fries” (Add).
 - 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 12.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Bacon Cheeseburger and Fries ($24.95), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 12.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog and Cajun Fries ($15.72), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 12.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 97. whisper's order list (5)
 
 ```
+         → Upsell card setting: On new trigger
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hey there, what can I get started for you?”
+  0.0 s  Operator: “Hi, welcome in! What can I get you?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “I'll have a hot dog”
-         → Spotlight opened for the Hot Dog (said)
-         → Added from what was said: 1× Hot Dog
-  4.0 s  Whisper's order: 2× Hot Dog
+  3.0 s  Customer: “I want a large chicken tenders”
+         → Hot key — Going large: “large” → Premium add-ons welcome
+         → Spotlight opened for the Chicken Tenders (said)
+         → Added from what was said: 1× Large Chicken Tenders
+  4.0 s  Whisper's order: 2× Chicken Tenders
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 10.0 s  Paid — ticket: 1× Hot Dog
+ 24.0 s  Whisper's order: 1× Chicken Tenders, 1× Side Salad
+         → Whisper's “Side Salad” not rung up — nobody ordered it in the last 10 s
+ 30.0 s  Paid — ticket: 1× Chicken Tenders (Large)
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
 
@@ -6031,45 +6004,44 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Hot Dog (said): computing (3.0 s) → open (5.2 s); closed at 10.0 s
+- Spotlight at 3.0 s for Large Chicken Tenders (said): computing (3.0 s) → open (5.2 s); closed at 30.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hot Dog 520 cal, 520 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Tenders (Large) 700 cal, 700 cal in all, a moderate meal. Contains eggs, milk, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
+- 3.0 s · hotkey · Heard “large”: hot word “Going large”, which means not price-led; big appetite or a long day ahead. Premium add-ons welcome.
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hot Dog was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Hot Dog from what the customer said.
+- 3.0 s · pick · Spotlight: the Chicken Tenders was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Large Chicken Tenders from what the customer said.
 - 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hot Dog ($7.98), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
-- 10.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+- 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 30.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Tenders ($13.29), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
+- 30.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
-## 98. the cashier says the card (5) — with explanations
+## 98. the cashier says the card (5)
 
 ```
-         → Upsell card setting: On new trigger
+         → Upsell card setting: Until accepted or declined
          → Upsell view: Spotlight
- 19.0 s  Operator: “As you can see, if the customer says can I get a large fries, it waits for the size.”
-         → Explaining — not read as the conversation: “As you can see, if the customer says can I get a large fries, it waits for the size.”
- 19.0 s  Operator: “Hi, what can I get for you today?”
- 22.0 s  Customer: “Can I have a cheese dog”
+  0.0 s  Operator: “Hi, what can I get for you today?”
+  3.0 s  Customer: “Could I get a veggie sandwich”
          → Customer session started — order heard
-         → Spotlight opened for the Cheese Dog (said)
-         → Added from what was said: 1× Cheese Dog
+         → Spotlight opened for the Veggie Sandwich (said)
+         → Added from what was said: 1× Veggie Sandwich
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 25.0 s  Operator: “Would you like the Fries?”
- 27.0 s  Customer: “Nah I'm good”
-         → Upsell declined: Fries (spoken no)
+  6.0 s  Operator: “Would you like the Fries?”
+  8.0 s  Customer: “Yes please”
+         → Upsell accepted: Fries (spoken yes)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 33.0 s  Paid — ticket: 1× Cheese Dog
-         → Session ended — paid · 2 upsell(s) offered, 0 accepted
+ 14.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Fries (Regular)
+         → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
 - ✅ the engine raised no error
@@ -6090,27 +6062,27 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 22.0 s for Cheese Dog (said): computing (22.0 s) → open (24.2 s); chain: Fries (declined); closed at 33.0 s
+- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 14.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Cheese Dog 590 cal, 590 cal in all, a light meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal and Fries (Regular) 953 cal, 1,224 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 0 accepted. Open: next is a side, a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 22.0 s · visit · New customer at the counter (order heard).
-- 22.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 22.0 s · pick · Spotlight: the Cheese Dog was said, so the screen blurs while it works out the upsell for it.
-- 22.0 s · order · Heard the order: rang up 1× Cheese Dog from what the customer said.
-- 24.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 27.0 s · outcome · Customer turned down “Fries” (spoken no).
-- 28.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 32.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 33.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheese Dog ($9.09), 4 lines of conversation, 2 upsells (0 accepted, 1 declined).
-- 33.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
+- 3.0 s · visit · New customer at the counter (order heard).
+- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
+- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 8.0 s · outcome · Customer said yes to “Fries” (spoken yes).
+- 9.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
+- 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich and Fries ($15.11), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 14.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 99. two no's in a row, then more ordering (5)
 
@@ -6118,9 +6090,9 @@ Steps:
          → Upsell view: Spotlight
   0.0 s  Operator: “Welcome! What would you like today?”
          → Customer session started — greeting heard
-  3.0 s  Customer: “Let me get a regular burger”
-         → Spotlight opened for the Hamburger (said)
-         → Added from what was said: 1× Regular Hamburger
+  3.0 s  Customer: “Could I get a BLT”
+         → Spotlight opened for the BLT (said)
+         → Added from what was said: 1× BLT
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
   6.0 s  Cashier presses No thanks
          → Upsell declined: Fries (No thanks)
@@ -6128,11 +6100,11 @@ Steps:
   9.0 s  Cashier presses No thanks
          → Upsell declined: Fountain Drink (No thanks)
          → Spotlight closed — the chain is done · 2 upsell(s) answered, 0 taken
- 13.0 s  Customer: “Can I get a bottled water”
-         → Spotlight opened for the Bottled Water (said)
-         → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 19.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Bottled Water
+ 13.0 s  Customer: “I'll have a regular iced tea”
+         → Spotlight opened for the Iced Tea (said)
+         → Added from what was said: 1× Regular Iced Tea
+         → Upsell shown (upsize): Large Iced Tea — Make the Iced Tea a Large for $0.70 more
+ 19.0 s  Paid — ticket: 1× BLT, 1× Iced Tea (Regular)
          → Session ended — paid · 3 upsell(s) offered, 0 accepted
 ```
 
@@ -6154,57 +6126,65 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Regular Hamburger (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
-- Spotlight at 13.0 s for Bottled Water (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
+- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
+- Spotlight at 13.0 s for Regular Iced Tea (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal and Bottled Water 0 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Iced Tea (Regular) 120 cal, 622 cal in all, a moderate meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is the size-up of the Regular Iced Tea, the lowest-hanging fruit. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
 - 0.0 s · visit · New customer at the counter (greeting heard).
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 3.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
+- 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
+- 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
 - 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
 - 6.0 s · outcome · Customer turned down “Fries” (No thanks).
 - 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
 - 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 13.0 s · pick · Spotlight: the Bottled Water was said, so the screen blurs while it works out the upsell for it.
-- 13.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 15.2 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
-- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Bottled Water ($16.93), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
+- 13.0 s · pick · Spotlight: the Iced Tea was said, so the screen blurs while it works out the upsell for it.
+- 13.0 s · order · Heard the order: rang up 1× Regular Iced Tea from what the customer said.
+- 15.2 s · pick · Showing “Large Iced Tea” (a size up). Why: make the Iced Tea a Large for $0.70 more.
+- 19.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Iced Tea ($11.16), 3 lines of conversation, 3 upsells (0 accepted, 2 declined).
 - 19.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.
 
-## 100. a mixed visit (5)
+## 100. a mixed visit (5) — with explanations
 
 ```
          → Upsell view: Spotlight
-  0.0 s  Operator: “Hi, welcome in! What can I get you?”
-         → Customer session started — greeting heard
-  3.0 s  Customer: “I want a burger”
-         → Heard Hamburger — waiting for its size (Little / Regular)
-         → Spotlight opened for the Hamburger (said)
-  5.0 s  Customer: “The poutine here is amazing”
-  7.0 s  Cashier picks Regular for Hamburger on the size prompt
-         → Size for Hamburger: Regular
-         → Added from what was said: 1× Regular Hamburger
-  9.0 s  Cashier opens Drinks
+ 42.0 s  Operator: “The brain reads the voice print and remembers what they had last time.”
+         → Explaining — not read as the conversation: “The brain reads the voice print and remembers what they had last time.”
+ 42.0 s  Operator: “Hi, what can I get for you today?”
+ 45.0 s  Customer: “Lemme get a cheeseburger”
+         → Customer session started — order heard
+         → Heard Cheeseburger — waiting for its size (Little / Regular)
+         → Spotlight opened for the Cheeseburger (said)
+ 47.0 s  Customer: “Could I come in and get a sweet potato fries tomorrow?”
+ 49.0 s  Cashier picks Little for Cheeseburger on the size prompt
+         → Size for Cheeseburger: Little
+         → Added from what was said: 1× Little Cheeseburger
+ 51.0 s  Cashier opens Drinks
+         → Upsell shown (upsize): Regular Cheeseburger — Make the Cheeseburger a Regular for $4.18 more
+ 53.0 s  Cashier taps Iced Tea (Regular)
+ 55.0 s  Customer: “I'm in a rush”
+         → Hot key — In a hurry: “in a rush” → Shorten or skip the pitch; only something ready to hand
+         → Upsell shown (upsize, back from earlier): Regular Cheeseburger — Make the Cheeseburger a Regular for $4.18 more
+ 58.0 s  Cashier presses No thanks
+         → Upsell declined: Regular Cheeseburger (No thanks)
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
- 11.0 s  Cashier taps Bottled Water
- 13.0 s  Customer: “Dairy and me are not friends”
-         → Allergy heard: milk — no card with it from now on
- 16.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
-         → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
- 22.0 s  Paid — ticket: 1× Hamburger (Regular), 1× Bottled Water
-         → Session ended — paid · 1 upsell(s) offered, 0 accepted
+         → Upsell lapsed: Fries (no answer)
+         → Upsell shown (basket): Onion Rings — Completes the basket — no side on the ticket yet
+107.0 s  Operator: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
+         → Explaining — not read as the conversation: “If someone says I'm allergic to milk, the brain offers a lettuce wrap.”
+         → Upsell lapsed: Onion Rings (no answer)
+113.0 s  Paid — ticket: 1× Cheeseburger (Little), 1× Iced Tea (Regular)
+         → Session ended — paid · 3 upsell(s) offered, 0 accepted
 ```
 
 - ✅ the engine raised no error
@@ -6225,30 +6205,36 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Regular Hamburger (said), Bottled Water (tapped): computing (3.0 s) → size (3.0 s) → computing (7.0 s) → open (9.2 s) → done (17.9 s); chain: Fries (declined); closed at 19.4 s
+- Spotlight at 45.0 s for Little Cheeseburger (said), Regular Iced Tea (tapped): computing (45.0 s) → open (52.0 s); chain: Regular Cheeseburger (declined) → Fries (lapsed) → Onion Rings (lapsed); closed at 113.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Hamburger (Regular) 844 cal and Bottled Water 0 cal, 844 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Cheeseburger (Little) 612 cal and Iced Tea (Regular) 120 cal, 732 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a Little size, so lighter add-ons come first (water before a shake, no upsize).
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 1 shown so far, 0 accepted. Open: next is a side and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 0 accepted. Open: next is a side and a shake (no more size-ups: one was turned down). Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
-- 0.0 s · visit · New customer at the counter (greeting heard).
-- 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- 3.0 s · order · Heard Hamburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
-- 3.0 s · pick · Spotlight: the Hamburger was said, so the screen blurs while it works out the upsell for it.
-- 7.0 s · order · The size for Hamburger: Regular, so it goes on the ticket.
-- 7.0 s · order · Heard the order: rang up 1× Regular Hamburger from what the customer said.
-- 9.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
-- 9.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · screen · Cashier tapped Bottled Water. Still open in the meal: a side, a shake.
-- 11.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 13.0 s · health · Heard an allergy (milk): no upsell that contains it from now on.
-- 16.0 s · outcome · Customer turned down “Fries” (No thanks).
-- 19.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
-- 21.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 22.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Hamburger and Bottled Water ($16.93), 4 lines of conversation, 1 upsell (0 accepted, 1 declined).
-- 22.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
+- 45.0 s · visit · New customer at the counter (order heard).
+- 45.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
+- 45.0 s · order · Heard Cheeseburger, but no size yet: it waits for the size (Little or Regular) before going on the ticket.
+- 45.0 s · pick · Spotlight: the Cheeseburger was said, so the screen blurs while it works out the upsell for it.
+- 49.0 s · order · The size for Cheeseburger: Little, so it goes on the ticket.
+- 49.0 s · order · Heard the order: rang up 1× Little Cheeseburger from what the customer said.
+- 51.0 s · screen · Opened Drinks: the best one for this customer is the Fountain Drink (Regular) (the most ordered here).
+- 52.0 s · pick · Showing “Regular Cheeseburger” (a size up). Why: make the Cheeseburger a Regular for $4.18 more.
+- 53.0 s · screen · Cashier tapped Iced Tea (Regular). Still open in the meal: a side, a shake.
+- 53.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
+- 53.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
+- 55.0 s · hotkey · Heard “in a rush”: hot word “In a hurry”, which means in a hurry. Shorten or skip the pitch; only something ready to hand.
+- 55.0 s · pick · Remembered “Regular Cheeseburger”: it comes back once “the hot word (In a hurry)” is answered.
+- 55.0 s · pick · Back to “Regular Cheeseburger”, the upsell from before the change.
+- 58.0 s · outcome · Customer turned down “Regular Cheeseburger” (No thanks).
+- 59.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 63.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
+- 85.0 s · outcome · Customer let pass “Fries” (no answer).
+- 86.9 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 112.0 s · outcome · Customer let pass “Onion Rings” (no answer).
+- 113.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Cheeseburger and Iced Tea ($15.71), 4 lines of conversation, 3 upsells (0 accepted, 1 declined).
+- 113.0 s · visit · Visit ended (paid): 3 upsells shown, 0 accepted.

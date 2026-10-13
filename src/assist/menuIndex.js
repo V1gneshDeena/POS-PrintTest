@@ -25,7 +25,7 @@ const ROLE_RULES = [
   [/shake|bakery|sweet|dessert|treat|pastr/, "treat"],
   [/drink|coffee|tea|beverage|juice/, "drink"],
   [/fries|side/, "side"],
-  [/burger|hot dog|sandwich|breakfast|food|entree|main|bowl|wrap/, "main"],
+  [/burger|hot dog|sandwich|chicken|breakfast|food|entree|main|bowl|wrap/, "main"],
   [/extra|merch|retail/, "other"],
 ]
 
@@ -44,6 +44,13 @@ const MENU_ALIASES = {
     "water": "Bottled Water", "dasani": "Bottled Water", "hotdog": "Hot Dog", "dog": "Hot Dog",
     "burger": "Hamburger", "veggie": "Veggie Sandwich", "five guys style fries": "Fries", "regular fries": "Fries",
     "cajun": "Cajun Fries", "gravy fries": "Poutine",
+    // The demo's own items (2026-10-12)
+    "chicken burger": "Chicken Sandwich", "tenders": "Chicken Tenders", "chicken strips": "Chicken Tenders",
+    "chicken fingers": "Chicken Tenders", "rings": "Onion Rings", "onion ring": "Onion Rings",
+    "sweet potato": "Sweet Potato Fries", "salad": "Side Salad", "garden salad": "Side Salad",
+    "ice tea": "Iced Tea", "tea": "Iced Tea", "ice cream": "Sundae", "ice cream sundae": "Sundae",
+    "cookie": "Chocolate Chip Cookie", "chocolate chip": "Chocolate Chip Cookie", "pie": "Apple Pie",
+    "oreo cookie": "Oreo Cookie Pieces", // the mix-in, not "oreo" + a Chocolate Chip Cookie
     // Free toppings and shake mix-ins (rung up at $0)
     "lettuce wrap": "Lettuce Wrap (no bun)", "no bun": "Lettuce Wrap (no bun)", "bunless": "Lettuce Wrap (no bun)",
     "mayonnaise": "Mayo", "tomato": "Tomatoes", "pickle": "Pickles", "onions": "Raw Onions", "raw onion": "Raw Onions",

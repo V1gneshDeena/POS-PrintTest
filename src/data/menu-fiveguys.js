@@ -15,6 +15,11 @@
 // receipt carry them.
 //
 // Burgers: "Little" = single patty, "Regular" = double patty (modeled as sizes).
+//
+// The demo's own items (David, 2026-10-12: more options for the upsell and its alternatives): the
+// Chicken section, the Sides section, the Desserts section and three more drinks (ids dmprod_*). They
+// are not Five Guys items; their prices, calories and allergens are our estimates, in menu-kb.json by
+// scripts/add-demo-items.py. Chicken Tenders: Regular = three, Large = five.
 
 export const MENU = {
   "Burgers": [
@@ -36,17 +41,34 @@ export const MENU = {
     { id: "fgprod_0024", name: "Cheese Veggie Sandwich", sizes: { "each": 8.60 } },
     { id: "fgprod_0025", name: "BLT", sizes: { "each": 7.37 } },
   ],
+  "Chicken": [
+    { id: "dmprod_0081", name: "Chicken Sandwich", sizes: { "each": 11.49 }, tag: "popular" },
+    { id: "dmprod_0082", name: "Chicken Tenders", sizes: { "Regular": 9.49, "Large": 13.29 } },
+  ],
   "Fries": [
     { id: "fgprod_0031", name: "Fries", sizes: { "Little": 6.14, "Regular": 7.74, "Large": 9.09 }, tag: "bestseller" },
     { id: "fgprod_0032", name: "Cajun Fries", sizes: { "Little": 6.14, "Regular": 7.74, "Large": 9.09 }, tag: "popular" },
     { id: "fgprod_0034", name: "Poutine", sizes: { "each": 13.03 }, tag: "signature" },
   ],
+  "Sides": [
+    { id: "dmprod_0061", name: "Onion Rings", sizes: { "Regular": 6.99, "Large": 8.49 }, tag: "popular" },
+    { id: "dmprod_0062", name: "Sweet Potato Fries", sizes: { "Little": 6.49, "Regular": 7.99, "Large": 9.49 } },
+    { id: "dmprod_0063", name: "Side Salad", sizes: { "each": 5.49 } },
+  ],
   "Shakes": [
     { id: "fgprod_0041", name: "Hand-Spun Milkshake", sizes: { "each": 9.26 }, tag: "signature" },
+  ],
+  "Desserts": [
+    { id: "dmprod_0071", name: "Sundae", sizes: { "each": 5.99 } },
+    { id: "dmprod_0072", name: "Chocolate Chip Cookie", sizes: { "each": 2.49 } },
+    { id: "dmprod_0073", name: "Apple Pie", sizes: { "each": 3.49 } },
   ],
   "Drinks": [
     { id: "fgprod_0051", name: "Fountain Drink", sizes: { "Regular": 3.59, "Large": 4.29 } },
     { id: "fgprod_0052", name: "Bottled Water", sizes: { "each": 3.29 } },
+    { id: "dmprod_0053", name: "Lemonade", sizes: { "Regular": 3.99, "Large": 4.79 } },
+    { id: "dmprod_0054", name: "Iced Tea", sizes: { "Regular": 3.79, "Large": 4.49 } },
+    { id: "dmprod_0055", name: "Coffee", sizes: { "Regular": 2.49, "Large": 2.99 } },
   ],
   // Free: the 15 toppings, the lettuce wrap (no bun) and the shake mix-ins, rung up at $0 so the
   // ticket, the kitchen and the receipt carry them.
@@ -85,8 +107,11 @@ export const CATEGORY_ICONS = {
   "Burgers": "🍔",
   "Hot Dogs": "🌭",
   "Sandwiches": "🥪",
+  "Chicken": "🍗",
   "Fries": "🍟",
+  "Sides": "🧅",
   "Shakes": "🥤",
+  "Desserts": "🍨",
   "Drinks": "🧃",
   "Toppings": "🥬",
   "Mix-ins": "🍓",

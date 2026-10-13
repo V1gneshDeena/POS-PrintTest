@@ -1,5 +1,5 @@
 {
- "_doc": "Burger-menu knowledge base for Vavoom Assist (RAG): built by scripts/build-menu-kb.py from the Five Guys Canada Nutrition, Ingredient & Allergen Guide (page 1 CA 12-2023, page 2 CA 10-2024) and one Ontario store's online prices. Do not edit by hand; rerun the script. Allergens are the guide's 11 columns plus barley (malt vinegar).",
+ "_doc": "Burger-menu knowledge base for Vavoom Assist (RAG): built by scripts/build-menu-kb.py from the Five Guys Canada Nutrition, Ingredient & Allergen Guide (page 1 CA 12-2023, page 2 CA 10-2024) and one Ontario store's online prices. Do not edit by hand; rerun the script. Allergens are the guide's 11 columns plus barley (malt vinegar). Demo additions (2026-10-12, scripts/add-demo-items.py): Chicken Sandwich, Chicken Tenders, Onion Rings, Sweet Potato Fries, Side Salad, Lemonade, Iced Tea, Coffee, Sundae, Chocolate Chip Cookie, Apple Pie — estimated values, not from the guide.",
  "source": {
   "guide": "Five Guys Canada Nutrition, Ingredient & Allergen Guide (fiveguys.ca, accurate as of 12-2023 / 10-2024)",
   "prices": "Five Guys, 770 Gardiners Rd, Kingston ON — online menu (order.online), read 2026-10-08; prices vary by franchise",
@@ -1036,6 +1036,331 @@
    "cautions": [],
    "estimated": "",
    "price_note": "",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Chicken Sandwich": {
+   "category": "Chicken",
+   "description": "Crispy fried chicken breast with pickles and mayo on a toasted sesame bun.",
+   "sizes": {
+    "each": {
+     "price": 11.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 640
+     },
+     "calories": 640
+    }
+   },
+   "allergens": [
+    "eggs",
+    "milk",
+    "sesame",
+    "soy",
+    "wheat"
+   ],
+   "cautions": [
+    "Fried in the same 100% refined peanut oil as the fries."
+   ],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Chicken Tenders": {
+   "category": "Chicken",
+   "description": "Hand-breaded chicken tenders, three (Regular) or five (Large), with a dipping sauce.",
+   "sizes": {
+    "Regular": {
+     "price": 9.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 420
+     },
+     "calories": 420
+    },
+    "Large": {
+     "price": 13.29,
+     "parts": {},
+     "nutrition": {
+      "calories": 700
+     },
+     "calories": 700
+    }
+   },
+   "allergens": [
+    "eggs",
+    "milk",
+    "soy",
+    "wheat"
+   ],
+   "cautions": [
+    "Fried in the same 100% refined peanut oil as the fries."
+   ],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Onion Rings": {
+   "category": "Sides",
+   "description": "Thick-cut onion rings in a crispy batter.",
+   "sizes": {
+    "Regular": {
+     "price": 6.99,
+     "parts": {},
+     "nutrition": {
+      "calories": 480
+     },
+     "calories": 480
+    },
+    "Large": {
+     "price": 8.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 720
+     },
+     "calories": 720
+    }
+   },
+   "allergens": [
+    "milk",
+    "soy",
+    "wheat"
+   ],
+   "cautions": [
+    "Fried in the same 100% refined peanut oil as the fries."
+   ],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Sweet Potato Fries": {
+   "category": "Sides",
+   "description": "Fresh-cut sweet potato fries with a pinch of salt.",
+   "sizes": {
+    "Little": {
+     "price": 6.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 290
+     },
+     "calories": 290
+    },
+    "Regular": {
+     "price": 7.99,
+     "parts": {},
+     "nutrition": {
+      "calories": 430
+     },
+     "calories": 430
+    },
+    "Large": {
+     "price": 9.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 620
+     },
+     "calories": 620
+    }
+   },
+   "allergens": [],
+   "cautions": [
+    "Fried in the same 100% refined peanut oil as the fries."
+   ],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Side Salad": {
+   "category": "Sides",
+   "description": "Mixed greens, tomato and cucumber with buttermilk ranch dressing.",
+   "sizes": {
+    "each": {
+     "price": 5.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 190
+     },
+     "calories": 190
+    }
+   },
+   "allergens": [
+    "eggs",
+    "milk"
+   ],
+   "cautions": [],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Lemonade": {
+   "category": "Drinks",
+   "description": "Fresh-squeezed lemonade over ice.",
+   "sizes": {
+    "Regular": {
+     "price": 3.99,
+     "parts": {},
+     "nutrition": {
+      "calories": 220
+     },
+     "calories": 220
+    },
+    "Large": {
+     "price": 4.79,
+     "parts": {},
+     "nutrition": {
+      "calories": 320
+     },
+     "calories": 320
+    }
+   },
+   "allergens": [],
+   "cautions": [],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Iced Tea": {
+   "category": "Drinks",
+   "description": "Lightly sweetened black iced tea with lemon.",
+   "sizes": {
+    "Regular": {
+     "price": 3.79,
+     "parts": {},
+     "nutrition": {
+      "calories": 120
+     },
+     "calories": 120
+    },
+    "Large": {
+     "price": 4.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 170
+     },
+     "calories": 170
+    }
+   },
+   "allergens": [],
+   "cautions": [],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Coffee": {
+   "category": "Drinks",
+   "description": "Fresh-brewed hot coffee.",
+   "sizes": {
+    "Regular": {
+     "price": 2.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 5
+     },
+     "calories": 5
+    },
+    "Large": {
+     "price": 2.99,
+     "parts": {},
+     "nutrition": {
+      "calories": 10
+     },
+     "calories": 10
+    }
+   },
+   "allergens": [],
+   "cautions": [],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "black; milk and cream on request",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Sundae": {
+   "category": "Desserts",
+   "description": "Vanilla and chocolate ice cream with hot fudge.",
+   "sizes": {
+    "each": {
+     "price": 5.99,
+     "parts": {},
+     "nutrition": {
+      "calories": 380
+     },
+     "calories": 380
+    }
+   },
+   "allergens": [
+    "milk",
+    "soy"
+   ],
+   "cautions": [],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Chocolate Chip Cookie": {
+   "category": "Desserts",
+   "description": "A big, soft-baked chocolate chip cookie.",
+   "sizes": {
+    "each": {
+     "price": 2.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 220
+     },
+     "calories": 220
+    }
+   },
+   "allergens": [
+    "eggs",
+    "milk",
+    "soy",
+    "wheat"
+   ],
+   "cautions": [],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
+   "calories_note": "",
+   "lettuce_wrap": false,
+   "ingredients": {}
+  },
+  "Apple Pie": {
+   "category": "Desserts",
+   "description": "A slice of apple pie with a lattice crust.",
+   "sizes": {
+    "each": {
+     "price": 3.49,
+     "parts": {},
+     "nutrition": {
+      "calories": 290
+     },
+     "calories": 290
+    }
+   },
+   "allergens": [
+    "milk",
+    "soy",
+    "wheat"
+   ],
+   "cautions": [],
+   "estimated": "demo addition (2026-10-12): our own standard-recipe estimate, not from the guide",
+   "price_note": "demo price (estimate)",
    "calories_note": "",
    "lettuce_wrap": false,
    "ingredients": {}

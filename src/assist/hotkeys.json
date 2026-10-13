@@ -123,7 +123,7 @@
       "label": "Doesn't like it",
       "family": "customer",
       "patterns": [
-        "\\bi (?:don't|do not|didn't|did not) (?:like|love) (?:it|this|that|the)\\b",
+        "\\bi (?:don't|do not|didn't|did not) (?:really )?(?:like|love|care for)\\b",
         "\\bnot a fan of\\b"
       ],
       "meaning": "Doesn't like an item (the one named, or the last one ordered)",

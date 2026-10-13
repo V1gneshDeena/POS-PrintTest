@@ -10,7 +10,9 @@
 // allergies (with and without a substitute), items taken off and swapped, the three card settings,
 // menu sections, a returning voice, Clear, "no thanks, and…", two-of-an-item, ordering for others,
 // closing, out of stock, two customers in a row, whisper's own order list, the cashier saying the card,
-// and two no's in a row; a quarter are demo visits where the presenter explains the system along the way
+// and two no's in a row; a quarter are demo visits where the presenter explains the system along the way.
+// The menu includes the demo's own items (2026-10-12: chicken, more sides, drinks and desserts), and the
+// hot-word visits also say what steers the side or drink (spicy, starving, light, thirsty, tired, sweet tooth)
 // (lines that quote orders and hot words, which must never be read). Instead of one expected outcome each, every transaction is held to the same
 // rules (RULES below), each one a promise the system makes whatever the conversation; a broken rule is a
 // bug to fix. `meta` is what the generator knows the customer meant (ordered, tapped, mentioned only,
@@ -21,7 +23,9 @@ import KB from "../src/data/menu-kb.json"
 const SIZED = {
   Hamburger: ["Little", "Regular"], Cheeseburger: ["Little", "Regular"], "Bacon Burger": ["Little", "Regular"],
   "Bacon Cheeseburger": ["Little", "Regular"], Fries: ["Little", "Regular", "Large"], "Cajun Fries": ["Little", "Regular", "Large"],
-  "Fountain Drink": ["Regular", "Large"],
+  "Fountain Drink": ["Regular", "Large"], "Chicken Tenders": ["Regular", "Large"], "Onion Rings": ["Regular", "Large"],
+  "Sweet Potato Fries": ["Little", "Regular", "Large"], Lemonade: ["Regular", "Large"], "Iced Tea": ["Regular", "Large"],
+  Coffee: ["Regular", "Large"],
 }
 const SAY = {
   Hamburger: ["hamburger", "burger"], Cheeseburger: ["cheeseburger"], "Bacon Burger": ["bacon burger"],
@@ -30,11 +34,17 @@ const SAY = {
   "Hand-Spun Milkshake": ["milkshake", "shake"], "Hot Dog": ["hot dog"], "Cheese Dog": ["cheese dog"],
   Poutine: ["poutine"], "Grilled Cheese": ["grilled cheese"], "Veggie Sandwich": ["veggie sandwich"], BLT: ["BLT"],
   "Patty Melt": ["patty melt"],
+  "Chicken Sandwich": ["chicken sandwich"], "Chicken Tenders": ["chicken tenders", "tenders"], "Onion Rings": ["onion rings"],
+  "Sweet Potato Fries": ["sweet potato fries"], "Side Salad": ["side salad", "salad"], Lemonade: ["lemonade"],
+  "Iced Tea": ["iced tea"], Coffee: ["coffee"], Sundae: ["sundae"], "Chocolate Chip Cookie": ["chocolate chip cookie", "cookie"],
+  "Apple Pie": ["apple pie"],
 }
-const MAINS = ["Hamburger", "Cheeseburger", "Bacon Burger", "Bacon Cheeseburger", "Hot Dog", "Cheese Dog", "Grilled Cheese", "Veggie Sandwich", "BLT", "Patty Melt"]
-const SIDES = ["Fries", "Cajun Fries", "Poutine"]
-const DRINKS = ["Fountain Drink", "Bottled Water"]
-const CATEGORY = { Burgers: MAINS.slice(0, 4), Drinks: DRINKS, Shakes: ["Hand-Spun Milkshake"], Fries: SIDES, Sandwiches: ["Grilled Cheese", "Veggie Sandwich", "BLT", "Patty Melt"] }
+const MAINS = ["Hamburger", "Cheeseburger", "Bacon Burger", "Bacon Cheeseburger", "Hot Dog", "Cheese Dog", "Grilled Cheese", "Veggie Sandwich", "BLT", "Patty Melt", "Chicken Sandwich", "Chicken Tenders"]
+const SIDES = ["Fries", "Cajun Fries", "Poutine", "Onion Rings", "Sweet Potato Fries", "Side Salad"]
+const DRINKS = ["Fountain Drink", "Bottled Water", "Lemonade", "Iced Tea", "Coffee"]
+const DESSERTS = ["Sundae", "Chocolate Chip Cookie", "Apple Pie"]
+const CATEGORY = { Burgers: MAINS.slice(0, 4), Drinks: DRINKS, Shakes: ["Hand-Spun Milkshake"], Fries: SIDES.slice(0, 3), Sides: SIDES.slice(3),
+  Sandwiches: ["Grilled Cheese", "Veggie Sandwich", "BLT", "Patty Melt"], Chicken: ["Chicken Sandwich", "Chicken Tenders"], Desserts: DESSERTS }
 
 // ── a seeded random source (mulberry32), so the 100 are the same every run ──
 let seed = 20261008
@@ -132,7 +142,7 @@ function allergensOf(name) {
 // A ticket line's item name: the count and the size come off ("2× Fries (Large)" → "Fries"); a bracket that is
 // part of the name stays ("Lettuce Wrap (no bun)").
 const names = (ticket) => ticket.map((l) => l.replace(/^\d+× /, "").replace(/ \((Little|Regular|Large|Small|Medium)\)$/, ""))
-const COLD = /shake|fountain|water|iced|cold/i
+const COLD = /shake|fountain|water|iced|cold|lemonade|sundae/i
 const RULES = [
   ["the engine raised no error", (r) => !r.errors.length],
   ["nothing was rung up that nobody ordered, tapped or accepted", (r, m) => r.customers.every((c) => {
@@ -223,7 +233,8 @@ const KINDS = [
     v.say("O", pick(GREETINGS), 0)
     const main = pick(MAINS)
     v.order([{ name: main, size: SIZED[main] ? pick(SIZED[main]) : null }], { dt: 3 })
-    v.say("C", pick(["It's so hot out today", "I'm freezing out there", "I'm in a bit of a rush", "I'm trying to eat healthy", "I'm starving", "It's my cheat day"]), 4)
+    v.say("C", pick(["It's so hot out today", "I'm freezing out there", "I'm in a bit of a rush", "I'm trying to eat healthy", "I'm starving", "It's my cheat day",
+      "I love spicy food", "I'm so thirsty", "Long day, I'm so tired", "I've got a sweet tooth today", "Something light please", "I'm not that hungry"]), 4)
     v.push({ press: pick(["add", "no"]) }, 4)
   }],
   ["an allergy", (v) => {

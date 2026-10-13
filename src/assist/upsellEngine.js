@@ -13,7 +13,9 @@
 //                                        card answers a customer ordering an item that is
 //                                        out, or the cashier tapping one (useAssist.js)
 //                "too sweet"/"too bitter" → something to counter it (Counter: too sweet / bitter)
-//                "I don't like it"     → an alternative from the same category (Alternative)
+//                "I don't like it"     → an alternative: the same part of the meal, but another kind
+//                                        (alternativeTo: Onion Rings for Fries, a Sundae for the shake,
+//                                        never a variant of what they don't like) (Alternative)
 //                "do you have X?"      → X, with a complementary item below it (You asked about
 //                                        it); if X is out or not on the menu, the closest
 //                                        substitute
@@ -36,7 +38,11 @@
 //   basket     basket completion, in this menu's order. With sides (the burger menu), David's order
 //              (2026-10-08 precedence picks): size up the main, then add a side and a drink, then
 //              size up the fries and the drink, then a shake, then a main; without sides (Gregory's)
-//              upsize the drink and the food, then a treat, then food
+//              upsize the drink and the food, then a treat, then food. Which side, drink or treat
+//              is offered follows what the customer said (CUES: spicy → Cajun Fries, hungry → Poutine
+//              or Onion Rings, light → Side Salad, thirsty → the drink before the side, a sweet tooth →
+//              a treat before the size-ups…); with nothing said, the most-ordered one (David,
+//              2026-10-12: "it always put fries first")
 //   behaviour  from the screen-activity estimates (behaviour.js): a treat when the customer
 //              is in a treat mood, the category they looked at and left, the bestseller when
 //              undecided, "make it two" on a second round
@@ -70,20 +76,20 @@ const fmt = (n) => `$${Number(n || 0).toFixed(2)}`
 // Name tests for the hot-key constraints and re-ranks. Menus carry no dietary data, so
 // these read item names; they err towards dropping a candidate rather than pitching
 // something the customer just ruled out.
-const DAIRY = /milk|shake|cream|cheese|latte|mocha|macchiato|cappuccino|frapp|butter|yogurt|custard|flat white/i
-const SWEET = /shake|cookie|cake|donut|doughnut|brownie|muffin|cinnamon|sweet|caramel|chocolate|frapp|candy|pie|scone|danish|loaf|syrup|mocha|lemonade|refresher/i
+const DAIRY = /milk|shake|cream|cheese|latte|mocha|macchiato|cappuccino|frapp|butter|yogurt|custard|flat white|sundae/i
+const SWEET = /shake|cookie|cake|donut|doughnut|brownie|muffin|cinnamon|sweet|caramel|chocolate|frapp|candy|pie|scone|danish|loaf|syrup|mocha|lemonade|refresher|sundae/i
 const CAFFEINE = /espresso|cold brew|coffee|americano|latte|shot|nitro|macchiato|cappuccino|mocha|matcha|chai|black tea|\btea\b/i
-const INDULGENT = /shake|cookie|cake|donut|doughnut|brownie|fries|bacon|frapp|cinnamon roll|cheese fries/i
+const INDULGENT = /shake|cookie|cake|donut|doughnut|brownie|fries|bacon|frapp|cinnamon roll|cheese fries|onion rings|sundae|pie|tenders/i
 const SEASONAL = /pumpkin|pecan|apple|peppermint|gingerbread|maple|spice|cranberry|eggnog/i
-const COLD_ITEM = /iced|cold|frapp|shake|lemonade|refresher|smoothie|frozen|fountain|soda|\bwater\b|sparkling|ice cream|slush/i
+const COLD_ITEM = /iced|cold|frapp|shake|lemonade|refresher|smoothie|frozen|fountain|soda|\bwater\b|sparkling|ice cream|slush|sundae/i
 const HOT_ITEM = /\bhot\b|latte|\btea\b|chocolate|soup|cappuccino|americano|mocha|chai|warm|coffee|sandwich|melt/i
 // Warm food, for "something warm" on a menu without hot drinks (the burger menu).
-const HOT_FOOD = /burger|fries|hot dog|sandwich|melt|grilled|\begg|bacon|soup|panini|toast/i
+const HOT_FOOD = /burger|fries|hot dog|sandwich|melt|grilled|\begg|bacon|soup|panini|toast|onion rings|tenders|apple pie/i
 const isColdItem = (e) => COLD_ITEM.test(e.name)
 // A healthy item: one a health-minded customer may still be offered a bigger size of. By name
 // (water, diet, tea, salad, fruit, a veggie item without cheese), or 150 kcal or less in that size
 // by the menu's nutrition data (menu-kb.json).
-const HEALTHY_NAME = /\b(water|diet|zero|unsweet|sparkling|tea|salad|fruit|apple)\b|veggie(?!.*cheese)/i
+const HEALTHY_NAME = /\b(water|diet|zero|unsweet|sparkling|tea|salad|fruit|apple)\b(?! pie)|veggie(?!.*cheese)/i
 export function healthyItem(e, size) {
   if (HEALTHY_NAME.test(e.name)) return true
   const cal = KB.items?.[e.name]?.sizes?.[size || ""]?.calories
@@ -92,10 +98,10 @@ export function healthyItem(e, size) {
 const isHotItem = (e) => !COLD_ITEM.test(e.name) && (HOT_ITEM.test(e.name) || HOT_FOOD.test(e.name))
 // Which part of the meal a temperature card comes from first: a drink, then a side or treat.
 const TEMP_ROLE_ORDER = ["drink", "side", "treat", "main"]
-const ENERGY = /shot|espresso|cold brew|nitro/i
+const ENERGY = /shot|espresso|cold brew|nitro|coffee/i
 // Counters: plain / savoury against "too sweet", sweet against "too bitter".
 const PLAIN = /water|americano|black|brewed|drip|unsweet|cold brew|espresso|fries|salt|pretzel|bagel|plain|grilled cheese|veggie|egg|hot dog|burger/i
-const SWEETENER = /shake|chocolate|caramel|vanilla|mocha|cookie|cake|donut|muffin|sweet|syrup|cream|honey|croissant|loaf|lemonade/i
+const SWEETENER = /shake|chocolate|caramel|vanilla|mocha|cookie|cake|donut|muffin|sweet|syrup|cream|honey|croissant|loaf|lemonade|sundae|pie/i
 // Souvenirs: merchandise only — the menu's "other" items (Extras & Merch), by category or
 // by a merchandise name. Never food or drink ("Bottled Water" is not a souvenir).
 const SOUVENIR_CAT = /merch|souvenir|gift/i
@@ -153,6 +159,76 @@ export function closestTo(target, { exclude = new Set(), constraints = null } = 
   return best && best.s > 0 ? best.e : null
 }
 
+// What the customer said about taste, appetite or mood, and the items each points to (David, 2026-10-12:
+// "it always put fries first during conversational upsell"). A cue moves the side, drink, treat or
+// alternative it names to the front; said negated ("not that hungry", "too spicy", "nothing sweet") it moves
+// them back. `first`: that part of the meal moves forward (a drink before the side; a treat straight after the
+// side and drink). demopos_brain.py has the same list (CUES), so the brain and the POS read a line the same way.
+export const CUES = [
+  { key: "spicy", said: /\b(spicy|spice|kick|zesty|fiery)\b/gi, items: /cajun|jalape|spicy/i, why: "likes it spicy" },
+  { key: "hungry", said: /\b(starving|starved|famished|hungry|big appetite)\b/gi, items: /poutine|onion rings|chicken tenders/i, why: "said they're hungry" },
+  { key: "light", said: /\b(light|lighter|healthy|healthier|on a diet|salad|greens|not too heavy)\b/gi, items: /salad|bottled water/i, why: "wants something light" },
+  { key: "sweet", said: /\b(sweet tooth|something sweet|dessert|treat myself|craving (?:something )?sweet)\b/gi, items: /sundae|cookie|apple pie|shake/i, why: "has a sweet tooth", first: "treat" },
+  { key: "thirsty", said: /\b(thirsty|parched)\b/gi, items: /lemonade|iced tea|fountain|water/i, why: "said they're thirsty", first: "drink" },
+  { key: "tired", said: /\b(tired|sleepy|exhausted|long day|pick[- ]me[- ]up|caffeine)\b/gi, items: /coffee/i, why: "needs a pick-me-up" },
+  { key: "crispy", said: /\b(crispy|crunchy|crunch)\b/gi, items: /onion rings|chicken tenders/i, why: "wants something crispy" },
+  { key: "cheesy", said: /\b(cheesy|gravy|curds?)\b/gi, items: /poutine/i, why: "loves cheese and gravy" },
+  { key: "chicken", said: /\b(no beef|don'?t eat beef|not (?:a |much of a )?burger (?:person|fan))\b/gi, items: /chicken/i, why: "prefers chicken" },
+  { key: "refreshing", said: /\b(refreshing|citrus|lemony)\b/gi, items: /lemonade|iced tea/i, why: "wants something refreshing" },
+]
+// A cue word with one of these shortly before it is said the other way round.
+const CUE_NEGATED = /\b(?:no|not|nothing|don'?t|never|without|too|isn'?t|wasn'?t|aren'?t|can'?t|allergic to)\b[\w\s']{0,14}$/i
+
+/** The cues in what was said: [{ cue, sign }], the last mention of each deciding (sign −1 when negated). */
+export function cuesIn(text) {
+  const t = String(text || "")
+  const out = []
+  for (const cue of CUES) {
+    let sign = 0
+    for (const m of t.matchAll(cue.said)) sign = CUE_NEGATED.test(t.slice(Math.max(0, m.index - 24), m.index)) ? -1 : 1
+    if (sign) out.push({ cue, sign })
+  }
+  return out
+}
+
+/** How strongly what was said points to (+) or away from (−) an item, and why (the first cue that names it). */
+export function cueFit(entry, cues) {
+  let score = 0
+  let why = ""
+  for (const { cue, sign } of cues || []) {
+    if (!cue.items.test(entry.name)) continue
+    score += sign
+    if (sign > 0 && !why) why = cue.why
+  }
+  return { score, why }
+}
+
+const nameStems = (s) => [...words(s)].filter((w) => w.length >= 4)
+/**
+ * Something the customer may like instead of an item they said they don't like: the same part of the meal,
+ * but another kind of it (another category scores higher, and sharing a name stem with it scores lower, so
+ * a Cheeseburger is never answered with a Bacon Cheeseburger, nor Fries with Cajun Fries), a cold drink or
+ * treat for a cold one, then what was said (cues) and popularity. Not closestTo: a substitute for an item
+ * that is out should be as close as possible; an alternative should not.
+ */
+export function alternativeTo(target, { exclude = new Set(), constraints = null, cues = [] } = {}) {
+  const stems = nameStems(target.name)
+  const cold = isColdItem(target)
+  let best = null
+  for (const e of INDEX.entries) {
+    if (e.id === target.id || exclude.has(e.id) || e.role === "other" || e.role !== target.role || !allowedBy(constraints, e)) continue
+    const n = norm(e.name)
+    let s = 40
+    if (e.category !== target.category) s += 20
+    if (stems.some((w) => n.includes(w)) || nameStems(e.name).some((w) => norm(target.name).includes(w))) s -= 25
+    if ((e.role === "drink" || e.role === "treat") && isColdItem(e) === cold) s += 8
+    s += cueFit(e, cues).score * 15
+    s += ({ bestseller: 3, popular: 2, signature: 1 }[e.tag] || 0) - e.rank * 0.3
+    if (!best || s > best.s) best = { e, s }
+  }
+  return best && best.s > 0 ? best.e : null
+}
+
 /**
  * ctx = { cart: [{item, size, price, count, category}], lastAdded: {item, category, size, price} | null,
  *         behaviours: [...estimate()], ai: {entry, reason} | null,
@@ -163,6 +239,9 @@ export function closestTo(target, { exclude = new Set(), constraints = null } = 
  *                pausedUntil } | null }
  * ctx.justSized = the id of the item whose size was just given (its size-up comes first), or null.
  * ctx.removed = Map(entry id → "remove" | "replace"): what the customer had taken off this visit.
+ * ctx.inFlight = entries speech has just rung up that the ticket does not show yet (it redraws a moment later).
+ * ctx.said = what the customer said this visit (the last few lines, the employee's left out): its CUES pick
+ *            which side, drink or treat is offered, and the alternative.
  * ctx.brain = { entry, kind: 'add'|'upsize'|'swap', size, price, fromSize?, fromEntry?, alsoEntry? (an
  *               allergy swap's lettuce wrap, rung up with it), tag,
  *               framing, why, at } | null — the upsell brain's latest pick (useAssist.handleBrain).
@@ -216,6 +295,7 @@ export function pickUpsell(ctx) {
         && (card.entry.role !== "other" || card.source === "hotkey" || card.source === "brain")) cands.push(card)
   }
   const pickFrom = (opts) => bestOf(opts).find((e) => allowedBy(constraints, e))
+  const cues = cuesIn(ctx.said)
   // A hot key's pending response (a substitute, "you asked about it", the temperature) stays usable for 10
   // minutes after it was said: a card held until answered, or a demo with explanations, can keep it
   // waiting that long (David, 2026-10-08, confirmed). It never delays a card; older than that, it is dropped.
@@ -242,7 +322,7 @@ export function pickUpsell(ctx) {
     }
     for (const d of recent(hot.disliked)) {
       if (d.offered) continue
-      const pick = closestTo(d.entry, { exclude: new Set([...blocked, d.entry.id]), constraints })
+      const pick = alternativeTo(d.entry, { exclude: new Set([...blocked, d.entry.id]), constraints, cues })
       if (pick) consider({ ...addCard(pick, { source: "hotkey", tag: "Alternative", score: 104,
         reason: `Doesn't like the ${d.entry.name} — try the ${pick.name} instead` }), origin: d })
     }
@@ -288,11 +368,13 @@ export function pickUpsell(ctx) {
     }
     // Wants food pitches a main only when the ticket has none; with a main on it the basket is
     // completed instead (food still ranks first in the re-rank below: the side before the drink).
-    if (fired("food") && !cartRoles.has("main")) {
+    if (fired("food") && !cartRoles.has("main") && !(ctx.inFlight || []).some((e) => e.role === "main")) {
       const pick = INDEX.entries.filter((e) => isFood(e) && !blocked.has(e.id))
         .sort((a, b) => (a.role === "main" ? 0 : 1) - (b.role === "main" ? 0 : 1) || a.rank - b.rank)
         .find((e) => allowedBy(constraints, e))
-      if (pick) consider(addCard(pick, { source: "hotkey", score: 86, reason: "Said they want food — our most-ordered" }))
+      // `fills`: it fills the ticket's empty main, so a main reaching the ticket takes it down like a basket
+      // card ("I'm starving. A cheeseburger": picked before the burger is on the ticket; useAssist cardOvertaken).
+      if (pick) consider({ ...addCard(pick, { source: "hotkey", score: 86, reason: "Said they want food — our most-ordered" }), fills: true })
     }
     if (fired("seasonal")) {
       const pick = INDEX.entries.filter((e) => SEASONAL.test(e.name) && !blocked.has(e.id)).sort((a, b) => a.rank - b.rank).find((e) => allowedBy(constraints, e))
@@ -349,10 +431,21 @@ export function pickUpsell(ctx) {
     consider(addCard(ai.entry, { source: "ai", score: 50, reason: ai.reason || "Suggested from the conversation" }))
   }
 
-  // 3. Basket completion, in this menu's order (see LADDER).
+  // 3. Basket completion, in this menu's order (see LADDER); a cue's `first` moves its part of the meal forward:
+  // "thirsty" the drink before the side, a sweet tooth the treat straight after the side and drink.
   if (cart.length) {
     let step = 0
-    for (const s of LADDER) {
+    const firsts = new Set(cues.filter((c) => c.sign > 0 && c.cue.first).map((c) => c.cue.first))
+    let ladder = LADDER
+    if (firsts.has("drink") && ladder.includes("add:side")) {
+      ladder = ladder.flatMap((s) => (s === "add:side" ? ["add:drink", "add:side"] : s === "add:drink" ? [] : [s]))
+    }
+    if (firsts.has("treat") && ladder.includes("add:treat")) {
+      const rest = ladder.filter((s) => s !== "add:treat")
+      const at = Math.max(rest.indexOf("add:side"), rest.indexOf("add:drink"), rest.indexOf("up:main")) + 1
+      ladder = [...rest.slice(0, at), "add:treat", ...rest.slice(at)]
+    }
+    for (const s of ladder) {
       const [op, role] = s.split(":")
       const score = 82 - step * 5
       if (op === "up") {
@@ -379,9 +472,15 @@ export function pickUpsell(ctx) {
         step += 1
       } else {
         if (cartRoles.has(role) || declinedRoles.has(role) || !MENU_ROLES.has(role)) continue
-        const pick = pickFrom({ role, exclude: blocked })
+        // The one of that role what was said points to (cues), else the most-ordered; one it points away
+        // from ("not that hungry": no Poutine) only when nothing else is left.
+        const pool = bestOf({ role, exclude: blocked }).filter((e) => allowedBy(constraints, e))
+        const fits = new Map(pool.map((e) => [e.id, cueFit(e, cues)]))
+        const pick = [...pool].sort((a, b) => fits.get(b.id).score - fits.get(a.id).score)[0]
         if (!pick) continue
-        consider(addCard(pick, { source: "basket", score, reason: `Completes the basket — no ${role} on the ticket yet` }))
+        const why = fits.get(pick.id).why
+        consider(addCard(pick, { source: "basket", score, reason: why
+          ? `Completes the basket — ${why}, so the ${pick.name}` : `Completes the basket — no ${role} on the ticket yet` }))
         step += 1
       }
     }

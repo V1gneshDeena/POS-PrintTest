@@ -12,6 +12,9 @@ the 15 free toppings, the lettuce wrap, the shake mix-ins and the extras, each w
 calories and allergens. The POS (menuKnowledge.js) and the voice-print store's SQLite copy
 both read this file.
 
+The demo's own items (Chicken, Sides, Desserts, three drinks) are not on the guide: rerun
+scripts/add-demo-items.py after this script, or they drop out of the file.
+
 Composition marked "estimated" is ours where the guide gives only the parts (Patty Melt,
 Grilled Cheese, BLT, the dogs' bun, Poutine). Prices are from one store's online menu and
 vary by franchise. The PDF is read as untrusted input; run with python -I.

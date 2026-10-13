@@ -68,8 +68,11 @@ export const CAT_COLORS = {
   "Burgers": "#DC2626",
   "Hot Dogs": "#EA580C",
   "Sandwiches": "#CA8A04",
+  "Chicken": "#B45309",
   "Fries": "#D97706",
+  "Sides": "#65A30D",
   "Shakes": "#DB2777",
+  "Desserts": "#BE185D",
   "Breakfast": "#0891B2",
 }
 export const catColor = (cat) => CAT_COLORS[cat] || "#475569"
