@@ -27,8 +27,11 @@
 //     worked out (voice print, hot words, allergies, the ticket, the brain), asks for the size when the
 //     item has none yet, then shows the upsell with Add / No thanks and, after each answer, the next one
 //     in the chain with the chain so far below it. "Back to the order" (or Escape, or a tap on the
-//     blur) closes it; it also closes itself when there is nothing more to offer.
-//   • the TRANSCRIPT — the live partial line and the last few lines heard (above the spotlight's blur).
+//     blur) closes it; it also closes itself when there is nothing more to offer. A Card / Big text switch
+//     at its top right changes its look (useAssist.js SPOT_STYLES): the card above, or only the upsell in
+//     big text (the item, its price, Add and No thanks), so a customer can pick the one they prefer.
+//   • the TRANSCRIPT — the live partial line and the last few lines heard (above the Card style spotlight's
+//     blur; under the Big text style's, so nothing covers the upsell).
 // All state comes from useAssist().
 
 import { useEffect, useRef, useState } from "react"
@@ -36,7 +39,7 @@ import { C, fmt } from "../components/posTheme.js"
 import { useDraggable, useScale } from "./useDraggable.js"
 import { fullBarUrl } from "./assistSync.js"
 import { VavoomMark } from "../components/ui.jsx"
-import { CARD_MODES, UPSELL_VIEWS } from "./useAssist.js"
+import { CARD_MODES, UPSELL_VIEWS, SPOT_STYLES } from "./useAssist.js"
 
 const SOURCE_LABEL = {
   ai: "Vavoom AI · from the conversation",
@@ -107,6 +110,13 @@ function SignIn({ onSignIn }) {
       <button type="submit" disabled={busy} style={btn(true)}>{busy ? "Signing in…" : "Sign in"}</button>
     </form>
   )
+}
+
+// The upsell view menu on the square: the card, or the spotlight in either of its looks (SPOT_STYLES).
+const VIEW_CHOICES = {
+  card: { label: UPSELL_VIEWS.card.label, short: "Card", says: UPSELL_VIEWS.card.says },
+  spotlight: { label: "Spotlight · card", short: "Spotlight", says: `${UPSELL_VIEWS.spotlight.says}; ${SPOT_STYLES.card.says}` },
+  text: { label: "Spotlight · big text", short: "Big text", says: `the same spotlight, showing ${SPOT_STYLES.text.says}` },
 }
 
 /** The price a card shows: the extra cost of an upsize or a swap over the line it replaces, else its price. */
@@ -231,7 +241,9 @@ function UpsellSquare({ a }) {
           <span style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             <button onClick={() => a.setPresenceOn(!a.presenceOn)} style={pill}>{a.presenceOn ? "Camera off" : "Camera on"}</button>
             <PillMenu title="When the upsell on screen changes" heading="When the card changes" options={CARD_MODES} value={a.cardMode} fallback="dynamic" onChange={a.setCardMode} />
-            <PillMenu title="How the upsell is shown" heading="Upsell view" options={UPSELL_VIEWS} value={a.view} fallback="card" onChange={a.setView} />
+            <PillMenu title="How the upsell is shown" heading="Upsell view" options={VIEW_CHOICES}
+              value={a.view !== "spotlight" ? "card" : a.spotStyle === "text" ? "text" : "spotlight"} fallback="card"
+              onChange={(k) => { if (k !== "card") a.setSpotStyle(k === "text" ? "text" : "card"); a.setView(k === "card" ? "card" : "spotlight") }} />
             {a.phase === "active" ? <button onClick={a.endCustomer} style={pill}>End customer</button> : null}
           </span>
         </div>
@@ -355,12 +367,15 @@ function Spotlight({ a }) {
   const latest = items[items.length - 1]
   const pending = c && c.state === "pending"
   const taken = sp.trail.filter((x) => x.outcome === "accepted").length
+  const big = a.spotStyle === "text"
   return (
     <div className="vv-spot-back" onClick={() => a.closeSpot()} style={{
       position: "fixed", inset: 0, zIndex: 260, display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
-      background: "rgba(5,7,10,0.5)", backdropFilter: "blur(14px) saturate(0.85)", WebkitBackdropFilter: "blur(14px) saturate(0.85)",
+      background: big ? "rgba(5,7,10,0.66)" : "rgba(5,7,10,0.5)", backdropFilter: "blur(14px) saturate(0.85)", WebkitBackdropFilter: "blur(14px) saturate(0.85)",
     }}>
       <style>{SPOT_CSS}</style>
+      <SpotStyleSwitch value={a.spotStyle} onChange={a.setSpotStyle} />
+      {big ? <BigText a={a} waiting={waiting} latest={latest} /> : (
       <div className="vv-spot-panel" role="dialog" aria-modal="true" aria-label="Upsell" onClick={(e) => e.stopPropagation()} style={{
         width: "100%", maxWidth: 600, maxHeight: "calc(100vh - 32px)", overflowY: "auto", boxSizing: "border-box",
         background: C.surface, border: `1px solid ${C.line}`, borderRadius: 24, boxShadow: "0 30px 90px rgba(0,0,0,0.6)", color: C.text,
@@ -487,6 +502,101 @@ function Spotlight({ a }) {
             border: `1px solid ${C.line2}`, background: "transparent", color: C.muted }}>Back to the order</button>
         </div>
       </div>
+      )}
+    </div>
+  )
+}
+
+/** The spotlight's Card / Big text switch (SPOT_STYLES), top right over the blur, in the POS's segmented style. */
+function SpotStyleSwitch({ value, onChange }) {
+  return (
+    <div onClick={(e) => e.stopPropagation()} role="radiogroup" aria-label="Spotlight style" style={{
+      position: "absolute", top: 16, right: 16, display: "flex", padding: 3, borderRadius: 999, background: C.surface, border: `1px solid ${C.line}`,
+    }}>
+      {Object.entries(SPOT_STYLES).map(([k, m]) => {
+        const on = (value || "card") === k
+        return (
+          <button key={k} role="radio" aria-checked={on} title={m.says} onClick={() => onChange(k)} style={{
+            height: 30, padding: "0 14px", borderRadius: 999, border: "none", cursor: "pointer", fontFamily: "inherit", fontSize: 12.5, fontWeight: 500,
+            background: on ? C.raised : "transparent", color: on ? C.accent : C.soft, transition: "all 0.15s",
+          }}>{m.label}</button>
+        )
+      })}
+    </div>
+  )
+}
+
+/**
+ * The spotlight's Big text style: only the upsell, as large as the screen allows (the item, its price, Add and
+ * No thanks), and the size question when the item has none yet. Nothing about why it was picked or the chain:
+ * the Card style has those.
+ */
+function BigText({ a, waiting, latest }) {
+  const sp = a.spot
+  const c = a.card
+  const pending = c && c.state === "pending"
+  const huge = { fontSize: "clamp(44px, 7.5vw, 104px)", fontWeight: 500, lineHeight: 1.02, letterSpacing: "-0.045em", color: C.white, margin: 0 }
+  const answer = (primary) => ({
+    height: 64, padding: "0 34px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit", fontSize: 20, fontWeight: 500, letterSpacing: "-0.02em",
+    border: primary ? "none" : `1px solid ${C.line2}`, background: primary ? C.accent : "rgba(11,14,20,0.4)", color: primary ? C.accentInk : C.muted,
+  })
+  let body
+  if (c) {
+    const done = { accepted: ["Added ✓", C.success], declined: ["No thanks", C.muted], noted: ["Noted ✓", C.soft], lapsed: ["Moving on", C.faint] }[c.state]
+    body = (
+      <>
+        <h1 style={{ ...huge, opacity: pending ? 1 : 0.45 }}>{c.title}</h1>
+        {c.kind !== "notice" ? <div style={{ fontSize: "clamp(32px, 5vw, 68px)", fontWeight: 500, letterSpacing: "-0.03em", color: C.accent, marginTop: 14 }}>{cardPrice(c)}</div> : null}
+        {pending ? (
+          <>
+            {c.kind !== "notice" ? (
+              <div style={{ fontSize: 14, fontWeight: 500, marginTop: 26, color: c.pitched ? C.success : "#FBBF24" }}>{c.pitched ? "Said ✓" : "Please voice the upsell"}</div>
+            ) : null}
+            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 16 }}>
+              {c.kind === "notice"
+                ? <button onClick={() => a.decline("tapped Got it")} style={answer(false)}>Got it</button>
+                : <>
+                    <button onClick={() => a.accept()} style={{ ...answer(true), minWidth: 220 }}>{c.kind === "upsize" ? "Add upsize" : c.kind === "swap" ? "Swap" : "Add"}</button>
+                    <button onClick={() => a.decline()} style={answer(false)}>No thanks</button>
+                  </>}
+            </div>
+          </>
+        ) : (
+          <div style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", color: done?.[1] || C.muted, marginTop: 26 }}>{done?.[0] || ""}</div>
+        )}
+      </>
+    )
+  } else if (waiting.length) {
+    const h = waiting[waiting.length - 1]
+    body = (
+      <>
+        <div style={{ fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 500, color: C.muted, letterSpacing: "-0.02em", marginBottom: 12 }}>{h.qty > 1 ? `${h.qty}× ` : ""}{h.name}</div>
+        <h1 style={huge}>{h.sizes.join(" or ")}?</h1>
+        <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 30 }}>
+          {h.sizes.map((l) => <button key={l} onClick={() => a.chooseSize(h.id, l)} style={{ ...answer(false), color: C.white, minWidth: 150 }}>{l}</button>)}
+        </div>
+      </>
+    )
+  } else if (sp.state === "done") {
+    body = <h1 style={{ ...huge, fontSize: "clamp(36px, 5.5vw, 76px)", color: C.muted }}>{sp.trail.length ? "That's everything" : "Nothing to add"}</h1>
+  } else {
+    body = (
+      <div style={{ display: "flex", alignItems: "center", gap: 16, justifyContent: "center", fontSize: "clamp(26px, 3.6vw, 46px)", fontWeight: 500, letterSpacing: "-0.03em", color: C.muted }}>
+        <span aria-hidden="true" style={{ display: "inline-flex", gap: 7 }}>
+          {[0, 1, 2].map((k) => <span key={k} className="vv-spot-dot" style={{ width: 12, height: 12, borderRadius: "50%", background: C.accent, animationDelay: `${k * 0.18}s` }} />)}
+        </span>
+        {latest ? `The best upsell for the ${latest.name}` : "Working it out"}
+      </div>
+    )
+  }
+  return (
+    <div className="vv-spot-panel" role="dialog" aria-modal="true" aria-label="Upsell" onClick={(e) => e.stopPropagation()}
+      style={{ width: "100%", maxWidth: 1100, textAlign: "center", padding: "24px 8px", boxSizing: "border-box" }}>
+      {body}
+      <div style={{ marginTop: 40 }}>
+        <button onClick={() => a.closeSpot()} style={{ height: 38, padding: "0 18px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500,
+          border: `1px solid ${C.line2}`, background: "transparent", color: C.soft }}>Back to the order</button>
+      </div>
     </div>
   )
 }
@@ -546,7 +656,8 @@ export default function AssistOverlay({ assist }) {
     <>
       <UpsellSquare a={assist} />
       {spot ? <Spotlight a={assist} /> : null}
-      <TranscriptBox a={assist} above={!!spot} />
+      {/* Over the Card style's blur; under the Big text style's, which shows only the upsell. */}
+      <TranscriptBox a={assist} above={!!spot && assist.spotStyle !== "text"} />
     </>
   )
 }

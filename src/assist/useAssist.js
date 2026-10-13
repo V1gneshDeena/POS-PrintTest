@@ -98,7 +98,8 @@
 //     order. Going back sets an unsaid card aside in the context window, for the next spotlight; one the
 //     cashier said lapses. Between spotlights no card goes up, so nothing is offered unseen; hot words,
 //     allergies and the voice print still count toward the next one. The card setting still decides
-//     when a card inside the spotlight changes.
+//     when a card inside the spotlight changes. It comes in two looks (SPOT_STYLES): a card, or only the upsell
+//     in big text; the look is the screen's alone (AssistOverlay.jsx).
 //   • QUANTITIES: an item said once is rung up once, however often speech-to-text repeats it ("can I
 //     get a cheeseburger? cheeseburger"). More than one sticks only when a number is said ("two
 //     burgers", "another fries"); whisper's own count is capped to that; whisper naming the same item
@@ -199,6 +200,17 @@ export const UPSELL_VIEWS = {
   spotlight: { label: "Spotlight", short: "Spotlight", says: "when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done" },
 }
 const VIEW_KEY = "vavoom-assist-view"
+// How the spotlight looks (David, 2026-10-12: "one has the card on there and another one just has big texts showing
+// only the upsell, so customers can choose which of these versions they prefer"): switched on the spotlight itself,
+// the upsell square or the full bar, kept on this device. Only the screen changes; what is offered is the same.
+export const SPOT_STYLES = {
+  card: { label: "Card", says: "the upsell on a card over the blur, with why it was picked, its price and the chain so far" },
+  text: { label: "Big text", says: "only the upsell, in big text over the blur, with Add and No thanks under it" },
+}
+const SPOT_STYLE_KEY = "vavoom-assist-spot-style"
+function loadSpotStyle() {
+  try { const v = localStorage.getItem(SPOT_STYLE_KEY); return SPOT_STYLES[v] ? v : "card" } catch { return "card" }
+}
 function loadView() {
   try { const v = localStorage.getItem(VIEW_KEY); return UPSELL_VIEWS[v] ? v : "card" } catch { return "card" }
 }
@@ -1461,6 +1473,7 @@ export function useAssist(pos) {
   // The upsell view (UPSELL_VIEWS) and the open spotlight, if any.
   const [view, setViewState] = useState(() => loadView())
   const [spot, setSpot] = useState(null)
+  const [spotStyle, setSpotStyleState] = useState(() => loadSpotStyle())
 
   const posRef = useRef(pos)
   posRef.current = pos
@@ -1593,6 +1606,11 @@ export function useAssist(pos) {
     chooseSize: (entryId, label) => E.chooseSize(entryId, label),
     setView: (v) => E.setView(v),
     closeSpot: () => E.closeSpot(),
+    setSpotStyle: (v) => {
+      if (!SPOT_STYLES[v]) return
+      try { localStorage.setItem(SPOT_STYLE_KEY, v) } catch { /* private mode: this session only */ }
+      setSpotStyleState((old) => { if (old !== v) E.log(`Spotlight style: ${SPOT_STYLES[v].label}`); return v })
+    },
   }
   const actionsRef = useRef(actions)
   actionsRef.current = actions
@@ -1617,6 +1635,7 @@ export function useAssist(pos) {
         case "card_mode": a.setCardMode(cmd.mode); break
         case "view": a.setView(cmd.view); break
         case "close_spot": a.closeSpot(); break
+        case "spot_style": a.setSpotStyle(cmd.style); break
         default:
       }
     })
@@ -1627,7 +1646,7 @@ export function useAssist(pos) {
   const snapshot = enabled ? {
     demoId: getDemoId(), brand: BRAND.name, restaurant: RESTAURANT, signedIn: !!auth?.ticket, operator: auth?.name || "",
     status, level, phase, trigger, partial, lines, heard, offers, behaviours, customerName, events, aiNote,
-    presenceOn, present, backend, hot, voice, reasoning, cardMode, view, spot, brain: brain && {
+    presenceOn, present, backend, hot, voice, reasoning, cardMode, view, spot, spotStyle, brain: brain && {
       item: brain.item, framing: brain.framing, tag: brain.tag, step: brain.step, kind: brain.kind, framer: brain.framer,
       latency_ms: brain.latency_ms, round_trip_ms: brain.round_trip_ms, error: brain.error || "", trace: brain.trace || null,
     },
@@ -1653,7 +1672,7 @@ export function useAssist(pos) {
 
   return {
     enabled, auth, status, level, phase, trigger, partial, lines, heard, card, offers, behaviours,
-    customerName, events, aiNote, presenceOn, present, camStream, backend, hot, voice, brain, reasoning, cardMode, section, view, spot,
+    customerName, events, aiNote, presenceOn, present, camStream, backend, hot, voice, brain, reasoning, cardMode, section, view, spot, spotStyle,
     ...actions,
   }
 }
