@@ -1,5 +1,5 @@
 {
- "_doc": "Burger-menu knowledge base for Vavoom Assist (RAG): built by scripts/build-menu-kb.py from the Five Guys Canada Nutrition, Ingredient & Allergen Guide (page 1 CA 12-2023, page 2 CA 10-2024) and one Ontario store's online prices. Do not edit by hand; rerun the script. Allergens are the guide's 11 columns plus barley (malt vinegar). Demo additions (2026-10-12, scripts/add-demo-items.py): Chicken Sandwich, Chicken Tenders, Onion Rings, Sweet Potato Fries, Side Salad, Lemonade, Iced Tea, Coffee, Sundae, Chocolate Chip Cookie, Apple Pie — estimated values, not from the guide.",
+ "_doc": "Burger-menu knowledge base for Vavoom Assist (RAG): built by scripts/build-menu-kb.py from the Five Guys Canada Nutrition, Ingredient & Allergen Guide (page 1 CA 12-2023, page 2 CA 10-2024) and one Ontario store's online prices. Do not edit by hand; rerun the script. Allergens are the guide's 11 columns plus barley (malt vinegar). Demo additions (2026-10-12, scripts/add-demo-items.py): Chicken Sandwich, Chicken Tenders, Onion Rings, Sweet Potato Fries, Side Salad, Lemonade, Iced Tea, Coffee, Sundae, Chocolate Chip Cookie, Apple Pie — estimated values, not from the guide; and `pairings` (2026-10-13): the side offered with a main when nothing said points to another.",
  "source": {
   "guide": "Five Guys Canada Nutrition, Ingredient & Allergen Guide (fiveguys.ca, accurate as of 12-2023 / 10-2024)",
   "prices": "Five Guys, 770 Gardiners Rd, Kingston ON — online menu (order.online), read 2026-10-08; prices vary by franchise",
@@ -2437,5 +2437,13 @@
    "allergens": [],
    "ingredients": "Pure Cane Sugar, Corn Syrup, Pure Peppermint Oil, Red #40."
   }
+ },
+ "pairings": {
+  "Patty Melt": "Onion Rings",
+  "BLT": "Onion Rings",
+  "Chicken Sandwich": "Sweet Potato Fries",
+  "Veggie Sandwich": "Side Salad",
+  "Cheese Veggie Sandwich": "Side Salad",
+  "Grilled Cheese": "Side Salad"
  }
 }

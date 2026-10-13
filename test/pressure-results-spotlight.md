@@ -8,7 +8,7 @@ Run in the Spotlight view (--view spotlight): every transaction is also held to 
 |---|---|---|---|---|
 | 1 | spoken order with sizes (1) | ✅ 17/17 | Regular Hamburger (accepted); Fries (unanswered) | 1× Bottled Water, 1× Hamburger (Regular) |
 | 2 | spoken order without a size, then the size (1) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
-| 3 | tapped order only (1) — with explanations | ✅ 17/17 | Fries (taken down); Regular Sweet Potato Fries (accepted); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Veggie Sandwich, 1× Sweet Potato Fries (Regular) |
+| 3 | tapped order only (1) — with explanations | ✅ 17/17 | Side Salad (taken down); Regular Sweet Potato Fries (accepted); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Veggie Sandwich, 1× Sweet Potato Fries (Regular) |
 | 4 | questions and praise that are not orders, then an order (1) | ✅ 17/17 | Fries (unanswered) | 1× Hot Dog |
 | 5 | hot words (1) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Cheeseburger (Regular) |
 | 6 | an allergy (1) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Hamburger (Regular) |
@@ -20,35 +20,35 @@ Run in the Spotlight view (--view spotlight): every transaction is also held to 
 | 12 | "no thanks, and take off…" (1) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular) |
 | 13 | two of an item (1) | ✅ 17/17 | Fries (unanswered) | 2× Hamburger (Regular) |
 | 14 | ordering for someone else too (1) | ✅ 17/17 | Fries (declined); Another Chicken Tenders (unanswered) | 1× Chicken Tenders (Large) |
-| 15 | closing while a card is up (1) | ✅ 17/17 | Fries (declined) | 1× Patty Melt |
+| 15 | closing while a card is up (1) | ✅ 17/17 | Onion Rings (declined) | 1× Patty Melt |
 | 16 | an item that is out today (1) | ✅ 17/17 | [Closest substitute] Sundae (declined); Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
-| 17 | whisper's order list (1) | ✅ 17/17 | Fries (unanswered) | 1× Patty Melt |
+| 17 | whisper's order list (1) | ✅ 17/17 | Onion Rings (unanswered) | 1× Patty Melt |
 | 18 | the cashier says the card (1) — with explanations | ✅ 17/17 | Regular Bacon Burger (accepted); Fries (unanswered) | 1× Bacon Burger (Regular) |
-| 19 | two no's in a row, then more ordering (1) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Iced Tea (unanswered) | 1× Chicken Sandwich, 1× Iced Tea (Regular) |
+| 19 | two no's in a row, then more ordering (1) | ✅ 17/17 | Sweet Potato Fries (declined); Fountain Drink (declined); Large Iced Tea (unanswered) | 1× Chicken Sandwich, 1× Iced Tea (Regular) |
 | 20 | a mixed visit (1) | ✅ 17/17 | Fries (accepted); Large Lemonade (unanswered) | 1× Cheeseburger (Regular), 1× Lemonade (Regular), 1× Fries (Regular) |
-| 21 | spoken order with sizes (2) | ✅ 17/17 | Fries (accepted); Hand-Spun Milkshake (unanswered) | 1× Grilled Cheese, 1× Iced Tea (Large), 1× Fries (Regular) |
+| 21 | spoken order with sizes (2) | ✅ 17/17 | Side Salad (accepted); Hand-Spun Milkshake (unanswered) | 1× Grilled Cheese, 1× Iced Tea (Large), 1× Side Salad |
 | 22 | spoken order without a size, then the size (2) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
 | 23 | tapped order only (2) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Chicken Tenders (Large) |
 | 24 | questions and praise that are not orders, then an order (2) | ✅ 17/17 | [You asked about it] Fries (unanswered) | 1× Hot Dog |
-| 25 | hot words (2) — with explanations | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× BLT, 1× Fries (Regular) |
+| 25 | hot words (2) — with explanations | ✅ 17/17 | Onion Rings (accepted); Fountain Drink (unanswered) | 1× BLT, 1× Onion Rings (Regular) |
 | 26 | an allergy (2) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Hot Dog |
 | 27 | taken off or swapped (2) — with explanations | ✅ 17/17 | Fountain Drink (unanswered) | 1× Bacon Cheeseburger (Regular) |
-| 28 | card setting held through silence (2) | ✅ 17/17 | Fries (lapsed); Onion Rings (taken down); [Something warm] Coffee (accepted); Onion Rings (unanswered) | 1× BLT, 1× Coffee (Regular) |
+| 28 | card setting held through silence (2) | ✅ 17/17 | Onion Rings (lapsed); Fries (taken down); [Something warm] Coffee (accepted); Fries (unanswered) | 1× BLT, 1× Coffee (Regular) |
 | 29 | menu sections opened (2) — with explanations | ✅ 17/17 | Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
-| 30 | a returning voice (2) | ✅ 17/17 | Fries (unanswered) | 1× Veggie Sandwich |
-| 31 | Clear, then a new order (2) | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× BLT |
+| 30 | a returning voice (2) | ✅ 17/17 | Side Salad (unanswered) | 1× Veggie Sandwich |
+| 31 | Clear, then a new order (2) | ✅ 17/17 | Fries (taken down); Onion Rings (unanswered) | 1× BLT |
 | 32 | "no thanks, and take off…" (2) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular) |
 | 33 | two of an item (2) | ✅ 17/17 | Fries (unanswered) | 2× Bacon Burger (Regular) |
-| 34 | ordering for someone else too (2) | ✅ 17/17 | Fries (taken down); Another Chicken Sandwich (declined); Fries (unanswered) | 1× Chicken Sandwich |
+| 34 | ordering for someone else too (2) | ✅ 17/17 | Sweet Potato Fries (taken down); Another Chicken Sandwich (declined); Sweet Potato Fries (unanswered) | 1× Chicken Sandwich |
 | 35 | closing while a card is up (2) — with explanations | ✅ 17/17 | Regular Cheeseburger (declined) | 1× Cheeseburger (Little) |
 | 36 | an item that is out today (2) | ✅ 17/17 | [Closest substitute] Sundae (accepted); Fries (unanswered) | 1× Hamburger (Regular), 1× Sundae |
-| 37 | whisper's order list (2) | ✅ 17/17 | Fries (unanswered) | 1× BLT |
-| 38 | the cashier says the card (2) | ✅ 17/17 | Fries (unanswered) | 1× Patty Melt |
-| 39 | two no's in a row, then more ordering (2) — with explanations | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Coffee (unanswered) | 1× Grilled Cheese, 1× Coffee (Regular) |
+| 37 | whisper's order list (2) | ✅ 17/17 | Onion Rings (unanswered) | 1× BLT |
+| 38 | the cashier says the card (2) | ✅ 17/17 | Onion Rings (unanswered) | 1× Patty Melt |
+| 39 | two no's in a row, then more ordering (2) — with explanations | ✅ 17/17 | Side Salad (declined); Fountain Drink (declined); Large Coffee (unanswered) | 1× Grilled Cheese, 1× Coffee (Regular) |
 | 40 | a mixed visit (2) | ✅ 17/17 | Fries (declined) | 1× Bacon Cheeseburger (Regular), 1× Coffee (Large) |
-| 41 | spoken order with sizes (3) — with explanations | ✅ 17/17 | Fries (accepted); Hand-Spun Milkshake (unanswered) | 1× Veggie Sandwich, 1× Bottled Water, 1× Fries (Regular) |
+| 41 | spoken order with sizes (3) — with explanations | ✅ 17/17 | Side Salad (accepted); Hand-Spun Milkshake (unanswered) | 1× Veggie Sandwich, 1× Bottled Water, 1× Side Salad |
 | 42 | spoken order without a size, then the size (3) | ✅ 17/17 | Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
-| 43 | tapped order only (3) — with explanations | ✅ 17/17 | Fries (taken down); Regular Sweet Potato Fries (accepted); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Chicken Sandwich, 1× Sweet Potato Fries (Regular) |
+| 43 | tapped order only (3) — with explanations | ✅ 17/17 | Sweet Potato Fries (accepted); Regular Sweet Potato Fries (accepted); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× Chicken Sandwich, 1× Sweet Potato Fries (Regular) |
 | 44 | questions and praise that are not orders, then an order (3) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hot Dog |
 | 45 | hot words (3) | ✅ 17/17 | Fries (taken down); [Something cold] Fountain Drink (accepted); Fries (unanswered) | 1× Bacon Cheeseburger (Regular), 1× Fountain Drink (Regular) |
 | 46 | an allergy (3) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Hamburger (Regular) |
@@ -63,30 +63,30 @@ Run in the Spotlight view (--view spotlight): every transaction is also held to 
 | 55 | closing while a card is up (3) — with explanations | ✅ 17/17 | Fries (declined) | 1× Chicken Tenders (Large) |
 | 56 | an item that is out today (3) | ✅ 17/17 | [Closest substitute] Cajun Fries (declined); Fountain Drink (unanswered) | 1× Grilled Cheese |
 | 57 | whisper's order list (3) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Chicken Tenders (Large) |
-| 58 | the cashier says the card (3) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Grilled Cheese, 1× Fries (Regular) |
+| 58 | the cashier says the card (3) | ✅ 17/17 | Side Salad (accepted); Fountain Drink (unanswered) | 1× Grilled Cheese, 1× Side Salad |
 | 59 | two no's in a row, then more ordering (3) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Coffee (unanswered) | 1× Cheese Dog, 1× Coffee (Regular) |
 | 60 | a mixed visit (3) — with explanations | ✅ 17/17 | Regular Cheeseburger (taken down); Fries (declined) | 1× Cheeseburger (Little), 1× Iced Tea (Large) |
 | 61 | spoken order with sizes (4) | ✅ 17/17 | Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Bacon Burger (Regular), 1× Cajun Fries (Large) |
 | 62 | spoken order without a size, then the size (4) | ✅ 17/17 | Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
-| 63 | tapped order only (4) | ✅ 17/17 | Fries (taken down); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Grilled Cheese, 1× Onion Rings (Large) |
+| 63 | tapped order only (4) | ✅ 17/17 | Side Salad (taken down); Fountain Drink (declined); Hand-Spun Milkshake (unanswered) | 1× Grilled Cheese, 1× Onion Rings (Large) |
 | 64 | questions and praise that are not orders, then an order (4) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
-| 65 | hot words (4) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Chicken Sandwich, 1× Fries (Regular) |
+| 65 | hot words (4) | ✅ 17/17 | Sweet Potato Fries (accepted); Fountain Drink (unanswered) | 1× Chicken Sandwich, 1× Sweet Potato Fries (Regular) |
 | 66 | an allergy (4) | ✅ 17/17 | Fries (declined); Fountain Drink (unanswered) | 1× Cheeseburger (Regular) |
 | 67 | taken off or swapped (4) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular) |
-| 68 | card setting held through silence (4) | ✅ 17/17 | Fries (accepted); [Something warm] Coffee (unanswered) | 1× BLT, 1× Fries (Regular) |
-| 69 | menu sections opened (4) | ✅ 17/17 | Fries (unanswered) | 1× Chicken Sandwich |
+| 68 | card setting held through silence (4) | ✅ 17/17 | Onion Rings (accepted); [Something warm] Coffee (unanswered) | 1× BLT, 1× Onion Rings (Regular) |
+| 69 | menu sections opened (4) | ✅ 17/17 | Sweet Potato Fries (unanswered) | 1× Chicken Sandwich |
 | 70 | a returning voice (4) | ✅ 17/17 | Regular Hamburger (unanswered) | 1× Hamburger (Little) |
-| 71 | Clear, then a new order (4) | ✅ 17/17 | Fries (taken down); Fries (unanswered) | 1× Patty Melt |
+| 71 | Clear, then a new order (4) | ✅ 17/17 | Fries (taken down); Onion Rings (unanswered) | 1× Patty Melt |
 | 72 | "no thanks, and take off…" (4) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Hamburger (Regular) |
 | 73 | two of an item (4) | ✅ 17/17 | Regular Bacon Cheeseburger (unanswered) | 2× Bacon Cheeseburger (Little) |
-| 74 | ordering for someone else too (4) | ✅ 17/17 | Fries (declined); Another Grilled Cheese (unanswered) | 1× Grilled Cheese |
+| 74 | ordering for someone else too (4) | ✅ 17/17 | Side Salad (declined); Another Grilled Cheese (unanswered) | 1× Grilled Cheese |
 | 75 | closing while a card is up (4) | ✅ 17/17 | Fries (declined) | 1× Cheese Dog |
 | 76 | an item that is out today (4) — with explanations | ✅ 17/17 | [Closest substitute] Fries (declined); Fountain Drink (lapsed); Bottled Water (unanswered) | 1× BLT |
 | 77 | whisper's order list (4) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Bacon Burger (Regular) |
 | 78 | the cashier says the card (4) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
-| 79 | two no's in a row, then more ordering (4) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Lemonade (unanswered) | 1× Chicken Sandwich, 1× Lemonade (Regular) |
+| 79 | two no's in a row, then more ordering (4) | ✅ 17/17 | Sweet Potato Fries (declined); Fountain Drink (declined); Large Lemonade (unanswered) | 1× Chicken Sandwich, 1× Lemonade (Regular) |
 | 80 | a mixed visit (4) | ✅ 17/17 | [You asked about it] Side Salad (taken down); [You asked about it] Side Salad (accepted); Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little), 1× Lemonade (Regular), 1× Side Salad |
-| 81 | spoken order with sizes (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Grilled Cheese, 1× Fries (Regular) |
+| 81 | spoken order with sizes (5) | ✅ 17/17 | Side Salad (accepted); Fountain Drink (unanswered) | 1× Grilled Cheese, 1× Side Salad |
 | 82 | spoken order without a size, then the size (5) | ✅ 17/17 | Fries (unanswered) | 1× Hamburger (Regular) |
 | 83 | tapped order only (5) — with explanations | ✅ 17/17 | Regular Cheeseburger (declined); Fountain Drink (unanswered) | 1× Cheeseburger (Little), 1× Onion Rings (Regular) |
 | 84 | questions and praise that are not orders, then an order (5) — with explanations | ✅ 17/17 | Regular Bacon Burger (unanswered) | 1× Bacon Burger (Little) |
@@ -94,17 +94,17 @@ Run in the Spotlight view (--view spotlight): every transaction is also held to 
 | 86 | an allergy (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Hand-Spun Milkshake, 1× Fries (Regular) |
 | 87 | taken off or swapped (5) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Cheeseburger (Regular), 1× Poutine |
 | 88 | card setting held through silence (5) | ✅ 17/17 | Fries (lapsed); Onion Rings (taken down); [Something warm] Coffee (declined); Onion Rings (unanswered) | 1× Cheeseburger (Regular) |
-| 89 | menu sections opened (5) — with explanations | ✅ 17/17 | Fries (unanswered) | 1× Grilled Cheese |
+| 89 | menu sections opened (5) — with explanations | ✅ 17/17 | Side Salad (unanswered) | 1× Grilled Cheese |
 | 90 | a returning voice (5) | ✅ 17/17 | Fries (unanswered) | 1× Cheese Dog |
 | 91 | Clear, then a new order (5) | ✅ 17/17 | Fries (taken down); Regular Cheeseburger (unanswered) | 1× Cheeseburger (Little) |
 | 92 | "no thanks, and take off…" (5) | ✅ 17/17 | Fountain Drink (unanswered) | 1× Cheeseburger (Regular) |
 | 93 | two of an item (5) | ✅ 17/17 | Regular Cheeseburger (unanswered) | 2× Cheeseburger (Little) |
 | 94 | ordering for someone else too (5) | ✅ 17/17 | Regular Bacon Cheeseburger (taken down); Another Bacon Cheeseburger (declined); Regular Bacon Cheeseburger (unanswered) | 1× Bacon Cheeseburger (Little) |
-| 95 | closing while a card is up (5) | ✅ 17/17 | Fries (declined) | 1× Grilled Cheese |
+| 95 | closing while a card is up (5) | ✅ 17/17 | Side Salad (declined) | 1× Grilled Cheese |
 | 96 | an item that is out today (5) | ✅ 17/17 | [Closest substitute] Cajun Fries (accepted); Fountain Drink (unanswered) | 1× Hot Dog, 1× Cajun Fries (Regular) |
 | 97 | whisper's order list (5) | ✅ 17/17 | Fries (unanswered) | 1× Chicken Tenders (Large) |
-| 98 | the cashier says the card (5) | ✅ 17/17 | Fries (accepted); Fountain Drink (unanswered) | 1× Veggie Sandwich, 1× Fries (Regular) |
-| 99 | two no's in a row, then more ordering (5) | ✅ 17/17 | Fries (declined); Fountain Drink (declined); Large Iced Tea (unanswered) | 1× BLT, 1× Iced Tea (Regular) |
+| 98 | the cashier says the card (5) | ✅ 17/17 | Side Salad (accepted); Fountain Drink (unanswered) | 1× Veggie Sandwich, 1× Side Salad |
+| 99 | two no's in a row, then more ordering (5) | ✅ 17/17 | Onion Rings (declined); Fountain Drink (declined); Large Iced Tea (unanswered) | 1× BLT, 1× Iced Tea (Regular) |
 | 100 | a mixed visit (5) — with explanations | ✅ 17/17 | Regular Cheeseburger (taken down); Regular Cheeseburger (declined); Fries (lapsed); Onion Rings (lapsed) | 1× Cheeseburger (Little), 1× Iced Tea (Regular) |
 
 ## 1. spoken order with sizes (1)
@@ -232,7 +232,7 @@ Steps:
  50.0 s  Cashier taps Veggie Sandwich
          → Customer session started — cashier started ringing
          → Spotlight opened for the Veggie Sandwich (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Veggie Sandwich
  53.0 s  Cashier taps Sweet Potato Fries (Little)
          → Upsell shown (upsize): Regular Sweet Potato Fries — Only $1.50 more to make the Sweet Potato Fries a Regular
  56.0 s  Cashier presses Add
@@ -279,12 +279,12 @@ Steps:
 - 50.0 s · screen · Cashier tapped Veggie Sandwich. Still open in the meal: a side, a drink, a shake.
 - 50.0 s · pick · Spotlight: the Veggie Sandwich was tapped, so the screen blurs while it works out the upsell for it.
 - 50.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 52.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 52.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Veggie Sandwich.
 - 53.0 s · screen · Cashier tapped Sweet Potato Fries (Little). Still open in the meal: a drink, a shake.
 - 53.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
 - 53.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
 - 53.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
-- 53.0 s · pick · Took down “Fries”: the ticket has a side now.
+- 53.0 s · pick · Took down “Side Salad”: the ticket has a side now.
 - 53.0 s · pick · Showing “Regular Sweet Potato Fries” (a size up). Why: only $1.50 more to make the Sweet Potato Fries a Regular.
 - 56.0 s · outcome · Customer said yes to “Regular Sweet Potato Fries” (Add).
 - 57.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
@@ -960,9 +960,9 @@ Steps:
   3.0 s  Customer: “Could I get a patty melt”
          → Spotlight opened for the Patty Melt (said)
          → Added from what was said: 1× Patty Melt
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the Patty Melt
   7.0 s  Customer: “That'll be all”
-         → Upsell declined: Fries (spoken no)
+         → Upsell declined: Onion Rings (spoken no)
          → Hot key — Order closing: “That'll be all” → One last small add-on now, then stop
          → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
  13.0 s  Paid — ticket: 1× Patty Melt
@@ -987,7 +987,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
+- Spotlight at 3.0 s for Patty Melt (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Onion Rings (declined); closed at 10.4 s
 
 **How it decided** — weighing at payment:
 
@@ -1002,8 +1002,8 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · outcome · Customer turned down “Fries” (spoken no).
+- 5.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the Patty Melt.
+- 7.0 s · outcome · Customer turned down “Onion Rings” (spoken no).
 - 7.0 s · hotkey · Heard “That'll be all”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
 - 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
@@ -1083,7 +1083,7 @@ Steps:
          → Spotlight opened for the Patty Melt (said)
          → Added from what was said: 1× Patty Melt
   4.0 s  Whisper's order: 2× Patty Melt
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the Patty Melt
  10.0 s  Paid — ticket: 1× Patty Melt
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
@@ -1121,7 +1121,7 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the Patty Melt.
 - 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 10.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
@@ -1199,9 +1199,9 @@ Steps:
   3.0 s  Customer: “Can I have a chicken sandwich”
          → Spotlight opened for the Chicken Sandwich (said)
          → Added from what was said: 1× Chicken Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Sweet Potato Fries — Completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich
   6.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
+         → Upsell declined: Sweet Potato Fries (No thanks)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
   9.0 s  Cashier presses No thanks
          → Upsell declined: Fountain Drink (No thanks)
@@ -1232,7 +1232,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
+- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Sweet Potato Fries (declined) → Fountain Drink (declined); closed at 12.4 s
 - Spotlight at 13.0 s for Regular Iced Tea (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
 
 **How it decided** — weighing at payment:
@@ -1248,8 +1248,8 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 5.2 s · pick · Showing “Sweet Potato Fries” (basket completion). Why: completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich.
+- 6.0 s · outcome · Customer turned down “Sweet Potato Fries” (No thanks).
 - 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
 - 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
@@ -1344,11 +1344,11 @@ Steps:
          → Spotlight opened for the Grilled Cheese (said)
          → Added from what was said: 1× Grilled Cheese
          → Added from what was said: 1× Large Iced Tea
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
  10.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
+         → Upsell accepted: Side Salad (Add)
          → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 16.0 s  Paid — ticket: 1× Grilled Cheese, 1× Iced Tea (Large), 1× Fries (Regular)
+ 16.0 s  Paid — ticket: 1× Grilled Cheese, 1× Iced Tea (Large), 1× Side Salad
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -1370,12 +1370,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 4.0 s for Grilled Cheese (said), Large Iced Tea (said): computing (4.0 s) → open (6.2 s); chain: Fries (accepted); closed at 16.0 s
+- Spotlight at 4.0 s for Grilled Cheese (said), Large Iced Tea (said): computing (4.0 s) → open (6.2 s); chain: Side Salad (accepted); closed at 16.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, Iced Tea (Large) 170 cal and Fries (Regular) 953 cal, 1,503 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal, Iced Tea (Large) 170 cal and Side Salad 190 cal, 740 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -1387,11 +1387,11 @@ Steps:
 - 4.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
 - 4.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
 - 4.0 s · order · Heard the order: rang up 1× Large Iced Tea from what the customer said.
-- 6.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 10.0 s · outcome · Customer said yes to “Fries” (Add).
+- 6.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
+- 10.0 s · outcome · Customer said yes to “Side Salad” (Add).
 - 11.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
 - 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese, Iced Tea and Fries ($19.60), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese, Iced Tea and Side Salad ($17.35), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 22. spoken order without a size, then the size (2)
@@ -1583,12 +1583,12 @@ Steps:
  52.0 s  Customer: “I want a BLT”
          → Spotlight opened for the BLT (said)
          → Added from what was said: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the BLT
  56.0 s  Customer: “It's my cheat day”
  60.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
+         → Upsell accepted: Onion Rings (Add)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 66.0 s  Paid — ticket: 1× BLT, 1× Fries (Regular)
+ 66.0 s  Paid — ticket: 1× BLT, 1× Onion Rings (Regular)
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -1610,12 +1610,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 52.0 s for BLT (said): computing (52.0 s) → open (54.2 s); chain: Fries (accepted); closed at 66.0 s
+- Spotlight at 52.0 s for BLT (said): computing (52.0 s) → open (54.2 s); chain: Onion Rings (accepted); closed at 66.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Fries (Regular) 953 cal, 1,455 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Onion Rings (Regular) 480 cal, 982 cal in all, a moderate meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -1625,11 +1625,11 @@ Steps:
 - 52.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 52.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
 - 52.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 54.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 60.0 s · outcome · Customer said yes to “Fries” (Add).
+- 54.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the BLT.
+- 60.0 s · outcome · Customer said yes to “Onion Rings” (Add).
 - 61.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 66.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 66.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Fries ($15.11), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 66.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Onion Rings ($14.36), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 66.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 26. an allergy (2)
@@ -1761,16 +1761,16 @@ Steps:
          → Customer session started — order heard
          → Spotlight opened for the BLT (said)
          → Added from what was said: 1× BLT
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the BLT
+         → Upsell lapsed: Onion Rings (no answer)
          → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-         → Upsell lapsed: Fries (no answer)
-         → Upsell shown (basket): Onion Rings — Completes the basket — no side on the ticket yet
  34.0 s  Customer: “I'm freezing”
          → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
          → Upsell shown (hotkey): Coffee — Feeling the cold — something warm
  37.0 s  Operator: “Would you like the Coffee?”
  39.0 s  Customer: “Yes please”
          → Upsell accepted: Coffee (spoken yes)
-         → Upsell shown (basket, back from earlier): Onion Rings — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
  45.0 s  Paid — ticket: 1× BLT, 1× Coffee (Regular)
          → Session ended — paid · 3 upsell(s) offered, 1 accepted
 ```
@@ -1793,7 +1793,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Fries (lapsed) → Coffee (accepted); closed at 45.0 s
+- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Onion Rings (lapsed) → Coffee (accepted); closed at 45.0 s
 
 **How it decided** — weighing at payment:
 
@@ -1808,15 +1808,15 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the BLT.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 31.0 s · outcome · Customer let pass “Fries” (no answer).
-- 32.9 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 31.0 s · outcome · Customer let pass “Onion Rings” (no answer).
+- 32.9 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
 - 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 34.0 s · pick · Remembered “Onion Rings”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
+- 34.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Feeling cold / cold or wet weather)” is answered.
 - 34.0 s · pick · Showing “Coffee” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
 - 39.0 s · outcome · Customer said yes to “Coffee” (spoken yes).
-- 40.9 s · pick · Back to “Onion Rings”, the upsell from before the change.
+- 40.9 s · pick · Back to “Fries”, the upsell from before the change.
 - 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Coffee ($9.86), 5 lines of conversation, 3 upsells (1 accepted, 0 declined).
 - 45.0 s · visit · Visit ended (paid): 3 upsells shown, 1 accepted.
 
@@ -1894,7 +1894,7 @@ Steps:
   5.0 s  Voice print: returning Vpress30 (score 0.88)
          → Voice print: returning voice Vpress30 (score 0.88, tier 0.8, 2 visit(s)) — last time: Fountain Drink
   7.0 s  Cashier opens Fries
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Veggie Sandwich
  13.0 s  Paid — ticket: 1× Veggie Sandwich
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
@@ -1934,7 +1934,7 @@ Steps:
 - 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
 - 5.0 s · voice · Customer remembered: their voice matches a stored voice print (similarity 0.88, tier 0.8). Heard 3 times before, 2 paid orders. Looking at what they ordered before: Fountain Drink.
 - 7.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
-- 8.0 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 8.0 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Veggie Sandwich.
 - 11.0 s · screen · Screen: Browsing Fries. The customer is choosing a side and hasn't settled on one. So: suggest the most-ordered item in Fries.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 13.0 s · memory · Adding this transaction to memory under voice Vpress30: Veggie Sandwich ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
@@ -1954,7 +1954,7 @@ Steps:
   8.0 s  Cashier taps BLT
          → Customer session started — cashier started ringing
          → Spotlight opened for the BLT (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the BLT
  14.0 s  Paid — ticket: 1× BLT
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
@@ -1993,7 +1993,7 @@ Steps:
 - 8.0 s · screen · Cashier tapped BLT. Still open in the meal: a side, a drink, a shake.
 - 8.0 s · pick · Spotlight: the BLT was tapped, so the screen blurs while it works out the upsell for it.
 - 8.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 10.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the BLT.
 - 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
@@ -2114,13 +2114,13 @@ Steps:
   3.0 s  Customer: “Let me get a chicken sandwich”
          → Spotlight opened for the Chicken Sandwich (said)
          → Added from what was said: 1× Chicken Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Sweet Potato Fries — Completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich
   6.0 s  Customer: “And it's for my wife too”
          → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
          → Upsell shown (hotkey): Another Chicken Sandwich — Ordering for someone else too — a second one for them?
   9.0 s  Cashier presses No thanks
          → Upsell declined: Another Chicken Sandwich (No thanks)
-         → Upsell shown (basket, back from earlier): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket, back from earlier): Sweet Potato Fries — Completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich
  15.0 s  Paid — ticket: 1× Chicken Sandwich
          → Session ended — paid · 2 upsell(s) offered, 0 accepted
 ```
@@ -2158,12 +2158,12 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.2 s · pick · Showing “Sweet Potato Fries” (basket completion). Why: completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich.
 - 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
-- 6.0 s · pick · Remembered “Fries”: it comes back once “the hot word (Ordering for others)” is answered.
+- 6.0 s · pick · Remembered “Sweet Potato Fries”: it comes back once “the hot word (Ordering for others)” is answered.
 - 6.0 s · pick · Showing “Another Chicken Sandwich” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
 - 9.0 s · outcome · Customer turned down “Another Chicken Sandwich” (No thanks).
-- 10.9 s · pick · Back to “Fries”, the upsell from before the change.
+- 10.9 s · pick · Back to “Sweet Potato Fries”, the upsell from before the change.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich ($11.49), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
 - 15.0 s · visit · Visit ended (paid): 2 upsells shown, 0 accepted.
@@ -2303,7 +2303,7 @@ Steps:
          → Spotlight opened for the BLT (said)
          → Added from what was said: 1× BLT
   4.0 s  Whisper's order: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the BLT
  10.0 s  Paid — ticket: 1× BLT
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
@@ -2341,7 +2341,7 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the BLT.
 - 10.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 10.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT ($7.37), 2 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 10.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
@@ -2356,8 +2356,8 @@ Steps:
   3.0 s  Customer: “Let me get a patty melt”
          → Spotlight opened for the Patty Melt (said)
          → Added from what was said: 1× Patty Melt
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Operator: “Would you like the Fries?”
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the Patty Melt
+  6.0 s  Operator: “Would you like the Onion Rings?”
   8.0 s  Customer: “Make sure it's hot”
  14.0 s  Paid — ticket: 1× Patty Melt
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
@@ -2396,7 +2396,7 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Patty Melt was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Patty Melt from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the Patty Melt.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 4 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
@@ -2413,9 +2413,9 @@ Steps:
  52.0 s  Customer: “I'll have a grilled cheese”
          → Spotlight opened for the Grilled Cheese (said)
          → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
  55.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
+         → Upsell declined: Side Salad (No thanks)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
  58.0 s  Cashier presses No thanks
          → Upsell declined: Fountain Drink (No thanks)
@@ -2446,7 +2446,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 52.0 s for Grilled Cheese (said): computing (52.0 s) → open (54.2 s) → done (59.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 61.4 s
+- Spotlight at 52.0 s for Grilled Cheese (said): computing (52.0 s) → open (54.2 s) → done (59.9 s); chain: Side Salad (declined) → Fountain Drink (declined); closed at 61.4 s
 - Spotlight at 62.0 s for Regular Coffee (said): computing (62.0 s) → open (64.2 s); closed at 68.0 s
 
 **How it decided** — weighing at payment:
@@ -2462,8 +2462,8 @@ Steps:
 - 52.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 52.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
 - 52.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 54.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 55.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 54.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
+- 55.0 s · outcome · Customer turned down “Side Salad” (No thanks).
 - 56.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 58.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
 - 61.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
@@ -2559,11 +2559,11 @@ Steps:
          → Spotlight opened for the Veggie Sandwich (said)
          → Added from what was said: 1× Veggie Sandwich
          → Added from what was said: 1× Bottled Water
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Veggie Sandwich
  35.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
+         → Upsell accepted: Side Salad (Add)
          → Upsell shown (basket): Hand-Spun Milkshake — Completes the basket — no treat on the ticket yet
- 41.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Bottled Water, 1× Fries (Regular)
+ 41.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Bottled Water, 1× Side Salad
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -2585,12 +2585,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 29.0 s for Veggie Sandwich (said), Bottled Water (said): computing (29.0 s) → open (31.2 s); chain: Fries (accepted); closed at 41.0 s
+- Spotlight at 29.0 s for Veggie Sandwich (said), Bottled Water (said): computing (29.0 s) → open (31.2 s); chain: Side Salad (accepted); closed at 41.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, Bottled Water 0 cal and Fries (Regular) 953 cal, 1,224 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal, Bottled Water 0 cal and Side Salad 190 cal, 461 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -2601,11 +2601,11 @@ Steps:
 - 29.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
 - 29.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
 - 29.0 s · order · Heard the order: rang up 1× Bottled Water from what the customer said.
-- 31.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 35.0 s · outcome · Customer said yes to “Fries” (Add).
+- 31.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Veggie Sandwich.
+- 35.0 s · outcome · Customer said yes to “Side Salad” (Add).
 - 36.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
 - 41.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 41.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich, Bottled Water and Fries ($18.40), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 41.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich, Bottled Water and Side Salad ($16.15), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 41.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 42. spoken order without a size, then the size (3)
@@ -2674,8 +2674,9 @@ Steps:
  39.0 s  Cashier taps Chicken Sandwich
          → Customer session started — cashier started ringing
          → Spotlight opened for the Chicken Sandwich (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Sweet Potato Fries — Completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich
  42.0 s  Cashier taps Sweet Potato Fries (Little)
+         → Upsell accepted: Sweet Potato Fries (rung up)
          → Upsell shown (upsize): Regular Sweet Potato Fries — Only $1.50 more to make the Sweet Potato Fries a Regular
  45.0 s  Cashier presses Add
          → Upsell accepted: Regular Sweet Potato Fries (Add)
@@ -2685,7 +2686,7 @@ Steps:
  77.0 s  Operator: “Let's say the customer says they're starving, the engine knows they want food.”
          → Explaining — not read as the conversation: “Let's say the customer says they're starving, the engine knows they want food.”
  83.0 s  Paid — ticket: 1× Chicken Sandwich, 1× Sweet Potato Fries (Regular)
-         → Session ended — paid · 3 upsell(s) offered, 1 accepted
+         → Session ended — paid · 4 upsell(s) offered, 2 accepted
 ```
 
 - ✅ the engine raised no error
@@ -2706,14 +2707,14 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 39.0 s for Chicken Sandwich (tapped), Regular Sweet Potato Fries (tapped): computing (39.0 s) → open (41.2 s); chain: Regular Sweet Potato Fries (accepted) → Fountain Drink (lapsed); closed at 83.0 s
+- Spotlight at 39.0 s for Chicken Sandwich (tapped), Regular Sweet Potato Fries (tapped): computing (39.0 s) → open (41.2 s); chain: Sweet Potato Fries (accepted) → Regular Sweet Potato Fries (accepted) → Fountain Drink (lapsed); closed at 83.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Waiting for the customer to speak before trying to recognise them.
 - *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal and Sweet Potato Fries (Regular) 430 cal, 1,070 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
-- *When it pitches:* Pitching follows the conversation, with no set number: 3 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
+- *When it pitches:* Pitching follows the conversation, with no set number: 4 shown so far, 2 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
 Steps:
 
@@ -2721,20 +2722,20 @@ Steps:
 - 39.0 s · screen · Cashier tapped Chicken Sandwich. Still open in the meal: a side, a drink, a shake.
 - 39.0 s · pick · Spotlight: the Chicken Sandwich was tapped, so the screen blurs while it works out the upsell for it.
 - 39.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 41.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 41.2 s · pick · Showing “Sweet Potato Fries” (basket completion). Why: completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich.
 - 42.0 s · screen · Cashier tapped Sweet Potato Fries (Little). Still open in the meal: a drink, a shake.
 - 42.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
 - 42.0 s · screen · Screen: Chicken settled. That part of the meal is done. So: move the pitch to the next part of the meal.
 - 42.0 s · screen · Screen: Watching the price. Price matters to this customer. So: no upsizes; suggest a low-priced add-on.
-- 42.0 s · pick · Took down “Fries”: the ticket has a side now.
-- 42.0 s · pick · Showing “Regular Sweet Potato Fries” (a size up). Why: only $1.50 more to make the Sweet Potato Fries a Regular.
+- 42.0 s · outcome · Customer said yes to “Sweet Potato Fries” (rung up).
+- 43.9 s · pick · Showing “Regular Sweet Potato Fries” (a size up). Why: only $1.50 more to make the Sweet Potato Fries a Regular.
 - 45.0 s · outcome · Customer said yes to “Regular Sweet Potato Fries” (Add).
 - 46.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 55.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 72.0 s · outcome · Customer let pass “Fountain Drink” (no answer).
 - 73.9 s · pick · Showing “Bottled Water” (basket completion). Why: completes the basket — no drink on the ticket yet.
-- 83.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Sweet Potato Fries ($19.48), 0 lines of conversation, 3 upsells (1 accepted, 0 declined).
-- 83.0 s · visit · Visit ended (paid): 3 upsells shown, 1 accepted.
+- 83.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Sweet Potato Fries ($19.48), 0 lines of conversation, 4 upsells (2 accepted, 0 declined).
+- 83.0 s · visit · Visit ended (paid): 4 upsells shown, 2 accepted.
 
 ## 44. questions and praise that are not orders, then an order (3)
 
@@ -3609,12 +3610,12 @@ Steps:
   3.0 s  Customer: “A grilled cheese please”
          → Spotlight opened for the Grilled Cheese (said)
          → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Operator: “Would you like the Fries?”
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
+  6.0 s  Operator: “Would you like the Side Salad?”
   8.0 s  Customer: “Yes please”
-         → Upsell accepted: Fries (spoken yes)
+         → Upsell accepted: Side Salad (spoken yes)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 14.0 s  Paid — ticket: 1× Grilled Cheese, 1× Fries (Regular)
+ 14.0 s  Paid — ticket: 1× Grilled Cheese, 1× Side Salad
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -3636,12 +3637,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 14.0 s
+- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Side Salad (accepted); closed at 14.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Fries (Regular) 953 cal, 1,333 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Side Salad 190 cal, 570 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -3651,11 +3652,11 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 8.0 s · outcome · Customer said yes to “Fries” (spoken yes).
+- 5.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
+- 8.0 s · outcome · Customer said yes to “Side Salad” (spoken yes).
 - 9.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Fries ($15.11), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Side Salad ($12.86), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 14.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 59. two no's in a row, then more ordering (3)
@@ -3933,7 +3934,7 @@ Steps:
   1.0 s  Cashier taps Grilled Cheese
          → Customer session started — cashier started ringing
          → Spotlight opened for the Grilled Cheese (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
   4.0 s  Cashier taps Onion Rings (Large)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
   7.0 s  Cashier presses No thanks
@@ -3976,12 +3977,12 @@ Steps:
 - 1.0 s · screen · Cashier tapped Grilled Cheese. Still open in the meal: a side, a drink, a shake.
 - 1.0 s · pick · Spotlight: the Grilled Cheese was tapped, so the screen blurs while it works out the upsell for it.
 - 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 3.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
 - 4.0 s · screen · Cashier tapped Onion Rings (Large). Still open in the meal: a drink, a shake.
 - 4.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
 - 4.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
 - 4.0 s · screen · Screen: Going large. Not price-led; a big appetite. So: a premium add-on (shake, dessert) is welcome.
-- 4.0 s · pick · Took down “Fries”: the ticket has a side now.
+- 4.0 s · pick · Took down “Side Salad”: the ticket has a side now.
 - 4.0 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 7.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
 - 8.9 s · pick · Showing “Hand-Spun Milkshake” (basket completion). Why: completes the basket — no treat on the ticket yet.
@@ -4051,12 +4052,12 @@ Steps:
   3.0 s  Customer: “I'd like a chicken sandwich please”
          → Spotlight opened for the Chicken Sandwich (said)
          → Added from what was said: 1× Chicken Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Sweet Potato Fries — Completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich
   7.0 s  Customer: “I've got a sweet tooth today”
  11.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
+         → Upsell accepted: Sweet Potato Fries (Add)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 17.0 s  Paid — ticket: 1× Chicken Sandwich, 1× Fries (Regular)
+ 17.0 s  Paid — ticket: 1× Chicken Sandwich, 1× Sweet Potato Fries (Regular)
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -4078,12 +4079,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 17.0 s
+- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Sweet Potato Fries (accepted); closed at 17.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal and Fries (Regular) 953 cal, 1,593 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Chicken Sandwich 640 cal and Sweet Potato Fries (Regular) 430 cal, 1,070 cal in all, a moderate meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Dynamic (the card changes after 25 s of silence or when something new comes up). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -4093,11 +4094,11 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 11.0 s · outcome · Customer said yes to “Fries” (Add).
+- 5.2 s · pick · Showing “Sweet Potato Fries” (basket completion). Why: completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich.
+- 11.0 s · outcome · Customer said yes to “Sweet Potato Fries” (Add).
 - 12.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 17.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Fries ($19.23), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 17.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Chicken Sandwich and Sweet Potato Fries ($19.48), 3 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 17.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 66. an allergy (4)
@@ -4225,14 +4226,14 @@ Steps:
          → Customer session started — order heard
          → Spotlight opened for the BLT (said)
          → Added from what was said: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the BLT
  34.0 s  Customer: “I'm freezing”
          → Hot key — Feeling cold / cold or wet weather: “I'm freezing” → Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher
- 37.0 s  Operator: “Would you like the Fries?”
+ 37.0 s  Operator: “Would you like the Onion Rings?”
  39.0 s  Customer: “Sure”
-         → Upsell accepted: Fries (spoken yes)
+         → Upsell accepted: Onion Rings (spoken yes)
          → Upsell shown (hotkey): Coffee — Feeling the cold — something warm
- 45.0 s  Paid — ticket: 1× BLT, 1× Fries (Regular)
+ 45.0 s  Paid — ticket: 1× BLT, 1× Onion Rings (Regular)
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -4254,12 +4255,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 45.0 s
+- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s); chain: Onion Rings (accepted); closed at 45.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Fries (Regular) 953 cal, 1,455 cal in all, a heavy meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: BLT 502 cal and Onion Rings (Regular) 480 cal, 982 cal in all, a moderate meal. Contains eggs, milk, mustard, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -4269,12 +4270,12 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the BLT.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 34.0 s · hotkey · Heard “I'm freezing”: hot word “Feeling cold / cold or wet weather”, which means the customer feels cold, or says it is cold or wet out. Pop up the most-ordered warm item, tagged Something warm, unless a hot drink is already on the ticket; hot drinks and warm food rank higher.
-- 39.0 s · outcome · Customer said yes to “Fries” (spoken yes).
+- 39.0 s · outcome · Customer said yes to “Onion Rings” (spoken yes).
 - 40.9 s · pick · Showing “Coffee” [Something warm] (answering what the customer said). Why: feeling the cold — something warm.
-- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Fries ($15.11), 5 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 45.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): BLT and Onion Rings ($14.36), 5 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 45.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 69. menu sections opened (4)
@@ -4286,7 +4287,7 @@ Steps:
          → Customer session started — cashier started ringing
          → Spotlight opened for the Chicken Sandwich (tapped)
   3.0 s  Cashier opens Fries
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Sweet Potato Fries — Completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich
   5.0 s  Cashier opens Desserts
  11.0 s  Paid — ticket: 1× Chicken Sandwich
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
@@ -4327,7 +4328,7 @@ Steps:
 - 1.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
 - 3.0 s · screen · Screen: Chicken settled. That part of the meal is done. So: move the pitch to the next part of the meal.
 - 3.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
-- 3.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 3.2 s · pick · Showing “Sweet Potato Fries” (basket completion). Why: completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich.
 - 5.0 s · screen · Screen: Treat mood. The customer is thinking about something sweet. So: pitch the treat now.
 - 5.0 s · screen · Opened Desserts: the best one for this customer is the Sundae (the most ordered here).
 - 9.0 s · screen · Screen: Browsing Desserts. The customer is choosing a treat and hasn't settled on one. So: suggest the most-ordered item in Desserts.
@@ -4409,7 +4410,7 @@ Steps:
   8.0 s  Cashier taps Patty Melt
          → Customer session started — cashier started ringing
          → Spotlight opened for the Patty Melt (tapped)
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the Patty Melt
  14.0 s  Paid — ticket: 1× Patty Melt
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
 ```
@@ -4448,7 +4449,7 @@ Steps:
 - 8.0 s · screen · Cashier tapped Patty Melt. Still open in the meal: a side, a drink, a shake.
 - 8.0 s · pick · Spotlight: the Patty Melt was tapped, so the screen blurs while it works out the upsell for it.
 - 8.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
-- 10.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 10.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the Patty Melt.
 - 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Patty Melt ($12.29), 0 lines of conversation, 1 upsell (0 accepted, 0 declined).
 - 14.0 s · visit · Visit ended (paid): 1 upsell shown, 0 accepted.
 
@@ -4570,11 +4571,11 @@ Steps:
          → Customer session started — order heard
          → Spotlight opened for the Grilled Cheese (said)
          → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
   6.0 s  Customer: “And it's for my wife too”
          → Hot key — Ordering for others: “for my” → Basket completion: a second item for the other person, not a bigger cup
   9.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
+         → Upsell declined: Side Salad (No thanks)
          → Upsell shown (hotkey): Another Grilled Cheese — Ordering for someone else too — a second one for them?
  15.0 s  Paid — ticket: 1× Grilled Cheese
          → Session ended — paid · 2 upsell(s) offered, 0 accepted
@@ -4598,7 +4599,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Fries (declined); closed at 15.0 s
+- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s); chain: Side Salad (declined); closed at 15.0 s
 
 **How it decided** — weighing at payment:
 
@@ -4613,9 +4614,9 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 5.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
 - 6.0 s · hotkey · Heard “for my”: hot word “Ordering for others”, which means more than one person is being served. Basket completion: a second item for the other person, not a bigger cup.
-- 9.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 9.0 s · outcome · Customer turned down “Side Salad” (No thanks).
 - 10.9 s · pick · Showing “Another Grilled Cheese” (answering what the customer said). Why: ordering for someone else too — a second one for them?.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
 - 15.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese ($7.37), 3 lines of conversation, 2 upsells (0 accepted, 1 declined).
@@ -4874,9 +4875,9 @@ Steps:
   3.0 s  Customer: “I'll take a chicken sandwich”
          → Spotlight opened for the Chicken Sandwich (said)
          → Added from what was said: 1× Chicken Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Sweet Potato Fries — Completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich
   6.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
+         → Upsell declined: Sweet Potato Fries (No thanks)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
   9.0 s  Cashier presses No thanks
          → Upsell declined: Fountain Drink (No thanks)
@@ -4907,7 +4908,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
+- Spotlight at 3.0 s for Chicken Sandwich (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Sweet Potato Fries (declined) → Fountain Drink (declined); closed at 12.4 s
 - Spotlight at 13.0 s for Regular Lemonade (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
 
 **How it decided** — weighing at payment:
@@ -4923,8 +4924,8 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Chicken Sandwich was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Chicken Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 5.2 s · pick · Showing “Sweet Potato Fries” (basket completion). Why: completes the basket — the Sweet Potato Fries goes with the Chicken Sandwich.
+- 6.0 s · outcome · Customer turned down “Sweet Potato Fries” (No thanks).
 - 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
 - 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.
@@ -5023,11 +5024,11 @@ Steps:
          → Customer session started — order heard
          → Spotlight opened for the Grilled Cheese (said)
          → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
  10.0 s  Cashier presses Add
-         → Upsell accepted: Fries (Add)
+         → Upsell accepted: Side Salad (Add)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 16.0 s  Paid — ticket: 1× Grilled Cheese, 1× Fries (Regular)
+ 16.0 s  Paid — ticket: 1× Grilled Cheese, 1× Side Salad
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -5049,12 +5050,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 4.0 s for Grilled Cheese (said): computing (4.0 s) → open (6.2 s); chain: Fries (accepted); closed at 16.0 s
+- Spotlight at 4.0 s for Grilled Cheese (said): computing (4.0 s) → open (6.2 s); chain: Side Salad (accepted); closed at 16.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Fries (Regular) 953 cal, 1,333 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
+- *Health and ingredients:* Looked at calories and ingredients: Grilled Cheese 380 cal and Side Salad 190 cal, 570 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Nothing on the ticket or in what was said points to health, so indulgent add-ons are allowed.
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: On new trigger (the card stays through silence and changes only when something new comes up (a hot word, an item, a better pick)). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -5064,11 +5065,11 @@ Steps:
 - 4.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 4.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
 - 4.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 6.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 10.0 s · outcome · Customer said yes to “Fries” (Add).
+- 6.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
+- 10.0 s · outcome · Customer said yes to “Side Salad” (Add).
 - 11.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 16.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Fries ($15.11), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 16.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Grilled Cheese and Side Salad ($12.86), 2 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 16.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 82. spoken order without a size, then the size (5)
@@ -5503,7 +5504,7 @@ Steps:
          → Customer session started — cashier started ringing
          → Spotlight opened for the Grilled Cheese (tapped)
  27.0 s  Cashier opens Fries
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
  29.0 s  Cashier opens Sandwiches
  35.0 s  Paid — ticket: 1× Grilled Cheese
          → Session ended — paid · 1 upsell(s) offered, 0 accepted
@@ -5544,7 +5545,7 @@ Steps:
 - 25.0 s · screen · Screen: Knew what they wanted. A decided order — the customer named it and the cashier rang it straight in. So: don't offer alternatives in that category; pitch what goes with it.
 - 27.0 s · screen · Screen: Sandwiches settled. That part of the meal is done. So: move the pitch to the next part of the meal.
 - 27.0 s · screen · Opened Fries: the best one for this customer is the Fries (Regular) (the most ordered here).
-- 27.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
+- 27.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
 - 29.0 s · screen · Screen: Second main. Ordering for someone else too, or a bigger appetite. So: offer to make it two / a sharing-size side.
 - 29.0 s · screen · Opened Sandwiches: the best one for this customer is the Patty Melt (the most ordered here).
 - 33.0 s · screen · Screen: Browsing Sandwiches. The customer is choosing a main and hasn't settled on one. So: suggest the most-ordered item in Sandwiches.
@@ -5855,9 +5856,9 @@ Steps:
          → Customer session started — order heard
          → Spotlight opened for the Grilled Cheese (said)
          → Added from what was said: 1× Grilled Cheese
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Grilled Cheese
   7.0 s  Customer: “That's everything”
-         → Upsell declined: Fries (spoken no)
+         → Upsell declined: Side Salad (spoken no)
          → Hot key — Order closing: “That's everything” → One last small add-on now, then stop
          → Spotlight closed — the chain is done · 1 upsell(s) answered, 0 taken
  13.0 s  Paid — ticket: 1× Grilled Cheese
@@ -5882,7 +5883,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Fries (declined); closed at 10.4 s
+- Spotlight at 3.0 s for Grilled Cheese (said): computing (3.0 s) → open (5.2 s) → done (8.9 s); chain: Side Salad (declined); closed at 10.4 s
 
 **How it decided** — weighing at payment:
 
@@ -5897,8 +5898,8 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Grilled Cheese was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Grilled Cheese from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 7.0 s · outcome · Customer turned down “Fries” (spoken no).
+- 5.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Grilled Cheese.
+- 7.0 s · outcome · Customer turned down “Side Salad” (spoken no).
 - 7.0 s · hotkey · Heard “That's everything”: hot word “Order closing”, which means the order is about to close. One last small add-on now, then stop.
 - 10.4 s · pick · Spotlight closed (the chain is done): 1 upsell answered, 0 taken.
 - 13.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
@@ -6035,12 +6036,12 @@ Steps:
          → Customer session started — order heard
          → Spotlight opened for the Veggie Sandwich (said)
          → Added from what was said: 1× Veggie Sandwich
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
-  6.0 s  Operator: “Would you like the Fries?”
+         → Upsell shown (basket): Side Salad — Completes the basket — the Side Salad goes with the Veggie Sandwich
+  6.0 s  Operator: “Would you like the Side Salad?”
   8.0 s  Customer: “Yes please”
-         → Upsell accepted: Fries (spoken yes)
+         → Upsell accepted: Side Salad (spoken yes)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
- 14.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Fries (Regular)
+ 14.0 s  Paid — ticket: 1× Veggie Sandwich, 1× Side Salad
          → Session ended — paid · 2 upsell(s) offered, 1 accepted
 ```
 
@@ -6062,12 +6063,12 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Fries (accepted); closed at 14.0 s
+- Spotlight at 3.0 s for Veggie Sandwich (said): computing (3.0 s) → open (5.2 s); chain: Side Salad (accepted); closed at 14.0 s
 
 **How it decided** — weighing at payment:
 
 - *Memory:* Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
-- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal and Fries (Regular) 953 cal, 1,224 cal in all, a heavy meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
+- *Health and ingredients:* Looked at calories and ingredients: Veggie Sandwich 271 cal and Side Salad 190 cal, 461 cal in all, a light meal. Contains eggs, milk, sesame, soy and wheat. Health signals: a lighter item on the ticket, so lighter add-ons come first (water before a shake, no upsize).
 - *Previous orders:* No previous orders to draw on yet: picks come from the menu's bestsellers, what fits this order and price.
 - *When it pitches:* Pitching follows the conversation, with no set number: 2 shown so far, 1 accepted. Open: next is a drink and a shake. Card setting: Until accepted or declined (the card changes only when the customer accepts or declines it (or the ticket already has what it offers); until the cashier says it, the screen asks to voice it). Upsell view: Spotlight (when an item is said or tapped, the screen blurs and that item's upsells come up over it, one after another, until the chain is done).
 
@@ -6077,11 +6078,11 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the Veggie Sandwich was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× Veggie Sandwich from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 8.0 s · outcome · Customer said yes to “Fries” (spoken yes).
+- 5.2 s · pick · Showing “Side Salad” (basket completion). Why: completes the basket — the Side Salad goes with the Veggie Sandwich.
+- 8.0 s · outcome · Customer said yes to “Side Salad” (spoken yes).
 - 9.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 14.0 s · screen · Screen: Cashier listening. The order is being spoken, not browsed. So: let the heard order fill the ticket.
-- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich and Fries ($15.11), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
+- 14.0 s · memory · Adding this transaction to memory (no voice print was made, so it is not linked to anyone): Veggie Sandwich and Side Salad ($12.86), 4 lines of conversation, 2 upsells (1 accepted, 0 declined).
 - 14.0 s · visit · Visit ended (paid): 2 upsells shown, 1 accepted.
 
 ## 99. two no's in a row, then more ordering (5)
@@ -6093,9 +6094,9 @@ Steps:
   3.0 s  Customer: “Could I get a BLT”
          → Spotlight opened for the BLT (said)
          → Added from what was said: 1× BLT
-         → Upsell shown (basket): Fries — Completes the basket — no side on the ticket yet
+         → Upsell shown (basket): Onion Rings — Completes the basket — the Onion Rings goes with the BLT
   6.0 s  Cashier presses No thanks
-         → Upsell declined: Fries (No thanks)
+         → Upsell declined: Onion Rings (No thanks)
          → Upsell shown (basket): Fountain Drink — Completes the basket — no drink on the ticket yet
   9.0 s  Cashier presses No thanks
          → Upsell declined: Fountain Drink (No thanks)
@@ -6126,7 +6127,7 @@ Steps:
 - ✅ spotlight: every spotlight was opened by an item said or tapped
 - ✅ spotlight: one with nothing more to offer closed by itself within 3 s
 
-- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Fries (declined) → Fountain Drink (declined); closed at 12.4 s
+- Spotlight at 3.0 s for BLT (said): computing (3.0 s) → open (5.2 s) → done (10.9 s); chain: Onion Rings (declined) → Fountain Drink (declined); closed at 12.4 s
 - Spotlight at 13.0 s for Regular Iced Tea (said): computing (13.0 s) → open (15.2 s); closed at 19.0 s
 
 **How it decided** — weighing at payment:
@@ -6142,8 +6143,8 @@ Steps:
 - 3.0 s · voice · Trying to remember the customer: listening for about 2.5 s of their speech to make a voice print.
 - 3.0 s · pick · Spotlight: the BLT was said, so the screen blurs while it works out the upsell for it.
 - 3.0 s · order · Heard the order: rang up 1× BLT from what the customer said.
-- 5.2 s · pick · Showing “Fries” (basket completion). Why: completes the basket — no side on the ticket yet.
-- 6.0 s · outcome · Customer turned down “Fries” (No thanks).
+- 5.2 s · pick · Showing “Onion Rings” (basket completion). Why: completes the basket — the Onion Rings goes with the BLT.
+- 6.0 s · outcome · Customer turned down “Onion Rings” (No thanks).
 - 7.9 s · pick · Showing “Fountain Drink” (basket completion). Why: completes the basket — no drink on the ticket yet.
 - 9.0 s · outcome · Customer turned down “Fountain Drink” (No thanks).
 - 12.4 s · pick · Spotlight closed (the chain is done): 2 upsells answered, 0 taken.

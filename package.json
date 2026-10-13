@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:transcripts": "esbuild test/run-transcripts.mjs --bundle --platform=node --format=esm --outfile=test/.out/run.mjs --log-level=error && node test/.out/run.mjs",
+    "test:variety": "esbuild test/variety.mjs --bundle --platform=node --format=esm --outfile=test/.out/variety.mjs --log-level=error && node test/.out/variety.mjs",
     "print-proxy": "node print-proxy.js",
     "electron:dev": "vite build && electron .",
     "electron:build": "vite build && electron-builder --win"

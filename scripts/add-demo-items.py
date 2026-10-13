@@ -9,6 +9,11 @@ are our own estimates from standard recipes, marked "estimated" on every item, a
 replace them with its own. Each fried item carries the same peanut-oil caution as the fries (one fryer
 oil), which the POS and the brain both read as peanuts. Re-running replaces these items and changes
 nothing else. The POS's catalogue (src/data/menu-fiveguys.js) lists the same items with the same prices.
+
+It also writes `pairings`: the side that goes with a main (David, 2026-10-13: "test that it's not just spewing
+one upsell all the time"). When the customer has said nothing that points to a side, the POS and the brain offer
+the paired side instead of the most-ordered one (Fries); a main with no pairing keeps Fries. A store would set its
+own; these are the classic counter pairings.
 """
 import json
 from pathlib import Path
@@ -44,6 +49,16 @@ ITEMS = {
 }
 
 
+PAIRINGS = {
+    "Patty Melt": "Onion Rings",
+    "BLT": "Onion Rings",
+    "Chicken Sandwich": "Sweet Potato Fries",
+    "Veggie Sandwich": "Side Salad",
+    "Cheese Veggie Sandwich": "Side Salad",
+    "Grilled Cheese": "Side Salad",
+}
+
+
 def main():
     kb = json.loads(KB_PATH.read_text(encoding="utf-8"))
     for name, (cat, desc, sizes, allergens, cautions, cal_note) in ITEMS.items():
@@ -59,9 +74,10 @@ def main():
             "lettuce_wrap": False,
             "ingredients": {},
         }
-    note = " Demo additions (2026-10-12, scripts/add-demo-items.py): " + ", ".join(ITEMS) + " — estimated values, not from the guide."
-    if "Demo additions" not in kb["_doc"]:
-        kb["_doc"] += note
+    kb["pairings"] = dict(PAIRINGS)
+    note = (" Demo additions (2026-10-12, scripts/add-demo-items.py): " + ", ".join(ITEMS) + " — estimated values, not from"
+            " the guide; and `pairings` (2026-10-13): the side offered with a main when nothing said points to another.")
+    kb["_doc"] = kb["_doc"].split(" Demo additions (")[0] + note
     KB_PATH.write_text(json.dumps(kb, ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
     print(f"{len(ITEMS)} demo items in {KB_PATH.name}; {len(kb['items'])} items in all")
 

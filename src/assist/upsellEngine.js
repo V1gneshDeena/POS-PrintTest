@@ -41,8 +41,9 @@
 //              upsize the drink and the food, then a treat, then food. Which side, drink or treat
 //              is offered follows what the customer said (CUES: spicy → Cajun Fries, hungry → Poutine
 //              or Onion Rings, light → Side Salad, thirsty → the drink before the side, a sweet tooth →
-//              a treat before the size-ups…); with nothing said, the most-ordered one (David,
-//              2026-10-12: "it always put fries first")
+//              a treat before the side…); with nothing said, the side that goes with the main
+//              (pairings: Onion Rings with a Patty Melt, a Side Salad with a Veggie Sandwich), else the
+//              most-ordered (David, 2026-10-12: "it always put fries first")
 //   behaviour  from the screen-activity estimates (behaviour.js): a treat when the customer
 //              is in a treat mood, the category they looked at and left, the bestseller when
 //              undecided, "make it two" on a second round
@@ -54,8 +55,9 @@
 // one small add-on at checkout or once the order is closing; dairy-free / sugar / caffeine /
 // health / drink-only constraints drop every candidate that breaks them, the AI's pick
 // included; weather, hurry, energy, routine and seasonal interest re-rank what is left.
-// Nothing already on the ticket, declined, or already offered this customer is offered
-// again; after a declined add-on no other item of the same role is offered by the basket
+// A free item (a topping or mix-in, $0) is never an upsell (David, 2026-10-13); only an allergy answer (the lettuce
+// wrap) or an item the customer asked about is offered at $0. Nothing already on the ticket, declined, or already
+// offered this customer is offered again; after a declined add-on no other item of the same role is offered by the basket
 // or behaviour rules. There is no set number of cards: the conversation decides. Two no's in
 // a row close the door until the customer opens a new one (orders something, or says
 // something a hot key answers: ctx.lastOpeningAt).
@@ -72,6 +74,9 @@ const LADDER = MENU_ROLES.has("side")
   : ["up:drink", "up:main", "add:treat", "add:main"]
 
 const fmt = (n) => `$${Number(n || 0).toFixed(2)}`
+// The side that goes with a main (menu-kb.json, scripts/add-demo-items.py), offered when nothing said points
+// to another; a main without one gets the most-ordered side.
+const PAIRINGS = KB.pairings || {}
 
 // Name tests for the hot-key constraints and re-ranks. Menus carry no dietary data, so
 // these read item names; they err towards dropping a candidate rather than pitching
@@ -162,15 +167,16 @@ export function closestTo(target, { exclude = new Set(), constraints = null } = 
 // What the customer said about taste, appetite or mood, and the items each points to (David, 2026-10-12:
 // "it always put fries first during conversational upsell"). A cue moves the side, drink, treat or
 // alternative it names to the front; said negated ("not that hungry", "too spicy", "nothing sweet") it moves
-// them back. `first`: that part of the meal moves forward (a drink before the side; a treat straight after the
-// side and drink). demopos_brain.py has the same list (CUES), so the brain and the POS read a line the same way.
+// them back. `first`: that part of the meal is offered before the side (a drink for "thirsty" or "tired", a treat
+// for a sweet tooth; David, 2026-10-13: a tired customer was still offered Fries first). demopos_brain.py has the
+// same list (CUES), so the brain and the POS read a line the same way.
 export const CUES = [
   { key: "spicy", said: /\b(spicy|spice|kick|zesty|fiery)\b/gi, items: /cajun|jalape|spicy/i, why: "likes it spicy" },
   { key: "hungry", said: /\b(starving|starved|famished|hungry|big appetite)\b/gi, items: /poutine|onion rings|chicken tenders/i, why: "said they're hungry" },
   { key: "light", said: /\b(light|lighter|healthy|healthier|on a diet|salad|greens|not too heavy)\b/gi, items: /salad|bottled water/i, why: "wants something light" },
   { key: "sweet", said: /\b(sweet tooth|something sweet|dessert|treat myself|craving (?:something )?sweet)\b/gi, items: /sundae|cookie|apple pie|shake/i, why: "has a sweet tooth", first: "treat" },
   { key: "thirsty", said: /\b(thirsty|parched)\b/gi, items: /lemonade|iced tea|fountain|water/i, why: "said they're thirsty", first: "drink" },
-  { key: "tired", said: /\b(tired|sleepy|exhausted|long day|pick[- ]me[- ]up|caffeine)\b/gi, items: /coffee/i, why: "needs a pick-me-up" },
+  { key: "tired", said: /\b(tired|sleepy|exhausted|long day|pick[- ]me[- ]up|caffeine)\b/gi, items: /coffee/i, why: "needs a pick-me-up", first: "drink" },
   { key: "crispy", said: /\b(crispy|crunchy|crunch)\b/gi, items: /onion rings|chicken tenders/i, why: "wants something crispy" },
   { key: "cheesy", said: /\b(cheesy|gravy|curds?)\b/gi, items: /poutine/i, why: "loves cheese and gravy" },
   { key: "chicken", said: /\b(no beef|don'?t eat beef|not (?:a |much of a )?burger (?:person|fan))\b/gi, items: /chicken/i, why: "prefers chicken" },
@@ -286,13 +292,15 @@ export function pickUpsell(ctx) {
 
   const cands = []
   // Free toppings and mix-ins (role "other") are never pitched by the basket, behaviour or AI rules;
-  // only a hot-key answer or the brain (an allergy lettuce wrap, last visit's toppings) offers one.
+  // only a hot-key answer or the brain's allergy lettuce wrap offers one. A free one ($0) only as such an answer:
+  // something the customer asked about (a hot key) or an allergy answer; never as an upsell.
   // An allergy the customer named (ctx.hot.allergens, allergens.js): no card holds it, a size-up and a swap
   // included; the brain's lettuce-wrap swap (alsoEntry) is how it answers one, so it stays.
   const allergic = (card) => !card.alsoEntry && holdsAllergen(card.entry.name, hot?.allergens)
   const consider = (card) => {
     if (card && allowedBy(constraints, card.entry) && !allergic(card)
-        && (card.entry.role !== "other" || card.source === "hotkey" || card.source === "brain")) cands.push(card)
+        && (card.entry.role !== "other" || card.source === "hotkey" || card.source === "brain")
+        && (card.price > 0 || card.kind !== "add" || card.source === "hotkey" || /^Allergy/.test(card.tag || ""))) cands.push(card)
   }
   const pickFrom = (opts) => bestOf(opts).find((e) => allowedBy(constraints, e))
   const cues = cuesIn(ctx.said)
@@ -436,15 +444,10 @@ export function pickUpsell(ctx) {
   if (cart.length) {
     let step = 0
     const firsts = new Set(cues.filter((c) => c.sign > 0 && c.cue.first).map((c) => c.cue.first))
-    let ladder = LADDER
-    if (firsts.has("drink") && ladder.includes("add:side")) {
-      ladder = ladder.flatMap((s) => (s === "add:side" ? ["add:drink", "add:side"] : s === "add:drink" ? [] : [s]))
-    }
-    if (firsts.has("treat") && ladder.includes("add:treat")) {
-      const rest = ladder.filter((s) => s !== "add:treat")
-      const at = Math.max(rest.indexOf("add:side"), rest.indexOf("add:drink"), rest.indexOf("up:main")) + 1
-      ladder = [...rest.slice(0, at), "add:treat", ...rest.slice(at)]
-    }
+    const ahead = ["add:drink", "add:treat"].filter((s) => firsts.has(s.slice(4)) && LADDER.includes(s))
+    const ladder = ahead.length && LADDER.includes("add:side")
+      ? LADDER.flatMap((s) => (s === "add:side" ? [...ahead, "add:side"] : ahead.includes(s) ? [] : [s]))
+      : LADDER
     for (const s of ladder) {
       const [op, role] = s.split(":")
       const score = 82 - step * 5
@@ -472,15 +475,19 @@ export function pickUpsell(ctx) {
         step += 1
       } else {
         if (cartRoles.has(role) || declinedRoles.has(role) || !MENU_ROLES.has(role)) continue
-        // The one of that role what was said points to (cues), else the most-ordered; one it points away
-        // from ("not that hungry": no Poutine) only when nothing else is left.
+        // The one of that role what was said points to (cues); else, for a side, the one that goes with the
+        // main on the ticket (menu-kb.json pairings: Onion Rings with a Patty Melt); else the most-ordered. One
+        // the customer said the other way about ("not that hungry": no Poutine) only when nothing else is left.
         const pool = bestOf({ role, exclude: blocked }).filter((e) => allowedBy(constraints, e))
         const fits = new Map(pool.map((e) => [e.id, cueFit(e, cues)]))
-        const pick = [...pool].sort((a, b) => fits.get(b.id).score - fits.get(a.id).score)[0]
+        const main = role === "side" ? [...cart].reverse().find((l) => PAIRINGS[l.item.name]) : null
+        const paired = (e) => (main && PAIRINGS[main.item.name] === e.name ? 1 : 0)
+        const pick = [...pool].sort((a, b) => fits.get(b.id).score - fits.get(a.id).score || paired(b) - paired(a))[0]
         if (!pick) continue
         const why = fits.get(pick.id).why
-        consider(addCard(pick, { source: "basket", score, reason: why
-          ? `Completes the basket — ${why}, so the ${pick.name}` : `Completes the basket — no ${role} on the ticket yet` }))
+        consider(addCard(pick, { source: "basket", score, reason: why ? `Completes the basket — ${why}, so the ${pick.name}`
+          : paired(pick) ? `Completes the basket — the ${pick.name} goes with the ${main.item.name}`
+          : `Completes the basket — no ${role} on the ticket yet` }))
         step += 1
       }
     }
@@ -558,7 +565,8 @@ export function bestInSection(category, { cart = [], hot = null, voice = null } 
   const out = hot?.blocked || new Set()
   const effects = hot?.effects || new Map()
   const inCart = new Set(cart.map((l) => l.item.id))
-  const pool = INDEX.entries.filter((e) => e.category === category && !out.has(e.id) && allowedBy(constraints, e))
+  // Free items are no hint ("Best in Toppings" would only ever name a $0 topping).
+  const pool = INDEX.entries.filter((e) => e.category === category && !out.has(e.id) && allowedBy(constraints, e) && defaultSizeOf(e)[1] > 0)
   const open = pool.filter((e) => !inCart.has(e.id))
   if (!open.length) return null
   const last = new Set((voice?.matched ? voice.last_order || [] : []).map((x) => norm(x.name)))

@@ -1,4 +1,4 @@
-// 68 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
+// 73 full counter transactions for the In-Store demo POS (burger menu), each with what Vavoom
 // Assist should do. run-transcripts.mjs feeds them, line by line and at their timing, through
 // the real Assist engine (useAssist.js createEngine + upsellEngine + hot keys + order parser),
 // as if each line were a final from whisper, and checks the outcome.
@@ -1123,6 +1123,66 @@ export const TRANSCRIPTS = [
     ],
     checks: [
       ["no card holds milk", (r) => !r.c.cards.some((x) => /Sundae|Cookie|Apple Pie|Onion Rings|Shake|Chicken|Salad|Poutine/.test(x.title))],
+    ],
+  },
+  // ── Not the same upsell for everyone (David, 2026-10-13): pairings, and remarks that move a drink or a treat first ──
+  {
+    id: 69, title: "Nothing said, a Patty Melt: the side that goes with it (Onion Rings), not Fries",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "Can I get a patty melt" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the side card is the Onion Rings, with why", (r) => r.c.cards[0]?.title === "Onion Rings" && /goes with the Patty Melt/.test(r.c.cards[0].reason)],
+    ],
+  },
+  {
+    id: 70, title: "Nothing said, a Veggie Sandwich: a Side Salad",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "Can I get a veggie sandwich" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the side card is the Side Salad", (r) => r.c.cards[0]?.title === "Side Salad"],
+    ],
+  },
+  {
+    id: 71, title: "Tired: the Coffee comes before the side",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "Long day, I'm so tired. A regular cheeseburger please" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the first card is the Coffee", (r) => r.c.cards[0]?.title === "Coffee"],
+    ],
+  },
+  {
+    id: 72, title: "A sweet tooth: a dessert before the side",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "I've got a sweet tooth today. A regular cheeseburger please" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["the first card is a treat", (r) => /Milkshake|Sundae|Cookie|Apple Pie/.test(r.c.cards[0]?.title || "")],
+    ],
+  },
+  {
+    id: 73, title: "A free item is never an upsell: the brain's $0 topping is not shown, and the Toppings section has no hint",
+    steps: [
+      { at: 0, who: "O", say: "Hi, welcome in! What can I get you?" },
+      { at: 4, who: "C", say: "Can I get a regular cheeseburger" },
+      { at: 6, brain: { name: "Grilled Onions", item: "Grilled Onions", kind: "add", size: "each", price: 0, tag: "Last time",
+        framing: "Same grilled onions as last time?", reason: "toppings they had" } },
+      { at: 8, section: "Toppings" },
+      { at: 20, pay: true },
+    ],
+    checks: [
+      ["no card offers a free item", (r) => !r.c.cards.some((x) => x.kind === "add" && /Grilled Onions|Mayo|Pickles|Lettuce|Ketchup/.test(x.title))],
+      ["no Best in Toppings hint", (r) => !r.c.sections.some((x) => x.category === "Toppings")],
     ],
   },
 ]
