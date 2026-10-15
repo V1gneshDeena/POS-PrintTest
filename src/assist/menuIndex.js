@@ -3,7 +3,7 @@
 // Every item becomes an entry { id, name, category, role, sizes, tag, rank, item }:
 //   role  — the item's part of a meal, from its category: main | side | drink | treat |
 //           other. Upsell pairing (upsellEngine.js) works in roles, so one rule set
-//           covers Five Guys (Burgers → Fries → Drinks → Shakes) and Gregory's
+//           covers the burger menu (Burgers → Fries → Drinks → Shakes) and Gregory's
 //           (Drinks → Bakery & Sweets → Food) alike.
 //   rank  — popularity order: bestseller, popular, signature tags first, then the
 //           menu's own order (Gregory's menu is already sorted by units sold).
@@ -11,7 +11,7 @@
 // ("cheese burger", plurals), and a short per-brand list of what customers actually
 // say ("shake", "coke", "hot dog").
 
-import { MENU, BRAND } from "../data/catalog.js"
+import { MENU, MENU_KEY } from "../data/catalog.js"
 
 export const norm = (s) =>
   String(s || "")
@@ -25,7 +25,7 @@ const ROLE_RULES = [
   [/shake|bakery|sweet|dessert|treat|pastr/, "treat"],
   [/drink|coffee|tea|beverage|juice/, "drink"],
   [/fries|side/, "side"],
-  [/burger|hot dog|sandwich|breakfast|food|entree|main|bowl|wrap/, "main"],
+  [/burger|hot dog|sandwich|chicken|breakfast|food|entree|main|bowl|wrap/, "main"],
   [/extra|merch|retail/, "other"],
 ]
 
@@ -35,16 +35,33 @@ export function roleOf(category) {
   return "other"
 }
 
-// What customers say → the menu item they mean, per brand (BRAND.name in catalog.js).
-const BRAND_ALIASES = {
-  "Five Guys": {
+// What customers say → the menu item they mean, per menu (MENU_KEY in catalog.js).
+const MENU_ALIASES = {
+  burgers: {
     "shake": "Hand-Spun Milkshake", "milkshake": "Hand-Spun Milkshake", "milk shake": "Hand-Spun Milkshake",
     "soda": "Fountain Drink", "coke": "Fountain Drink", "pop": "Fountain Drink", "soft drink": "Fountain Drink",
     "pepsi": "Fountain Drink", "sprite": "Fountain Drink", "drink": "Fountain Drink", "fountain": "Fountain Drink",
-    "water": "Bottled Water", "hot dog": "Kosher Style Hot Dog", "hotdog": "Kosher Style Hot Dog",
-    "burger": "Hamburger", "veggie": "Veggie Sandwich", "egg and cheese sandwich": "Egg & Cheese",
+    "water": "Bottled Water", "dasani": "Bottled Water", "hotdog": "Hot Dog", "dog": "Hot Dog",
+    "burger": "Hamburger", "veggie": "Veggie Sandwich", "five guys style fries": "Fries", "regular fries": "Fries",
+    "cajun": "Cajun Fries", "gravy fries": "Poutine",
+    // The demo's own items (2026-10-12)
+    "chicken burger": "Chicken Sandwich", "tenders": "Chicken Tenders", "chicken strips": "Chicken Tenders",
+    "chicken fingers": "Chicken Tenders", "rings": "Onion Rings", "onion ring": "Onion Rings",
+    "sweet potato": "Sweet Potato Fries", "salad": "Side Salad", "garden salad": "Side Salad",
+    "ice tea": "Iced Tea", "tea": "Iced Tea", "ice cream": "Sundae", "ice cream sundae": "Sundae",
+    "cookie": "Chocolate Chip Cookie", "chocolate chip": "Chocolate Chip Cookie", "pie": "Apple Pie",
+    "oreo cookie": "Oreo Cookie Pieces", // the mix-in, not "oreo" + a Chocolate Chip Cookie
+    // Free toppings and shake mix-ins (rung up at $0)
+    "lettuce wrap": "Lettuce Wrap (no bun)", "no bun": "Lettuce Wrap (no bun)", "bunless": "Lettuce Wrap (no bun)",
+    "mayonnaise": "Mayo", "tomato": "Tomatoes", "pickle": "Pickles", "onions": "Raw Onions", "raw onion": "Raw Onions",
+    "grilled onion": "Grilled Onions", "mushrooms": "Grilled Mushrooms", "mushroom": "Grilled Mushrooms",
+    "jalapenos": "Jalapeño Peppers", "jalapeno": "Jalapeño Peppers", "green pepper": "Green Peppers",
+    "bbq": "BBQ Sauce", "barbecue sauce": "BBQ Sauce", "bbq sauce": "BBQ Sauce", "hp": "HP Sauce",
+    "banana": "Bananas", "strawberry": "Strawberries", "oreo": "Oreo Cookie Pieces", "oreos": "Oreo Cookie Pieces",
+    "reeses": "Reese's Peanut Butter Cup", "reese's": "Reese's Peanut Butter Cup", "caramel": "Salted Caramel",
+    "candy cane": "Candy Cane Crunch",
   },
-  "Gregory's Coffee": {
+  gregorys: {
     "coffee": "Brewed Coffee", "drip": "Brewed Coffee", "iced coffee": "Iced Coffee",
   },
 }
@@ -82,9 +99,11 @@ function buildIndex() {
     if (/\Sburger/.test(k)) add(k.replace(/(\S)burger/, "$1 burger"), e)
     if (!k.endsWith("s")) add(`${k}s`, e)
   }
-  for (const [said, name] of Object.entries(BRAND_ALIASES[BRAND.name] || {})) {
+  for (const [said, name] of Object.entries(MENU_ALIASES[MENU_KEY] || {})) {
     const e = byName.get(norm(name))
-    if (e) add(said, e)
+    if (!e) continue
+    add(said, e)
+    if (!norm(said).endsWith("s")) add(`${norm(said)}s`, e) // "two hot dogs", "two shakes"
   }
   const maxWords = Math.max(1, ...[...aliases.keys()].map((k) => k.split(" ").length))
   return { entries, aliases, byName, byCat, maxWords }
@@ -122,7 +141,7 @@ export function sizeFromWord(entry, word) {
   if (exact) return exact
   if (/^(small|little|single|kid|kids)$/.test(w)) return entry.sizes[0]
   if (/^(large|big|biggest|double)$/.test(w)) return entry.sizes[entry.sizes.length - 1]
-  // Middle size of three; the smaller of two (Five Guys drinks: Regular / Large).
+  // Middle size of three; the smaller of two (burger-menu drinks: Regular / Large).
   if (/^(medium|regular)$/.test(w)) return entry.sizes[Math.floor((entry.sizes.length - 1) / 2)]
   return null
 }
@@ -135,5 +154,5 @@ export function bestOf({ role, category, exclude = new Set() }) {
     (TAG_SCORE[b.tag] || 0) - (TAG_SCORE[a.tag] || 0) || a.rank - b.rank)
 }
 
-/** Roles this menu actually has (Gregory's has no "side", Five Guys no bakery). */
+/** Roles this menu actually has (Gregory's has no "side", the burger menu no bakery). */
 export const MENU_ROLES = new Set(INDEX.entries.map((e) => e.role))

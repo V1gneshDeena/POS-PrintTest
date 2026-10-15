@@ -2,13 +2,18 @@
 //
 // Opened from the "Full bar" link on the POS's upsell square, or from the demo console
 // as its own surface for a second screen. It renders the snapshot the POS publishes
-// (assistSync.js) and never runs Assist itself: session and inputs, the upsell and the
+// (assistSync.js) and never runs Assist itself. Across the top, HOW IT'S DECIDING (reasoning.js):
+// what the engine is weighing now (memory, health and ingredients, previous orders, when it pitches next)
+// and the timeline of why it did each thing, for investors; after payment it shows the last visit.
+// Below: session and inputs, the upsell and the
 // history of every card shown, what the screen activity says about the customer, the
 // heard order, the live ticket, the transcript, the HOT KEYS that fired (hotkeys.json:
 // the words that force the upsell to be re-evaluated) with what each one did, and BEHIND
 // THE SCENES — every message whisper and the speech bridge sent, and Assist's own log.
 //
-// Controls (start / end customer, Add / No thanks, camera, a typed line) work when this
+// Controls (start / end customer, Add / No thanks, camera, when the upsell card changes, the upsell view
+// (Card or Spotlight), the spotlight's look (Card or Big text) and closing an open spotlight, a typed line, clear
+// out-of-stock, forget voices) work when this
 // page is open in the same browser as the POS; on any other screen it is view only.
 //
 // "Back to POS" (top left) closes this window and brings the POS forward when the POS
@@ -20,9 +25,11 @@ import { C, fmt } from "../components/posTheme.js"
 import { startAssistViewer, posUrl } from "./assistSync.js"
 import { CardTag } from "./AssistOverlay.jsx"
 import { getDemoId } from "./demoContext.js"
+import { CARD_MODES, UPSELL_VIEWS, SPOT_STYLES } from "./useAssist.js"
+import { VavoomMark } from "../components/ui.jsx"
 
-const SOURCE_LABEL = { ai: "Vavoom AI · from the conversation", basket: "Basket completion", upsize: "Upsize", behaviour: "From what the screen shows", hotkey: "Hot key · from what was just said" }
-const SOURCE_SHORT = { ai: "AI", basket: "Basket", upsize: "Upsize", behaviour: "Behaviour", hotkey: "Hot key" }
+const SOURCE_LABEL = { ai: "Vavoom AI · from the conversation", basket: "Basket completion", upsize: "Upsize", behaviour: "From what the screen shows", hotkey: "Hot key · from what was just said", brain: "Vavoom brain · voice, history, calories, Qwen" }
+const SOURCE_SHORT = { ai: "AI", basket: "Basket", upsize: "Upsize", behaviour: "Behaviour", hotkey: "Hot key", brain: "Brain" }
 const CONSTRAINT_LABEL = { dairy_free: "dairy-free", sugar_aware: "watching sugar", decaf: "no caffeine", health: "health-minded", no_food: "drink only" }
 const OUTCOME_COLOR = { accepted: C.success, declined: C.danger, lapsed: C.textMuted }
 const time = (t) => new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })
@@ -55,6 +62,59 @@ function Row({ label, children }) {
 
 const Muted = ({ children }) => <div style={{ fontSize: 11, color: C.textMuted }}>{children}</div>
 
+// How it's deciding: the kinds of step in the timeline, with a label and a colour.
+const KIND = {
+  visit: ["Visit", C.soft], order: ["Heard order", C.text], hotkey: ["Hot word", C.accent], meaning: ["Meaning", C.accent],
+  voice: ["Voice print", "#7cb4ff"], memory: ["Memory", "#7cb4ff"], screen: ["Screen", "#fcd34d"],
+  pick: ["Upsell", C.accent], outcome: ["Answer", C.white],
+}
+const WEIGHING = [["memory", "Memory"], ["health", "Health and ingredients"], ["history", "Previous orders"], ["plan", "When it pitches"]]
+
+function Reasoning({ r, phase }) {
+  const live = phase === "active" && r?.timeline?.length
+  const view = live ? r : r?.last
+  const right = (
+    <span style={{ fontSize: 10, color: C.textMuted }}>
+      {live ? "this customer" : view ? `last visit, ended ${time(view.endedAt)}` : ""}
+      {view ? " · " : ""}written from the engine's own numbers: no AI text, and no card waits for it
+    </span>
+  )
+  return (
+    <Card title="How it's deciding" right={right}>
+      {!view ? (
+        <Muted>Starts when a customer arrives: what it hears and what that means, who it remembers, what the screen shows, what the meal adds up to, when it pitches next, and why each upsell goes up.</Muted>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: C.soft, marginBottom: 8 }}>Weighing now</div>
+            {WEIGHING.filter(([k]) => view.now?.[k]).map(([k, label]) => (
+              <div key={k} style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: k === "plan" ? C.accent : C.white, marginBottom: 2 }}>{label}</div>
+                <div style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.45 }}>{view.now[k]}</div>
+              </div>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: C.soft, marginBottom: 8 }}>What happened</div>
+            <div style={{ maxHeight: 360, overflowY: "auto", paddingRight: 4 }}>
+              {[...(view.timeline || [])].reverse().map((x, i) => {
+                const [label, color] = KIND[x.kind] || [x.kind, C.soft]
+                return (
+                  <div key={i} style={{ display: "flex", gap: 10, padding: "6px 0", borderBottom: `1px solid ${C.line}`, fontSize: 12.5, lineHeight: 1.45 }}>
+                    <span style={{ color: C.faint, fontSize: 11, flexShrink: 0, width: 62 }}>{time(x.at)}</span>
+                    <span style={{ flexShrink: 0, width: 78, fontSize: 9.5, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color, paddingTop: 2 }}>{label}</span>
+                    <span style={{ color: C.text }}>{x.text}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </Card>
+  )
+}
+
 export default function AssistFullBar() {
   const [s, setS] = useState(null)
   const [local, setLocal] = useState(false)
@@ -82,6 +142,7 @@ export default function AssistFullBar() {
 
   return (
     <Shell demoId={demoId} local={local} brand={s.brand}>
+      <div style={{ marginBottom: 12 }}><Reasoning r={s.reasoning} phase={s.phase} /></div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 12, alignItems: "start" }}>
         {/* ── Column 1: session, inputs, controls ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -89,7 +150,7 @@ export default function AssistFullBar() {
             <Row label="State"><b style={{ color: s.phase === "active" ? C.lime : C.textSec }}>{s.phase === "active" ? "Customer at the counter" : "Standby"}</b></Row>
             {s.trigger ? <Row label="Started by">{s.trigger}</Row> : null}
             {s.customerName ? <Row label="Customer">{s.customerName}</Row> : null}
-            <Row label="Menu">{s.brand} <span style={{ color: C.textMuted }}>(whisper catalogue: {s.restaurant})</span></Row>
+            <Row label="Menu">{s.brand} <span style={{ color: C.textMuted }}>({s.restaurant === "gregorys" ? "Gregory's coffee menu" : "burger menu"})</span></Row>
             <Row label="Vavoom login">{s.signedIn ? s.operator || "signed in" : <span style={{ color: C.danger }}>not signed in on the POS</span>}</Row>
           </Card>
           <Card title="Inputs">
@@ -117,6 +178,29 @@ export default function AssistFullBar() {
               <button disabled={!local} onClick={() => cmd({ type: s.phase === "active" ? "end" : "start" })} style={btn(true, !local)}>{s.phase === "active" ? "End customer" : "Start customer"}</button>
               <button disabled={!local} onClick={() => cmd({ type: "camera", on: !s.presenceOn })} style={btn(false, !local)}>{s.presenceOn ? "Camera off" : "Camera on"}</button>
             </div>
+            <div style={{ fontSize: 11, color: C.textSec, marginBottom: 4 }}>When the upsell on screen changes</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+              {Object.entries(CARD_MODES).map(([k, m]) => (
+                <button key={k} disabled={!local} onClick={() => cmd({ type: "card_mode", mode: k })} style={btn(s.cardMode === k, !local)}>{m.label}</button>
+              ))}
+            </div>
+            <Muted>{CARD_MODES[s.cardMode || "dynamic"]?.label}: the card {CARD_MODES[s.cardMode || "dynamic"]?.says}.</Muted>
+            <div style={{ fontSize: 11, color: C.textSec, margin: "8px 0 4px" }}>How the upsell is shown</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+              {Object.entries(UPSELL_VIEWS).map(([k, m]) => (
+                <button key={k} disabled={!local} onClick={() => cmd({ type: "view", view: k })} style={btn((s.view || "card") === k, !local)}>{m.label}</button>
+              ))}
+              {s.spot ? <button disabled={!local} onClick={() => cmd({ type: "close_spot" })} style={btn(false, !local)}>Close the spotlight</button> : null}
+            </div>
+            <Muted>{UPSELL_VIEWS[s.view || "card"]?.label}: {UPSELL_VIEWS[s.view || "card"]?.says}.</Muted>
+            <div style={{ fontSize: 11, color: C.textSec, margin: "8px 0 4px" }}>How the spotlight looks</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 4 }}>
+              {Object.entries(SPOT_STYLES).map(([k, m]) => (
+                <button key={k} disabled={!local} onClick={() => cmd({ type: "spot_style", style: k })} style={btn((s.spotStyle || "card") === k, !local)}>{m.label}</button>
+              ))}
+            </div>
+            <Muted>{SPOT_STYLES[s.spotStyle || "card"]?.label}: {SPOT_STYLES[s.spotStyle || "card"]?.says}.</Muted>
+            <div style={{ height: 8 }} />
             <form onSubmit={(e) => { e.preventDefault(); cmd({ type: "say", text: say }); setSay("") }} style={{ display: "flex", gap: 6 }}>
               <input disabled={!local} value={say} onChange={(e) => setSay(e.target.value)} placeholder="Type what the customer says…"
                 style={{ flex: 1, padding: "7px 9px", borderRadius: 7, border: `1px solid ${C.navyBorder}`, background: C.navy, color: C.text, fontFamily: "inherit", fontSize: 12 }} />
@@ -129,6 +213,13 @@ export default function AssistFullBar() {
         {/* ── Column 2: upsell, behaviour, heard order ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <Card title="Upsell" right={<span style={{ fontSize: 10, color: C.textSec }}>{(s.offers || []).length} shown · {accepted} taken</span>}>
+            {s.view === "spotlight" ? (
+              <Muted>
+                {s.spot
+                  ? `Spotlight open for ${s.spot.items.map((i) => `${i.size ? `${i.size} ` : ""}${i.name}`).join(", ")}: ${{ computing: "working out the upsell", size: "waiting for a size", open: "showing the upsell below", done: "nothing more to offer, closing" }[s.spot.state] || s.spot.state}${s.spot.trail.length ? ` · chain so far: ${s.spot.trail.map((x) => `${x.title} (${x.outcome})`).join(", ")}` : ""}.`
+                  : "Spotlight view: the next item said or tapped opens the spotlight on the POS."}
+              </Muted>
+            ) : null}
             {c ? (
               <div style={{ background: c.state === "pending" ? `${C.lime}12` : C.navyCard, border: `1px solid ${c.state === "pending" ? C.lime + "66" : C.navyBorder}`, borderRadius: 10, padding: 10, marginBottom: 10 }}>
                 <CardTag tag={c.tag} />
@@ -182,10 +273,10 @@ export default function AssistFullBar() {
               <div key={h.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 12, padding: "2px 0", color: h.qty ? C.text : C.textMuted }}>
                 <span>{h.qty}× {h.size && h.size !== "each" ? `${h.size} ` : ""}{h.name} <span style={{ fontSize: 10, color: C.textMuted }}>({h.sources.join(" + ")})</span></span>
                 <span style={{ fontSize: 10, color: h.locked ? C.textMuted : h.added ? C.success : C.textSec }}>
-                  {h.qty === 0 ? "cancelled" : h.locked ? "cashier changed it" : h.added ? "on ticket ✓" : "already rung"}
+                  {h.qty === 0 ? "cancelled" : h.locked ? "cashier changed it" : h.needsSize ? `needs a size: ${h.sizes.join(" or ")}` : h.added ? "on ticket ✓" : "already rung"}
                 </span>
               </div>
-            )) : <Muted>Items the customer names are rung up automatically and listed here.</Muted>}
+            )) : <Muted>Items the customer orders are rung up automatically and listed here; one that comes in sizes waits for its size.</Muted>}
           </Card>
           <Card title="Ticket on the POS">
             {(s.ticket || []).length ? s.ticket.map((t, i) => (
@@ -202,6 +293,44 @@ export default function AssistFullBar() {
 
         {/* ── Column 3: hot keys, transcript, behind the scenes ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <Card title="Voice print" right={s.voice?.voice_id ? <span style={{ fontSize: 10, fontWeight: 700, color: s.voice.matched ? C.success : C.textSec }}>{s.voice.matched ? "returning" : "new"}</span> : null}>
+            {s.voice?.voice_id ? (
+              <>
+                <Row label="Voice">{s.voice.voice_id} <span style={{ color: C.textMuted }}>(anonymous; no name is stored)</span></Row>
+                <Row label="Match">{s.voice.matched ? `score ${s.voice.score} · tier ${s.voice.tier}` : `no match at 0.5 or above${s.voice.score != null ? ` (best ${s.voice.score})` : ""} — a new voice print`}</Row>
+                <Row label="Visits">{s.voice.matched ? `heard ${s.voice.seen || (s.voice.visits || 0) + 1}× before, ${s.voice.visits || 0} paid` : "first visit"}</Row>
+                {(s.voice.last_order || []).length ? <Row label="Last time">{s.voice.last_order.map((x) => `${x.qty > 1 ? `${x.qty}× ` : ""}${x.name}${x.size && x.size !== "each" ? ` (${x.size})` : ""}`).join(", ")}</Row> : null}
+                <Row label="From">{s.voice.seconds} s of the customer's speech · ECAPA {s.voice.embed_ms} ms on the GPU · {s.voice.round_trip_ms} ms round trip</Row>
+              </>
+            ) : <Muted>Waiting for about 2.5 s of the customer's speech. Lines are marked as the customer's or the employee's; only the customer's speech makes the voice print (ECAPA on the GPU box). Matches are searched in tiers from 1.0 down to 0.5; below 0.5 the voice is new.</Muted>}
+            <div style={{ marginTop: 8 }}>
+              <button disabled={!local} onClick={() => { if (window.confirm("Forget every voice print and its receipts, in every demo room? The demo starts again with no returning customers.")) cmd({ type: "forget_voices" }) }}
+                style={{ ...btn(false, !local), padding: "2px 8px", fontSize: 10 }}
+                title="Delete every voice print and the receipts tagged by them, in every demo room, so the demo starts again">Forget all voices</button>
+            </div>
+          </Card>
+          <Card title="Upsell brain" right={s.brain ? <span style={{ fontSize: 10, color: C.textSec }}>{s.brain.latency_ms} ms brain · {s.brain.round_trip_ms} ms round trip · {s.brain.framer}</span> : null}>
+            {s.brain?.error ? <Muted>Unavailable: {s.brain.error}</Muted> : s.brain ? (
+              <>
+                <Row label="Pick">{s.brain.item || "(nothing to offer)"} {s.brain.tag ? <CardTag tag={s.brain.tag} /> : null}</Row>
+                {s.brain.framing ? <Row label="Line">“{s.brain.framing}”</Row> : null}
+                <Row label="Ladder step">{s.brain.trace?.step || s.brain.step || "—"}</Row>
+                <Row label="Meal">{s.brain.trace?.calories?.kcal ?? "—"} cal ({s.brain.trace?.calories?.band || "—"}) · health {s.brain.trace?.health ?? "—"}{(s.brain.trace?.allergens || []).length ? ` · allergy: ${s.brain.trace.allergens.join(", ")}` : ""}</Row>
+                {s.brain.trace?.visits ? <Row label="History">{s.brain.trace.visits} visit(s){s.brain.trace.gap != null ? ` · ${fmt(s.brain.trace.gap)} below their usual spend` : ""}</Row> : null}
+                {(s.brain.trace?.ranked || []).length ? (
+                  <div style={{ marginTop: 6 }}>
+                    {s.brain.trace.ranked.map((r, i) => (
+                      <div key={i} style={{ fontSize: 11, color: i ? C.textSec : C.text, display: "flex", gap: 8 }}>
+                        <span style={{ width: 150, flexShrink: 0 }}>{r.title}</span>
+                        <span>{r.score.toFixed(3)}</span>
+                        <span style={{ color: C.textMuted }}>history {r.history} · w·c {(r.w * r.c).toFixed(2)} · fit {r.fit} · best {r.best} · price {r.price_fit}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </>
+            ) : <Muted>Asked after every line and ticket change. It runs on the GPU box (glm-upsell, tenant demopos): the ladder, the voice's history, the order's calories and allergies, then Qwen3-14B picks one of the top three and words it.</Muted>}
+          </Card>
           <Card title="Hot keys" right={s.hot?.pausedUntil > Date.now() ? <span style={{ fontSize: 10, fontWeight: 700, color: C.danger }}>upsell paused after a complaint</span> : null}>
             {(s.hot?.constraints || []).length || (s.hot?.outToday || []).length ? (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8, alignItems: "center" }}>
@@ -272,7 +401,7 @@ function Shell({ children, demoId, local, brand }) {
     <div style={{ minHeight: "100vh", background: C.navy, color: C.text, padding: 16, boxSizing: "border-box", fontFamily: "inherit" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
         {!EMBEDDED ? <button type="button" onClick={backToPos} style={btn(false)} title="Back to the POS">← Back to POS</button> : null}
-        <span style={{ background: C.lime, color: C.limeText, fontWeight: 900, fontSize: 12, padding: "4px 9px", borderRadius: 7 }}>VAVOOM</span>
+        <VavoomMark size={24} />
         <span style={{ fontSize: 16, fontWeight: 800 }}>Assist — full bar</span>
         {brand ? <span style={{ fontSize: 12, color: C.textSec }}>{brand} · In-Store</span> : null}
         <span style={{ flex: 1 }} />

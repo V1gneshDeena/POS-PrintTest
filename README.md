@@ -1,6 +1,6 @@
-# Gregory's Coffee POS — Vavoom Demo
+# Vavoom demo POS
 
-A drive-thru point-of-sale system built on the Vavoom design system for the Gregory's Coffee pilot at Old Bridge Drive-Thru.
+A point-of-sale system for Vavoom demos, in vavoom.io's design (General Sans, the dark page with a lime glow, white pill buttons with a lime arrow; `src/components/posTheme.js` and `ui.jsx`), with a photo on every burger-menu item. It opens on a burger menu under generic "Demo Restaurant" branding (the default, or `?menu=burgers`; the older `?menu=fiveguys` still works). `?menu=gregorys` loads the Gregory's Coffee menu, built for the Gregory's Coffee pilot at Old Bridge Drive-Thru. In a demo room (`?demo=`) the POS shows the room's own menu (its config's `menu`), not the last menu this device used; `?menu=` in the link still wins.
 
 ---
 
@@ -47,35 +47,17 @@ npm run preview
 
 ---
 
-## Deploy to GitHub Pages
+## CI and deploy (GitHub Actions)
 
-1. Install the deploy package:
-   ```bash
-   npm install --save-dev gh-pages
-   ```
+- **CI** (`.github/workflows/ci.yml`): every pull request, and every push to `main`, `dev` and `live/**`, installs,
+  builds and runs every offline test suite (counter transactions, order changes, the pressure test in both upsell
+  views, the variety test). A failed check fails the run.
+- **Deploy** (`.github/workflows/deploy.yml`): by hand only. Actions → **Deploy POS (pos.vavoom.io)** → Run workflow →
+  pick the branch → type `deploy`. The tests run first, then the run waits for David's approval (the `demo-pos`
+  environment), then the tested build goes to vavoom-station through a deploy key that can only back up and replace
+  the POS files, and the job checks pos.vavoom.io serves it. The same button rolls back (action `rollback`).
 
-2. Add to `package.json` scripts:
-   ```json
-   "deploy": "gh-pages -d dist"
-   ```
-
-3. Add `base` to `vite.config.js`:
-   ```js
-   export default defineConfig({
-     plugins: [react()],
-     base: '/gregory-pos/', // match your repo name
-   })
-   ```
-
-4. Build and deploy:
-   ```bash
-   npm run build
-   npm run deploy
-   ```
-
-5. Go to **Settings → Pages** in your GitHub repo and set source to `gh-pages` branch.
-
-Your POS will be live at: `https://your-org.github.io/gregory-pos/`
+How it is set up, rotating the key and turning it off: [`deploy/README.md`](deploy/README.md).
 
 ---
 
@@ -122,6 +104,7 @@ gregory-pos/
         ├── activity.js     # POS screen actions as events
         ├── behaviour.js    # What the screen activity says about the customer
         ├── upsellEngine.js # The one upsell to show
+        ├── reasoning.js    # "How it's deciding": the engine's reasoning in plain sentences (full bar)
         ├── orderParser.js  # Spoken lines → POS menu items
         ├── acceptance.js   # Spoken yes / no to the upsell
         ├── hotkeys.json    # Upsell hot keys (shared list; whisper can load it too)
@@ -135,12 +118,21 @@ gregory-pos/
 
 In a demo room the console created as **In-Store** (`?demo=<id>`, config `productType: "instore"`; `?assist=1` forces it on, `?assist=0` off), the POS runs Vavoom Assist. Outside a demo room none of it loads.
 
-- **On the POS screen**: two draggable boxes. The **upsell square** shows the upsell when one pops up (Add / No thanks), with dots for microphone, speech-to-text and camera, and a **Full bar** link. The **transcript** box shows what is being heard. Positions are remembered per device.
+- **On the POS screen**: two draggable boxes. The **upsell square** shows the upsell when one pops up (Add / No thanks), with dots for microphone, speech-to-text and camera, and a **Full bar** link. The **transcript** box shows what is being heard. Positions are remembered per device. In the **Spotlight** view (below) the upsell shows over the blurred POS instead of on the square.
 - **Full bar**: the same build at `?demo=<id>&view=assist`. It shows the session, inputs, the upsell and every card shown, what the screen activity says about the customer, the heard order, the live ticket, the transcript, and behind the scenes every message whisper and the speech bridge sent. Opened from the POS's link on the same device it can also start/end the customer, answer the card, switch the camera and type a line; on any other screen (the console lists it as its own surface) it is view only. Its **← Back to POS** button closes the full bar and brings the POS forward, or reloads the POS in the same tab when the browser opened the full bar there.
 - **Speech**: sign in with a Vavoom account in the upsell square. The microphone streams to the demo config service's `/stt` bridge, which adds the whisper key server-side and pins the session to the room's own locId.
-- **Stated order → ticket**: items the customer names are rung up (marked 🎙 heard), up to the quantity said; "no fries" takes off fries that speech added.
-- **Upsell**, in this order: what a hot key calls for; basket completion (Five Guys: upsize the food item, then fries, then a drink, then a shake, then the rest); whisper's AI pick once the basket is complete (only items on this menu); then a behaviour-driven pick. A spoken yes or Add puts it on the ticket (marked ★ upsell).
-- **Hot keys** are the upsell's guidelines: words that force it to be re-picked the moment they are heard. An item the operator says is out is never offered again that day, its menu tile says "Out today", and its closest substitute pops up tagged "Closest substitute" (also when a customer orders it, when it is not rung up, and when the cashier taps it, when Add swaps the substitute in); "too sweet" / "too bitter" get a counter; "I don't like it" gets an alternative; "took forever" gets a free souvenir if the menu has merchandise; "do you have X?" pitches X with a complementary item below it, or the closest substitute; ordering within 3 s of arriving marks the customer as not patient. The list, its evidence from real Starbucks speech, and what each one does: [`docs/HOT-KEYS.md`](docs/HOT-KEYS.md). The full bar shows each one as it fires, and today's out-of-stock list with a Clear button.
+- **Stated order → ticket**: items the customer names are rung up (marked 🎙 heard), up to the quantity said. **Order changes** (`src/assist/orderEdits.js`) come off at once, whoever rang the item up: "take the fries off", "never mind the drink", "I'm good on the fries", "you can keep the drink"; swaps keep the old item's size ("change the fries to cajun fries", "can I get a bacon cheeseburger instead"); what the grammar misses, the meaning layer reads (`change_order`). `npm run test:transcripts -- --set edits` runs 60 ways of saying it plus 10 auto-picked orders (`test/order-edits.js`).
+- **Upsell**, in this order: what a hot key calls for (answered instantly on the POS); the **upsell brain's** pick; basket completion (burger menu, David's order (2026-10-08): size up the main, then a side and a drink, then size up the fries and the drink, then a treat, the rest; the item whose size was just given is sized up first; which side, drink or treat follows what the customer said (2026-10-12, the same cues in the brain): spicy → Cajun Fries, hungry → Onion Rings or Poutine, light → Side Salad, thirsty or tired → a drink (Coffee for tired) before the side, a sweet tooth → a treat before the side, and said the other way ("not that hungry") it steers away; with nothing said, the side that goes with the main (2026-10-13, `pairings` in menu-kb.json: Onion Rings with a Patty Melt or BLT, Sweet Potato Fries with the Chicken Sandwich, a Side Salad with the veggie sandwiches and the Grilled Cheese), else the most-ordered, Fries); whisper's AI pick (Gregory's only); then a behaviour-driven pick. A size-up is offered to a hurried or price-conscious customer too ("only $X more"), to a health-minded one only for a healthy item, not again once one was turned down, and not on an item that was itself just upsold. A card a hot word or a better pick replaced comes back once the new one is answered (the context window; an allergy answer clears it), and what the customer had taken off is not pitched back. Opening a menu section shows "Best in <section>" under the card: the best item there for this customer (none for the free Toppings and Mix-ins). A free item ($0) is never an upsell; only the allergy lettuce wrap or an item the customer asked about comes at $0. An allergy with no safe substitute says so on the card ("No substitute for the …", one Got it button). No set number of cards: two no's in a row wait for the customer to open a new door. A spoken yes or Add puts it on the ticket (marked ★ upsell); a swap card (cheese / bacon, an allergy swap) replaces the item it names.
+- **The upsell brain** (burger menu = tenant `demopos`): after every line and ticket change the POS asks it, through the speech bridge, for one decision on the GPU box. It runs the ladder (allergy, or "no substitute" when nothing on the menu is safe → the size-up of an item whose size was just given → main size-up → side → drink → cheese / bacon → side and drink size-ups → treat; never a free topping or mix-in, since 2026-10-13), scores it by the voice print's history, the order's calories and health, temperature and behaviour, and Qwen3-14B picks one of the top three and words it (prices and allergy lines come from templates). About 0.5 s; tags "Last time", "Topping", "Allergy: no …". Architecture: `deploy/gpu-vllm/demopos/README.md` in the monorepo.
+- **Meaning layer** (burger menu): each finished line also goes, through the speech bridge, to the `demopos` gateway on the GPU box, which reads what it means (BGE sentence embeddings against written examples of 21 hot keys, 8 allergies and the customer changing the order, with rules for negation, offers, questions and speech fragments). Hot keys the exact words missed come back in about 0.05 s and fire the same way, labelled "by meaning" in the full bar ("it's like an oven out there" → Feeling hot → Something cold). An allergy said in other words ("dairy gives me hives", "I'm celiac", "sesame makes my mouth itch"; and Dairy-free, as milk) adds its allergen to the visit, so no card holds it (`src/assist/allergens.js`, the menu's allergen guide: a burger's bun has milk, wheat and sesame), and the brain is told; the POS also reads plain allergy statements itself, with no GPU. Tested on existing transcripts before going live: `deploy/gpu-vllm/demopos/eval/RESULTS-2026-10-08.md` in the monorepo.
+- **Quantities**: an item said once is rung up once, however often speech-to-text repeats it. More than one sticks only when a number is said ("two burgers", "another fries"); whisper's own count is capped to it, whisper naming the same item differently is not a second item, and a cashier tap on an item speech rang up in the last 8 s confirms that unit instead of adding one.
+- **When the card changes** (the operator's setting, on the upsell square next to Camera and in the full bar's Controls, kept on the device): *Dynamic* (after 25 s of silence or when something new comes up), *On new trigger* (no silence timeout), or *Until accepted or declined* (changes only when the customer accepts or declines it; until the cashier says it, the upsell square shows "Please voice the upsell"). In every mode a card the customer's words rule out, or the ticket has overtaken (another side tapped while "Fries" is up), comes down, and an allergy answer still takes the screen. In the first two, a card the cashier has not said yet follows the ticket: a tapped or rung-up item brings the pick for the ticket as it is now.
+- **Upsell view** (David, 2026-10-12; the operator's choice, on the upsell square next to the card setting and in the full bar's Controls, kept on the device): *Upsell card* (the default, everything above) or *Spotlight*. In the Spotlight view nothing pops up on its own: when the customer says an item or the cashier taps one, the POS blurs and the upsell for it comes up over the screen. The spotlight opens when an item reaches the ticket from speech or a tap, when an item is heard without its size (it asks for the size first, with a button per size), and when the customer orders an item that is out, asks about one, or says they don't like one. While it works the upsell out it lists what it is weighing (the voice print, hot words, allergies, the order, the brain) and waits for the brain's answer about the new ticket (up to about 2 s), then shows the same pick the card would, from the same inputs, with Add / No thanks and "Please voice the upsell" until the cashier says it. After each answer the next upsell in the chain follows (the ladder above), with the chain so far shown under it, until there is nothing more to offer: it then says so and closes by itself. "Back to the order" (or Escape, or a tap on the blur) closes it early; an unsaid card waits for the next spotlight, and one the cashier said lapses. Hot words and allergies said between spotlights still count toward the next one, and the card setting still decides when a card inside the spotlight changes. The spotlight has two looks, switched by the Card / Big text control at its top right (also on the upsell square's view menu, as "Spotlight · card" and "Spotlight · big text", and in the full bar), kept on the device, so a customer can pick the one they prefer: *Card* (the upsell on a card with why it was picked, its price and the chain so far) and *Big text* (only the upsell, in large type, with its price, Add and No thanks; the size question in large type too). What is offered is the same in both. Speech keeps working while the spotlight covers the screen: a spoken yes or no answers the upsell, a size said answers the size question, an order change is made, and another item said is rung up and joins the open spotlight. Both looks show a Listening strip (the microphone, the words as they come or the last line heard) and say what speech did ("Heard and added: …", "Added ✓ · heard yes").
+- **Voice print**: each line is marked as the customer's or the employee's; the customer's speech goes to ECAPA on the GPU box once there are 2.5 s of it. A returning voice (matched in tiers from 1.0 down to 0.5, against the prints of every demo room) shows "Returning voice · heard n× before · last time: …" on the upsell square; no name is ever stored. A visit ends at payment, End customer or Clear, and the next one is identified afresh. The full bar shows the match and has "Forget all voices", which deletes every voice print and its receipts in every demo room so a demo starts again.
+- **Receipt**: at payment the visit is saved to the brain's store under the voice print and printed on the receipt: the order, the conversation with who said each line, and every upsell with why it was shown, whether the employee said it, and whether it was accepted, declined or let lapse (`src/assist/assistReceipt.js`).
+- **How it's deciding** (top of the full bar; `src/assist/reasoning.js`): what the engine is weighing now and why it did each thing, for investors. Memory: trying to remember the customer, customer remembered (with their last order), or a new anonymous voice and the visit added to memory at payment. Health and ingredients: the ticket's calories and allergens from the menu knowledge base, and the brain's health score. Previous orders: which options rank higher because the customer had them before. When it pitches: there is no set number of upsells; pitching follows the conversation (open, with the next opening named; quiet after two no's in a row until the customer orders something or says something a hot word answers; paused after a complaint; done once the order is closed). The timeline: each hot word and what it means, meaning-layer readings with their similarity, the heard order, screen taps and behaviours, every card shown with its source and reasons (for the brain's cards, the ranked options with their history / fit / bestseller / price scores and the model's own read), and every answer. Built from the engine's own numbers as they happen: no model call, and no card waits for it. After payment it shows the last visit.
+- **Tests**: `npm run test:transcripts` runs 73 full counter transactions through the engine (`test/transcripts.js`, 184 checks, each visit's reasoning printed; #50–#60 in the Spotlight view; #61–#73 the cues, the alternatives, the pairings, the demo's own items and no free upsells) and writes `test/transcript-results.md`; `-- --set edits` runs the order-change, auto-picked-order, intent, size and quantity cases (`test/order-edits.js`, 100) into `test/order-edits-results.md`; `-- --set pressure` runs 100 generated visits held to 14 rules (`test/pressure.js`), and `--live URL` sends their brain and meaning requests to the real gateway through an SSH tunnel. `--view spotlight` runs any set in the Spotlight view, adding the spotlight's own three rules (every card inside a spotlight, every spotlight opened by an item, one with nothing left closes by itself), into a report named `…-spotlight.md`. `npm run test:variety` sends 144 conversations (12 orders × 12 kinds of remark) through the POS's own pick and fails if one item is the first card of more than 35% of them, or of more than 40% of those where nothing was said (2026-10-13: 15 different first cards, the most common 18%, Fries 6%); `deploy/gpu-vllm/demopos/eval/variety_live.py` in the monorepo sends the same grid to the live brain. `npm run test:transcripts -- --meaning test/meaning-demo.json` runs them again with the meaning layer's real answers for those lines (from the GPU box) and writes `test/transcript-results-meaning.md`.
+- **Hot keys** are the upsell's guidelines: words that force it to be re-picked the moment they are heard. An item the operator says is out is never offered again that day, its menu tile says "Out today", and its closest substitute pops up tagged "Closest substitute" (also when a customer orders it, when it is not rung up, and when the cashier taps it, when Add swaps the substitute in); "too sweet" / "too bitter" get a counter; "I don't like it" (or "I don't like milkshakes") gets an alternative of another kind in the same part of the meal (Onion Rings for Fries, a Sundae for the shake, never a variant of the same item); "took forever" gets a free souvenir if the menu has merchandise; "do you have X?" pitches X with a complementary item below it, or the closest substitute; feeling hot or cold, or asking for something cold or hot, gets the most-ordered item of that temperature tagged "Something cold" / "Something warm"; ordering within 3 s of arriving marks the customer as not patient. The list, its evidence from real Starbucks speech, and what each one does: [`docs/HOT-KEYS.md`](docs/HOT-KEYS.md). The full bar shows each one as it fires, and today's out-of-stock list with a Clear button.
 - **Counter presence**: "Camera on" runs an on-device face detector; a close face for 1.5 s opens the customer, 6 s without one closes it if the ticket is empty. Frames never leave the device.
 - **Session**: opens on counter presence, a greeting ("welcome", "hello"), a spoken order, the cashier's first tap, or Start customer; closes on payment, End customer, or presence leaving an empty ticket.
 
@@ -151,6 +143,10 @@ Local test without production speech: run `demo-config-service/dev/mockWhisper.j
 ---
 
 ## Menu Data
+
+Every burger-menu item, topping and mix-in has a photo: `public/menu/<item id>.jpg`, 480×360 crops from Unsplash (free licence, no brand in any photo; photographers in `public/menu/CREDITS.md`), listed in `src/data/menuPhotos.js`. Gregory's menu has none yet; its tiles show the item's initials.
+
+The burger menu (the default, `src/data/menu-fiveguys.js`) is the Canadian line-up with Canadian prices (2026-10-08): burgers (Little / Regular), dogs, sandwiches, fries and poutine, the shake, drinks, plus the 15 free toppings, the lettuce wrap and the shake mix-ins as $0 items. Since 2026-10-12 it also has the demo's own items, so the upsell has real options and alternatives: a Chicken section (Chicken Sandwich, Chicken Tenders), a Sides section (Onion Rings, Sweet Potato Fries, Side Salad), a Desserts section (Sundae, Chocolate Chip Cookie, Apple Pie) and three more drinks (Lemonade, Iced Tea, Coffee), with photos. Its knowledge base, `src/data/menu-kb.json` (descriptions, parts, calories, allergens, ingredients, prices), is built by `scripts/build-menu-kb.py` from the Five Guys Canada nutrition, ingredient and allergen guide, then `scripts/add-demo-items.py` adds the demo's own items, whose prices, calories and allergens are our estimates (marked "estimated"; each fried item carries the fries' peanut-oil caution); keep the knowledge base and the menu file in step.
 
 `src/data/menu.js` contains the full Gregory's Coffee menu pulled from current sources (May 2026):
 
@@ -168,12 +164,15 @@ Local test without production speech: run `demo-config-service/dev/mockWhisper.j
 
 ## Design System
 
+vavoom.io's, shared with the TV and the brand pages (`src/components/posTheme.js`):
+
 | Token         | Value       |
 |---------------|-------------|
-| Base navy     | `#0B0E14`   |
-| Card surface  | `#1A2130`   |
-| Lime accent   | `#CFFF2F`   |
-| Font          | Plus Jakarta Sans |
+| Page          | `#0b0e14` with a soft lime glow |
+| Card surface  | `#12161f`, hairline border `rgba(255,255,255,0.086)` |
+| Accent        | `#cfff2f` (lime) |
+| Font          | General Sans (Fontshare), weights 400–600, tight tracking |
+| Main action   | white pill with a lime arrow (`ui.jsx` ArrowPill) |
 | Tax rate      | 13%         |
 
 ---
