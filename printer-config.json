@@ -1,6 +1,8 @@
 {
   "printerIp": "100.82.211.21",
   "printerPort": 9100,
+  "printerPath": "",
+  "_printerPath": "USB printer: its Windows share (\\\\localhost\\Receipt) or virtual COM port (\\\\.\\COM3). Set it and printerIp is ignored.",
   "proxyPort": 9101,
   "backendUrl": "https://api.vavoom.io",
   "locationId": "a0a05430-0002-4000-8000-000000000002",

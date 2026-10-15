@@ -17,7 +17,7 @@
 
 import { createServer } from "http"
 import { Socket } from "net"
-import { readFileSync, writeFileSync, existsSync } from "fs"
+import { readFileSync, writeFileSync, existsSync, openSync, closeSync } from "fs"
 import { dirname, join } from "path"
 import { fileURLToPath } from "url"
 
@@ -29,6 +29,7 @@ const CONFIG_PATH = join(__dir, "printer-config.json")
 const DEFAULT_CONFIG = {
   printerIp: "127.0.0.1",
   printerPort: 9100,
+  printerPath: "",
   proxyPort: 9101,
   backendUrl: "https://api.vavoom.io",
   locationId: "a0a05430-0002-4000-8000-000000000002",
@@ -55,10 +56,37 @@ const PROXY_PORT = parseInt(process.env.PROXY_PORT || String(config.proxyPort))
 const BACKEND_URL = process.env.BACKEND_URL || config.backendUrl || ""
 const LOCATION_ID = process.env.LOCATION_ID || config.locationId || ""
 
-console.log(`[Config] Printing to ${PRINTER_IP}:${PRINTER_PORT}`)
+// USB printers: set printerPath to the printer's Windows share (e.g. \\localhost\Receipt)
+// or its virtual COM port (e.g. \\.\COM3). Raw bytes are written there like a file,
+// the same as `copy /b receipt.bin \\localhost\Receipt`. Empty → TCP to printerIp.
+const PRINTER_PATH = process.env.PRINTER_PATH || config.printerPath || ""
+const TARGET = PRINTER_PATH || `${PRINTER_IP}:${PRINTER_PORT}`
+
+console.log(`[Config] Printing to ${TARGET}`)
 if (BACKEND_URL) console.log(`[Config] Backend: ${BACKEND_URL}`)
 
+/** Is the printer reachable? Opens the share/COM port, or TCP-connects to printerIp. */
+function checkPrinter() {
+  if (PRINTER_PATH) {
+    // ponytail: "it opens" is all Windows tells us; a USB printer that is switched off
+    // can still open. Upgrade path: read the printer's ESC/POS status bytes over the COM port.
+    try { closeSync(openSync(PRINTER_PATH, "a")); return Promise.resolve(true) } catch { return Promise.resolve(false) }
+  }
+  const socket = new Socket()
+  socket.setTimeout(2000)
+  return new Promise((resolve) => {
+    socket.connect(PRINTER_PORT, PRINTER_IP, () => { socket.end(); resolve(true) })
+    socket.on("error", () => resolve(false))
+    socket.on("timeout", () => { socket.destroy(); resolve(false) })
+  })
+}
+
 function sendToPrinter(data) {
+  if (PRINTER_PATH) {
+    return new Promise((resolve, reject) => {
+      try { writeFileSync(PRINTER_PATH, Buffer.from(data, "binary"), { flag: "a" }); resolve() } catch (err) { reject(err) }
+    })
+  }
   return new Promise((resolve, reject) => {
     const socket = new Socket()
     socket.setTimeout(5000)
@@ -134,26 +162,13 @@ const server = createServer(async (req, res) => {
 
   // Health/status check
   if (req.method === "GET" && req.url === "/status") {
-    // Quick TCP check to see if printer/interceptor is reachable
-    const socket = new Socket()
-    socket.setTimeout(2000)
-
-    const check = new Promise((resolve) => {
-      socket.connect(PRINTER_PORT, PRINTER_IP, () => {
-        socket.end()
-        resolve(true)
-      })
-      socket.on("error", () => resolve(false))
-      socket.on("timeout", () => { socket.destroy(); resolve(false) })
-    })
-
-    const online = await check
+    const online = await checkPrinter()
     res.writeHead(200, { "Content-Type": "application/json" })
     res.end(JSON.stringify({
-      printerIp: PRINTER_IP,
-      printerPort: PRINTER_PORT,
+      printerIp: PRINTER_PATH || PRINTER_IP,
+      printerPort: PRINTER_PATH ? null : PRINTER_PORT,
       online,
-      routing: `print-proxy → ${PRINTER_IP}:${PRINTER_PORT} (interceptor/printer)`,
+      routing: `print-proxy → ${TARGET} (${PRINTER_PATH ? "USB printer" : "interceptor/printer"})`,
     }))
     return
   }
@@ -175,7 +190,7 @@ const server = createServer(async (req, res) => {
 
         // 1. Forward ESC/POS data to interceptor/printer
         await sendToPrinter(data)
-        console.log(`[PrintProxy] Receipt sent to ${PRINTER_IP}:${PRINTER_PORT}`)
+        console.log(`[PrintProxy] Receipt sent to ${TARGET}`)
 
         // 2. Also notify backend with structured order data (fire-and-forget)
         notifyBackend(order)
@@ -197,7 +212,7 @@ const server = createServer(async (req, res) => {
 
 server.listen(PROXY_PORT, () => {
   console.log(`[PrintProxy] Listening on http://localhost:${PROXY_PORT}`)
-  console.log(`[PrintProxy] Target: ${PRINTER_IP}:${PRINTER_PORT}`)
+  console.log(`[PrintProxy] Target: ${TARGET}`)
   console.log(`[PrintProxy] POST /print — send receipt data (+ optional 'order' for backend)`)
   console.log(`[PrintProxy] GET  /status — check printer connectivity`)
 })
