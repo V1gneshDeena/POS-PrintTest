@@ -39,7 +39,7 @@ backup() {
 case "${SSH_ORIGINAL_COMMAND:-deploy}" in
   status)
     log "serving $(served)"
-    ls -1t "$STATE/backups" 2>/dev/null | head -5 | sed 's/^/backup /'
+    if [ -d "$STATE/backups" ]; then ls -1t "$STATE/backups" | head -5 | sed 's/^/backup /'; else echo "no backups yet"; fi
     ;;
   rollback)
     last=$(ls -1t "$STATE/backups"/pos-*.tgz 2>/dev/null | head -1)
