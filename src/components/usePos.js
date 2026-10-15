@@ -98,6 +98,7 @@ export function usePos(user, onLogout) {
   onScanRef.current = (code) => {
     if (showPayment || success) return
     const hit = matchScan(code, MENU)
+    if (hit.type === "ignored") return
     if (hit.type === "loyalty") return setLoyaltyId(hit.id)
     if (hit.size) addToCart(hit.item, hit.size, hit.item.sizes[hit.size], hit.category)
     else handleItemClick(hit.item, hit.category)

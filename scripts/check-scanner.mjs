@@ -11,6 +11,9 @@ assert.equal(m.item.name, "Cheeseburger"); assert.equal(m.size, "Regular")
 m = matchScan("fgprod_0002:Huge", MENU)
 assert.equal(m.size, undefined) // unknown size → size picker
 assert.deepEqual(matchScan(" 6012345678 ", MENU), { type: "loyalty", id: "6012345678" })
+// Card swipes (track 1 / track 2) are never kept
+assert.equal(matchScan("%B4111111111111111^DOE/JANE^29121010000000000000?", MENU).type, "ignored")
+assert.equal(matchScan(";4111111111111111=29121010000000000?", MENU).type, "ignored")
 
 // Burst detection: fast keys + Enter is a scan, slow typing is not
 globalThis.window = new EventTarget()

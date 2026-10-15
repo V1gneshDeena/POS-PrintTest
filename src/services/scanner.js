@@ -34,8 +34,12 @@ export function listenForScans(onScan) {
  * What a scanned code means against a menu ({ category: [item] }):
  *   { type: "item", item, category, size? }  size only when the code named a valid one
  *   { type: "loyalty", id }
+ *   { type: "ignored" }  magstripe card data
  */
 export function matchScan(code, menu) {
+  // A card swiped on a keyboard-wedge MSR (Workstation 6 has one) arrives as magstripe
+  // track data. Never keep it: it may be a payment card number.
+  if (/^%B|^;?\d{12,19}=/.test(code.trim())) return { type: "ignored" }
   const [id, sizeCode] = code.trim().split(":")
   for (const [category, items] of Object.entries(menu)) {
     const item = items.find((i) => i.id.toLowerCase() === id.toLowerCase())
