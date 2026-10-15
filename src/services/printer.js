@@ -217,15 +217,20 @@ export async function printReceipt(order) {
 export async function checkPrinterStatus() {
   // Demo room → the per-demo digital printer is always available.
   if (getDemoId()) return { online: true, digital: true }
+  // AbortController, not AbortSignal.timeout: the store terminal runs an older Firefox.
+  const ctrl = new AbortController()
+  const timer = setTimeout(() => ctrl.abort(), 2000)
   try {
-    const res = await fetch("http://localhost:9101/status", { signal: AbortSignal.timeout(2000) })
+    const res = await fetch("http://localhost:9101/status", { signal: ctrl.signal })
     if (res.ok) {
       // The proxy answers 200 even when it can't reach the printer; `online` is the real state.
       const data = await res.json()
       return { online: data.online === true, printerIp: data.printerIp }
     }
-  } catch {
-    // proxy not running
+  } catch (err) {
+    console.warn("[Printer] Print proxy unreachable:", err.message) // not running, or blocked by the browser
+  } finally {
+    clearTimeout(timer)
   }
   return { online: false }
 }
