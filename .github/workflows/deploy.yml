@@ -1,0 +1,120 @@
+# Deploy the demo POS to pos.vavoom.io (vavoom-station, /opt/vavoom/pos). By hand only (David, 2026-10-15: "Button
+# only"): Actions → "Deploy POS (pos.vavoom.io)" → Run workflow → pick the branch → type deploy. The tests run first
+# (ci.yml) and the deploy stops if any fails; then the run waits until David approves it (the `demo-pos` environment
+# has him as required reviewer). The build the tests passed is sent over SSH to the `pos-deploy` user, whose one key
+# can only run deploy/pos-deploy-receive.sh (back up, then unpack; or roll back; or report). Last, the job checks
+# that pos.vavoom.io serves the new bundle.
+#
+# action: rollback puts back the POS as it was before the last deploy (no tests, still approved by David).
+#
+# Needs, in the demo-pos environment: secret POS_DEPLOY_KEY (the private key), variables POS_DEPLOY_HOST
+# (34.130.167.150) and POS_DEPLOY_KNOWN_HOSTS (vavoom-station's host key line). Without the key it refuses and says
+# so. Setup, rotating the key and undoing: deploy/README.md.
+name: Deploy POS (pos.vavoom.io)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type deploy to change what pos.vavoom.io serves
+        required: true
+      action:
+        description: deploy this branch, or roll back to the POS before the last deploy
+        type: choice
+        options: [deploy, rollback]
+        default: deploy
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-pos
+  cancel-in-progress: false
+
+jobs:
+  test:
+    if: inputs.confirm == 'deploy' && inputs.action == 'deploy'
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    name: Deploy to pos.vavoom.io
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: demo-pos
+      url: https://pos.vavoom.io/
+    env:
+      HOST: ${{ vars.POS_DEPLOY_HOST }}
+      KNOWN_HOSTS: ${{ vars.POS_DEPLOY_KNOWN_HOSTS }}
+      POS_DEPLOY_KEY: ${{ secrets.POS_DEPLOY_KEY }}
+    steps:
+      - name: Check the deploy key is set
+        run: |
+          if [ -z "$POS_DEPLOY_KEY" ] || [ -z "$HOST" ] || [ -z "$KNOWN_HOSTS" ]; then
+            echo "::error::Not armed: set POS_DEPLOY_KEY (secret), POS_DEPLOY_HOST and POS_DEPLOY_KNOWN_HOSTS (variables) in the demo-pos environment. See deploy/README.md."
+            exit 1
+          fi
+
+      - name: Get the tested build
+        uses: actions/download-artifact@v4
+        with:
+          name: pos-dist
+          path: dist
+
+      - name: Send it to vavoom-station
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf '%s\n' "$POS_DEPLOY_KEY" > ~/.ssh/pos_deploy && chmod 600 ~/.ssh/pos_deploy
+          before=$(curl -s https://pos.vavoom.io/ | grep -o 'index-[A-Za-z0-9_-]*\.js' | head -1)
+          echo "BEFORE=$before" >> "$GITHUB_ENV"
+          tar -czf - -C dist . | ssh -i ~/.ssh/pos_deploy -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=20 "pos-deploy@$HOST" deploy
+
+      - name: Check pos.vavoom.io serves it
+        run: |
+          want=$(grep -o 'index-[A-Za-z0-9_-]*\.js' dist/index.html | head -1)
+          for i in $(seq 1 12); do
+            got=$(curl -s https://pos.vavoom.io/ | grep -o 'index-[A-Za-z0-9_-]*\.js' | head -1)
+            [ "$got" = "$want" ] && break
+            sleep 5
+          done
+          echo "Deployed \`${GITHUB_SHA::7}\` from \`$GITHUB_REF_NAME\`: pos.vavoom.io served \`$BEFORE\`, now \`$got\` (wanted \`$want\`)." >> "$GITHUB_STEP_SUMMARY"
+          [ "$got" = "$want" ] || { echo "::error::pos.vavoom.io serves $got, not $want"; exit 1; }
+
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.ssh/pos_deploy
+
+  rollback:
+    name: Roll back pos.vavoom.io
+    if: inputs.confirm == 'deploy' && inputs.action == 'rollback'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: demo-pos
+      url: https://pos.vavoom.io/
+    env:
+      HOST: ${{ vars.POS_DEPLOY_HOST }}
+      KNOWN_HOSTS: ${{ vars.POS_DEPLOY_KNOWN_HOSTS }}
+      POS_DEPLOY_KEY: ${{ secrets.POS_DEPLOY_KEY }}
+    steps:
+      - name: Roll back
+        run: |
+          [ -n "$POS_DEPLOY_KEY" ] && [ -n "$HOST" ] && [ -n "$KNOWN_HOSTS" ] || { echo "::error::Not armed (see deploy/README.md)"; exit 1; }
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf '%s\n' "$POS_DEPLOY_KEY" > ~/.ssh/pos_deploy && chmod 600 ~/.ssh/pos_deploy
+          ssh -i ~/.ssh/pos_deploy -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20 "pos-deploy@$HOST" rollback \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+          rm -f ~/.ssh/pos_deploy
+
+  refused:
+    name: Refused (confirm was not "deploy")
+    if: inputs.confirm != 'deploy'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "::error::Nothing changed: type deploy in the confirm box to deploy or roll back."
+          exit 1

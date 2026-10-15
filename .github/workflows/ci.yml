@@ -1,0 +1,75 @@
+# CI for the Vavoom demo POS: builds the POS and runs every offline test suite on each pull request and on each
+# push to main, dev and the live/* branches. The suites drive the real Vavoom Assist engine with a simulated
+# POS and clock (test/run-transcripts.mjs, test/variety.mjs); nothing here reaches a server. A failed check fails
+# the job. The build (dist/) and the reports are kept as artifacts; deploy.yml reuses this workflow and ships
+# that same build.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, dev, "live/**"]
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  # A newer push or PR update cancels the older run; a deploy's test run is never cancelled.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # The Electron shell (npm run electron:*) is not built here; skip its 100 MB binary.
+      ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: |
+          npm run build
+          bundle=$(grep -o 'index-[A-Za-z0-9_-]*\.js' dist/index.html | head -1)
+          echo "Built \`$bundle\` from \`${GITHUB_SHA::7}\`." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Counter transactions
+        run: npm run test:transcripts
+
+      - name: Order changes
+        run: npm run test:transcripts -- --set edits
+
+      - name: Pressure test (100 visits)
+        run: npm run test:transcripts -- --set pressure
+
+      - name: Pressure test, Spotlight view
+        run: npm run test:transcripts -- --set pressure --view spotlight
+
+      - name: Variety of the first upsell
+        run: npm run test:variety
+
+      - name: Keep the test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: test/*-results*.md
+          retention-days: 30
+
+      - name: Keep the build
+        uses: actions/upload-artifact@v4
+        with:
+          name: pos-dist
+          path: dist
+          retention-days: 14

@@ -40,6 +40,7 @@
 //     one. A transaction's setup.view picks the upsell view; --view spotlight runs a whole set in the Spotlight
 //     view and holds every transaction to the spotlight's own rules too (SPOT_RULES); its report gets
 //     "-spotlight" in its name.
+// The run exits non-zero when any check fails, so CI (.github/workflows/ci.yml) fails with it.
 // Not simulated: the microphone, the speech bridge and whisper itself (lines arrive as text),
 // whisper's own AI pick, the GPU-box brain's own decision (tested on the box), and the screen.
 
@@ -397,3 +398,5 @@ if (LIVE) {
   console.log(line)
 }
 console.log(`\n${passed}/${total} checks passed — report: ${OUT}`)
+// A failed check fails the run (CI: .github/workflows/ci.yml), after the report is written.
+if (passed < total) process.exitCode = 1

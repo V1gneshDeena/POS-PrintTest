@@ -47,35 +47,17 @@ npm run preview
 
 ---
 
-## Deploy to GitHub Pages
+## CI and deploy (GitHub Actions)
 
-1. Install the deploy package:
-   ```bash
-   npm install --save-dev gh-pages
-   ```
+- **CI** (`.github/workflows/ci.yml`): every pull request, and every push to `main`, `dev` and `live/**`, installs,
+  builds and runs every offline test suite (counter transactions, order changes, the pressure test in both upsell
+  views, the variety test). A failed check fails the run.
+- **Deploy** (`.github/workflows/deploy.yml`): by hand only. Actions → **Deploy POS (pos.vavoom.io)** → Run workflow →
+  pick the branch → type `deploy`. The tests run first, then the run waits for David's approval (the `demo-pos`
+  environment), then the tested build goes to vavoom-station through a deploy key that can only back up and replace
+  the POS files, and the job checks pos.vavoom.io serves it. The same button rolls back (action `rollback`).
 
-2. Add to `package.json` scripts:
-   ```json
-   "deploy": "gh-pages -d dist"
-   ```
-
-3. Add `base` to `vite.config.js`:
-   ```js
-   export default defineConfig({
-     plugins: [react()],
-     base: '/gregory-pos/', // match your repo name
-   })
-   ```
-
-4. Build and deploy:
-   ```bash
-   npm run build
-   npm run deploy
-   ```
-
-5. Go to **Settings → Pages** in your GitHub repo and set source to `gh-pages` branch.
-
-Your POS will be live at: `https://your-org.github.io/gregory-pos/`
+How it is set up, rotating the key and turning it off: [`deploy/README.md`](deploy/README.md).
 
 ---
 
