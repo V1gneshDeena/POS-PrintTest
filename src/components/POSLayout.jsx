@@ -122,6 +122,7 @@ export default function POSLayout({ user, onLogout }) {
           onNew={pos.handleNewOrder}
           onPrint={pos.handlePrintReceipt}
           printerOnline={pos.printerOnline}
+          autoPrintResult={pos.success.printResult}
         />
       )}
     </div>

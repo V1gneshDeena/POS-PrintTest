@@ -184,7 +184,9 @@ export function usePos(user, onLogout) {
     _setShowPayment(false)
     emitActivity({ type: "payment_complete", total })
     syncOrderToVavoom(orderData)
-    if (printerOnline) printReceipt(orderData)
+    // Show the auto-print outcome on the success screen instead of dropping it.
+    if (printerOnline) printReceipt(orderData).then((printResult) =>
+      setSuccess((s) => (s && s.orderId === orderData.orderId ? { ...s, printResult } : s)))
   }
 
   const handlePrintReceipt = async () => {

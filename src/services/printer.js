@@ -4,6 +4,8 @@
 // The browser can't open raw TCP sockets, so we use a lightweight
 // print-proxy server running on the same machine (see print-proxy.js)
 import { BRAND } from "../data/catalog.js"
+import { getDemoId, configServiceUrl } from "../assist/demoContext.js"
+import { TAX_RATE } from "../components/posTheme.js"
 
 const PRINT_PROXY_URL = "http://localhost:9101/print"
 
@@ -12,18 +14,8 @@ const PRINT_PROXY_URL = "http://localhost:9101/print"
 // "prints" to a per-demo DIGITAL printer = the demo config service, which is that
 // demo's interceptor: it forwards the order to the demo's room so the TV shows it
 // at the pickup window. Each demo is its own isolated printer + interceptor.
-function getDemoId() {
-  try {
-    const u = new URLSearchParams(window.location.search).get("demo")
-    if (u) { localStorage.setItem("vavoom-demo-id", u); return u }
-    return localStorage.getItem("vavoom-demo-id")
-  } catch { return null }
-}
-function configServiceUrl() {
-  const host = window.location.hostname
-  if (host === "localhost" || host === "127.0.0.1" || host === "::1") return `http://${host}:8095`
-  return "https://demo-api.vavoom.io"
-}
+// The demo id comes from the URL only: a remembered id used to silently route a
+// real POS's receipts to the digital printer.
 async function printToDigitalPrinter(demoId, order) {
   const payload = {
     orderNumber: String(order.orderId),
@@ -136,7 +128,8 @@ export async function printReceipt(order) {
 
   // Totals
   receipt += pad("Subtotal", fmt(order.subtotal)) + LF
-  receipt += pad("Tax (13%)", fmt(order.tax)) + LF
+  if (order.discount > 0) receipt += pad("Discount", "-" + fmt(order.discount)) + LF
+  receipt += pad(`Tax (${Math.round(TAX_RATE * 100)}%)`, fmt(order.tax)) + LF
   receipt += BOLD_ON + DOUBLE_HEIGHT
   receipt += pad("TOTAL", fmt(order.total)) + LF
   receipt += NORMAL + BOLD_OFF
@@ -159,6 +152,9 @@ export async function printReceipt(order) {
   receipt += BRAND.thankYou + LF
   receipt += FEED_3
   receipt += CUT
+  // The proxy writes one byte per char: emoji turned into junk/control bytes
+  // ("☕" → 0x15). Fold accents (é → e) and drop everything else non-ASCII.
+  receipt = receipt.normalize("NFKD").replace(/[^\x00-\x7F]/g, "")
 
   // Send to print proxy
   // Includes both ESC/POS receipt data AND structured order for backend notification
@@ -192,8 +188,9 @@ export async function checkPrinterStatus() {
   try {
     const res = await fetch("http://localhost:9101/status", { signal: AbortSignal.timeout(2000) })
     if (res.ok) {
+      // The proxy answers 200 even when it can't reach the printer; `online` is the real state.
       const data = await res.json()
-      return { online: true, printerIp: data.printerIp }
+      return { online: data.online === true, printerIp: data.printerIp }
     }
   } catch {
     // proxy not running

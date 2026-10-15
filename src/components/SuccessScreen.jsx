@@ -21,9 +21,10 @@ const METHOD_LABELS = {
   tap: "Tap to Pay",
 }
 
-export default function SuccessScreen({ method, total, orderId, onNew, onPrint, printerOnline }) {
+export default function SuccessScreen({ method, total, orderId, onNew, onPrint, printerOnline, autoPrintResult }) {
   const [printing, setPrinting] = useState(false)
-  const [printResult, setPrintResult] = useState(null)
+  const [manualResult, setPrintResult] = useState(null)
+  const printResult = manualResult || autoPrintResult
 
   const handlePrint = async () => {
     if (!onPrint) return
