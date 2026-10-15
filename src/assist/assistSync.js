@@ -9,7 +9,8 @@
 //                   ──state──▶ demo relay /sync   ──▶ full bar on ANY device (view only)
 //   full bar ──commands──▶ BroadcastChannel only ──▶ POS
 //
-// Commands (start / end customer, Add / No thanks, a typed line, camera on/off) travel
+// Commands (start / end customer, Add / No thanks, the pairing's Add, a typed line, camera on/off,
+// clear out-of-stock, forget voices) travel
 // only over the same-browser BroadcastChannel, never over the open demo relay, so a
 // screen elsewhere can watch a demo POS but cannot drive it. No ?demo= → no-op.
 

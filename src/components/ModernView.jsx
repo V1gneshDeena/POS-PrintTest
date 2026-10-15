@@ -1,16 +1,24 @@
-// ModernView — the card-grid POS (default look). Body only; the header, modals and
-// view toggle live in POSLayout. All state comes from the shared usePos() hook.
-import { CATEGORY_ICONS, TAG_CONFIG } from "../data/catalog.js"
-import { C, fmt } from "./posTheme.js"
+// ModernView — the card-grid POS (default look), in vavoom.io's style (posTheme.js, ui.jsx).
+// Body only; the header, modals and view toggle live in POSLayout. All state comes from the
+// shared usePos() hook. Each tile shows the item's photo (menuPhotos.js; the item's initials when
+// the menu has none), its name, its price ("Free" for the $0 toppings and mix-ins) and its tag.
+import { TAG_CONFIG } from "../data/catalog.js"
+import { C, fmt, fmtPrice } from "./posTheme.js"
+import { ArrowPill, Eyebrow, GhostButton, ItemThumb } from "./ui.jsx"
 
+// The item's tag, as a chip on the bottom-left of its photo: bestseller / popular in the accent,
+// any other tag in white, both on a dark glass so they read over any photo.
 function TagPill({ tag }) {
   const cfg = TAG_CONFIG[tag]
   if (!cfg) return null
+  const loud = tag === "bestseller" || tag === "popular"
   return (
     <span style={{
-      fontSize: 9, fontWeight: 700, letterSpacing: "0.06em",
-      padding: "2px 7px", borderRadius: 20,
-      background: cfg.bg, color: cfg.color, textTransform: "uppercase", whiteSpace: "nowrap",
+      position: "absolute", left: 8, bottom: 8, zIndex: 1,
+      fontSize: 9, fontWeight: 500, letterSpacing: "0.1em", padding: "4px 8px", borderRadius: 999,
+      textTransform: "uppercase", whiteSpace: "nowrap", pointerEvents: "none",
+      background: "rgba(11,14,20,0.72)", backdropFilter: "blur(6px)", color: loud ? C.accent : C.white,
+      border: `1px solid ${loud ? C.accentLine : C.line2}`,
     }}>{cfg.label}</span>
   )
 }
@@ -20,49 +28,49 @@ function TagPill({ tag }) {
 export function OutBadge() {
   return (
     <span style={{
-      position: "absolute", top: -7, left: -6, background: C.danger, color: "#fff", fontSize: 9, fontWeight: 800,
-      padding: "2px 6px", borderRadius: 6, letterSpacing: "0.04em", textTransform: "uppercase", pointerEvents: "none",
+      position: "absolute", top: 14, left: 14, zIndex: 1, background: C.danger, color: C.accentInk, fontSize: 9, fontWeight: 600,
+      padding: "3px 8px", borderRadius: 999, letterSpacing: "0.08em", textTransform: "uppercase", pointerEvents: "none",
     }}>Out today</span>
   )
 }
 
-function MenuCard({ item, category, cartCount, onClick, out }) {
+function MenuCard({ item, cartCount, onClick, out, category }) {
   const sizes = Object.values(item.sizes)
   const minPrice = Math.min(...sizes)
   const hasMultiple = sizes.length > 1
+  const rest = cartCount > 0 ? C.accentLine : C.line
   return (
     <div
       onClick={() => onClick(item, category)}
       style={{
-        background: C.navyCard,
-        border: `1px solid ${cartCount > 0 ? C.lime + "55" : C.navyBorder}`,
-        borderRadius: 14, padding: "13px 13px 11px", cursor: "pointer",
-        transition: "border-color 0.15s, transform 0.1s", position: "relative", userSelect: "none",
-        opacity: out ? 0.6 : 1,
+        background: C.surface, border: `1px solid ${rest}`, borderRadius: 16, padding: 7, cursor: "pointer",
+        transition: "border-color 0.15s, transform 0.12s", position: "relative", userSelect: "none",
+        opacity: out ? 0.55 : 1, display: "flex", flexDirection: "column",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = C.lime + "88")}
-      onMouseLeave={(e) => (e.currentTarget.style.borderColor = cartCount > 0 ? C.lime + "55" : C.navyBorder)}
-      onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
-      onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.accentLine; e.currentTarget.style.transform = "translateY(-1px)" }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = rest; e.currentTarget.style.transform = "none" }}
+      onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.98)")}
+      onMouseUp={(e) => (e.currentTarget.style.transform = "translateY(-1px)")}
     >
       {cartCount > 0 && (
         <div style={{
-          position: "absolute", top: -8, right: -8, background: C.lime, color: C.limeText,
-          width: 22, height: 22, borderRadius: "50%",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontWeight: 800, fontSize: 12, lineHeight: 1,
+          position: "absolute", top: 13, right: 13, zIndex: 1, background: C.accent, color: C.accentInk,
+          minWidth: 24, height: 24, padding: "0 7px", borderRadius: 999, boxShadow: "0 2px 10px rgba(0,0,0,0.35)",
+          display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: 12,
         }}>{cartCount}</div>
       )}
       {out ? <OutBadge /> : null}
-      <div style={{ fontSize: 26, marginBottom: 7, lineHeight: 1 }}>{CATEGORY_ICONS[category] || "☕"}</div>
-      <div style={{ fontSize: 13, fontWeight: 600, color: C.text, lineHeight: 1.3, marginBottom: 8, minHeight: 32 }}>
-        {item.name}
+      <div style={{ position: "relative" }}>
+        <ItemThumb item={item} radius={11} />
+        {out ? null : <TagPill tag={item.tag} />}
       </div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 4 }}>
-        <span style={{ fontSize: 15, fontWeight: 800, color: C.lime }}>
-          {hasMultiple ? "from " : ""}{fmt(minPrice)}
+      <div style={{ padding: "10px 5px 4px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+        <div style={{ fontSize: 13.5, fontWeight: 500, color: C.white, lineHeight: 1.25, letterSpacing: "-0.02em", minHeight: 34 }}>
+          {item.name}
+        </div>
+        <span style={{ fontSize: 14, fontWeight: 500, color: minPrice ? C.text : C.accent, letterSpacing: "-0.02em", marginTop: "auto" }}>
+          {hasMultiple ? <span style={{ color: C.soft, fontSize: 11 }}>from </span> : null}{fmtPrice(minPrice)}
         </span>
-        <TagPill tag={item.tag} />
       </div>
     </div>
   )
@@ -72,38 +80,36 @@ function MenuCard({ item, category, cartCount, onClick, out }) {
 export function AssistMarks({ via }) {
   if (!via || (!via.voice && !via.upsell)) return null
   return (
-    <span style={{ marginLeft: 6, fontSize: 9, fontWeight: 800, letterSpacing: "0.03em" }}>
+    <span style={{ marginLeft: 6, fontSize: 9, fontWeight: 600, letterSpacing: "0.03em" }}>
       {via.voice ? <span style={{ color: "#60A5FA" }} title="Added from what the customer said">🎙 heard{via.voice > 1 ? ` ×${via.voice}` : ""} </span> : null}
       {via.upsell ? <span style={{ color: C.lime }} title="Added from an accepted upsell">★ upsell{via.upsell > 1 ? ` ×${via.upsell}` : ""}</span> : null}
     </span>
   )
 }
 
+const roundBtn = (accent) => ({
+  width: 26, height: 26, borderRadius: "50%", border: `1px solid ${accent ? C.accentLine : C.line2}`,
+  background: accent ? C.accentSoft : "transparent", color: accent ? C.accent : C.muted, cursor: "pointer", fontSize: 15,
+  display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", lineHeight: 1,
+})
+
 function CartRow({ entry, onAdd, onRemove }) {
-  const { item, size, price, count, category } = entry
+  const { item, size, price, count } = entry
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0", borderBottom: `1px solid ${C.navyBorder}` }}>
-      <span style={{ fontSize: 18, width: 26, textAlign: "center", flexShrink: 0 }}>{CATEGORY_ICONS[category] || "☕"}</span>
+    <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "10px 0", borderBottom: `1px solid ${C.line}` }}>
+      <div style={{ width: 42 }}><ItemThumb item={item} ratio={1} radius={9} /></div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
-        <div style={{ fontSize: 11, color: C.textSec }}>
-          {size !== "each" && size !== "bottle" ? size : ""} · {fmt(price)}<AssistMarks via={entry.via} />
+        <div style={{ fontSize: 13, fontWeight: 500, color: C.white, letterSpacing: "-0.015em", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+        <div style={{ fontSize: 11.5, color: C.soft }}>
+          {size !== "each" && size !== "bottle" ? `${size} · ` : ""}{fmtPrice(price)}<AssistMarks via={entry.via} />
         </div>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-        <button onClick={() => onRemove(entry.key)} style={{
-          width: 24, height: 24, borderRadius: "50%", border: `1px solid ${C.navyBorder}`,
-          background: "transparent", color: C.textSec, cursor: "pointer", fontSize: 15,
-          display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", lineHeight: 1,
-        }}>−</button>
-        <span style={{ fontWeight: 700, fontSize: 13, color: C.text, minWidth: 16, textAlign: "center" }}>{count}</span>
-        <button onClick={() => onAdd(entry)} style={{
-          width: 24, height: 24, borderRadius: "50%", border: `1px solid ${C.lime}44`,
-          background: `${C.lime}15`, color: C.lime, cursor: "pointer", fontSize: 15,
-          display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", lineHeight: 1,
-        }}>+</button>
+        <button onClick={() => onRemove(entry.key)} style={roundBtn(false)}>−</button>
+        <span style={{ fontWeight: 500, fontSize: 13, color: C.white, minWidth: 16, textAlign: "center" }}>{count}</span>
+        <button onClick={() => onAdd(entry)} style={roundBtn(true)}>+</button>
       </div>
-      <span style={{ fontSize: 13, fontWeight: 700, color: C.text, minWidth: 44, textAlign: "right", flexShrink: 0 }}>{fmt(price * count)}</span>
+      <span style={{ fontSize: 13, fontWeight: 500, color: C.text, minWidth: 48, textAlign: "right", flexShrink: 0 }}>{fmt(price * count)}</span>
     </div>
   )
 }
@@ -120,19 +126,22 @@ export default function ModernView({ pos, outIds }) {
     <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
       {/* Left: Menu */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <div style={{ display: "flex", gap: 6, padding: "12px 16px", borderBottom: `1px solid ${C.navyBorder}`, overflowX: "auto", flexShrink: 0 }}>
-          {CATEGORIES.map((cat) => (
-            <button key={cat} onClick={() => setCategory(cat)} style={{
-              padding: "7px 14px", borderRadius: 8, border: "none", cursor: "pointer", fontFamily: "inherit",
-              fontWeight: 600, fontSize: 12, whiteSpace: "nowrap",
-              background: category === cat ? C.lime : C.navyCard,
-              color: category === cat ? C.limeText : C.textSec, transition: "all 0.15s", flexShrink: 0,
-            }}>{CATEGORY_ICONS[cat]} {cat}</button>
-          ))}
+        <div style={{ display: "flex", gap: 6, padding: "14px 20px", borderBottom: `1px solid ${C.line}`, overflowX: "auto", flexShrink: 0 }}>
+          {CATEGORIES.map((cat) => {
+            const on = category === cat
+            return (
+              <button key={cat} onClick={() => setCategory(cat)} style={{
+                height: 34, padding: "0 16px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit",
+                fontWeight: 500, fontSize: 13, letterSpacing: "-0.01em", whiteSpace: "nowrap", flexShrink: 0,
+                border: `1px solid ${on ? C.accent : C.line2}`, background: on ? C.accent : "transparent",
+                color: on ? C.accentInk : C.muted, transition: "all 0.15s",
+              }}>{cat}</button>
+            )
+          })}
         </div>
         <div style={{
-          flex: 1, overflowY: "auto", padding: 16, display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 10, alignContent: "start",
+          flex: 1, overflowY: "auto", padding: 20, display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(156px, 1fr))", gap: 12, alignContent: "start",
         }}>
           {items.map((item) => (
             <MenuCard key={item.id} item={item} category={category} cartCount={cartCountFor(item)} onClick={handleItemClick} out={!!outIds?.includes(item.id)} />
@@ -140,23 +149,21 @@ export default function ModernView({ pos, outIds }) {
         </div>
       </div>
 
-      {/* Right: Cart */}
-      <div style={{ width: 300, borderLeft: `1px solid ${C.navyBorder}`, background: C.navyMid, display: "flex", flexDirection: "column", flexShrink: 0 }}>
-        <div style={{ padding: "14px 18px", borderBottom: `1px solid ${C.navyBorder}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-          <div style={{ fontWeight: 700, fontSize: 14 }}>
-            Order
-            {itemCount > 0 && (
-              <span style={{ marginLeft: 8, background: C.lime, color: C.limeText, fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 10 }}>{itemCount}</span>
-            )}
+      {/* Right: the ticket */}
+      <div style={{ width: 330, borderLeft: `1px solid ${C.line}`, background: C.inset, display: "flex", flexDirection: "column", flexShrink: 0 }}>
+        <div style={{ padding: "16px 20px 14px", borderBottom: `1px solid ${C.line}`, flexShrink: 0 }}>
+          <Eyebrow>Current order · #{orderId}</Eyebrow>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 6 }}>
+            <span style={{ fontSize: 20, fontWeight: 500, color: C.white, letterSpacing: "-0.035em" }}>Order</span>
+            {itemCount > 0 && <span style={{ fontSize: 13, color: C.accent }}>{itemCount} item{itemCount === 1 ? "" : "s"}</span>}
           </div>
-          <div style={{ fontSize: 11, color: C.textMuted }}>#{orderId}</div>
         </div>
 
-        <div style={{ flex: 1, overflowY: "auto", padding: "2px 18px" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "2px 20px" }}>
           {cart.length === 0 ? (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: 0.5 }}>
-              <div style={{ fontSize: 32 }}>☕</div>
-              <div style={{ fontSize: 12, color: C.textMuted, textAlign: "center" }}>Tap an item to add it</div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 6, textAlign: "center" }}>
+              <Eyebrow>No items yet</Eyebrow>
+              <div style={{ fontSize: 13, color: C.faint }}>Tap an item to add it</div>
             </div>
           ) : (
             cart.map((entry) => (
@@ -166,26 +173,20 @@ export default function ModernView({ pos, outIds }) {
         </div>
 
         {cart.length > 0 && (
-          <div style={{ padding: "14px 18px", borderTop: `1px solid ${C.navyBorder}`, flexShrink: 0 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: C.textSec, marginBottom: 5 }}>
+          <div style={{ padding: "16px 20px 18px", borderTop: `1px solid ${C.line}`, flexShrink: 0 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, color: C.soft, marginBottom: 6 }}>
               <span>Subtotal</span><span style={{ color: C.text }}>{fmt(subtotal)}</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: C.textSec, marginBottom: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, color: C.soft, marginBottom: 14 }}>
               <span>Tax (13%)</span><span style={{ color: C.text }}>{fmt(tax)}</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: C.navyCard, borderRadius: 10, padding: "11px 14px", marginBottom: 12 }}>
-              <span style={{ fontWeight: 700, fontSize: 13 }}>Total</span>
-              <span style={{ fontWeight: 900, fontSize: 20, color: C.lime }}>{fmt(total)}</span>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
+              <Eyebrow>Total</Eyebrow>
+              <span style={{ fontWeight: 500, fontSize: 30, color: C.white, letterSpacing: "-0.04em" }}>{fmt(total)}</span>
             </div>
             <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={clearAll} style={{
-                padding: "12px 12px", borderRadius: 10, border: `1px solid ${C.navyBorder}`, background: "transparent",
-                color: C.textSec, fontSize: 12, cursor: "pointer", fontFamily: "inherit", flexShrink: 0,
-              }}>Clear</button>
-              <button onClick={() => setShowPayment(true)} style={{
-                flex: 1, padding: "12px", borderRadius: 10, border: "none", background: C.lime, color: C.limeText,
-                fontWeight: 800, fontSize: 14, cursor: "pointer", fontFamily: "inherit", letterSpacing: "-0.01em",
-              }}>Charge {fmt(total)}</button>
+              <GhostButton onClick={clearAll} style={{ height: 52 }}>Clear</GhostButton>
+              <ArrowPill big onClick={() => setShowPayment(true)} style={{ flex: 1 }}>Charge {fmt(total)}</ArrowPill>
             </div>
           </div>
         )}
