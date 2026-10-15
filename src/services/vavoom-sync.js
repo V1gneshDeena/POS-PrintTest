@@ -6,17 +6,22 @@ const LOCATION_ID = "a0a05430-0002-4000-8000-000000000002" // gregs-vavoom (DB p
 // (Demo meal-matching is routed by the per-demo DIGITAL printer — see
 //  services/printer.js — not from here; this stays the real-location sync.)
 
+// Hosted test copies (Vercel) must never write orders into the live location's data.
+export const ORDER_SYNC_OFF = window.location.hostname.endsWith(".vercel.app")
+
 /**
  * Send a completed order to the Vavoom backend.
  * Fire-and-forget — doesn't block the POS.
  */
 export async function syncOrderToVavoom(order) {
+  if (ORDER_SYNC_OFF) return
   try {
     const payload = {
       locationId: LOCATION_ID,
       orderNumber: String(order.orderId),
       customerName: order.customerName || "Walk-in",
       operatorName: order.operatorName || null,
+      loyaltyId: order.loyaltyId || null,
       items: order.items.map((entry) => ({
         name: entry.item ? entry.item.name : entry.name,
         size: entry.size !== "each" && entry.size !== "bottle" ? entry.size : null,

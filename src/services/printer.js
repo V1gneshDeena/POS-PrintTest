@@ -6,6 +6,7 @@
 import { BRAND } from "../data/catalog.js"
 import { getDemoId, configServiceUrl } from "../assist/demoContext.js"
 import { TAX_RATE } from "../components/posTheme.js"
+import { ORDER_SYNC_OFF } from "./vavoom-sync.js"
 
 const PRINT_PROXY_URL = "http://localhost:9101/print"
 
@@ -111,6 +112,7 @@ export async function printReceipt(order) {
   if (order.operatorName) {
     receipt += `Operator: ${order.operatorName}` + LF
   }
+  if (order.loyaltyId) receipt += `Member: ****${order.loyaltyId.slice(-4)}` + LF
   receipt += "--------------------------------" + LF
 
   // Items
@@ -162,7 +164,8 @@ export async function printReceipt(order) {
     const res = await fetch(PRINT_PROXY_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: receipt, order }),
+      // No order → the proxy skips its backend notify (see ORDER_SYNC_OFF).
+      body: JSON.stringify({ data: receipt, order: ORDER_SYNC_OFF ? null : order }),
     })
 
     if (res.ok) {

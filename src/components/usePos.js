@@ -12,6 +12,7 @@ import { MENU } from "../data/catalog.js"
 import { TAX_RATE, fmtOrderId } from "./posTheme.js"
 import { syncOrderToVavoom } from "../services/vavoom-sync.js"
 import { printReceipt, checkPrinterStatus } from "../services/printer.js"
+import { listenForScans, matchScan } from "../services/scanner.js"
 import { broadcastOrder, onHello } from "../posSync.js"
 import { emitActivity } from "../assist/activity.js"
 
@@ -30,6 +31,7 @@ export function usePos(user, onLogout) {
   const [orderNum, setOrderNum] = useState(1042)
   const [time, setTime] = useState(new Date())
   const [printerOnline, setPrinterOnline] = useState(false)
+  const [loyaltyId, setLoyaltyId] = useState(null)  // scanned loyalty card
 
   const orderId = fmtOrderId(orderNum)
   const items = MENU[category] || []
@@ -90,6 +92,18 @@ export function usePos(user, onLogout) {
     }
   }
 
+  // Scanner: an item barcode rings it up like a tap, anything else is a loyalty card.
+  // Ignored while paying or on the success screen, when the cart is the finished order.
+  const onScanRef = useRef()
+  onScanRef.current = (code) => {
+    if (showPayment || success) return
+    const hit = matchScan(code, MENU)
+    if (hit.type === "loyalty") return setLoyaltyId(hit.id)
+    if (hit.size) addToCart(hit.item, hit.size, hit.item.sizes[hit.size], hit.category)
+    else handleItemClick(hit.item, hit.category)
+  }
+  useEffect(() => listenForScans((code) => onScanRef.current(code)), [])
+
   const incrementFromCart = (entry) =>
     setCart((prev) => prev.map((e) => (e.key === entry.key ? { ...e, count: e.count + 1 } : e)))
 
@@ -137,19 +151,19 @@ export function usePos(user, onLogout) {
     setSelectedKey(null)
   }
   const clearAll = () => {
-    setCart([]); setSelectedKey(null); setEntry(""); setDiscountPct(0)
+    setCart([]); setSelectedKey(null); setEntry(""); setDiscountPct(0); setLoyaltyId(null)
     emitActivity({ type: "clear" })
   }
   const hold = () => {
     if (!cart.length) return
-    setHolds((h) => [...h, { cart, discountPct, id: orderId }])
+    setHolds((h) => [...h, { cart, discountPct, loyaltyId, id: orderId }])
     clearAll()
   }
   const recall = () =>
     setHolds((h) => {
       if (!h.length) return h
       const last = h[h.length - 1]
-      setCart(last.cart); setDiscountPct(last.discountPct); setSelectedKey(null)
+      setCart(last.cart); setDiscountPct(last.discountPct); setLoyaltyId(last.loyaltyId); setSelectedKey(null)
       return h.slice(0, -1)
     })
 
@@ -177,7 +191,7 @@ export function usePos(user, onLogout) {
   const handleComplete = async (method) => {
     const orderData = {
       orderId, items: cart, subtotal, discount, tax, total, method,
-      customerName: "Walk-in", operatorName: user.name,
+      customerName: "Walk-in", operatorName: user.name, loyaltyId,
     }
     setSuccess(orderData)
     setOrderNum((n) => n + 1)
@@ -216,5 +230,6 @@ export function usePos(user, onLogout) {
     sizePicker, setSizePicker, showPayment, setShowPayment, success,
     handleComplete, handlePrintReceipt, handleNewOrder, handleLogout,
     orderId, printerOnline, user, timeStr, dateStr,
+    loyaltyId, setLoyaltyId,
   }
 }

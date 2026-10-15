@@ -60,6 +60,12 @@ export default function POSLayout({ user, onLogout }) {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {pos.loyaltyId && (
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, color: C.lime, background: C.navyCard, padding: "3px 4px 3px 9px", borderRadius: 6, border: `1px solid ${C.navyBorder}` }}>
+              ★ Member ••{pos.loyaltyId.slice(-4)}
+              <button onClick={() => pos.setLoyaltyId(null)} aria-label="Remove loyalty member" style={{ background: "transparent", border: "none", color: C.textSec, cursor: "pointer", fontSize: 13, lineHeight: 1, padding: "0 4px", fontFamily: "inherit" }}>×</button>
+            </div>
+          )}
           <div style={{ fontSize: 12, color: C.textSec }}>{pos.dateStr}</div>
           <div style={{ fontSize: 15, fontWeight: 700 }}>{pos.timeStr}</div>
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>

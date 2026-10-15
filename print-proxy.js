@@ -91,6 +91,7 @@ async function notifyBackend(order) {
       orderNumber: String(order.orderId || order.orderNumber || ""),
       customerName: order.customerName || "Walk-in",
       operatorName: order.operatorName || null,
+      loyaltyId: order.loyaltyId || null,
       items: (order.items || []).map((entry) => ({
         name: entry.item ? entry.item.name : (entry.name || ""),
         size: entry.size && entry.size !== "each" && entry.size !== "bottle" ? entry.size : null,
