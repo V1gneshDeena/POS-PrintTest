@@ -1,0 +1,172 @@
+{
+ "And a regular fries and a regular drink please␞Actually, take the fries off": [
+  {
+   "key": "change_order",
+   "score": 0.89,
+   "neg": 0.7412,
+   "clause": "take the item off",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞Can you take off the fries?": [
+  {
+   "key": "change_order",
+   "score": 0.8544,
+   "neg": 0.7391,
+   "clause": "Can you take off the item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞I don't want the fries anymore": [
+  {
+   "key": "change_order",
+   "score": 0.9444,
+   "neg": 0.7309,
+   "clause": "I don't want the item anymore",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞Forget the fries": [
+  {
+   "key": "change_order",
+   "score": 0.9784,
+   "neg": 0.8014,
+   "clause": "Forget the item",
+   "kind": "clause",
+   "need": 0.88
+  }
+ ],
+ "And a regular fries and a regular drink please␞Scratch the fries": [
+  {
+   "key": "change_order",
+   "score": 1.0,
+   "neg": 0.7363,
+   "clause": "Scratch the item",
+   "kind": "clause",
+   "need": 0.88
+  }
+ ],
+ "And a regular fries and a regular drink please␞Get rid of the fries": [
+  {
+   "key": "change_order",
+   "score": 1.0,
+   "neg": 0.7447,
+   "clause": "Get rid of the item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞I'll pass on the fries": [
+  {
+   "key": "change_order",
+   "score": 1.0,
+   "neg": 0.8748,
+   "clause": "I'll pass on the item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞I changed my mind about the fries": [
+  {
+   "key": "change_order",
+   "score": 0.9647,
+   "neg": 0.6949,
+   "clause": "I changed my mind about the item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞The fries can go": [
+  {
+   "key": "change_order",
+   "score": 1.0,
+   "neg": 0.859,
+   "clause": "The item can go",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞No need for the fries": [
+  {
+   "key": "change_order",
+   "score": 0.8691,
+   "neg": 0.8204,
+   "clause": "No need for the item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞Take out the cheeseburger": [
+  {
+   "key": "change_order",
+   "score": 0.8906,
+   "neg": 0.7683,
+   "clause": "Take out the item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞Swap the fries for a poutine": [
+  {
+   "key": "change_order",
+   "score": 0.9383,
+   "neg": 0.7969,
+   "clause": "Swap the item for a item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞Switch the cheeseburger to a hamburger": [
+  {
+   "key": "change_order",
+   "score": 0.8759,
+   "neg": 0.8029,
+   "clause": "Switch the item to a item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞Replace the fries with a poutine": [
+  {
+   "key": "change_order",
+   "score": 0.8653,
+   "neg": 0.8275,
+   "clause": "Replace the item with a item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞I don't want ketchup on the burger": [
+  {
+   "key": "change_order",
+   "score": 0.9031,
+   "neg": 0.7607,
+   "clause": "I don't want item on the item",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞The fries aren't needed": [
+  {
+   "key": "change_order",
+   "score": 0.8774,
+   "neg": 0.8143,
+   "clause": "The item aren't needed",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "And a regular fries and a regular drink please␞Take the fries away": [
+  {
+   "key": "change_order",
+   "score": 0.9271,
+   "neg": 0.7441,
+   "clause": "Take the item away",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ]
+}

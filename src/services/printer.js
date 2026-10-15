@@ -4,6 +4,7 @@
 // The browser can't open raw TCP sockets, so we use a lightweight
 // print-proxy server running on the same machine (see print-proxy.js)
 import { BRAND } from "../data/catalog.js"
+import { getAssistReceipt } from "../assist/assistReceipt.js"
 
 const PRINT_PROXY_URL = "http://localhost:9101/print"
 
@@ -35,6 +36,9 @@ async function printToDigitalPrinter(demoId, order) {
       price: e.price || 0,
     })),
     total: order.total,
+    // Vavoom Assist's record of the visit (In-Store demo rooms): the voice print, the conversation
+    // with who said each line, and every upsell with why, whether it was said and its outcome.
+    assist: getAssistReceipt(),
   }
   const res = await fetch(`${configServiceUrl()}/demos/${demoId}/print`, {
     method: "POST",
@@ -60,6 +64,30 @@ const DOUBLE_HEIGHT = ESC + "!\x10"  // Double height
 const NORMAL = ESC + "!\x00"         // Normal size
 const CUT = GS + "V\x41\x03"        // Partial cut with feed
 const FEED_3 = ESC + "d\x03"        // Feed 3 lines
+
+/** Vavoom Assist's part of the printed receipt: voice print, upsells and the conversation. */
+function assistSection(a) {
+  if (!a) return ""
+  const cut = (t, n = 40) => (t.length > n ? t.slice(0, n - 1) + "…" : t)
+  let out = "--------------------------------" + LF + BOLD_ON + "VAVOOM ASSIST" + BOLD_OFF + LF
+  const v = a.voice
+  out += (v?.voice_id
+    ? `Voice ${v.voice_id} ${v.matched ? `returning (${v.score}, tier ${v.tier}, visit ${(v.visits || 0) + 1})` : "new"}`
+    : "Voice: not identified") + LF
+  if ((a.upsells || []).length) {
+    out += "Upsells:" + LF
+    for (const u of a.upsells) {
+      const mark = u.outcome === "accepted" ? "+" : u.outcome === "declined" ? "x" : "-"
+      out += cut(` ${mark} ${u.title} ${u.outcome}${u.pitched_by_employee ? ", said" : ""}`) + LF
+      if (u.why) out += cut(`   why: ${u.why}`) + LF
+    }
+  }
+  if ((a.transcript || []).length) {
+    out += "Conversation:" + LF
+    for (const l of a.transcript.slice(-12)) out += cut(` ${l.role === "customer" ? "C" : l.role === "operator" ? "E" : "?"}: ${l.text}`) + LF
+  }
+  return out + LF
+}
 
 /**
  * Format and print a receipt for a completed order.
@@ -152,6 +180,7 @@ export async function printReceipt(order) {
 
   receipt += pad("Paid via", methodLabel) + LF
   receipt += LF
+  receipt += assistSection(getAssistReceipt())
 
   // Footer
   receipt += CENTER

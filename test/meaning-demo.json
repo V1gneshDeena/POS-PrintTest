@@ -1,0 +1,22 @@
+{
+ "Hi there, what can I get you?␞A regular hamburger please. I'm allergic to milk": [
+  {
+   "key": "dairy_free",
+   "score": 1.0,
+   "neg": 0.5853,
+   "clause": "I'm allergic to milk",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ],
+ "A regular cheeseburger and fries please␞Oh wait, I'm allergic to milk": [
+  {
+   "key": "dairy_free",
+   "score": 1.0,
+   "neg": 0.5853,
+   "clause": "I'm allergic to milk",
+   "kind": "clause",
+   "need": 0.85
+  }
+ ]
+}

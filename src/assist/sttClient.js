@@ -13,6 +13,15 @@
 // Whisper's replies (partial, final, order_update, ai_prompt, state_transition) and
 // the bridge's own bridge_status messages are handed to onMessage unchanged.
 //
+// The upsell brain and voice prints (the bridge's demoBrain.js; never sent to whisper):
+//   voiceLine(role)      whose line just finished (customer | operator), so the bridge can
+//                        collect the customer's speech for the voice print
+//   requestUpsell(req)   one decision from the demopos brain on the GPU box -> brain_upsell
+//   requestMeaning(req)  what one finished line means, read on the GPU box -> meaning
+//   sendReceipt(r)       the paid order, its conversation and its upsells, tagged by voice
+//   forgetVoices()       deletes every voice print and receipt, in every demo room (the demo starts again)
+// and the bridge answers with voice_match, brain_upsell, meaning, receipt_saved, voice_forgotten.
+//
 // A dropped socket reconnects with backoff unless the bridge refused for a reason a
 // retry can't fix (sign-in required, unknown demo, bridge not configured).
 
@@ -146,6 +155,12 @@ export class SttClient {
     this.sendJson(this.payload("session_start"))
     this.armed = true
   }
+
+  voiceLine(role) { if (this.armed) this.sendJson({ type: "voice_line", role }) }
+  requestUpsell(req) { if (this.armed) this.sendJson({ type: "upsell_request", ...req }) }
+  requestMeaning(req) { if (this.armed) this.sendJson({ type: "meaning_request", ...req }) }
+  sendReceipt(r) { this.sendJson({ type: "receipt", ...r }) }
+  forgetVoices() { this.sendJson({ type: "voice_forget" }) }
 
   /** A new customer on the same warm socket: whisper starts a fresh visit. */
   newCustomer() {

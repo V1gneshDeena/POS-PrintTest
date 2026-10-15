@@ -1,0 +1,6 @@
+# Line endings: LF in the repo and in every checkout, so the deploy script and the workflows run on Linux
+# (vavoom-station, GitHub's runners) as written, and the build's content hashes match on every machine.
+* text=auto eol=lf
+*.jpg binary
+*.png binary
+*.ico binary
